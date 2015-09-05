@@ -15,7 +15,7 @@ It was created as part of the CMSI 401 class at Loyola Marymount University duri
 * Rachel Rivera
 * Nicole Anguiano
 * Cameron Billingham
-* Juan Carillo
+* Juan Carrillo
 * Jeff Fennell
 * Matt Flickner
 * Joaquín Loustau
