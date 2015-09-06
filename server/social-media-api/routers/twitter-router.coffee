@@ -11,7 +11,8 @@ oauth =
   token_secret:     process.env.TWITTER_TOKEN_SECRET
 
 twitterRouter.get '/:screenName', (req, res) -> 
-  url = "#{twitterAPIHost}/statuses/user_timeline.json?screen_name=#{req.params.screenName}"
+  url = "#{twitterAPIHost}/statuses/user_timeline.json?screen_name=#{req.params.screenName}&since%3A2015-09-01"
+  console.log url
   request.get {url, oauth}, (error, response, body) ->
     res.send body
   
