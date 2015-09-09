@@ -1,8 +1,9 @@
 express        = require 'express'
-request        = require 'request' 
+request        = require 'request'
 twitterRouter  = express.Router()
 
 twitterAPIHost = 'https://api.twitter.com/1.1'
+tweetlimit     = 100
 
 oauth =
   consumer_key:     process.env.TWITTER_CONSUMER_KEY
@@ -10,11 +11,15 @@ oauth =
   token:            process.env.TWITTER_TOKEN
   token_secret:     process.env.TWITTER_TOKEN_SECRET
 
-twitterRouter.get '/posts/:screenName', (req, res) -> 
-  url = "#{twitterAPIHost}/" + 
+twitterRouter.get '/posts/:screenName/:sinceID?', (req, res) ->
+  url = "#{twitterAPIHost}/" +
         "statuses/user_timeline.json" +
-        "?screen_name=#{req.params.screenName}"
+        "?screen_name=#{req.params.screenName}" +
+        "&count=#{tweetlimit}" +
+  url += "&since_id#{req.params.sinceID}" if req.params.sinceID
+
   request.get {url, oauth}, (error, response, body) ->
     res.send body
+
 
 module.exports = twitterRouter
