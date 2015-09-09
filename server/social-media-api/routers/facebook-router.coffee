@@ -3,28 +3,30 @@ request        = require 'request'
 facebookRouter = express.Router()
 
 APIHost        = 'https://graph.facebook.com'
+feedLimit      = 100
 
-facebookRouter.get '/posts/:pageName/:timeStamp?', (req, res) ->
-  request "#{APIHost}/\\
-           #{req.params.pageName}/\\
-           ?access_token=#{process.env.FB_TOKEN}", (error, response, body) ->
-    res.status(response.statusCode) unless response.statusCode is 200
-    url = getFacebookURL (JSON.parse body).id, 'posts', req.params.timeStamp
-    request url, (err, response, body) ->
+facebookRouter.get '/:feedType/:pageName/:timestamp?', (req, res) ->
+
+  getPageID = (next) ->
+    pageIDEndpoint = "#{APIHost}/" +
+                      "#{req.params.pageName}/" + 
+                      "?access_token=#{process.env.FB_TOKEN}"
+    request pageIDEndpoint, (err, response, body) ->
+      parsedBody = JSON.parse body
+      return res.sendStatus response.statusCode if parsedBody.error
+      next parsedBody.id
+
+  getFeedFromID = (id) ->
+    feedEndpoint = "#{APIHost}/#{id}/" + 
+                   "#{req.params.feedType}" +
+                   "?access_token=#{process.env.FB_TOKEN}" + 
+                   "&limit=#{feedLimit}"
+    feedEndpoint += "&since=#{req.params.timestamp}" if req.params.timestamp
+    request feedEndpoint, (err, response, body) ->
+      return res.sendStatus response.statusCode if (JSON.parse body).error
       res.send body
 
-facebookRouter.get '/events/:pageName/:timeStamp?', (req, res) ->
-  request "#{APIHost}/\\
-           #{req.params.pageName}/\\
-           ?access_token=#{process.env.FB_TOKEN}", (error, response, body) ->
-    res.status(response.statusCode) unless response.statusCode is 200
-    request getFacebookURL((JSON.parse body).id, 'events', req.params.timeStamp), (err, response, body) ->
-      res.send body
+  getPageID getFeedFromID
 
-
-getFacebookURL = (id, type, timestamp) -> 
-  url = "#{APIHost}/#{id}/#{type}?access_token=#{process.env.FB_TOKEN}&limit=100"
-  url += "&since=#{timestamp}" if timestamp
-  url
 
 module.exports = facebookRouter
