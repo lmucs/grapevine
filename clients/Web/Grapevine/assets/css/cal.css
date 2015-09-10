@@ -1,0 +1,40 @@
+.mainContent {
+    margin: 0;
+    position: absolute;
+}
+
+.calendarMain {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.daysOfTheWeek {
+    border-bottom: 3px solid #4B2156;
+    background-color: #C38AD2;
+    height: 30px;
+}
+
+.day {
+    border-right: 1px solid #6B2F7A;
+    border-bottom: 1px solid #6B2F7A;
+    height: 150px;
+    vertical-align: top;
+    padding-top
+}
+
+.oddWeek {
+    background-color: #E8D3EE;
+}
+
+.evenWeek {
+    background-color: #D5AEE0;
+}
+
+.last {
+    border-right: none;
+}
+
+.end {
+    border-bottom: none;
+}
