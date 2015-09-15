@@ -16,7 +16,6 @@
 		F1ECD65B1BA88895001FFD58 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ECD65A1BA88895001FFD58 /* LoginViewController.swift */; };
 		F1ECD65D1BA894CB001FFD58 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ECD65C1BA894CB001FFD58 /* CreateAccountViewController.swift */; };
 		F1ECD65F1BA89FE6001FFD58 /* EventListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ECD65E1BA89FE6001FFD58 /* EventListTableViewController.swift */; };
-		F1ECD6611BA8A05D001FFD58 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ECD6601BA8A05D001FFD58 /* Event.swift */; };
 		F1ECD6631BA8A1E0001FFD58 /* EventTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ECD6621BA8A1E0001FFD58 /* EventTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +43,6 @@
 		F1ECD65A1BA88895001FFD58 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F1ECD65C1BA894CB001FFD58 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		F1ECD65E1BA89FE6001FFD58 /* EventListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListTableViewController.swift; sourceTree = "<group>"; };
-		F1ECD6601BA8A05D001FFD58 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		F1ECD6621BA8A1E0001FFD58 /* EventTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,7 +89,6 @@
 				F121A1561B9F56E2008E3F7A /* Main.storyboard */,
 				F1ECD6621BA8A1E0001FFD58 /* EventTableViewCell.swift */,
 				F1ECD65E1BA89FE6001FFD58 /* EventListTableViewController.swift */,
-				F1ECD6601BA8A05D001FFD58 /* Event.swift */,
 				F1ECD65C1BA894CB001FFD58 /* CreateAccountViewController.swift */,
 				F1ECD65A1BA88895001FFD58 /* LoginViewController.swift */,
 				F121A1591B9F56E2008E3F7A /* Images.xcassets */,
@@ -232,7 +229,6 @@
 				F1ECD65B1BA88895001FFD58 /* LoginViewController.swift in Sources */,
 				F121A1501B9F56E2008E3F7A /* AppDelegate.swift in Sources */,
 				F1ECD6631BA8A1E0001FFD58 /* EventTableViewCell.swift in Sources */,
-				F1ECD6611BA8A05D001FFD58 /* Event.swift in Sources */,
 				F121A1531B9F56E2008E3F7A /* Grapevine.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
