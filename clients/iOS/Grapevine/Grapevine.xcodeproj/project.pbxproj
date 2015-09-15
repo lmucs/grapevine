@@ -9,11 +9,12 @@
 /* Begin PBXBuildFile section */
 		F121A1501B9F56E2008E3F7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F121A14F1B9F56E2008E3F7A /* AppDelegate.swift */; };
 		F121A1531B9F56E2008E3F7A /* Grapevine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F121A1511B9F56E2008E3F7A /* Grapevine.xcdatamodeld */; };
-		F121A1551B9F56E2008E3F7A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F121A1541B9F56E2008E3F7A /* ViewController.swift */; };
 		F121A1581B9F56E2008E3F7A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F121A1561B9F56E2008E3F7A /* Main.storyboard */; };
 		F121A15A1B9F56E2008E3F7A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F121A1591B9F56E2008E3F7A /* Images.xcassets */; };
 		F121A15D1B9F56E2008E3F7A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F121A15B1B9F56E2008E3F7A /* LaunchScreen.xib */; };
 		F121A1691B9F56E2008E3F7A /* GrapevineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F121A1681B9F56E2008E3F7A /* GrapevineTests.swift */; };
+		F1ECD65B1BA88895001FFD58 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ECD65A1BA88895001FFD58 /* LoginViewController.swift */; };
+		F1ECD65D1BA894CB001FFD58 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ECD65C1BA894CB001FFD58 /* CreateAccountViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,13 +32,14 @@
 		F121A14E1B9F56E2008E3F7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F121A14F1B9F56E2008E3F7A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F121A1521B9F56E2008E3F7A /* Grapevine.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Grapevine.xcdatamodel; sourceTree = "<group>"; };
-		F121A1541B9F56E2008E3F7A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		F121A1571B9F56E2008E3F7A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		F121A1591B9F56E2008E3F7A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		F121A15C1B9F56E2008E3F7A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		F121A1621B9F56E2008E3F7A /* GrapevineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrapevineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F121A1671B9F56E2008E3F7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F121A1681B9F56E2008E3F7A /* GrapevineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrapevineTests.swift; sourceTree = "<group>"; };
+		F1ECD65A1BA88895001FFD58 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		F1ECD65C1BA894CB001FFD58 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,8 +82,9 @@
 			isa = PBXGroup;
 			children = (
 				F121A14F1B9F56E2008E3F7A /* AppDelegate.swift */,
-				F121A1541B9F56E2008E3F7A /* ViewController.swift */,
 				F121A1561B9F56E2008E3F7A /* Main.storyboard */,
+				F1ECD65C1BA894CB001FFD58 /* CreateAccountViewController.swift */,
+				F1ECD65A1BA88895001FFD58 /* LoginViewController.swift */,
 				F121A1591B9F56E2008E3F7A /* Images.xcassets */,
 				F121A15B1B9F56E2008E3F7A /* LaunchScreen.xib */,
 				F121A1511B9F56E2008E3F7A /* Grapevine.xcdatamodeld */,
@@ -215,7 +218,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F121A1551B9F56E2008E3F7A /* ViewController.swift in Sources */,
+				F1ECD65D1BA894CB001FFD58 /* CreateAccountViewController.swift in Sources */,
+				F1ECD65B1BA88895001FFD58 /* LoginViewController.swift in Sources */,
 				F121A1501B9F56E2008E3F7A /* AppDelegate.swift in Sources */,
 				F121A1531B9F56E2008E3F7A /* Grapevine.xcdatamodeld in Sources */,
 			);
@@ -415,6 +419,7 @@
 				F121A16E1B9F56E2008E3F7A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		F121A16F1B9F56E2008E3F7A /* Build configuration list for PBXNativeTarget "GrapevineTests" */ = {
 			isa = XCConfigurationList;
@@ -423,6 +428,7 @@
 				F121A1711B9F56E2008E3F7A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
