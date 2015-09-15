@@ -233,6 +233,15 @@
                             <constraint firstAttribute="centerX" secondItem="IEO-xD-UKg" secondAttribute="centerX" id="y8R-oe-tXJ"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="createAccountButton" destination="7LJ-RV-8z8" id="8Vr-Q4-qDc"/>
+                        <outlet property="emailAddressTextField" destination="qao-EI-2US" id="RsS-su-wTj"/>
+                        <outlet property="firstNameTextField" destination="pvA-5T-EDj" id="Fcv-rJ-rm7"/>
+                        <outlet property="lastNameTextField" destination="jg8-xd-Hsb" id="Hyg-IJ-8Qk"/>
+                        <outlet property="passwordTextField" destination="IEO-xD-UKg" id="unm-iq-f3c"/>
+                        <outlet property="repeatPasswordTextField" destination="24K-6X-3gN" id="VYv-GY-kZd"/>
+                        <outlet property="usernameTextField" destination="HDf-zf-Tan" id="GhK-Pd-cvK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mef-dE-V9m" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="23K-R9-8ua" userLabel="Exit" sceneMemberID="exit"/>
