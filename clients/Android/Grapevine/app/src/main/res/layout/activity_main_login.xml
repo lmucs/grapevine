@@ -64,6 +64,11 @@
                 android:text="@string/login_create_account"
                 android:onClick="launchCreateAccountActivity"/>
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="bypass login"
+                android:onClick="bypassLogin"/>
         </LinearLayout>
     </ScrollView>
 

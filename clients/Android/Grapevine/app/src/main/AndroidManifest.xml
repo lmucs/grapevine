@@ -29,6 +29,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cs.lmu.grapevine.MainActivity" />
         </activity>
+        <activity
+            android:name=".FeedEvents"
+            android:label="@string/event_feed"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cs.lmu.grapevine.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
