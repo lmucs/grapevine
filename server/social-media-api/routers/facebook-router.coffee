@@ -1,5 +1,5 @@
 express        = require 'express'
-request        = require 'request' 
+request        = require 'request'
 facebookRouter = express.Router()
 
 APIHost        = 'https://graph.facebook.com'
@@ -9,7 +9,7 @@ facebookRouter.get '/:feedType/:pageName/:timestamp?', (req, res) ->
 
   getPageID = (next) ->
     pageIDEndpoint = "#{APIHost}/" +
-                      "#{req.params.pageName}/" + 
+                      "#{req.params.pageName}/" +
                       "?access_token=#{process.env.FB_TOKEN}"
     request pageIDEndpoint, (err, response, body) ->
       parsedBody = JSON.parse body
@@ -17,14 +17,15 @@ facebookRouter.get '/:feedType/:pageName/:timestamp?', (req, res) ->
       next parsedBody.id
 
   getFeedFromID = (id) ->
-    feedEndpoint = "#{APIHost}/#{id}/" + 
+    feedEndpoint = "#{APIHost}/#{id}/" +
                    "#{req.params.feedType}" +
-                   "?access_token=#{process.env.FB_TOKEN}" + 
+                   "?access_token=#{process.env.FB_TOKEN}" +
                    "&limit=#{feedLimit}"
     feedEndpoint += "&since=#{req.params.timestamp}" if req.params.timestamp
     request feedEndpoint, (err, response, body) ->
       return res.sendStatus response.statusCode if (JSON.parse body).error
       res.send body
+      body
 
   getPageID getFeedFromID
 

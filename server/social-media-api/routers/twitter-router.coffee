@@ -12,14 +12,14 @@ oauth =
   token_secret:     process.env.TWITTER_TOKEN_SECRET
 
 twitterRouter.get '/posts/:screenName/:sinceID?', (req, res) ->
+  console.log 'twitter api was called'
   url = "#{twitterAPIHost}/" +
         "statuses/user_timeline.json" +
         "?screen_name=#{req.params.screenName}" +
-        "&count=#{tweetlimit}" +
+        "&count=#{tweetlimit}"
   url += "&since_id#{req.params.sinceID}" if req.params.sinceID
 
   request.get {url, oauth}, (error, response, body) ->
     res.send body
-
 
 module.exports = twitterRouter

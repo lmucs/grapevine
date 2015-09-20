@@ -1,5 +1,5 @@
 # load environment variables
-require('dotenv').load() 
+require('dotenv').load()
 
 express        = require 'express'
 bodyParser     = require 'body-parser'
@@ -18,4 +18,6 @@ app.use '/facebook', facebookRouter
 app.use '/twitter', twitterRouter
 
 # start the server
-app.listen process.env.PORT or 3000 
+port = process.env.PORT or 3000
+app.listen port
+console.log "Listening on port #{port}"
