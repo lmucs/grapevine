@@ -15,11 +15,6 @@ app = express()
 app.use bodyParser.json()
 app.use logger process.env.LOGGING_LEVEL or 'dev'
 
-app.all '/*', (req, res, next) ->
-  res.header 'Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE'
-  res.header 'Access-Control-Allow-Headers', 'Content-type,Accept,X-Access-Token,X-Key'
-  next()
-
 # register routes
 app.use '/facebook', facebookRouter
 app.use '/twitter', twitterRouter
