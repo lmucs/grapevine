@@ -6,6 +6,12 @@ dotenv._setEnvs()
 express        = require 'express'
 logger         = require 'morgan'
 bodyParser     = require 'body-parser'
+fs             = require 'fs'
+https          = require 'https'
+
+credentials =
+  key: fs.readFileSync "#{__dirname}/certificates/key.pem"
+  cert: fs.readFileSync "#{__dirname}/certificates/cert.pem"
 
 app = express()
 
@@ -21,4 +27,7 @@ app.use '/', require('./routes')
 app.use (req, res) ->
   res.sendStatus 404
 
-app.listen process.env.PORT or 3000
+httpsServer = https.createServer credentials, app
+
+# start the server
+httpsServer.listen process.env.PORT or 3000
