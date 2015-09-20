@@ -13,10 +13,8 @@ module.exports = (req, res, next) ->
   return res.status(401).json 'message': 'Invalid token or key' unless token or key
 
   try
-    decoded = jwt.decode(token, require('../config/secret')())
-    
+    decoded = jwt.decode token, require('../config/secret')()
     return res.status(400).json 'message': 'Access token has expired.' if decoded.exp <= Date.now()
-
     # Authorize the user to see if they/he can access our resources
     dbUser = validateUser key
     if dbUser
