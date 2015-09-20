@@ -24,7 +24,7 @@ auth =
 
 generateToken = (user) ->
   expires = expiresIn(7) 
-  token = jwt.encode({ exp: expires }, require('../config/secret')())
+  token = jwt.encode { exp: expires }, require('../config/secret')()
   {token}
 
 expiresIn = (numDays) ->  
