@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">Grapevine</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="event_feed">Event Feed</string>
+
     <string name="action_settings">Settings</string>
+
+    <string name="title_activity_create_new_account">New Account</string>
+    <string name="create_account_email">Email</string>
+    <string name="create_account_first_name">First Name</string>
+    <string name="create_account_last_name">Last Name</string>
+    <string name="create_account_username">Username</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+
 </resources>
