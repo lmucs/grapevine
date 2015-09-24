@@ -314,4 +314,9 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
         Intent createNewAccount = new Intent(getApplicationContext(), CreateNewAccount.class);
         startActivity(createNewAccount);
     }
+
+    public void bypassLogin(View view) {
+        Intent launchFeed = new Intent(getApplicationContext(), FeedEvents.class);
+        startActivity(launchFeed);
+    }
 }
