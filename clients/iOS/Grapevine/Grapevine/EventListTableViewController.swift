@@ -30,24 +30,31 @@ class EventListTableViewController: UITableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 0
+        return 1
     }
 
-    /*
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
+        cell.eventNameLabel.text = "Event Name goes here"
+        cell.eventTimeLabel.text = "Event Time goes here"
+        cell.button.addTarget(self, action: "httpTest:", forControlEvents: UIControlEvents.TouchUpInside)
         return cell
+
     }
-    */
+    
+    @IBAction func httpTest(sender: UIButton){
+        print("test button pressed")
+        //sender.enabled = false
+        
+    }
+
 
     /*
     // Override to support conditional editing of the table view.
