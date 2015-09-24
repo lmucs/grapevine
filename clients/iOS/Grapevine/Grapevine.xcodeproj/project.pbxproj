@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		57B63A761E69A6C3AF2546DB /* Pods_Grapevine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B253AC65CE295E06508D3F0 /* Pods_Grapevine.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F121A1501B9F56E2008E3F7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F121A14F1B9F56E2008E3F7A /* AppDelegate.swift */; };
 		F121A1531B9F56E2008E3F7A /* Grapevine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F121A1511B9F56E2008E3F7A /* Grapevine.xcdatamodeld */; };
 		F121A1581B9F56E2008E3F7A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F121A1561B9F56E2008E3F7A /* Main.storyboard */; };
@@ -30,6 +31,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1B253AC65CE295E06508D3F0 /* Pods_Grapevine.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Grapevine.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		37F1BD56148D368AD49D07F8 /* Pods-Grapevine.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Grapevine.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Grapevine/Pods-Grapevine.debug.xcconfig"; sourceTree = "<group>"; };
+		AF9E8D6E589A3AFFCA6EDC69 /* Pods-Grapevine.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Grapevine.release.xcconfig"; path = "Pods/Target Support Files/Pods-Grapevine/Pods-Grapevine.release.xcconfig"; sourceTree = "<group>"; };
 		F121A14A1B9F56E2008E3F7A /* Grapevine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grapevine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F121A14E1B9F56E2008E3F7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F121A14F1B9F56E2008E3F7A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -51,6 +55,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57B63A761E69A6C3AF2546DB /* Pods_Grapevine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,12 +69,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		33A08C1ED191CF8A1B9978D9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				37F1BD56148D368AD49D07F8 /* Pods-Grapevine.debug.xcconfig */,
+				AF9E8D6E589A3AFFCA6EDC69 /* Pods-Grapevine.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		8B136FA217694DB740E57B07 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1B253AC65CE295E06508D3F0 /* Pods_Grapevine.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F121A1411B9F56E2008E3F7A = {
 			isa = PBXGroup;
 			children = (
 				F121A14C1B9F56E2008E3F7A /* Grapevine */,
 				F121A1651B9F56E2008E3F7A /* GrapevineTests */,
 				F121A14B1B9F56E2008E3F7A /* Products */,
+				33A08C1ED191CF8A1B9978D9 /* Pods */,
+				8B136FA217694DB740E57B07 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -131,9 +155,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F121A16C1B9F56E2008E3F7A /* Build configuration list for PBXNativeTarget "Grapevine" */;
 			buildPhases = (
+				762EDFB787A78A13A617E727 /* Check Pods Manifest.lock */,
 				F121A1461B9F56E2008E3F7A /* Sources */,
 				F121A1471B9F56E2008E3F7A /* Frameworks */,
 				F121A1481B9F56E2008E3F7A /* Resources */,
+				4FE04779349D5800691EEBD6 /* Embed Pods Frameworks */,
+				DCDCCA5C23EF0B857AB1CF18 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -168,7 +195,9 @@
 		F121A1421B9F56E2008E3F7A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Grapevine;
 				TargetAttributes = {
 					F121A1491B9F56E2008E3F7A = {
@@ -218,6 +247,54 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4FE04779349D5800691EEBD6 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Grapevine/Pods-Grapevine-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		762EDFB787A78A13A617E727 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		DCDCCA5C23EF0B857AB1CF18 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Grapevine/Pods-Grapevine-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F121A1461B9F56E2008E3F7A /* Sources */ = {
@@ -292,6 +369,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -356,20 +434,24 @@
 		};
 		F121A16D1B9F56E2008E3F7A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 37F1BD56148D368AD49D07F8 /* Pods-Grapevine.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Grapevine/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
 		};
 		F121A16E1B9F56E2008E3F7A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = AF9E8D6E589A3AFFCA6EDC69 /* Pods-Grapevine.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Grapevine/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -388,6 +470,7 @@
 				);
 				INFOPLIST_FILE = GrapevineTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Grapevine.app/Grapevine";
 			};
@@ -403,6 +486,7 @@
 				);
 				INFOPLIST_FILE = GrapevineTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Grapevine.app/Grapevine";
 			};
