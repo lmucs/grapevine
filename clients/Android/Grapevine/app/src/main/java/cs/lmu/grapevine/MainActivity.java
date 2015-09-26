@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,17 +51,8 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        boolean userLoggedIn = false;
-        if (userLoggedIn) {
-            //launch feed activity
-        }
         setContentView(R.layout.activity_main_login);
-
-        // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-        populateAutoComplete();
-
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -84,6 +76,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
+
 
     private void populateAutoComplete() {
         getLoaderManager().initLoader(0, null, this);
@@ -153,8 +146,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic (regex looking for @ and .com)
-        return email.contains("@") && email.contains(".com");
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     private boolean isPasswordValid(String password) {
