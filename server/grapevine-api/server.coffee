@@ -7,11 +7,7 @@ express        = require 'express'
 logger         = require 'morgan'
 bodyParser     = require 'body-parser'
 fs             = require 'fs'
-https          = require 'https'
-
-credentials =
-  key: fs.readFileSync "#{__dirname}/certificates/key.pem"
-  cert: fs.readFileSync "#{__dirname}/certificates/cert.pem"
+http           = require 'http'
 
 app = express()
 
@@ -27,7 +23,7 @@ app.use '/', require('./routes')
 app.use (req, res) ->
   res.sendStatus 404
 
-httpsServer = https.createServer credentials, app
+httpServer  = http.createServer  app
 
 # start the server
-httpsServer.listen process.env.PORT or 3000
+httpServer.listen process.env.PORT or 8000
