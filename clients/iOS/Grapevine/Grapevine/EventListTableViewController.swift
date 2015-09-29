@@ -52,7 +52,11 @@ class EventListTableViewController: UITableViewController {
     @IBAction func httpTest(sender: UIButton){
         print("test button pressed")
         //sender.enabled = false
-        
+        let url = NSURL(string: "http://localhost:8000/login")
+        let request = NSURLRequest(URL: url!)
+        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) {(response, data, error) in
+            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+        }
     }
 
 
