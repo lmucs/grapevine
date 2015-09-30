@@ -11,5 +11,6 @@
     <string name="create_account_username">Username</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="login_error">There was a problem logging in.</string>
 
 </resources>

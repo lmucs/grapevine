@@ -10,14 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cs.lmu.grapevine.MainActivity">
 
-    <!-- Login progress -->
-    <ProgressBar android:id="@+id/login_progress"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:visibility="gone" />
-
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
@@ -69,6 +61,12 @@
                 android:layout_height="wrap_content"
                 android:text="bypass login"
                 android:onClick="bypassLogin"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:id="@+id/login_status"/>
+
         </LinearLayout>
     </ScrollView>
 
