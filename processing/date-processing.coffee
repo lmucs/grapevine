@@ -5,30 +5,27 @@ twitterURL = 'twitter/posts/'
 fbURL = ''
 chrono = require 'chrono-node'
 
-twitterProcessing = (screenName, sinceID) ->
+getRawTweets = (screenName, sinceID) ->
   requestURL = "#{serverName}#{twitterURL}#{screenName}"
   requestURL += sinceID if sinceID
+  request requestURL, (err, res, body) ->
+    events = processRawTweets JSON.parse body
+
+
+twitterProcessing = (tweets) ->
   events = []
-  request requestURL , (err, res, body) ->
-    tweets = JSON.parse body
-    for tweet in tweets
-      tweetText = tweet.text
-      console.log tweetText
-      parsedDate = chrono.parse tweetText
-      console.log JSON.parse JSON.stringify parsedDate
-      for date in parsedDate
-        myEvent = {}
-        myEvent.startTime = date.start.date()
-        myEvent.endTime = date.end.date() if date.end
-        myEvent.text = tweetText
-        myEvent.author = screenName
-        myEvent.processedInfo = date
-        events.push myEvent
-        console.log myEvent
-      console.log "============================"
-    console.log events
+  for tweet in tweets
+    tweetText = tweet.text
+    parsedDate = chrono.parse tweetText
+    author = tweet.user.screen_name
+    for date in parsedDate
+      myEvent = {}
+      myEvent.startTime = date.start.date()
+      myEvent.endTime = date.end.date() if date.end
+      myEvent.text = tweetText
+      myEvent.author = author
+      myEvent.processedInfo = date
+      events.push myEvent
+  events
 
-    #chrono.parseDate postString
-
-
-setInterval twitterProcessing('LoyolaMarymount'), 1000 * intervalInSeconds
+setInterval getEventsFromSocialFeeds, 1000 * intervalInSeconds

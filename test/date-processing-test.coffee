@@ -70,3 +70,6 @@ describe 'Chrono Parse ', ->
       endTime    = parsedDate[0].end.date()
       expect(startTime).to.eql new Date 2015, 8, 5, 11
       expect(endTime).to.eql new Date 2015, 8, 5, 14
+
+      testString = 'Today from 11pm-2am we will be eating ice cream.'
+
