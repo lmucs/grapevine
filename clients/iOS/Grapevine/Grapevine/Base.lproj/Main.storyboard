@@ -59,7 +59,8 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="HwR-Mg-ZmM" kind="show" identifier="loginSegue" id="jTx-9m-Paz"/>
+                                    <action selector="login:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4H9-85-Aku"/>
+                                    <segue destination="HwR-Mg-ZmM" kind="show" id="F75-0D-ezi"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RPP-wG-TD6">
@@ -244,7 +245,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mef-dE-V9m" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="23K-R9-8ua" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="445" y="1117"/>
+            <point key="canvasLocation" x="305" y="1155"/>
         </scene>
         <!--Events Coming Soon-->
         <scene sceneID="AhA-rh-Qva">
@@ -323,7 +324,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V2p-or-2S4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2064" y="424"/>
+            <point key="canvasLocation" x="2026" y="404"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="XSt-Sg-pxP">
@@ -341,7 +342,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CVB-Sf-DQx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1252" y="424"/>
+            <point key="canvasLocation" x="1168" y="404"/>
         </scene>
     </scenes>
 </document>

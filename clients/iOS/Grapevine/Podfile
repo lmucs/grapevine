@@ -3,4 +3,5 @@ use_frameworks!
 
 target 'Grapevine' do
     pod 'SwiftyJSON', :git => 'https://github.com/SwiftyJSON/SwiftyJSON.git'
+    pod 'ObjectMapper', :git => 'https://github.com/Hearst-DD/ObjectMapper.git'
 end
