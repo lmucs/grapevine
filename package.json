@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "An app that creates a calendar from scraping social media.",
   "scripts": {
-    "start": "coffee server/social-media-api/server.coffee"
+    "start": "coffee server/social-media-api/server.coffee",
+    "test": "mocha --compilers coffee:coffee-script/register ./test/ --recursive"
   },
   "repository": {
     "type": "git",
@@ -16,8 +17,9 @@
   "homepage": "https://github.com/lmucs/social-feed-calendar#readme",
   "dependencies": {
     "body-parser": "^1.13.3",
-    "coffee-script": "^1.10.0",
+    "chai": "^3.3.0",
     "chrono-node": "^1.0.8",
+    "coffee-script": "^1.10.0",
     "dotenv": "^1.2.0",
     "express": "^4.13.3",
     "morgan": "^1.6.1",
