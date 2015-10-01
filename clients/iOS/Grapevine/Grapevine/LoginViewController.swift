@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftyJSON
 
 class LoginViewController: UIViewController {
 
@@ -40,6 +41,31 @@ class LoginViewController: UIViewController {
         
     }
     
+    @IBAction func login(sender: UIButton){
+        print("login button pressed")
+        self.activityIndicator.hidden = false
+        self.activityIndicator.startAnimating()
+        
+        
+        
+        
+        let loginCredentials = ["username": self.usernameTextField.text!, "password": self.passwordTextField.text!]
+        var loginJson = NSJSONSerialization.dataWithJSONObject(
+            loginCredentials ,
+            options: NSJSONWritingOptions(rawValue: 0)
+        )
+        
+        //sender.enabled = false
+        let url = NSURL(string: "http://localhost:8000/login")
+        let request = NSURLRequest(URL: url!)
+        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) {(response, data, error) in
+            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+            self.activityIndicator.hidden = true
+            //perform segue
+        }
+        
+    }
+    
 
     
     // MARK: - Navigation
@@ -51,8 +77,7 @@ class LoginViewController: UIViewController {
         
         if segue.identifier == "loginSegue" {
             //any actions required for login go here
-            self.activityIndicator.hidden = false
-            self.activityIndicator.startAnimating()
+            
         }
         
     }
