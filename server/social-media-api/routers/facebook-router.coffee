@@ -24,7 +24,7 @@ facebookRouter.get '/:feedType/:pageName/:timestamp?', (req, res) ->
     feedEndpoint += "&since=#{req.params.timestamp}" if req.params.timestamp
     request feedEndpoint, (err, response, body) ->
       return res.sendStatus response.statusCode if (JSON.parse body).error
-      res.send body
+      res.send JSON.parse body
       body
 
   getPageID getFeedFromID

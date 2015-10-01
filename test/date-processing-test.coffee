@@ -5,7 +5,6 @@ refDate = new Date 2015, 8, 5
 describe 'Chrono Parse ', ->
   describe 'when parsing forms of the same day', ->
     it 'parses them correctly', ->
-
       nextSunday = new Date 2015, 8, 6, 12
       sundayFull = chrono.parse('Next Sunday', refDate)[0].start.date()
       sundayShort = chrono.parse('Next sun', refDate)[0].start.date()
@@ -49,7 +48,7 @@ describe 'Chrono Parse ', ->
       expect(saturdayShort).to.eql nextSaturday
 
   describe 'when a date has a starting and ending time', ->
-    it 'parses it correctly', ->
+    it 'it will infer the meridian correctly if start hour is less than end hour', ->
       testString = 'Today from 5-7pm we will be be eating ice cream.'
       parsedDate = chrono.parse(testString, refDate)
       startTime  = parsedDate[0].start.date()
@@ -57,6 +56,7 @@ describe 'Chrono Parse ', ->
       expect(startTime).to.eql new Date 2015, 8, 5, 17
       expect(endTime).to.eql new Date 2015, 8, 5, 19
 
+    it 'it crosses over from am to pm', ->
       testString = 'Today from 11am-2pm we will be be eating ice cream.'
       parsedDate = chrono.parse(testString, refDate)
       startTime  = parsedDate[0].start.date()
@@ -64,6 +64,7 @@ describe 'Chrono Parse ', ->
       expect(startTime).to.eql new Date 2015, 8, 5, 11
       expect(endTime).to.eql new Date 2015, 8, 5, 14
 
+    it 'it can infer am for start time if start time is greater than end pm time', ->
       testString = 'Today from 11-2pm we will be be eating ice cream.'
       parsedDate = chrono.parse(testString, refDate)
       startTime  = parsedDate[0].start.date()
@@ -71,5 +72,11 @@ describe 'Chrono Parse ', ->
       expect(startTime).to.eql new Date 2015, 8, 5, 11
       expect(endTime).to.eql new Date 2015, 8, 5, 14
 
+    it 'it can go detect if an event goes from one day to another', ->
       testString = 'Today from 11pm-2am we will be eating ice cream.'
+      parsedDate = chrono.parse(testString, refDate)
+      startTime  = parsedDate[0].start.date()
+      endTime    = parsedDate[0].end.date()
+      expect(startTime).to.eql new Date 2015, 8, 5, 23
+      expect(endTime).to.eql new Date 2015, 8, 6, 2
 
