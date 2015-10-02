@@ -14,8 +14,8 @@
 		F121A15A1B9F56E2008E3F7A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F121A1591B9F56E2008E3F7A /* Images.xcassets */; };
 		F121A15D1B9F56E2008E3F7A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = F121A15B1B9F56E2008E3F7A /* LaunchScreen.xib */; };
 		F121A1691B9F56E2008E3F7A /* GrapevineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F121A1681B9F56E2008E3F7A /* GrapevineTests.swift */; };
-		F1445FE91BBDA25900A98C38 /* GrapevineUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1445FE81BBDA25900A98C38 /* GrapevineUser.swift */; settings = {ASSET_TAGS = (); }; };
 		F17935681BBAFD3B001F8791 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17935671BBAFD3B001F8791 /* Event.swift */; settings = {ASSET_TAGS = (); }; };
+		F1A37D1D1BBDBEE70094541C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A37D1C1BBDBEE60094541C /* User.swift */; settings = {ASSET_TAGS = (); }; };
 		F1ECD65B1BA88895001FFD58 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ECD65A1BA88895001FFD58 /* LoginViewController.swift */; };
 		F1ECD65D1BA894CB001FFD58 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ECD65C1BA894CB001FFD58 /* CreateAccountViewController.swift */; };
 		F1ECD65F1BA89FE6001FFD58 /* EventListTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ECD65E1BA89FE6001FFD58 /* EventListTableViewController.swift */; };
@@ -46,8 +46,8 @@
 		F121A1621B9F56E2008E3F7A /* GrapevineTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GrapevineTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F121A1671B9F56E2008E3F7A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F121A1681B9F56E2008E3F7A /* GrapevineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GrapevineTests.swift; sourceTree = "<group>"; };
-		F1445FE81BBDA25900A98C38 /* GrapevineUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrapevineUser.swift; sourceTree = "<group>"; };
 		F17935671BBAFD3B001F8791 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
+		F1A37D1C1BBDBEE60094541C /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F1ECD65A1BA88895001FFD58 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F1ECD65C1BA894CB001FFD58 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		F1ECD65E1BA89FE6001FFD58 /* EventListTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListTableViewController.swift; sourceTree = "<group>"; };
@@ -119,8 +119,8 @@
 				F1ECD65E1BA89FE6001FFD58 /* EventListTableViewController.swift */,
 				F1ECD65C1BA894CB001FFD58 /* CreateAccountViewController.swift */,
 				F17935671BBAFD3B001F8791 /* Event.swift */,
+				F1A37D1C1BBDBEE60094541C /* User.swift */,
 				F1ECD65A1BA88895001FFD58 /* LoginViewController.swift */,
-				F1445FE81BBDA25900A98C38 /* GrapevineUser.swift */,
 				F121A1591B9F56E2008E3F7A /* Images.xcassets */,
 				F121A15B1B9F56E2008E3F7A /* LaunchScreen.xib */,
 				F121A1511B9F56E2008E3F7A /* Grapevine.xcdatamodeld */,
@@ -311,9 +311,9 @@
 				F1ECD65F1BA89FE6001FFD58 /* EventListTableViewController.swift in Sources */,
 				F1ECD65B1BA88895001FFD58 /* LoginViewController.swift in Sources */,
 				F121A1501B9F56E2008E3F7A /* AppDelegate.swift in Sources */,
+				F1A37D1D1BBDBEE70094541C /* User.swift in Sources */,
 				F1ECD6631BA8A1E0001FFD58 /* EventTableViewCell.swift in Sources */,
 				F17935681BBAFD3B001F8791 /* Event.swift in Sources */,
-				F1445FE91BBDA25900A98C38 /* GrapevineUser.swift in Sources */,
 				F121A1531B9F56E2008E3F7A /* Grapevine.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

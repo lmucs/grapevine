@@ -7,9 +7,10 @@
 //
 
 import UIKit
+import ObjectMapper
 
-class Event: NSObject {
-    var title: String
+class Event: NSObject, Mappable {
+    var title: String!
     //var date: NSDate
     //var status: String
     //var id: Int
@@ -21,15 +22,13 @@ class Event: NSObject {
     //var tags: [String]
     var url: String!
     
-    init(title: String){
-        self.title = title
-        super.init()
+    required init?(_ map: Map){
+        
     }
     
-    init(title: String, url: String) {
-        self.title = title
-        self.url = url
-        super.init()
+    func mapping(map: Map) {
+        title <- map["title"]
+        url <- map["url"]
     }
     
     
