@@ -46,15 +46,6 @@ class LoginViewController: UIViewController {
         self.activityIndicator.hidden = false
         self.activityIndicator.startAnimating()
         
-        
-        
-        
-        let loginCredentials = ["username": self.usernameTextField.text!, "password": self.passwordTextField.text!]
-        var loginJson = NSJSONSerialization.dataWithJSONObject(
-            loginCredentials ,
-            options: NSJSONWritingOptions(rawValue: 0)
-        )
-        
         //sender.enabled = false
         let url = NSURL(string: "http://localhost:8000/login")
         let request = NSURLRequest(URL: url!)
