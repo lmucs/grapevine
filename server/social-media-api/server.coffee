@@ -13,7 +13,7 @@ app = express()
 
 # set up middleware
 app.use bodyParser.json()
-app.use logger process.env.LOGGING_LEVEL or 'dev'
+app.use logger process.env.LOGGING_LEVEL or 'dev' unless process.env.NODE_ENV is 'test'
 
 # register routes
 app.use '/facebook', facebookRouter

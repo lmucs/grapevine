@@ -13,8 +13,9 @@ app = express()
 
 # set up middleware
 app.use bodyParser.json()
-app.use logger process.env.LOGGING_LEVEL or 'dev'
-app.all '/api/v1/*', [ require('./middlewares/validateRequest') ] 
+unless process.env.NODE_ENV is 'test'
+  app.use logger process.env.LOGGING_LEVEL or 'dev'
+app.all '/api/v1/*', [ require('./middlewares/validateRequest') ]
 
 # register routes
 app.use '/', require('./routes')
@@ -23,7 +24,5 @@ app.use '/', require('./routes')
 app.use (req, res) ->
   res.sendStatus 404
 
-httpServer  = http.createServer  app
-
 # start the server
-httpServer.listen process.env.PORT or 8000
+module.exports = app.listen process.env.PORT or 8000
