@@ -22,13 +22,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
@@ -39,10 +37,11 @@ import java.util.List;
 
 public class MainActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    // UI references.
-    private AutoCompleteTextView mEmailView;
+    public static String authenticationToken;
+    public static String apiURL = "http://192.168.1.71:8000";
+    public static AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
-    RequestQueue queue;
+    public static RequestQueue httpRequestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +68,8 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
             }
         });
 
-        queue = Volley.newRequestQueue(this);
+        httpRequestQueue = Volley.newRequestQueue(this);
+        authenticationToken = null;
     }
 
     /**
@@ -88,7 +88,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    public void attemptLogin() {
+    public void attemptLogin(){
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -132,13 +132,18 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
                 Log.d("exception","JSON was not serialized correctly");
             }
 
-            String loginUrl ="http://10.0.1.199:8000/login";
-            JsonObjectRequest userLoginRequest = new JsonObjectRequest(Request.Method.POST, loginUrl, requestBody, new Response.Listener<JSONObject>() {
+
+            JsonObjectRequest userLoginRequest = new JsonObjectRequest(Request.Method.POST, apiURL + "/login", requestBody, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Intent userLogin = new Intent(getApplicationContext(), FeedEvents.class);
-                    userLogin.putExtra("JWT", response.toString());
-                    startActivity(userLogin);
+                    try{
+                        authenticationToken = response.getString("token");
+                        Intent userLogin = new Intent(getApplicationContext(), FeedEvents.class);
+                        startActivity(userLogin);
+                    }
+                    catch (JSONException e) {
+                        Log.d("exception","The JSON received did not have a key for authentication token.");
+                    }
                 }
 
             }, new Response.ErrorListener() {
@@ -148,7 +153,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
                     loginStatus.setText(R.string.login_error);
                 }
             });
-            queue.add(userLoginRequest);
+            httpRequestQueue.add(userLoginRequest);
         }
     }
 
