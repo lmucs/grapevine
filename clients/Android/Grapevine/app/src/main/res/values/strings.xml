@@ -12,6 +12,7 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="login_error">There was a problem logging in.</string>
+    <string name="event_request_error">There was an error retrieving events from the server.</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_calendar_view">CalendarView</string>
