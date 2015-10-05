@@ -12,7 +12,6 @@ import android.os.Build;
 import android.provider.ContactsContract;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -21,24 +20,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import cs.lmu.grapevine.requests.LoginRequest;
 
 public class MainActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static String authenticationToken;
-    public static String apiURL = "http://192.168.1.71:8000";
     public static AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     public static RequestQueue httpRequestQueue;
@@ -57,6 +48,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
                     return true;
                 }
                 return false;
+
             }
         });
 
@@ -123,36 +115,9 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
             // form field with an error.
             focusView.requestFocus();
         } else {
+            String requestBodyString = "{\"username\":\"jeff\",\"password\":\"blah\"}";
 
-            JSONObject requestBody = null;
-            try {
-                requestBody = new JSONObject("{\"username\":\"jeff\",\"password\":\"blah\"}");
-            }
-            catch (JSONException e) {
-                Log.d("exception","JSON was not serialized correctly");
-            }
-
-
-            JsonObjectRequest userLoginRequest = new JsonObjectRequest(Request.Method.POST, apiURL + "/login", requestBody, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try{
-                        authenticationToken = response.getString("token");
-                        Intent userLogin = new Intent(getApplicationContext(), FeedEvents.class);
-                        startActivity(userLogin);
-                    }
-                    catch (JSONException e) {
-                        Log.d("exception","The JSON received did not have a key for authentication token.");
-                    }
-                }
-
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    TextView loginStatus = (TextView)findViewById(R.id.login_status);
-                    loginStatus.setText(R.string.login_error);
-                }
-            });
+            LoginRequest userLoginRequest = new LoginRequest(this, requestBodyString);
             httpRequestQueue.add(userLoginRequest);
         }
     }
@@ -229,4 +194,5 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
         Intent launchFeed = new Intent(getApplicationContext(), FeedEvents.class);
         startActivity(launchFeed);
     }
+
 }
