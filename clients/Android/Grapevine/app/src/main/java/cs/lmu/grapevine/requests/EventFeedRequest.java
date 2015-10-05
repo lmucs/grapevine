@@ -1,6 +1,8 @@
 package cs.lmu.grapevine.requests;
 
 import android.app.Activity;
+
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +14,7 @@ import cs.lmu.grapevine.requests.listeners.EventSuccessListener;
 /**
  * A request to receive events for a user's event feed.
  */
-public class EventFeedRequest extends JsonObjectRequest {
+public class EventFeedRequest extends JsonArrayRequest {
     public static String eventRequestURL = BuildConfig.API_HOST + "api/v1/events";
 
     public EventFeedRequest(Activity parentActivity) {
