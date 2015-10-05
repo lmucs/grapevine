@@ -3,13 +3,15 @@ package cs.lmu.grapevine.requests.listeners;
 import android.app.Activity;
 import android.widget.TextView;
 import com.android.volley.Response;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 import cs.lmu.grapevine.R;
 
 /**
  * Listener for successful EventFeedRequests.
  */
-public class EventSuccessListener implements Response.Listener<JSONObject> {
+public class EventSuccessListener implements Response.Listener<JSONArray> {
     private Activity parentActivity;
 
     public EventSuccessListener(Activity parentActivity) {
@@ -17,7 +19,7 @@ public class EventSuccessListener implements Response.Listener<JSONObject> {
     }
 
     @Override
-    public void onResponse(JSONObject response) {
+    public void onResponse(JSONArray response) {
         TextView eventFeed = (TextView)parentActivity.findViewById(R.id.event_feed);
         eventFeed.setText(response.toString());
     }
