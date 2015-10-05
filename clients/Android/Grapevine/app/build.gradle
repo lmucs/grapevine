@@ -16,7 +16,11 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            buildConfigField "String", "API_HOST", "\"http://192.168.1.71:8000/\""
+        }
     }
+
 }
 
 dependencies {
