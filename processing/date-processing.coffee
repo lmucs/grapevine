@@ -205,6 +205,9 @@ getEventsFromSocialFeeds = (twitterParams, fbParams) ->
   getEventsFromTweets name, twitterTimeStamp for name in twitterNames
   #getEventsFromFBPosts name, fbTimeStamp for name in fbNames
 
+run = ->
+  twitterProcessing 'LoyolaMarymount'
+  return
 
 setInterval getEventsFromSocialFeeds(twitterParams, fbParams),
   1000 * intervalInSeconds
