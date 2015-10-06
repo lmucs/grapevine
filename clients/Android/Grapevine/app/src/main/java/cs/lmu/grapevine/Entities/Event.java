@@ -1,114 +1,140 @@
 package cs.lmu.grapevine.Entities;
 
-import android.location.Location;
+import com.google.gson.annotations.SerializedName;
 import java.sql.Date;
-import java.sql.Time;
 
 public class Event {
     private String title;
     private Date date;
+    private boolean allDay;
     private String status;
     private int id;
-    private Time timeProcessed;
-    private Location location;
-    private Time startTime;
-    private Time endTime;
+    private int timestamp;
+    private String location;
+    @SerializedName("startTime")
+    private int startTimeTimestamp;
+    @SerializedName("endTime")
+    private int endTimeTimestamp;
     private boolean repeatsWeekly;
     private String[] tags;
     private String URL;
+    private String origin;
+    private String post;
 
-    public Event(String title) {
-
+    private Event(String title) {
         this.title = title;
     }
 
-    public String getTitle() {
-
+    private String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    private void setTitle(String title) {
         this.title = title;
     }
 
-    public Date getDate() {
+    private Date getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    private void setDate(Date date) {
         this.date = date;
     }
 
-    public String getStatus() {
+    private String getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    private void setStatus(String status) {
         this.status = status;
     }
 
-    public int getId() {
+    private int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    private void setId(int id) {
         this.id = id;
     }
 
-    public Time getTimeProcessed() {
-        return timeProcessed;
+    private int getTimeProcessed() {
+        return timestamp;
     }
 
-    public void setTimeProcessed(Time timeProcessed) {
-        this.timeProcessed = timeProcessed;
+    private void setTimeProcessed(int timeProcessed) {
+        this.timestamp = timeProcessed;
     }
 
-    public Location getLocation() {
+    private String getLocation() {
         return location;
     }
 
-    public void setLocation(Location location) {
+    private void setLocation(String location) {
         this.location = location;
     }
 
-    public Time getStartTime() {
-        return startTime;
+    private int getStartTimeTimestamp() {
+        return startTimeTimestamp;
     }
 
-    public void setStartTime(Time startTime) {
-        this.startTime = startTime;
+    private void setStartTimeTimestamp(int startTimeTimestamp) {
+        this.startTimeTimestamp = startTimeTimestamp;
     }
 
-    public Time getEndTime() {
-        return endTime;
+    private int getEndTimeTimestamp() {
+        return endTimeTimestamp;
     }
 
-    public void setEndTime(Time endTime) {
-        this.endTime = endTime;
+    private void setEndTimeTimestamp(int endTimeTimestamp) {
+        this.endTimeTimestamp = endTimeTimestamp;
     }
 
-    public boolean isRepeatsWeekly() {
+    private boolean isRepeatsWeekly() {
         return repeatsWeekly;
     }
 
-    public void setRepeatsWeekly(boolean repeatsWeekly) {
+    private void setRepeatsWeekly(boolean repeatsWeekly) {
         this.repeatsWeekly = repeatsWeekly;
     }
 
-    public String[] getTags() {
+    private String[] getTags() {
         return tags;
     }
 
-    public void setTags(String[] tags) {
+    private void setTags(String[] tags) {
         this.tags = tags;
     }
 
-    public String getURL() {
+    private String getURL() {
         return URL;
     }
 
-    public void setURL(String URL) {
+    private void setURL(String URL) {
         this.URL = URL;
+    }
+
+    public String getPost() {
+        return post;
+    }
+
+    public void setPost(String post) {
+        this.post = post;
+    }
+
+    public String getOrigin() {
+        return origin;
+    }
+
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
+
+    public boolean isAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
     }
 
     @Override
