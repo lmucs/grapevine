@@ -5,9 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.gson.Gson;
+
+import java.util.List;
+
+import cs.lmu.grapevine.Entities.Event;
 import cs.lmu.grapevine.requests.EventFeedRequest;
 
 public class FeedEvents extends AppCompatActivity {
+    Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,5 +49,4 @@ public class FeedEvents extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }

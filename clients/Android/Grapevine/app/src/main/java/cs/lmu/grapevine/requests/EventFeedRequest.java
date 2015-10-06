@@ -3,7 +3,6 @@ package cs.lmu.grapevine.requests;
 import android.app.Activity;
 
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 import java.util.HashMap;
 import java.util.Map;
 import cs.lmu.grapevine.BuildConfig;
