@@ -17,7 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField "String", "API_HOST", "\"http://192.168.1.71:8000/\""
+            buildConfigField "String", "API_HOST", "\"http://10.0.1.199:8000/\""
         }
     }
 
@@ -28,5 +28,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.0.1'
     compile 'com.google.android.gms:play-services:7.8.0'
     compile 'com.roomorama:caldroid:2.2.0'
+    compile 'com.google.code.gson:gson:2.4'
     compile project(":volley")
 }

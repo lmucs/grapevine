@@ -6,6 +6,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import cs.lmu.grapevine.R;
 
+/**
+ * Listener for unsuccessful LoginRequests.
+ */
 public class LoginErrorListener implements Response.ErrorListener {
     private Activity parentActivity;
 
