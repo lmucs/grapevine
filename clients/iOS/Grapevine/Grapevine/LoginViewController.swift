@@ -8,6 +8,9 @@
 
 import UIKit
 import SwiftyJSON
+import Alamofire
+import AlamofireObjectMapper
+import ObjectMapper
 
 class LoginViewController: UIViewController {
 
@@ -45,15 +48,35 @@ class LoginViewController: UIViewController {
         print("login button pressed")
         self.activityIndicator.hidden = false
         self.activityIndicator.startAnimating()
+        sender.enabled = false
         
-        //sender.enabled = false
+        
         let url = NSURL(string: "http://localhost:8000/login")
-        let request = NSURLRequest(URL: url!)
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) {(response, data, error) in
-            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
-            self.activityIndicator.hidden = true
-            //perform segue
-        }
+        
+        let loginCredentials: [String: AnyObject] = [
+            "username": String(self.usernameTextField.text),
+            "password": String(self.passwordTextField.text)
+        ]
+        print("here")
+        //if NSJSONSerialization.isValidJSONObject(loginCredentials){
+            Alamofire.request(.POST, url!, parameters: loginCredentials, encoding: .JSON)
+                .responseJSON { response in
+                    print("Response JSON: \(response)")
+            }
+            /* if login valid {
+             *     query for events
+             *     perform segue to main page
+             * }
+             * else {
+             *     sender.enabled = true
+             *     activityIndicator.hidden = true
+             * }
+            */
+            
+        //}
+        //else {
+            // throw JSON encoding exception
+        //}
         
     }
     

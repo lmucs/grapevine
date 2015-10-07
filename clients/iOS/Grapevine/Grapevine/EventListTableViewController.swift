@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import Alamofire
+import AlamofireObjectMapper
+import SwiftyJSON
 
 class EventListTableViewController: UITableViewController {
 
@@ -44,19 +47,20 @@ class EventListTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
         cell.eventNameLabel.text = "Event Name goes here"
         cell.eventTimeLabel.text = "Event Time goes here"
-        cell.button.addTarget(self, action: "httpTest:", forControlEvents: UIControlEvents.TouchUpInside)
+        cell.button.addTarget(self, action: "getEvents:", forControlEvents: UIControlEvents.TouchUpInside)
         return cell
 
     }
     
-    @IBAction func httpTest(sender: UIButton){
+    @IBAction func getEvents(sender: UIButton){
         print("test button pressed")
-        //sender.enabled = false
-        let url = NSURL(string: "http://localhost:8000/login")
-        let request = NSURLRequest(URL: url!)
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) {(response, data, error) in
-            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
-        }
+        sender.enabled = false
+        let url = NSURL(string: "http://localhost:8000/api/v1/events")
+        Alamofire.request(.GET, url!)
+            .responseJSON { response in
+                print("Response JSON: \(response)")
+            }
+        
     }
 
 

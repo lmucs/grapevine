@@ -59,8 +59,8 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="login:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4H9-85-Aku"/>
-                                    <segue destination="HwR-Mg-ZmM" kind="show" id="F75-0D-ezi"/>
+                                    <action selector="login:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iLI-i8-yCo"/>
+                                    <segue destination="HwR-Mg-ZmM" kind="show" identifier="loginSegue" id="xDa-HM-Cfn"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RPP-wG-TD6">
