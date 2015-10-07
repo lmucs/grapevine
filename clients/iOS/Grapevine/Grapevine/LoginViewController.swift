@@ -58,10 +58,14 @@ class LoginViewController: UIViewController {
             "password": String(self.passwordTextField.text)
         ]
         print("here")
-        //if NSJSONSerialization.isValidJSONObject(loginCredentials){
+        if NSJSONSerialization.isValidJSONObject(loginCredentials){
             Alamofire.request(.POST, url!, parameters: loginCredentials, encoding: .JSON)
                 .responseJSON { response in
-                    print("Response JSON: \(response)")
+                    debugPrint(response)
+                    print(response.2.value)
+                    
+                    let token = Mapper<Token>().map(response.2.value)
+                    print("\(token?.token)")
             }
             /* if login valid {
              *     query for events
@@ -73,7 +77,7 @@ class LoginViewController: UIViewController {
              * }
             */
             
-        //}
+        }
         //else {
             // throw JSON encoding exception
         //}
