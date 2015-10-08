@@ -1,4 +1,4 @@
-![Grapevine Logo] (/images/Grapevine.PNG)
+![Grapevine Logo](/images/Grapevine.PNG?raw=true)
 
 Grapevine is a application that (describe it).
 
