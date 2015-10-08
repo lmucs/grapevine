@@ -1,4 +1,4 @@
-(Project logo goes here)
+![Grapevine Logo] (/images/Grapevine.png)
 
 Grapevine is a application that (describe it).
 
