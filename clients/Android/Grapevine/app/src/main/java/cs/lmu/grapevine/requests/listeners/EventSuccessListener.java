@@ -1,6 +1,8 @@
 package cs.lmu.grapevine.requests.listeners;
 
 import android.app.Activity;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import com.android.volley.Response;
 import com.google.gson.Gson;
@@ -10,6 +12,7 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
 import cs.lmu.grapevine.Entities.Event;
+import cs.lmu.grapevine.EventFeedArrayAdapter;
 import cs.lmu.grapevine.R;
 
 /**
@@ -17,7 +20,7 @@ import cs.lmu.grapevine.R;
  */
 public class EventSuccessListener implements Response.Listener<JSONArray> {
     private Activity parentActivity;
-    Gson gson = new GsonBuilder().setDateFormat("MM/dd/yyyy").create();
+    private Gson     gson = new GsonBuilder().setDateFormat("MM/dd/yyyy").create();
 
     public EventSuccessListener(Activity parentActivity) {
         this.parentActivity = parentActivity;
@@ -25,8 +28,8 @@ public class EventSuccessListener implements Response.Listener<JSONArray> {
 
     @Override
     public void onResponse(JSONArray response) {
-        TextView eventFeed = (TextView)parentActivity.findViewById(R.id.event_feed);
-        deserializeJson(response);
+        ListView eventFeed = (ListView)parentActivity.findViewById(R.id.event_feed);
+        InflateEventFeed(deserializeJson(response));
     }
 
     private ArrayList<Event> deserializeJson(JSONArray userEventsJSON) {
@@ -35,4 +38,12 @@ public class EventSuccessListener implements Response.Listener<JSONArray> {
 
         return usersEvents;
     }
+
+    private void InflateEventFeed(ArrayList eventList) {
+        EventFeedArrayAdapter eventAdapter = new EventFeedArrayAdapter(parentActivity, eventList);
+        ListView eventFeed = (ListView) parentActivity.findViewById(R.id.event_feed);
+        eventFeed.setAdapter(eventAdapter);
+
+    }
+
 }
