@@ -9,12 +9,12 @@ public class Event {
     private boolean allDay;
     private String status;
     private int id;
-    private int timestamp;
+    private long timestamp;
     private String location;
     @SerializedName("startTime")
-    private int startTimeTimestamp;
+    private long startTimeTimestamp;
     @SerializedName("endTime")
-    private int endTimeTimestamp;
+    private long endTimeTimestamp;
     private boolean repeatsWeekly;
     private String[] tags;
     private String URL;
@@ -25,91 +25,91 @@ public class Event {
         this.title = title;
     }
 
-    private String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    private void setTitle(String title) {
+    public  void setTitle(String title) {
         this.title = title;
     }
 
-    private Date getDate() {
+    public  Date getDate() {
         return date;
     }
 
-    private void setDate(Date date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
-    private String getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    private void setStatus(String status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    private int getId() {
+    public int getId() {
         return id;
     }
 
-    private void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    private int getTimeProcessed() {
+    public long getTimeProcessed() {
         return timestamp;
     }
 
-    private void setTimeProcessed(int timeProcessed) {
+    public void setTimeProcessed(int timeProcessed) {
         this.timestamp = timeProcessed;
     }
 
-    private String getLocation() {
+    public String getLocation() {
         return location;
     }
 
-    private void setLocation(String location) {
+    public void setLocation(String location) {
         this.location = location;
     }
 
-    private int getStartTimeTimestamp() {
+    public long getStartTimeTimestamp() {
         return startTimeTimestamp;
     }
 
-    private void setStartTimeTimestamp(int startTimeTimestamp) {
+    public void setStartTimeTimestamp(int startTimeTimestamp) {
         this.startTimeTimestamp = startTimeTimestamp;
     }
 
-    private int getEndTimeTimestamp() {
+    public long getEndTimeTimestamp() {
         return endTimeTimestamp;
     }
 
-    private void setEndTimeTimestamp(int endTimeTimestamp) {
+    public void setEndTimeTimestamp(int endTimeTimestamp) {
         this.endTimeTimestamp = endTimeTimestamp;
     }
 
-    private boolean isRepeatsWeekly() {
+    public boolean isRepeatsWeekly() {
         return repeatsWeekly;
     }
 
-    private void setRepeatsWeekly(boolean repeatsWeekly) {
+    public void setRepeatsWeekly(boolean repeatsWeekly) {
         this.repeatsWeekly = repeatsWeekly;
     }
 
-    private String[] getTags() {
+    public String[] getTags() {
         return tags;
     }
 
-    private void setTags(String[] tags) {
+    public void setTags(String[] tags) {
         this.tags = tags;
     }
 
-    private String getURL() {
+    public String getURL() {
         return URL;
     }
 
-    private void setURL(String URL) {
+    public void setURL(String URL) {
         this.URL = URL;
     }
 
