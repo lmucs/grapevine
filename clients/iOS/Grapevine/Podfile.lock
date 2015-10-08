@@ -1,7 +1,9 @@
 PODS:
+  - ObjectMapper (0.18)
   - SwiftyJSON (2.3.0)
 
 DEPENDENCIES:
+  - ObjectMapper (~> 0.18)
   - SwiftyJSON (from `https://github.com/SwiftyJSON/SwiftyJSON.git`)
 
 EXTERNAL SOURCES:
@@ -14,6 +16,7 @@ CHECKOUT OPTIONS:
     :git: https://github.com/SwiftyJSON/SwiftyJSON.git
 
 SPEC CHECKSUMS:
+  ObjectMapper: 0dec0fec1e10b707ba94dd0891580a582ab84cf0
   SwiftyJSON: 8d6b61a70277ef2a5d710d372e06e7e2d87fb9e4
 
 COCOAPODS: 0.38.2
