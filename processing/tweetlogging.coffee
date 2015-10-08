@@ -14,23 +14,27 @@ feeds = ['LoyolaMarymount', 'ACTILMU', 'LMULionTRaXC', 'IggyLion', 'Lmulionspolo
         'MEforLMU', 'LMUMARCOMM', 'lmumbaprogram', 'lmunewsroom', 'LMUCareers', 'LMU_OISS', 'LMUPlaceCorps', 'lmusoe', 'LMUDoctoral',
         'LMUsftv', 'seaverlmu', 'studyabroadlmu', 'LMUAdmission', 'LMUTower', 'LMUTFANorCal', 'LMUTFALA']
 
-#lastPulled = fs.readFileSync('lastPulled.txt').toString();
+saveSinceId = ->
+  fs.writeFile('lastPulled.txt', Date.now().toString(), (err) ->
+    if err
+      throw err
+    console.log 'New sinceId was saved!'
+    return
+  )
 
 twitterProcessing = (screenName, sinceID) ->
   requestURL = "#{serverName}#{twitterURL}#{screenName}"
   #requestURL += sinceID if sinceID
   #events = []
   request requestURL , (err, res, body) ->
-    if err 
-      console.log 'there was an error in the request'
+
     tweets = JSON.parse body
+    if err || tweets.errors?
+      console.log 'there was an error in the request'
 
     for tweet in tweets
-      console.log tweet.text
       parsedTweet = chrono.parse tweet.text
-      console.log 'parsedTweet' 
-      console.log  parsedTweet
-
+    
       if parsedTweet.length != 0    
         item = {id: tweet.id, text: tweet.text, feed: tweet.user.screen_name}
         fs.appendFile 'log.txt', JSON.stringify(item, null, 4), (err) ->
@@ -44,6 +48,7 @@ twitterProcessing = (screenName, sinceID) ->
 run = ->
   for feed in feeds 
     twitterProcessing feed
+    saveSinceId()
   return
   
 setInterval run, 1000 * intervalInSeconds
