@@ -1,9 +1,26 @@
 mockEvents  = require './mockEvents'
+pg          = require 'pg'
 
-events = 
+events =
   getAll: (req, res) ->
-    # Spoof a DB call
-    res.json mockEvents
+    pg.connect process.env.DATABASE_URL, (err, client, done) ->
+      if err
+        done()
+        return res.status(500).json {data: err}
+
+      client.query 'INSERT INTO items(text, complete) values($1, $2)', ['foo', 'bar']
+      query = client.query('SELECT * FROM items ORDER BY id ASC')
+      # Stream results back one row at a time
+      query.on 'row', (row) ->
+        results.push row
+        return
+      # After all data is returned, close connection and return results
+      query.on 'end', ->
+        done()
+        res.json results
+
+    # # Spoof a DB call
+    # res.json mockEvents
 
   getOne: (req, res) ->
     # Spoof a DB call
@@ -25,6 +42,6 @@ events =
     # Spoof a DB call
     mockEvents.splice req.params.id, 1
     res.json true
-    
+
 
 module.exports = events

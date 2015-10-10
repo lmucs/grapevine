@@ -6,7 +6,6 @@ dotenv._setEnvs()
 express        = require 'express'
 logger         = require 'morgan'
 bodyParser     = require 'body-parser'
-pg             = require 'pg'
 
 app = express()
 
