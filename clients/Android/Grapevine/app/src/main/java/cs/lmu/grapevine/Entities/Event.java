@@ -1,9 +1,11 @@
 package cs.lmu.grapevine.Entities;
 
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 import java.sql.Date;
 
-public class Event {
+public class Event implements Serializable {
     private String title;
     private Date date;
     private boolean allDay;
