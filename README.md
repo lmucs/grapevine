@@ -1,4 +1,5 @@
-# <img src="https://github.com/lmucs/grapevine/blob/master/images/grapevine.PNG?raw=true" width=64 height=64> Grapevine
+<div style="text-align:center"><p><img src="https://github.com/lmucs/grapevine/blob/master/images/grapevine.PNG?raw=true" width=90 height=90></p><p><span style="font-size:400%">Grapevine</p></div>
+
 
 Grapevine is a application that (describe it).
 
