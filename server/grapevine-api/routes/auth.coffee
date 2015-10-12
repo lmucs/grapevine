@@ -15,13 +15,6 @@ auth =
       return res.status(401).json err if err
       res.status(200).json generateToken user
 
-  validateUser: (username) ->
-    # spoofing the DB response for simplicity
-    dbUser =
-      role: 'admin'
-      username: 'rachel'
-    dbUser
-
 insertUser = (username, password, callback) ->
   pgClient.query
     text: 'INSERT INTO users (username, password) VALUES ($1, $2)',
