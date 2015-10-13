@@ -24,6 +24,7 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    var userToken: Token!
     
     
     override func viewDidLoad() {
@@ -39,16 +40,17 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
     //link back from CreateAccountVC
     @IBAction func backToLoginViewController(segue:UIStoryboardSegue) {
         
     }
     
-    @IBAction func login(sender: UIButton){
-        print("login button pressed")
+
+    @IBAction func loginPressed(sender: UIButton){
+        self.loginButton.enabled = false
         self.activityIndicator.hidden = false
         self.activityIndicator.startAnimating()
-        sender.enabled = false
         
         
         let url = NSURL(string: "http://localhost:8000/login")
@@ -61,30 +63,33 @@ class LoginViewController: UIViewController {
         if NSJSONSerialization.isValidJSONObject(loginCredentials){
             Alamofire.request(.POST, url!, parameters: loginCredentials, encoding: .JSON)
                 .responseJSON { response in
-                    debugPrint(response)
-                    print(response.2.value)
+                    if response.1 != nil {
+                        debugPrint(response)
+                        if response.1?.statusCode == 200 {
+                            print(response.2.value)
+                            let responseToken = Mapper<Token>().map(response.2.value)
+                            //print("\(responseToken!.token) \n")
+                            self.userToken = responseToken
+                            print("\(self.userToken.token)")
+                            //self.token.xkey = "matt"
+                            self.performSegueWithIdentifier("loginSegue", sender: self)
+                        }
+                        else {
+                            // handle errors based on response code
+                        }
+                    }
+                    else {
+                        // no response
+                    }
                     
-                    let token = Mapper<Token>().map(response.2.value)
-                    print("\(token?.token)")
             }
-            /* if login valid {
-             *     query for events
-             *     perform segue to main page
-             * }
-             * else {
-             *     sender.enabled = true
-             *     activityIndicator.hidden = true
-             * }
-            */
-            
         }
-        //else {
-            // throw JSON encoding exception
-        //}
-        
+        else {
+            //JSON invalid, throw exception
+        }
+
     }
     
-
     
     // MARK: - Navigation
 
@@ -94,11 +99,24 @@ class LoginViewController: UIViewController {
         // Pass the selected object to the new view controller.
         
         if segue.identifier == "loginSegue" {
-            //any actions required for login go here
+            let nav = segue.destinationViewController as! UINavigationController
+            let eventsView = nav.topViewController as! EventListTableViewController
+            print("about to perform segue")
+            print("\(self.userToken.token)")
+            print("\(self.userToken.xkey)")
+            let getAllEventsLink = "http://localhost:8000/api/v1/events"
+            var tokenSwag = Mapper().toJSON(self.userToken)
+            Alamofire.request(<#T##method: Method##Method#>, <#T##URLString: URLStringConvertible##URLStringConvertible#>, parameters: <#T##[String : AnyObject]?#>, encoding: <#T##ParameterEncoding#>, headers: <#T##[String : String]?#>)
+            Alamofire.request(.GET, getAllEventsLink, parameters: tokenSwag)
+                .responseJSON { response in
+                    debugPrint(response)
+                }
+                
+            
+            
             
         }
-        
     }
-
-
+   
+    
 }
