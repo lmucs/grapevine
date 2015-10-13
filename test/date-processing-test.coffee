@@ -79,4 +79,3 @@ describe 'Chrono Parse ', ->
       endTime    = parsedDate[0].end.date()
       expect(startTime).to.eql new Date 2015, 8, 5, 23
       expect(endTime).to.eql new Date 2015, 8, 6, 2
-

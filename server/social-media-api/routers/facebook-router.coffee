@@ -9,8 +9,9 @@ facebookRouter.get '/:feedType/:pageName/:timestamp?', (req, res) ->
 
   getPageID = (next) ->
     pageIDEndpoint = "#{APIHost}/" +
-                      "#{req.params.pageName}/" +
+                      "?ids=http%3A%2F%2Fwww.facebook.com/#{req.params.pageName}/" +
                       "?access_token=#{process.env.FB_TOKEN}"
+    console.log pageIDEndpoint
     request pageIDEndpoint, (err, response, body) ->
       parsedBody = JSON.parse body
       return res.sendStatus response.statusCode if parsedBody.error
