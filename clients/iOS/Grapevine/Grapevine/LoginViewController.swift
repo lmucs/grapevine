@@ -64,11 +64,12 @@ class LoginViewController: UIViewController {
             Alamofire.request(.POST, url!, parameters: loginCredentials, encoding: .JSON)
                 .responseJSON { response in
                     if response.1 != nil {
+                        print("debug response printing")
                         debugPrint(response)
                         if response.1?.statusCode == 200 {
                             print(response.2.value)
                             let responseToken = Mapper<Token>().map(response.2.value)
-                            //print("\(responseToken!.token) \n")
+                            print("\(responseToken!.token) \n")
                             self.userToken = responseToken
                             print("\(self.userToken.token)")
                             //self.token.xkey = "matt"
@@ -104,14 +105,8 @@ class LoginViewController: UIViewController {
             print("about to perform segue")
             print("\(self.userToken.token)")
             print("\(self.userToken.xkey)")
-            let getAllEventsLink = "http://localhost:8000/api/v1/events"
-            var tokenSwag = Mapper().toJSON(self.userToken)
-            Alamofire.request(<#T##method: Method##Method#>, <#T##URLString: URLStringConvertible##URLStringConvertible#>, parameters: <#T##[String : AnyObject]?#>, encoding: <#T##ParameterEncoding#>, headers: <#T##[String : String]?#>)
-            Alamofire.request(.GET, getAllEventsLink, parameters: tokenSwag)
-                .responseJSON { response in
-                    debugPrint(response)
-                }
-                
+            let getAllEventsLink = "http://localhost:8000/api/v1/users/:userID/events"
+            //var = Mapper().toJSON(self.userToken)
             
             
             
