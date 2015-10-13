@@ -1,11 +1,11 @@
 request = require 'request'
-intervalInSeconds = 60
+intervalInSeconds = 5
 serverName = 'http://localhost:3000/'
 twitterURL = 'twitter/posts/'
 fbPostURL = 'facebook/posts/'
 chrono = require 'chrono-node'
 
-twitterScreenNames = [
+###twitterScreenNames = [
   'ACTILMU'
   'LMULionTRaXC'
   'IggyLion'
@@ -61,9 +61,9 @@ twitterScreenNames = [
   'LMUTower'
   'tsehai'
   'LMUAdmission'
-]
+]###
 lastTweetID = "650742578401011100"
-fbScreenNames = ["LMUARC"]
+fbScreenNames = ["lmulibrary","lmuhospitality"]
 ###"actilmu"
   #"groups/lmuaaaa"
   "lmualumni"
@@ -138,14 +138,15 @@ fbScreenNames = ["LMUARC"]
   "tsehaipublishers"
   "lmuadmission"
   "lmuyoga"
-  "lmuyogastudies'
-  ###
+  "lmuyogastudies"###
 
-fbTimeStamp = new Date(2015,8,5).getTime()
 
-twitterParams =
+fbTimeStamp = new Date().getTime()
+
+###twitterParams =
   IDs: twitterScreenNames
   timeStamp: lastTweetID
+###
 
 fbParams =
   IDs: fbScreenNames
@@ -172,14 +173,14 @@ processRawTweets = (tweets) ->
   for tweet in tweets
     tweetText = tweet.text
     author = tweet.user.screen_name
-    events = [events..., extractEvents tweetText, author ...]
+    events = [events..., extractEvents(tweetText, author)...]
   events
 
 processRawPosts = (posts, screenName) ->
   events = []
   for post in posts
     postText = post.message
-    events = [events..., extractEvents postText, screenName ...]
+    events = [events..., extractEvents(postText, screenName)...]
   events
 
 getEventsFromTweets = (screenName, sinceID) ->
@@ -194,20 +195,21 @@ getEventsFromFBPosts = (screenName, timeStamp) ->
   requestURL = "#{serverName}#{fbPostURL}#{screenName}"
   requestURL += '/' + timeStamp if timeStamp
   request requestURL, (err, res, body) ->
+    console.log 'We got the stuff!!'
     rawPosts = JSON.parse(body).data
+    console.log rawPosts
     events = processRawPosts rawPosts, screenName
+    console.log events
 
-getEventsFromSocialFeeds = (twitterParams, fbParams) ->
-  twitterNames = twitterParams.IDs
-  twitterTimeStamp = twitterParams.timeStamp
-  #fbNames = fbParams.IDs
-  #fbTimeStamp = fbParams.timeStamp
-  getEventsFromTweets name, twitterTimeStamp for name in twitterNames
-  #getEventsFromFBPosts name, fbTimeStamp for name in fbNames
+getEventsFromSocialFeeds = ( fbParams) ->
+  #twitterNames = twitterParams.IDs
+  #twitterTimeStamp = twitterParams.timeStamp
+  fbNames = fbParams.IDs
+  console.log fbNames
+  fbTimeStamp = fbParams.timeStamp
+  #getEventsFromTweets name, twitterTimeStamp for name in twitterNames
+  getEventsFromFBPosts name, fbTimeStamp for name in fbNames
 
-run = ->
-  twitterProcessing 'LoyolaMarymount'
-  return
 
-setInterval getEventsFromSocialFeeds(twitterParams, fbParams),
+setInterval getEventsFromSocialFeeds(fbParams),
   1000 * intervalInSeconds
