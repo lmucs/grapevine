@@ -12,6 +12,8 @@ import AlamofireObjectMapper
 import SwiftyJSON
 
 class EventListTableViewController: UITableViewController {
+    
+    var token: Token!
 
     override func viewDidLoad() {
         super.viewDidLoad()
