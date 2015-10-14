@@ -1,30 +1,20 @@
-mockEvents  = require './mockEvents'
+pgClient = require '../pg-client'
 
-events = 
-  getAll: (req, res) ->
-    # Spoof a DB call
-    res.json mockEvents
+events =
+  getAllFromFeed: (req, res) ->
+    pgClient.query
+      text: 'SELECT * FROM events WHERE feedid = $1',
+      values: [req.params.feedID]
+    , (err, result) ->
+      return res.status(400).json err if err
+      res.status(200).json result.rows
 
-  getOne: (req, res) ->
-    # Spoof a DB call
-    res.json mockEvents[1]
-
-  create: (req, res) ->
-    newEvent = req.body
-    # Spoof a DB call
-    mockEvents.push newEvent
-    res.json newEvent
-
-  update: (req, res) ->
-    updatedEvent = req.body
-    # Spoof a DB call
-    mockEvents[req.params.id] = updatedEvent
-    res.json updatedEvent
-
-  delete: (req, res) ->
-    # Spoof a DB call
-    mockEvents.splice req.params.id, 1
-    res.json true
-    
+  getLatestFromFeed: (req, res) ->
+    pgClient.query
+      text: 'SELECT * FROM events WHERE feedid = $1 AND timeProcessed > $2',
+      values: [req.params.feedID, req.params.timestamp]
+    , (err, result) ->
+      return res.status(400).json err if err
+      res.status(200).json result.rows
 
 module.exports = events
