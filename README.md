@@ -1,4 +1,4 @@
-![Grapevine Logo] (/images/Grapevine.png)
+# <img src="https://github.com/lmucs/grapevine/blob/master/images/grapevine.PNG?raw=true" width=64 height=64> Grapevine
 
 Grapevine is a application that (describe it).
 
