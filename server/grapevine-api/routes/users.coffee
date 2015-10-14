@@ -11,12 +11,24 @@ users =
         return res.status(400).json err if err
         res.status(200).json 'message': 'user successfully created'
 
-  getFeeds: (req, res) ->
+  getAllEvents: (req, res) ->
     pgClient.query
-      text: 'SELECT feeds.feedid, feeds.feedname
-             FROM feeds, user_follows_feed
-             WHERE feeds.feedid = user_follows_feed.feedid AND user_follows_feed.userid = $1',
+      text: 'SELECT *
+             FROM events, user_follows_feed
+             WHERE events.feedid = user_follows_feed.feedid AND user_follows_feed.userid = $1',
       values: [req.params.userID]
+    , (err, result) ->
+      return res.status(400).json err if err
+      res.status(200).json result.rows
+
+  getLatestEvents: (req, res) ->
+    pgClient.query
+      text: 'SELECT *
+             FROM events, user_follows_feed
+             WHERE events.feedid = user_follows_feed.feedid
+             AND user_follows_feed.userid = $1
+             AND timeProcessed > $2',
+      values: [req.params.userID, req.params.timestamp]
     , (err, result) ->
       return res.status(400).json err if err
       res.status(200).json result.rows
@@ -25,7 +37,7 @@ users =
     feedName   = req.body?.feedName
     sourceName = req.body?.sourceName
     unless feedName and sourceName
-      res.status(400).json 'message': 'bad feedName or sourceName'
+      res.status(400).json 'message': 'feed name and source name required'
 
     getFeed feedName, sourceName, (err, result) ->
       return res.status(400).json err if err
