@@ -2,16 +2,15 @@ express        = require 'express'
 request        = require 'request'
 facebookRouter = express.Router()
 
-APIHost        = 'https://graph.facebook.com'
+APIHost        = 'https://graph.facebook.com/v2.5'
 feedLimit      = 100
 
 facebookRouter.get '/:feedType/:pageName/:timestamp?', (req, res) ->
 
   getPageID = (next) ->
     pageIDEndpoint = "#{APIHost}/" +
-                      "?ids=http%3A%2F%2Fwww.facebook.com/#{req.params.pageName}/" +
-                      "?access_token=#{process.env.FB_TOKEN}"
-    console.log pageIDEndpoint
+                      "?id=#{req.params.pageName}" +
+                      "&access_token=#{process.env.FB_TOKEN}"
     request pageIDEndpoint, (err, response, body) ->
       parsedBody = JSON.parse body
       return res.sendStatus response.statusCode if parsedBody.error
