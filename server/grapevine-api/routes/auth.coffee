@@ -7,7 +7,7 @@ auth =
       return res.status(400).json err if err
       return res.status(401).json 'message': 'invalid credentials' unless user
       token = generateToken()
-      res.status(200).json {token, userID: user.userid}
+      res.status(200).json {token, userID: user.user_id}
 
 getUser = (username, password, callback) ->
   pgClient.query

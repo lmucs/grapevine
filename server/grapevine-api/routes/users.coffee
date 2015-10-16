@@ -11,9 +11,9 @@ users =
                            please choose another"
           else err
         )
-      res.status(200).json 'message': 'user successfully created'
+      require('./auth').login req, res
 
-  getAllEvents: (req, res) ->
+  getAllUserEvents: (req, res) ->
     pgClient.query
       text: 'SELECT *
              FROM events, user_follows_feed
@@ -24,7 +24,7 @@ users =
       return res.status(400).json err if err
       res.status(200).json result.rows
 
-  getLatestEvents: (req, res) ->
+  getLatestUserEvents: (req, res) ->
     pgClient.query
       text: 'SELECT *
              FROM events, user_follows_feed
