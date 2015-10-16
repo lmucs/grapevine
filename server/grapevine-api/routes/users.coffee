@@ -2,16 +2,6 @@ pgClient = require '../pg-client'
 request  = require 'request'
 
 users =
-  create: (req, res) ->
-    insertUser req.body.username, req.body.password, (err) ->
-      if err
-        return res.status(400).json (
-          if err.code is '23505'
-          then 'message': "username #{req.body.username} already exists,
-                           please choose another"
-          else err
-        )
-      require('./auth').login req, res
 
   getAllUserEvents: (req, res) ->
     pgClient.query
@@ -98,12 +88,6 @@ getFeed = (feedName, sourceName, callback) ->
   pgClient.query
     text: 'SELECT * FROM feeds WHERE feed_name = $1 AND source_name = $2',
     values: [feedName, sourceName]
-  , callback
-
-insertUser = (username, password, callback) ->
-  pgClient.query
-    text: 'INSERT INTO users (username, password) VALUES ($1, $2)',
-    values: [username, password]
   , callback
 
 module.exports = users
