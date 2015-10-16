@@ -8,6 +8,9 @@
 
 import UIKit
 import SwiftyJSON
+import Alamofire
+import AlamofireObjectMapper
+import ObjectMapper
 
 class LoginViewController: UIViewController {
 
@@ -21,6 +24,7 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
+    var userToken: Token!
     
     
     override func viewDidLoad() {
@@ -36,28 +40,57 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
     //link back from CreateAccountVC
     @IBAction func backToLoginViewController(segue:UIStoryboardSegue) {
         
     }
     
-    @IBAction func login(sender: UIButton){
-        print("login button pressed")
+
+    @IBAction func loginPressed(sender: UIButton){
+        self.loginButton.enabled = false
         self.activityIndicator.hidden = false
         self.activityIndicator.startAnimating()
         
-        //sender.enabled = false
-        let url = NSURL(string: "http://localhost:8000/login")
-        let request = NSURLRequest(URL: url!)
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue.mainQueue()) {(response, data, error) in
-            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
-            self.activityIndicator.hidden = true
-            //perform segue
-        }
         
+        let url = NSURL(string: "http://localhost:8000/login")
+        
+        let loginCredentials: [String: AnyObject] = [
+            "username": String(self.usernameTextField.text),
+            "password": String(self.passwordTextField.text)
+        ]
+        print("here")
+        if NSJSONSerialization.isValidJSONObject(loginCredentials){
+            Alamofire.request(.POST, url!, parameters: loginCredentials, encoding: .JSON)
+                .responseJSON { response in
+                    if response.1 != nil {
+                        print("debug response printing")
+                        debugPrint(response)
+                        if response.1?.statusCode == 200 {
+                            print(response.2.value)
+                            let responseToken = Mapper<Token>().map(response.2.value)
+                            print("\(responseToken!.token) \n")
+                            self.userToken = responseToken
+                            print("\(self.userToken.token)")
+                            //self.token.xkey = "matt"
+                            self.performSegueWithIdentifier("loginSegue", sender: self)
+                        }
+                        else {
+                            // handle errors based on response code
+                        }
+                    }
+                    else {
+                        // no response
+                    }
+                    
+            }
+        }
+        else {
+            //JSON invalid, throw exception
+        }
+
     }
     
-
     
     // MARK: - Navigation
 
@@ -67,11 +100,18 @@ class LoginViewController: UIViewController {
         // Pass the selected object to the new view controller.
         
         if segue.identifier == "loginSegue" {
-            //any actions required for login go here
+            let nav = segue.destinationViewController as! UINavigationController
+            let eventsView = nav.topViewController as! EventListTableViewController
+            print("about to perform segue")
+            print("\(self.userToken.token)")
+            print("\(self.userToken.xkey)")
+            let getAllEventsLink = "http://localhost:8000/api/v1/users/:userID/events"
+            //var = Mapper().toJSON(self.userToken)
+            
+            
             
         }
-        
     }
-
-
+   
+    
 }

@@ -4,6 +4,16 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>Alamofire.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>AlamofireObjectMapper.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>ObjectMapper.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -22,12 +32,27 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>0B41527276C133D900B0C64D50F33671</key>
+		<key>0BBA2654CB5ACEB637CC0E9339209CE6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>0FD4AE5C563E7338F9BA0AE7A090B964</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>76B644F413BA8C0F6D1BDB97184FD0D7</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>93B1D83760F7C30F67937102290725F0</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>A6FCC1D1701B2550FDDB314342F1984D</key>
 		<dict>
 			<key>primary</key>
 			<true/>
