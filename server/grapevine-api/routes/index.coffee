@@ -7,7 +7,7 @@ feeds    = require './feeds'
 router   = express.Router()
 
 # Routes that can be accessed by any one
-router.post '/register', users.create
+router.post '/register', auth.register
 router.post '/login',    auth.login
 
 #  Routes that can be accessed only by autheticated users
