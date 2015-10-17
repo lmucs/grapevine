@@ -11,7 +11,7 @@ app = express()
 
 # set up middleware
 app.use bodyParser.json()
-app.use logger process.env.LOGGING_LEVEL or 'dev'
+app.use logger process.env.LOGGING_LEVEL or 'dev' unless process.env.NODE_ENV is 'test'
 app.all '/api/v1/*', [ require('./middlewares/validateRequest') ]
 
 # register routes

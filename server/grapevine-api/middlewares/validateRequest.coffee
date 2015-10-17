@@ -6,17 +6,11 @@ module.exports = (req, res, next) ->
           req.query?.access_token or
           req.headers['x-access-token']
 
-  key = req.body?.x_key or
-        req.query?.x_key or
-        req.headers['x-key']
-
-  return res.status(401).json 'message': 'invalid token or key' unless token or key
+  return res.status(401).json 'message': 'access token required' unless token
 
   try
     decoded = jwt.decode token, require('../config/secret')()
     return res.status(400).json 'message': 'access token has expired.' if decoded.exp <= Date.now()
-    # Authorize the user to see if they/he can access our resources
-    # retrieveUser key
     dbUser =
       role: 'admin'
       username: 'rachel'
