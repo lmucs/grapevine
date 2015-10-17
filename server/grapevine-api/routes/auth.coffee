@@ -3,6 +3,8 @@ pgClient = require '../../../database/pg-client'
 
 auth =
   register: (req, res) ->
+    unless req.body.username and req.body.password
+      return res.status(400).json 'message': 'username and password required'
     insertUser req.body.username, req.body.password, (err) ->
       if err
         return res.status(400).json (
