@@ -19,8 +19,17 @@ auth =
     getUser req.body.username, req.body.password, (err, user) ->
       return res.status(400).json err if err
       return res.status(401).json 'message': 'invalid credentials' unless user
-      token = generateToken()
+      token = generateToken user
       res.status(200).json {token, userID: user.user_id}
+
+  retrieveUser: (username, callback) ->
+    pgClient.query
+      text: 'SELECT * FROM users WHERE username = $1',
+      values: [username]
+    , (err, result) ->
+      return callback err if err
+      callback null, result.rows[0]
+
 
 insertUser = (username, password, callback) ->
   pgClient.query
@@ -36,9 +45,9 @@ getUser = (username, password, callback) ->
     return callback err if err
     callback null, result.rows[0]
 
-generateToken = ->
+generateToken = (user) ->
   expires = expiresIn(7)
-  token = jwt.encode { expires }, require('../config/secret')()
+  token = jwt.encode { expires, user }, require('../config/secret')()
   token
 
 expiresIn = (numDays) ->

@@ -29,7 +29,6 @@ describe 'Grapevine API', ->
 
   context 'when a valid route is used', ->
 
-
     context 'when a client POSTs to the /register endpoint', ->
 
       context 'when the username or password are omitted', ->
@@ -163,7 +162,4 @@ describe 'Grapevine API', ->
               (res.status).should.be.eql 200
               (res.body).should.be.eql [] # no feeds inserted yet
               done()
-
-
-
 
