@@ -2,4 +2,3 @@ node_modules/
 *.js
 .env
 .DS_Store
-server/grapevine-api/certificates/
