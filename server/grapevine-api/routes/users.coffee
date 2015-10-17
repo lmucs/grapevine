@@ -2,21 +2,26 @@ pgClient = require '../pg-client'
 request  = require 'request'
 
 users =
-  create: (req, res) ->
-    findExistingUser req.body.username, (err, user) ->
-      return res.status(400).json err if err
-      return res.status(400).json 'message' : 'username already exists' if user
 
-      insertUser req.body.username, req.body.password, (err) ->
-        return res.status(400).json err if err
-        res.status(200).json 'message': 'user successfully created'
-
-  getFeeds: (req, res) ->
+  getAllUserEvents: (req, res) ->
     pgClient.query
-      text: 'SELECT feeds.feedid, feeds.feedname
-             FROM feeds, user_follows_feed
-             WHERE feeds.feedid = user_follows_feed.feedid AND user_follows_feed.userid = $1',
+      text: 'SELECT *
+             FROM events, user_follows_feed
+             WHERE events.feed_id = user_follows_feed.feed_id
+             AND user_follows_feed.user_id = $1',
       values: [req.params.userID]
+    , (err, result) ->
+      return res.status(400).json err if err
+      res.status(200).json result.rows
+
+  getLatestUserEvents: (req, res) ->
+    pgClient.query
+      text: 'SELECT *
+             FROM events, user_follows_feed
+             WHERE events.feed_id = user_follows_feed.feed_id
+             AND user_follows_feed.user_id = $1
+             AND time_processed > $2',
+      values: [req.params.userID, req.params.timestamp]
     , (err, result) ->
       return res.status(400).json err if err
       res.status(200).json result.rows
@@ -25,31 +30,31 @@ users =
     feedName   = req.body?.feedName
     sourceName = req.body?.sourceName
     unless feedName and sourceName
-      res.status(400).json 'message': 'bad feedName or sourceName'
+      return res.status(400).json 'message': 'feed name and source name required'
 
     getFeed feedName, sourceName, (err, result) ->
       return res.status(400).json err if err
       feed = result.rows[0]
       if feed
-        createUserFeedAssociation req.params.userID, feed.feedid, (err) ->
-          return res.status(400).json err if err
-          res.status(200).json
-            'message' : "successfully followed feed #{feed.feedname}
-                         for userID #{req.params.userID}"
+        createUserFeedAssociation req.params.userID, feed.feed_id
       else
         checkValidFeed feedName, sourceName, (err, response, body) ->
           if err or response.statusCode isnt 200
             return res.status(404).json
               'message': "#{sourceName} does not contain feed #{feedName}"
-          insertFeed feedName, sourceName, (err) ->
+          insertFeed feedName, sourceName, (err, result) ->
             return res.status(400).json err if err
-            getFeed feedName, sourceName, (err, result) ->
-              return res.status(400).json err if err
-              createUserFeedAssociation req.params.userID, result.rows[0].feedid, (err) ->
-                return res.status(400).json err if err
-                res.status(200).json
-                  'message': "successfully followed feed #{result.rows[0].feedname}
-                              for userID #{req.params.userID}"
+            createUserFeedAssociation req.params.userID, result.rows[0].feed_id
+
+    createUserFeedAssociation = (userID, feedID) ->
+      pgClient.query
+        text: 'INSERT INTO user_follows_feed (user_id, feed_id)
+               VALUES ($1, $2)',
+        values: [userID, feedID]
+      , (err, result) ->
+        return res.status(400).json 'message': 'user already follows feed' if err
+        res.status(200).json
+          'message': "successfully followed feed for userID #{userID}"
 
   unfollowFeed: (req, res) ->
     getFeed req.params.feedName, req.params.sourceName, (err, result) ->
@@ -57,8 +62,9 @@ users =
       feed = result.rows[0]
       if feed
         pgClient.query
-          text: 'DELETE FROM user_follows_feed WHERE userID = $1 AND feedID = $2',
-          values: [req.params.userID, feed.feedid]
+          text: 'DELETE FROM user_follows_feed
+                 WHERE user_id = $1 AND feed_id = $2',
+          values: [req.params.userID, feed.feed_id]
         , (err) ->
           return res.status(400).json err if err
           res.status(200).json
@@ -72,34 +78,16 @@ checkValidFeed = (feedName, sourceName, callback) ->
 
 insertFeed = (feedName, sourceName, callback) ->
   pgClient.query
-    text: 'INSERT INTO feeds (feedName, sourceName) VALUES ($1, $2)',
+    text: 'INSERT INTO feeds (feed_name, source_name)
+           VALUES ($1, $2)
+           RETURNING feed_id, feed_name',
     values: [feedName, sourceName]
   , callback
 
 getFeed = (feedName, sourceName, callback) ->
   pgClient.query
-    text: 'SELECT * FROM feeds WHERE feedName = $1 AND sourceName = $2',
+    text: 'SELECT * FROM feeds WHERE feed_name = $1 AND source_name = $2',
     values: [feedName, sourceName]
-  , callback
-
-createUserFeedAssociation = (userID, feedID, callback) ->
-  pgClient.query
-    text: 'INSERT INTO user_follows_feed (userID, feedID) VALUES ($1, $2)',
-    values: [userID, feedID]
-  , callback
-
-findExistingUser = (username, callback) ->
-  pgClient.query
-    text: 'SELECT * FROM users WHERE username = $1',
-    values: [username]
-  , (err, result) ->
-    return callback err if err
-    callback null, result.rows[0]
-
-insertUser = (username, password, callback) ->
-  pgClient.query
-    text: 'INSERT INTO users (username, password) VALUES ($1, $2)',
-    values: [username, password]
   , callback
 
 module.exports = users
