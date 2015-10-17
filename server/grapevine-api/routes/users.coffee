@@ -1,9 +1,9 @@
-pgClient = require '../pg-client'
+pgClient = require '../../../database/pg-client'
 request  = require 'request'
 
 users =
 
-  getAllUserEvents: (req, res) ->
+  getAllEvents: (req, res) ->
     pgClient.query
       text: 'SELECT *
              FROM events, user_follows_feed
@@ -14,7 +14,7 @@ users =
       return res.status(400).json err if err
       res.status(200).json result.rows
 
-  getLatestUserEvents: (req, res) ->
+  getLatestEvents: (req, res) ->
     pgClient.query
       text: 'SELECT *
              FROM events, user_follows_feed

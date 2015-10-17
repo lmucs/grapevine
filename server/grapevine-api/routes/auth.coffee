@@ -1,5 +1,5 @@
 jwt      = require 'jwt-simple'
-pgClient = require '../pg-client'
+pgClient = require '../../../database/pg-client'
 
 auth =
   register: (req, res) ->
