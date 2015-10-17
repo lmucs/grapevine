@@ -21,4 +21,4 @@ app.use '/', require('./routes')
 app.use (req, res) ->
   res.sendStatus 404
 
-app.listen process.env.PORT or 8000
+module.exports = app.listen process.env.PORT or 8000
