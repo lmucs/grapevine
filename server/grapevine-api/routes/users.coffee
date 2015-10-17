@@ -74,7 +74,7 @@ users =
         res.status(404).json 'message': "#{req.params.feedName} does not exist"
 
 checkValidFeed = (feedName, sourceName, callback) ->
-  request "http://localhost:3000/#{sourceName}/posts/#{feedName}", callback
+  request "http://social-media.herokuapp.com/#{sourceName}/posts/#{feedName}", callback
 
 insertFeed = (feedName, sourceName, callback) ->
   pgClient.query
