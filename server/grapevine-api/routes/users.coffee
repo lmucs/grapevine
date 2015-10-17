@@ -30,7 +30,7 @@ users =
     feedName   = req.body?.feedName
     sourceName = req.body?.sourceName
     unless feedName and sourceName
-      res.status(400).json 'message': 'feed name and source name required'
+      return res.status(400).json 'message': 'feed name and source name required'
 
     getFeed feedName, sourceName, (err, result) ->
       return res.status(400).json err if err
