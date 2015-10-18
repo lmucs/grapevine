@@ -5,6 +5,63 @@ serverName = 'http://localhost:3000/'
 twitterURL = 'twitter/posts/'
 fbPostURL = 'facebook/posts/'
 
+twitterScreenNames = [
+  'ACTILMU'
+  'LMULionTRaXC'
+  'IggyLion'
+  'Lmulionspolo'
+  'lmuhoops'
+  'golflmu'
+  'lmumsoc'
+  'LMUMTennis'
+  'RowingLMU'
+  'lmusoftball'
+  'LMUStrength'
+  'lmuwbb'
+  'LMUSWIM'
+  'lmu_volleyball'
+  'LMULions'
+  'burnreccenter'
+  'lmu_ministry'
+  'csa_lmu'
+  'lmucsla'
+  'CURes_LMU'
+  'LMU_CBA'
+  'LMUHospitality'
+  'lmueis'
+  'lmuexecutivemba'
+  'LMUFacSen'
+  'lmu_fos'
+  'LMUFinancialaid'
+  'lmugraduate'
+  'lmugreeklife'
+  'lmulibrary'
+  'LMU_History'
+  'lmucares'
+  'lmuexp'
+  'LALoyolan'
+  'LoyolaLawSchool'
+  'LoyolaMarymount'
+  'MEforLMU'
+  'LMUMARCOMM'
+  'lmumbaprogram'
+  'lmunewsroom'
+  'LMUCareers'
+  'LMU_OISS'
+  'LMUPlaceCorps'
+  'roarstudios'
+  'lmusoe'
+  'LMUDoctoral'
+  'LMUsftv'
+  'seaverlmu'
+  'lmuhousing'
+  'studyabroadlmu'
+  'LMUTFALA'
+  'LMUTFANorCal'
+  'LMUTower'
+  'tsehai'
+  'LMUAdmission'
+]
 
 fbScreenNames = [
   "actilmu"
@@ -86,11 +143,12 @@ fbScreenNames = [
 
 describe 'Making social media requests', ->
   describe 'when making Twitter API calls', ->
-    it 'we get proper response', ->
-      screenName = 'lmuhousing'
-      requestURL = "#{serverName}#{twitterURL}#{screenName}"
-      request requestURL, (err, res, body) ->
-        expect(err).to.eql null
+    for name in twitterScreenNames
+      it "We get a 200 from #{name}", (done) ->
+        requestURL = "#{serverName}#{twitterURL}#{name}"
+        request requestURL, (err, res, body) ->
+          expect(res.statusCode).to.eql 200
+          done()
 
 
   describe 'when making Facebook API calls', ->
