@@ -72,7 +72,6 @@ class LoginViewController: UIViewController {
                             print("\(responseToken!.token) \n")
                             self.userToken = responseToken
                             print("\(self.userToken.token)")
-                            //self.token.xkey = "matt"
                             self.performSegueWithIdentifier("loginSegue", sender: self)
                         }
                         else {
@@ -103,8 +102,8 @@ class LoginViewController: UIViewController {
             let nav = segue.destinationViewController as! UINavigationController
             let eventsView = nav.topViewController as! EventListTableViewController
             print("about to perform segue")
-            print("\(self.userToken.token)")
-            print("\(self.userToken.xkey)")
+            //print("\(self.userToken.token)")
+            //print("\(self.userToken.xkey)")
             let getAllEventsLink = "http://localhost:8000/api/v1/users/:userID/events"
             //var = Mapper().toJSON(self.userToken)
             
