@@ -143,23 +143,37 @@ describe 'Grapevine API', ->
               done()
 
       context 'when the client does not omit the access token', ->
-        beforeEach (done) ->
-          request 'http://localhost:8000'
-            .post '/register'
-            .send {username: 'foo', password: 'bar'}
-            .end (err, res) =>
-              throw err if err
-              @token = res.body.token
-              done()
 
-        it 'responds with a 200 OK and all feeds currently followed
-            by Grapevine users', (done) ->
-          request 'http://localhost:8000'
-            .get '/api/v1/feeds'
-            .set 'x-access-token', @token
-            .end (err, res) ->
-              throw err if err
-              (res.status).should.be.eql 200
-              (res.body).should.be.eql [] # no feeds inserted yet
-              done()
+        context 'when a valid access token is given', ->
+          beforeEach (done) ->
+            request 'http://localhost:8000'
+              .post '/register'
+              .send {username: 'foo', password: 'bar'}
+              .end (err, res) =>
+                throw err if err
+                @token = res.body.token
+                done()
+
+          it 'responds with a 200 OK and all feeds currently followed
+              by Grapevine users', (done) ->
+            request 'http://localhost:8000'
+              .get '/api/v1/feeds'
+              .set 'x-access-token', @token
+              .end (err, res) ->
+                throw err if err
+                (res.status).should.be.eql 200
+                (res.body).should.be.eql [] # no feeds inserted yet
+                done()
+
+        context 'when an invalid access token is given', ->
+
+          it 'responds with a 401 unauthorized', (done) ->
+            request 'http://localhost:8000'
+              .get '/api/v1/feeds'
+              .set 'x-access-token', 'invalid-access-token'
+              .end (err, res) ->
+                throw err if err
+                (res.status).should.be.eql 401
+                (res.body.message).should.be.eql 'invalid access token'
+                done()
 
