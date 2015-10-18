@@ -5,7 +5,7 @@ twitterURL = 'twitter/posts/'
 fbPostURL = 'facebook/posts/'
 chrono = require 'chrono-node'
 
-###twitterScreenNames = [
+twitterScreenNames = [
   'ACTILMU'
   'LMULionTRaXC'
   'IggyLion'
@@ -61,14 +61,15 @@ chrono = require 'chrono-node'
   'LMUTower'
   'tsehai'
   'LMUAdmission'
-]###
+]
 lastTweetID = "650742578401011100"
-fbScreenNames = ["lmulibrary","lmuhospitality"]
-###"actilmu"
-  #"groups/lmuaaaa"
+
+fbScreenNames = [
+  "actilmu"
+  "groups/lmuaaaa"
   "lmualumni"
   "lmustararhs"
-  #"aspalmu"
+  "aspalmu"
   "LMUWomensVolleyball"
   "LMULionTRaXC"
   "lmumensbasketball"
@@ -86,7 +87,7 @@ fbScreenNames = ["lmulibrary","lmuhospitality"]
   "LmuBurnsRecreationCenter"
   "lmucampusmin"
   "LMUCAST"
-  #"groups/39893463773"
+  "groups/39893463773"
   "lmucrs"
   "LMUCSA"
   "LMUCSLA"
@@ -97,7 +98,7 @@ fbScreenNames = ["lmulibrary","lmuhospitality"]
   "LMUConferences"
   "LMUdanceprogram"
   "lmuhospitality"
-  #"LMU-English-Department-280903465269783"
+  "LMU-English-Department-280903465269783"
   "LMUEIS"
   "LMUEMBA"
   "LMUExtension"
@@ -138,7 +139,8 @@ fbScreenNames = ["lmulibrary","lmuhospitality"]
   "tsehaipublishers"
   "lmuadmission"
   "lmuyoga"
-  "lmuyogastudies"###
+  "lmuyogastudies"
+]
 
 
 fbTimeStamp = new Date().getTime()
