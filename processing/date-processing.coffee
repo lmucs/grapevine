@@ -145,10 +145,10 @@ fbScreenNames = [
 
 fbTimeStamp = new Date().getTime()
 
-###twitterParams =
+twitterParams =
   IDs: twitterScreenNames
   timeStamp: lastTweetID
-###
+
 
 fbParams =
   IDs: fbScreenNames
