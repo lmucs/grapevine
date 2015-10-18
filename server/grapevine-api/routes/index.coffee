@@ -18,6 +18,6 @@ router.post   '/api/v1/users/:userID/feeds',                       users.followF
 router.delete '/api/v1/users/:userID/feeds/:sourceName/:feedName', users.unfollowFeed
 
 # Routes that can be accessed only by authenticated & authorized users
-router.post '/api/v1/admin/events', events.create
+# TODO: router.post '/api/v1/admin/events', events.create
 
 module.exports = router

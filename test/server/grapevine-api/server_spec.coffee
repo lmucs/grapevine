@@ -144,29 +144,7 @@ describe 'Grapevine API', ->
 
       context 'when the client does not omit the access token', ->
 
-        context 'when a valid access token is given', ->
-          beforeEach (done) ->
-            request 'http://localhost:8000'
-              .post '/register'
-              .send {username: 'foo', password: 'bar'}
-              .end (err, res) =>
-                throw err if err
-                @token = res.body.token
-                done()
-
-          it 'responds with a 200 OK and all feeds currently followed
-              by Grapevine users', (done) ->
-            request 'http://localhost:8000'
-              .get '/api/v1/feeds'
-              .set 'x-access-token', @token
-              .end (err, res) ->
-                throw err if err
-                (res.status).should.be.eql 200
-                (res.body).should.be.eql [] # no feeds inserted yet
-                done()
-
         context 'when an invalid access token is given', ->
-
           it 'responds with a 401 unauthorized', (done) ->
             request 'http://localhost:8000'
               .get '/api/v1/feeds'
@@ -176,4 +154,29 @@ describe 'Grapevine API', ->
                 (res.status).should.be.eql 401
                 (res.body.message).should.be.eql 'invalid access token'
                 done()
+
+        context 'when a valid access token is given', ->
+          beforeEach (done) ->
+            request 'http://localhost:8000'
+              .post '/register'
+              .send {username: 'foo', password: 'bar'}
+              .end (err, res) =>
+                throw err if err
+                @token = res.body.token
+                done()
+          it 'responds with a 200 OK and all feeds Grapevine currently pulls from', (done) ->
+            @db.query 'INSERT INTO feeds (feed_name, source_name) VALUES (\'LMUHousing\', \'twitter\')'
+            request 'http://localhost:8000'
+              .get '/api/v1/feeds'
+              .set 'x-access-token', @token
+              .end (err, res) ->
+                throw err if err
+                (res.status).should.be.eql 200
+                feeds = res.body
+                (feeds.length).should.be.eql 1
+                (feeds[0].feed_name).should.be.eql 'LMUHousing'
+                (feeds[0].source_name).should.be.eql 'twitter'
+                done()
+
+
 
