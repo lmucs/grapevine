@@ -154,10 +154,7 @@ describe 'Making social media requests', ->
   describe 'when making Facebook API calls', ->
     for name in fbScreenNames
       it "We get a 200 from #{name}", (done) ->
-        screenName = "https%3A%2F%2Fwww.facebook.com%2F#{name}"
-        requestURL = "#{serverName}#{fbPostURL}#{screenName}"
+        requestURL = "#{serverName}#{fbPostURL}#{name}"
         request requestURL, (err, res, body) ->
           expect(res.statusCode).to.eql 200
           done()
-
-
