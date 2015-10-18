@@ -22,5 +22,5 @@ module.exports = (req, res, next) ->
       else
         res.status(401).json 'message': 'invalid user'
   catch err
-    res.status(400).json 'message': err
+    res.status(401).json 'message': 'invalid access token'
 
