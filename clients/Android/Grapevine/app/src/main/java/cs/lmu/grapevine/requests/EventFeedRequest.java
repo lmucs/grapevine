@@ -11,10 +11,13 @@ import cs.lmu.grapevine.requests.listeners.EventErrorListener;
 import cs.lmu.grapevine.requests.listeners.EventSuccessListener;
 
 /**
- * A request to receive events for a user's event feed.
+ * A request to get events for a user's event feed.
  */
 public class EventFeedRequest extends JsonArrayRequest {
-    public static String eventRequestURL = BuildConfig.API_HOST + "api/v1/events";
+    public static String eventRequestURL = BuildConfig.API_HOST
+            + "api/v1/users/"
+            + MainActivity.userId
+            + "/events";
 
     public EventFeedRequest(Activity parentActivity) {
         super(Method.GET,
@@ -29,7 +32,8 @@ public class EventFeedRequest extends JsonArrayRequest {
     public Map<String, String> getHeaders(){
         HashMap<String, String> eventRequestHeaders = new HashMap<>();
         eventRequestHeaders.put("x-access-token", MainActivity.authenticationToken);
-        eventRequestHeaders.put("x-key", "jeff");
+        eventRequestHeaders.put("Content-Type", "application/json");
+
         return eventRequestHeaders;
     }
 }

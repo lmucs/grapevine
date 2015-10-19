@@ -29,10 +29,12 @@ import cs.lmu.grapevine.requests.LoginRequest;
 
 public class MainActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    public static String authenticationToken;
+    public static String               authenticationToken;
+    public static int                  userId;
     public static AutoCompleteTextView mEmailView;
-    private EditText mPasswordView;
-    public static RequestQueue httpRequestQueue;
+    private       EditText             mPasswordView;
+    public static RequestQueue         httpRequestQueue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,14 +93,14 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
 
         boolean cancel = false;
         View focusView = null;
-
+/*
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
-
+/*
         // Check for a valid email address.
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
@@ -109,13 +111,21 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
             focusView = mEmailView;
             cancel = true;
         }
-
+*/
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
         } else {
-            String requestBodyString = "{\"username\":\"jeff\",\"password\":\"blah\"}";
+            String userEmail = mEmailView.getText().toString();
+            String userPassword = mPasswordView.getText().toString();
+
+            String requestBodyString =
+                    "{\"username\":\""
+                     + userEmail
+                     + "\",\"password\":\""
+                     + userPassword
+                     + "\"}";
 
             LoginRequest userLoginRequest = new LoginRequest(this, requestBodyString);
             httpRequestQueue.add(userLoginRequest);
@@ -174,7 +184,6 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
         int IS_PRIMARY = 1;
     }
 
-
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
@@ -184,15 +193,8 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
         mEmailView.setAdapter(adapter);
     }
 
-
     public void launchCreateAccountActivity(View view) {
-        Intent createNewAccount = new Intent(getApplicationContext(), CreateNewAccount.class);
+        Intent createNewAccount = new Intent(getApplicationContext(), RegisterUser.class);
         startActivity(createNewAccount);
     }
-
-    public void bypassLogin(View view) {
-        Intent launchFeed = new Intent(getApplicationContext(), FeedEvents.class);
-        startActivity(launchFeed);
-    }
-
 }
