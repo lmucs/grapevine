@@ -9,6 +9,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/event_feed">
-
     </ListView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/event_request_status"/>
 </RelativeLayout>
