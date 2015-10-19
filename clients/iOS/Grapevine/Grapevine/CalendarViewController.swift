@@ -9,17 +9,19 @@
 import UIKit
 import CVCalendar
 
-class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalendarMenuViewDelegate {
+class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalendarMenuViewDelegate, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var menuView: CVCalendarMenuView!
     @IBOutlet weak var calendarView: CVCalendarView!
+    @IBOutlet weak var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.menuView.delegate = self
         self.calendarView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
         self.title = (monthIntToMonthString(self.calendarView.presentedDate) + " " + String(self.calendarView.presentedDate.year))
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -65,7 +67,24 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         }
     }
     
-    // CVCalendarView Delegate Functions
+    @IBAction func todayPressed(){
+        
+    }
+    
+    @IBAction func weekMonthPressed(sender: UIBarButtonItem){
+        let monthStr = "Month"
+        let weekStr = "Week"
+        if sender.title == weekStr {
+            calendarView.calendarMode = .WeekView
+            sender.title = monthStr
+        }
+        else {
+            calendarView.calendarMode = .MonthView
+            sender.title = weekStr
+        }
+    }
+    
+    // Mark: - CVCalendarView Delegate Functions
     
     // Required
     func presentationMode() -> CalendarMode {
@@ -127,9 +146,6 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     
     }
     
-    func didSelectDayView(dayView: DayView){
-    
-    }
     
     func presentedDateUpdated(date: Date){
     
@@ -158,11 +174,11 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     func supplementaryView(shouldDisplayOnDayView dayView: DayView) -> Bool {
         
     }
-    
-
     */
     
-    //CVCalendar Menu Delegate Optional Functions
+    
+    // Mark: - CVCalendar Menu Delegate Optional Functions
+    
     func dayOfWeekTextUppercase() -> Bool{
         return true
     }
@@ -189,6 +205,68 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         
     }
     */
+    
+    
+    // Mark: - Table View Delegate Functions
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        // #warning Potentially incomplete method implementation.
+        // Return the number of sections.
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // #warning Incomplete method implementation.
+        // Return the number of rows in the section.
+        return 1
+    }
+    
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        print("this ran")
+        let cell = tableView.dequeueReusableCellWithIdentifier("calendarEventCell", forIndexPath: indexPath) as! EventTableViewCell
+        cell.eventNameLabel.text = "Swag Event"
+        cell.eventTimeLabel.text = "All-day son"
+        return cell
+        
+    }
+    
+    
+    /*
+    // Override to support conditional editing of the table view.
+    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    // Return NO if you do not want the specified item to be editable.
+    return true
+    }
+    */
+    
+    /*
+    // Override to support editing the table view.
+    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    if editingStyle == .Delete {
+    // Delete the row from the data source
+    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+    } else if editingStyle == .Insert {
+    // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }
+    }
+    */
+    
+    /*
+    // Override to support rearranging the table view.
+    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
+    
+    }
+    */
+    
+    /*
+    // Override to support conditional rearranging of the table view.
+    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    // Return NO if you do not want the item to be re-orderable.
+    return true
+    }
+    */
+
     
     
     
