@@ -20,7 +20,7 @@ public class RegisterUser extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_create_new_account, menu);
+        getMenuInflater().inflate(R.menu.menu_register_user, menu);
         return true;
     }
 
