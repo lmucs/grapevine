@@ -66,7 +66,7 @@ lastTweetID = "650742578401011100"
 
 fbScreenNames = [
   "actilmu"
-  "groups/lmuaaaa"
+  #"groups/lmuaaaa"
   "lmualumni"
   "lmustararhs"
   "aspalmu"
@@ -87,7 +87,7 @@ fbScreenNames = [
   "LmuBurnsRecreationCenter"
   "lmucampusmin"
   "LMUCAST"
-  "groups/39893463773"
+  #"groups/39893463773"
   "lmucrs"
   "LMUCSA"
   "LMUCSLA"
@@ -109,7 +109,6 @@ fbScreenNames = [
   "lmulibrary"
   "LMUHistoryDepartment"
   "leadershiplmu"
-  "LMUInternationalOutreach"
   "irishstudieslmu"
   "KXLU889"
   "Laband-Art-Gallery-255909641096056"
@@ -129,7 +128,7 @@ fbScreenNames = [
   "oisslmu"
   "lmupols"
   "lmuschoolpsychology"
-  "roarnetwork"
+  "roarstudiosla"
   "LMUDoctoral"
   "LMUSFTV"
   "LMUCenterforStudentSuccess"
@@ -141,7 +140,6 @@ fbScreenNames = [
   "lmuyoga"
   "lmuyogastudies"
 ]
-
 
 fbTimeStamp = new Date().getTime()
 
@@ -165,13 +163,10 @@ extractEvents = (text, author) ->
     myEvent.author = author
     myEvent.processedInfo = date
     events.push myEvent
-  console.log "We finished doing it for #{author}"
-  console.log events
   events
 
 processRawTweets = (tweets) ->
   events = []
-  console.log tweets
   for tweet in tweets
     tweetText = tweet.text
     author = tweet.user.screen_name
@@ -181,7 +176,7 @@ processRawTweets = (tweets) ->
 processRawPosts = (posts, screenName) ->
   events = []
   for post in posts
-    postText = post.message
+    postText = post.message ? ""
     events = [events..., extractEvents(postText, screenName)...]
   events
 
@@ -190,24 +185,21 @@ getEventsFromTweets = (screenName, sinceID) ->
   requestURL += '/' + sinceID if sinceID
   request requestURL, (err, res, body) ->
     events = processRawTweets JSON.parse body
-    console.log events
 
 getEventsFromFBPosts = (screenName, timeStamp) ->
-  console.log "We want the stuff from #{screenName}"
   requestURL = "#{serverName}#{fbPostURL}#{screenName}"
   requestURL += '/' + timeStamp if timeStamp
   request requestURL, (err, res, body) ->
-    console.log 'We got the stuff!!'
+    console.log 'Here is the body'
+    console.log body
+    console.log '============'
     rawPosts = JSON.parse(body).data
-    console.log rawPosts
     events = processRawPosts rawPosts, screenName
-    console.log events
 
 getEventsFromSocialFeeds = ( fbParams) ->
   #twitterNames = twitterParams.IDs
   #twitterTimeStamp = twitterParams.timeStamp
   fbNames = fbParams.IDs
-  console.log fbNames
   fbTimeStamp = fbParams.timeStamp
   #getEventsFromTweets name, twitterTimeStamp for name in twitterNames
   getEventsFromFBPosts name, fbTimeStamp for name in fbNames
