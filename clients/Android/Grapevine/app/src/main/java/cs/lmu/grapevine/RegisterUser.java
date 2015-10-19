@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class CreateNewAccount extends AppCompatActivity {
+public class RegisterUser extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,5 +33,9 @@ public class CreateNewAccount extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void attemptAccountCreation() {
+
     }
 }
