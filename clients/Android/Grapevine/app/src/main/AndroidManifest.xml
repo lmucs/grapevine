@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CreateNewAccount"
+            android:name=".RegisterUser"
             android:label="@string/title_activity_create_new_account"
             android:parentActivityName=".MainActivity" >
             <meta-data
