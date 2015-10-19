@@ -46,8 +46,23 @@ public class ViewEvent extends AppCompatActivity {
     }
 
     public void displayEvent(Event eventToDisplay) {
-        TextView ActivityTitle = (TextView) findViewById(R.id.single_event_title);
-        ActivityTitle.setText(eventToDisplay.getTitle());
+        TextView eventTitleView    = (TextView) findViewById(R.id.single_event_title);
+        TextView eventDateView     = (TextView) findViewById(R.id.single_event_date);
+        TextView eventLocationView = (TextView) findViewById(R.id.single_event_location);
+        TextView eventUrlView      = (TextView) findViewById(R.id.single_event_url);
+                
+        if(!eventToDisplay.getTitle().equals(null)) {
+            eventTitleView.setText(eventToDisplay.getTitle());
+        }
+        //any event that doesn't have a date shouldn't make it into the database
+        eventDateView.setText(eventToDisplay.getDate().toString());
+
+        if (!eventToDisplay.getLocation().equals(null)) {
+            eventLocationView.setText(eventToDisplay.getLocation());
+        }
+        if(!eventToDisplay.getURL().equals(null)) {
+            eventUrlView.setText(eventToDisplay.getURL());
+        }
 
     }
 }

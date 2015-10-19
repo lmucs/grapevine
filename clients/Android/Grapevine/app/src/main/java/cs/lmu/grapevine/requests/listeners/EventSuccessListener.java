@@ -40,6 +40,7 @@ public class EventSuccessListener implements Response.Listener<JSONArray> {
     }
 
     private void InflateEventFeed(ArrayList eventList) {
+        //if eventList.size == 0, print message
         EventFeedArrayAdapter eventAdapter = new EventFeedArrayAdapter(parentActivity, eventList);
         ListView eventFeed = (ListView) parentActivity.findViewById(R.id.event_feed);
         eventFeed.setAdapter(eventAdapter);

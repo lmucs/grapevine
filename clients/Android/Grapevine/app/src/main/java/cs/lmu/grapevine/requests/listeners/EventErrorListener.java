@@ -18,7 +18,7 @@ public class EventErrorListener implements Response.ErrorListener {
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        TextView loginStatus = (TextView)parentActivity.findViewById(R.id.event_feed);
-        loginStatus.setText(R.string.event_request_error);
+        TextView loginStatus = (TextView)parentActivity.findViewById(R.id.event_request_status);
+        loginStatus.setText(R.string.account_exists);
     }
 }

@@ -4,13 +4,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+
+import cs.lmu.grapevine.requests.RegisterUserRequest;
 
 public class RegisterUser extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_new_account);
+        setContentView(R.layout.register_user);
     }
 
     @Override
@@ -35,7 +39,24 @@ public class RegisterUser extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void attemptAccountCreation() {
+    public void attemptAccountCreation(View view) {
+        EditText userEmailInput = (EditText)findViewById(R.id.register_user_username);
+        EditText passwordInput = (EditText)findViewById(R.id.register_user_password);
+        EditText passwordInputConfirm = (EditText)findViewById(R.id.register_user_confirm_password);
+
+        String userEmail = userEmailInput.getText().toString();
+        String password = passwordInput.getText().toString();
+        String passwordConfirm = passwordInputConfirm.getText().toString();
+
+        String requestBodyString =
+                "{\"username\":\""
+                        + userEmail
+                        + "\",\"password\":\""
+                        + password
+                        + "\"}";
+
+        RegisterUserRequest registerUserRequest= new RegisterUserRequest(this,requestBodyString);
+        MainActivity.httpRequestQueue.add(registerUserRequest);
 
     }
 }
