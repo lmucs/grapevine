@@ -12,21 +12,25 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/create_account_username"/>
+            android:hint="@string/create_account_username"
+            android:id="@+id/register_user_username"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:hint="@string/password"/>
+            android:hint="@string/password"
+            android:id="@+id/register_user_password"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
-            android:hint="@string/confirm_password"/>
+            android:hint="@string/confirm_password"
+            android:id="@+id/register_user_confirm_password"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login_create_account"/>
+            android:text="@string/login_create_account"
+            android:onClick="attemptAccountCreation"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
