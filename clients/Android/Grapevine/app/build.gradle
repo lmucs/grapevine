@@ -17,7 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField "String", "API_HOST", "\"http://10.0.1.199:8000/\""
+            buildConfigField "String", "API_HOST", "\"https://grapevine.herokuapp.com/\""
         }
     }
 
