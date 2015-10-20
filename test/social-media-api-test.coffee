@@ -128,7 +128,7 @@ fbScreenNames = [
   "oisslmu"
   "lmupols"
   "lmuschoolpsychology"
-  "roarnetwork"
+  "roarstudiosla"
   "LMUDoctoral"
   "LMUSFTV"
   "LMUCenterforStudentSuccess"
