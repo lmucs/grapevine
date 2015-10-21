@@ -15,7 +15,6 @@ describe 'Social Media API', ->
   context 'when a valid route is used', ->
 
     it 'responds with a 200', (done) ->
-      this.timeout 10000
       request 'http://localhost:3000'
         .get '/facebook/posts/LMUStudentHousing'
         .end (err, res) ->
