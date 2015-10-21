@@ -312,3 +312,19 @@ describe 'Grapevine API', ->
                   (res.body.message).should.be.eql 'feed name and source name required'
                   done()
 
+          context 'when the client includes both the feed name or source name to follow', ->
+
+            context 'when it is a valid feed to follow', ->
+              it 'responds with a 200 OK', (done) ->
+                @db.query 'INSERT INTO users (user_id) VALUES (1);
+                           INSERT INTO feeds (feed_name, source_name) VALUES (\'LMUHousing\', \'twitter\')'
+                request 'http://localhost:8000'
+                  .post '/api/v1/users/1/feeds'
+                  .set 'x-access-token', @token
+                  .send {feedName: 'LMUHousing', sourceName: 'twitter'}
+                  .end (err, res) ->
+                    throw err if err
+                    (res.status).should.be.eql 200
+                    (res.body.message).should.be.eql 'successfully followed feed for userID 1'
+                    done()
+
