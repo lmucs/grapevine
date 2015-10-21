@@ -41,24 +41,6 @@ describe 'Grapevine API', ->
               (res.body.message).should.be.eql 'username and password required'
               done()
 
-      context 'when a valid username and password are given', ->
-        it 'responds with a 200 OK, an access token, and the user ID', (done) ->
-          request 'http://localhost:8000'
-            .post '/register'
-            .send {username: 'foo', password: 'bar'}
-            .end (err, res) ->
-              throw err if err
-              (res.status).should.be.eql 200
-
-              token = res.body.token
-              should.exist token
-              ((token.match /[a-z0-9\.\-\_]+/gi)[0]).should.be.eql token
-
-              userID = res.body.userID
-              should.exist userID
-
-              done()
-
       context 'when someone tries to register an existing username', ->
         beforeEach (done) ->
           request 'http://localhost:8000'
@@ -77,6 +59,24 @@ describe 'Grapevine API', ->
               (res.status).should.be.eql 400
               (res.body.message).should.be.eql 'username foo already exists,
                                                 please choose another'
+              done()
+
+      context 'when a valid username and password are given', ->
+        it 'responds with a 200 OK, an access token, and the user ID', (done) ->
+          request 'http://localhost:8000'
+            .post '/register'
+            .send {username: 'foo', password: 'bar'}
+            .end (err, res) ->
+              throw err if err
+              (res.status).should.be.eql 200
+
+              token = res.body.token
+              should.exist token
+              ((token.match /[a-z0-9\.\-\_]+/gi)[0]).should.be.eql token
+
+              userID = res.body.userID
+              should.exist userID
+
               done()
 
     context 'when a client POSTs to the /login endpoint', ->
@@ -195,7 +195,7 @@ describe 'Grapevine API', ->
         context 'when an invalid access token is given', ->
           it 'responds with a 401 unauthorized', (done) ->
             request 'http://localhost:8000'
-              .get '/api/v1/feeds'
+              .get '/api/v1/users/1/events'
               .set 'x-access-token', 'invalid-access-token'
               .end (err, res) ->
                 throw err if err
@@ -265,3 +265,50 @@ describe 'Grapevine API', ->
                     (userEvent.feed_id).should.be.eql 1
                     (userEvent.title).should.be.eql 'Sunset at the Bluff'
                     done()
+
+    context 'when a client POSTs to the /api/v1/users/{userID}/feeds endpoint', ->
+
+      context 'when the client omits the access token', ->
+        it 'responds with a 401 unauthorized', (done) ->
+          request 'http://localhost:8000'
+            .post '/api/v1/users/1/feeds'
+            .end (err, res) ->
+              throw err if err
+              (res.status).should.be.eql 401
+              (res.body.message).should.be.eql 'access token required'
+              done()
+
+      context 'when the client does not omit the access token', ->
+
+        context 'when an invalid access token is given', ->
+          it 'responds with a 401 unauthorized', (done) ->
+            request 'http://localhost:8000'
+              .post '/api/v1/users/1/feeds'
+              .set 'x-access-token', 'invalid-access-token'
+              .end (err, res) ->
+                throw err if err
+                (res.status).should.be.eql 401
+                (res.body.message).should.be.eql 'invalid access token'
+                done()
+
+        context 'when a valid access token is given', ->
+          beforeEach (done) ->
+            request 'http://localhost:8000'
+              .post '/register'
+              .send {username: 'foo', password: 'bar'}
+              .end (err, res) =>
+                throw err if err
+                @token = res.body.token
+                done()
+
+          context 'when the client omits the feed name or source name to follow', ->
+            it 'responds with a 400 bad request', (done) ->
+              request 'http://localhost:8000'
+                .post '/api/v1/users/1/feeds'
+                .set 'x-access-token', @token
+                .end (err, res) ->
+                  throw err if err
+                  (res.status).should.be.eql 400
+                  (res.body.message).should.be.eql 'feed name and source name required'
+                  done()
+
