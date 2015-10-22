@@ -1,5 +1,5 @@
 jwt = require 'jwt-simple'
-retrieveUser = require('../routes/auth').retrieveUser
+pgClient = require '../../../database/pg-client'
 
 module.exports = (req, res, next) ->
   token = req.body?.access_token or
@@ -24,3 +24,10 @@ module.exports = (req, res, next) ->
   catch err
     res.status(401).json 'message': 'invalid access token'
 
+retrieveUser = (username, callback) ->
+  pgClient.query
+    text: 'SELECT * FROM users WHERE username = $1',
+    values: [username]
+  , (err, result) ->
+    return callback err if err
+    callback null, result.rows[0]
