@@ -22,15 +22,6 @@ auth =
       token = generateToken user
       res.status(200).json {token, userID: user.user_id}
 
-  retrieveUser: (username, callback) ->
-    pgClient.query
-      text: 'SELECT * FROM users WHERE username = $1',
-      values: [username]
-    , (err, result) ->
-      return callback err if err
-      callback null, result.rows[0]
-
-
 insertUser = (username, password, callback) ->
   pgClient.query
     text: 'INSERT INTO users (username, password, role) VALUES ($1, $2, $3)',
