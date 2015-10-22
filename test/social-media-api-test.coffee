@@ -151,12 +151,13 @@ describe 'Making social media requests', ->
             expect(res.statusCode).to.eql 200
             expect((JSON.parse body).data).to.not.eql undefined
             done()
-#  describe 'when making Twitter API calls', ->
-#    for name in twitterScreenNames
-#      do(name) ->
-#        it "We get a 200 from #{name}", (done) ->
-#          console.log "We are making a request for #{name}"
-#          requestURL = "#{serverName}#{twitterURL}#{name}"
-#          request requestURL, (err, res, body) ->
-#            expect(res.statusCode).to.eql 200
-#            done()
+
+  describe 'when making Twitter API calls', ->
+    for name in twitterScreenNames
+      do(name) ->
+        it "We get a 200 from #{name}", (done) ->
+          console.log "We are making a request for #{name}"
+          requestURL = "#{serverName}#{twitterURL}#{name}"
+          request requestURL, (err, res, body) ->
+            expect(res.statusCode).to.eql 200
+            done()
