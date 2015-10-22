@@ -1,4 +1,4 @@
-package cs.lmu.grapevine;
+package cs.lmu.grapevine.activities;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -24,10 +24,10 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import java.util.ArrayList;
 import java.util.List;
-
+import cs.lmu.grapevine.R;
 import cs.lmu.grapevine.requests.LoginRequest;
 
-public class MainActivity extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
+public class Login extends Activity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static String               authenticationToken;
     public static int                  userId;
@@ -39,7 +39,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_login);
+        setContentView(R.layout.login);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -187,7 +187,7 @@ public class MainActivity extends Activity implements LoaderManager.LoaderCallba
     private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(MainActivity.this,
+                new ArrayAdapter<>(Login.this,
                         android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
 
         mEmailView.setAdapter(adapter);

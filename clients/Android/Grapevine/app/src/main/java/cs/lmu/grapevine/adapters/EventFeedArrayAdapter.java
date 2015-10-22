@@ -1,4 +1,4 @@
-package cs.lmu.grapevine;
+package cs.lmu.grapevine.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,14 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import cs.lmu.grapevine.entities.Event;
+import cs.lmu.grapevine.R;
 
-import cs.lmu.grapevine.Entities.Event;
-
+/**
+ * Renders the views for the event feed from an ArrayList of events.
+ */
 public class EventFeedArrayAdapter extends ArrayAdapter<Event> {
 
     public EventFeedArrayAdapter(Context context, ArrayList<Event> events) {

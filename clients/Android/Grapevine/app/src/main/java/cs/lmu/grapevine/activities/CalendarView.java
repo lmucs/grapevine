@@ -1,14 +1,13 @@
-package cs.lmu.grapevine;
+package cs.lmu.grapevine.activities;
 
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.roomorama.caldroid.CaldroidFragment;
-
 import java.util.Calendar;
+import cs.lmu.grapevine.R;
 
 public class CalendarView extends AppCompatActivity {
 

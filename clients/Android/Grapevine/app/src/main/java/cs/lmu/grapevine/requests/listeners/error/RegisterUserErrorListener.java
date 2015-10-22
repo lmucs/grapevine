@@ -1,4 +1,4 @@
-package cs.lmu.grapevine.requests.listeners;
+package cs.lmu.grapevine.requests.listeners.error;
 
 import android.app.Activity;
 import android.widget.TextView;
