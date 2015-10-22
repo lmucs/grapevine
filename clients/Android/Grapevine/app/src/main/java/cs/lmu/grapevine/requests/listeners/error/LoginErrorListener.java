@@ -1,8 +1,7 @@
-package cs.lmu.grapevine.requests.listeners;
+package cs.lmu.grapevine.requests.listeners.error;
 
 import android.app.Activity;
 import android.widget.TextView;
-
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;

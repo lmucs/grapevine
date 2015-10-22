@@ -1,14 +1,14 @@
-package cs.lmu.grapevine;
+package cs.lmu.grapevine.listeners;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
-
-import cs.lmu.grapevine.Entities.Event;
+import cs.lmu.grapevine.activities.ViewEvent;
+import cs.lmu.grapevine.entities.Event;
 
 /**
- * Created by jeff on 10/9/15.
+ * On click listener to launch event view from event feed.
  */
 public class EventListClickListener implements AdapterView.OnItemClickListener {
     private Activity parentActivity;
