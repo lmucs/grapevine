@@ -50,6 +50,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.EventFeed" />
         </activity>
+        <activity
+            android:name=".activities.AddGroup"
+            android:label="@string/title_activity_add_group" >
+        </activity>
     </application>
 
 </manifest>
