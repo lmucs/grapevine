@@ -42,7 +42,7 @@
                                 </constraints>
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <state key="normal" title="Login">
-                                    <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="loginPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wdF-u8-eZJ"/>
@@ -72,9 +72,16 @@
                                     <constraint firstAttribute="width" constant="240" id="WG5-b3-c7M"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invalid Credentials" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rgt-sx-7ce">
+                                <rect key="frame" x="248" y="295" width="104" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.23495085686621228" green="0.83623342803030298" blue="0.28053175416682097" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="4C9-R4-X1O" firstAttribute="top" secondItem="rgt-sx-7ce" secondAttribute="bottom" constant="8" id="25y-nk-8pc"/>
                             <constraint firstItem="RPP-wG-TD6" firstAttribute="top" secondItem="CHN-9D-RWW" secondAttribute="bottom" constant="8" id="2qE-gX-Kqb"/>
                             <constraint firstItem="ctz-9h-uJv" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="471-97-8zO"/>
                             <constraint firstItem="QSt-EZ-b3c" firstAttribute="top" secondItem="4C9-R4-X1O" secondAttribute="bottom" constant="8" id="A0l-Xd-0lX"/>
@@ -82,6 +89,7 @@
                             <constraint firstItem="4C9-R4-X1O" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="U4C-xQ-TBt"/>
                             <constraint firstItem="RPP-wG-TD6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Xwd-My-NDY"/>
                             <constraint firstItem="4C9-R4-X1O" firstAttribute="top" secondItem="ctz-9h-uJv" secondAttribute="bottom" constant="50" id="cz0-q8-178"/>
+                            <constraint firstItem="rgt-sx-7ce" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="kri-Wy-ocl"/>
                             <constraint firstItem="wWH-8R-4yE" firstAttribute="top" secondItem="RPP-wG-TD6" secondAttribute="bottom" constant="8" id="kxG-H8-eF5"/>
                             <constraint firstItem="QSt-EZ-b3c" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="oXS-bR-PsN"/>
                             <constraint firstItem="wWH-8R-4yE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="rbk-E6-o3i"/>
@@ -93,6 +101,7 @@
                         <outlet property="activityIndicator" destination="wWH-8R-4yE" id="h2b-Nd-p78"/>
                         <outlet property="createAccountButton" destination="RPP-wG-TD6" id="Cdv-r9-2NT"/>
                         <outlet property="loginButton" destination="CHN-9D-RWW" id="dkB-BM-PWY"/>
+                        <outlet property="loginFailedLabel" destination="rgt-sx-7ce" id="NcZ-ts-3Sr"/>
                         <outlet property="passwordTextField" destination="QSt-EZ-b3c" id="Lep-l1-guJ"/>
                         <outlet property="usernameTextField" destination="4C9-R4-X1O" id="fKa-uz-t5U"/>
                         <segue destination="HwR-Mg-ZmM" kind="showDetail" identifier="loginSegue" id="wVu-MN-mG9"/>
