@@ -1,10 +1,13 @@
-package cs.lmu.grapevine.Entities;
+package cs.lmu.grapevine.entities;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 import java.sql.Date;
 
+/**
+ * Represents a database Event entity.
+ */
 public class Event implements Serializable {
     private String title;
     private Date date;

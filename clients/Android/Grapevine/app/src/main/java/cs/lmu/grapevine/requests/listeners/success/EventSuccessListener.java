@@ -1,9 +1,7 @@
-package cs.lmu.grapevine.requests.listeners;
+package cs.lmu.grapevine.requests.listeners.success;
 
 import android.app.Activity;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import com.android.volley.Response;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -11,8 +9,8 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
-import cs.lmu.grapevine.Entities.Event;
-import cs.lmu.grapevine.EventFeedArrayAdapter;
+import cs.lmu.grapevine.entities.Event;
+import cs.lmu.grapevine.adapters.EventFeedArrayAdapter;
 import cs.lmu.grapevine.R;
 
 /**
