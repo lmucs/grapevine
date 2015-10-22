@@ -1,4 +1,4 @@
-package cs.lmu.grapevine;
+package cs.lmu.grapevine.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
-import cs.lmu.grapevine.Entities.Event;
+import cs.lmu.grapevine.entities.Event;
+import cs.lmu.grapevine.R;
 
 public class ViewEvent extends AppCompatActivity {
 

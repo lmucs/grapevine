@@ -1,4 +1,4 @@
-package cs.lmu.grapevine;
+package cs.lmu.grapevine.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,32 +6,27 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
-
-import com.google.gson.Gson;
-
-import java.util.List;
-
-import cs.lmu.grapevine.Entities.Event;
+import cs.lmu.grapevine.R;
+import cs.lmu.grapevine.listeners.EventListClickListener;
 import cs.lmu.grapevine.requests.EventFeedRequest;
 
-public class FeedEvents extends AppCompatActivity {
-    Gson gson = new Gson();
+public class EventFeed extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_feed_events);
+        setContentView(R.layout.event_feed);
         ListView eventFeed = (ListView)findViewById(R.id.event_feed);
         eventFeed.setOnItemClickListener(new EventListClickListener(this));
 
         EventFeedRequest getUserEvents = new EventFeedRequest(this);
-        MainActivity.httpRequestQueue.add(getUserEvents);
+        Login.httpRequestQueue.add(getUserEvents);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_feed_events, menu);
+        getMenuInflater().inflate(R.menu.menu_event_feed, menu);
         return true;
     }
 
