@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "1D6CAFD6E6A357CE1BFAC54E"
-               BuildableName = "SwiftyJSON.framework"
-               BlueprintName = "SwiftyJSON"
+               BlueprintIdentifier = "0C4CAB032867876CB883D90B"
+               BuildableName = "CVCalendar.framework"
+               BlueprintName = "CVCalendar"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
