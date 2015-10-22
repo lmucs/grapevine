@@ -4,7 +4,7 @@
   "description": "An app that creates a calendar from scraping social media.",
   "scripts": {
     "start": "coffee server/social-media-api/server.coffee",
-    "test": "mocha --compilers coffee:coffee-script/register ./test/ --recursive"
+    "test": "mocha --compilers --timeout 10000 coffee:coffee-script/register ./test/ --recursive",
   },
   "repository": {
     "type": "git",
