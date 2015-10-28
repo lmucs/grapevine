@@ -3,3 +3,5 @@ node_modules/
 .env
 .DS_Store
 clients/Android/Grapevine/volley/build/
+*.log
+
