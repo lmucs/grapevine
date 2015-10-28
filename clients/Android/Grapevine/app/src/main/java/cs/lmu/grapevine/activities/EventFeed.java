@@ -41,10 +41,21 @@ public class EventFeed extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_launch_calendar) {
-            Intent launchCalendarView = new Intent(getApplicationContext(), CalendarView.class);
-            startActivity(launchCalendarView);
+            viewCalendar();
+        } else if (id == R.id.action_add_group) {
+            launchAddGroup();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void viewCalendar() {
+        Intent launchCalendarView = new Intent(getApplicationContext(), CalendarView.class);
+        startActivity(launchCalendarView);
+    }
+
+    public void launchAddGroup() {
+        Intent addGroup = new Intent(this, AddGroup.class);
+        startActivity(addGroup);
     }
 }

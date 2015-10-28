@@ -2,6 +2,7 @@ package cs.lmu.grapevine.requests.listeners.success;
 
 import android.app.Activity;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.android.volley.Response;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -38,11 +39,17 @@ public class EventSuccessListener implements Response.Listener<JSONArray> {
     }
 
     private void InflateEventFeed(ArrayList eventList) {
-        //if eventList.size == 0, print message
+        if (eventList.size() == 0) {
+            printEmptyListMessage();
+        }
         EventFeedArrayAdapter eventAdapter = new EventFeedArrayAdapter(parentActivity, eventList);
         ListView eventFeed = (ListView) parentActivity.findViewById(R.id.event_feed);
         eventFeed.setAdapter(eventAdapter);
 
     }
 
+    private void printEmptyListMessage() {
+        TextView emptyMessageContainer = (TextView) parentActivity.findViewById(R.id.empty_message);
+        emptyMessageContainer.setText(R.string.event_list_empty);
+    }
 }
