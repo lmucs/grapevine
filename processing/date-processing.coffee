@@ -4,6 +4,7 @@ serverName = 'http://localhost:3000/'
 twitterURL = 'twitter/posts/'
 fbPostURL = 'facebook/posts/'
 chrono = require 'chrono-node'
+async = require 'async'
 
 twitterScreenNames = [
   'ACTILMU'
@@ -186,6 +187,7 @@ getEventsFromTweets = (screenName, sinceID) ->
   request requestURL, (err, res, body) ->
     if res.statusCode is 200
       events = processRawTweets JSON.parse body
+      #TODO: Send events to database
 
 getEventsFromFBPosts = (screenName, timeStamp) ->
   requestURL = "#{serverName}#{fbPostURL}#{screenName}"
@@ -194,16 +196,41 @@ getEventsFromFBPosts = (screenName, timeStamp) ->
     if res.statusCode is 200 and JSON.parse(body).data?
       rawPosts = JSON.parse(body).data
       events = processRawPosts rawPosts, screenName
+      #TODO: Send events to database
 
-getEventsFromSocialFeeds = (twitterParams, fbParams) ->
-  twitterNames = twitterParams.IDs
-  twitterTimeStamp = twitterParams.timeStamp
-  fbNames = fbParams.IDs
-  fbTimeStamp = fbParams.timeStamp
-  getEventsFromTweets name, twitterTimeStamp for name in twitterNames
-  getEventsFromFBPosts name, fbTimeStamp for name in fbNames
+getTwitterEvents = ->
+  ids = []
+  sinceID = null
+  events = []
+  async.series [
+    (callback) ->
+      ## Make API CAll
+      ids = resultsOfCall.id
+      sinceID = resultsOfCall.sinceID
+      callback()
+    (callback) ->
+      getEventsFromTweets name, sinceID for id in ids
+      callback()
+  ]
 
-getEvents = () ->
-  getEventsFromSocialFeeds(twitterParams, fbParams)
+getFBEvents = ->
+  ids = []
+  timeStamp = null
+  events = []
+  async.series [
+    (callback) ->
+      ## Make API CAll
+      ids = resultsOfCall.id
+      timeStamp = resultsOfCall.timeStamp
+      callback()
+    (callback) ->
+      getEventsFromTweets name, timeStamp for id in ids
+      callback()
+  ]
 
-exports.getEventsFromSocialFeeds = getEventsFromSocialFeeds
+getEvents = ->
+  getTwitterEvents()
+  getFBEvents()
+
+
+exports.getEventsFromSocialFeeds = getEvents
