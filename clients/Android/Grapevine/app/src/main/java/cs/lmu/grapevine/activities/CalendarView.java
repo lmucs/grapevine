@@ -1,14 +1,14 @@
-package cs.lmu.grapevine;
+package cs.lmu.grapevine.activities;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.roomorama.caldroid.CaldroidFragment;
-
 import java.util.Calendar;
+import cs.lmu.grapevine.R;
 
 public class CalendarView extends AppCompatActivity {
 
@@ -48,8 +48,15 @@ public class CalendarView extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.action_add_group) {
+            launchAddGroup();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void launchAddGroup() {
+        Intent addGroup = new Intent(this, AddGroup.class);
+        startActivity(addGroup);
     }
 }

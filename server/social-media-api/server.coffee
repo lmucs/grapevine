@@ -13,7 +13,7 @@ app = express()
 
 # set up middleware
 app.use bodyParser.json()
-app.use logger process.env.LOGGING_LEVEL or 'dev'
+app.use logger process.env.LOGGING_LEVEL or 'dev' unless process.env.NODE_ENV is 'test'
 
 # register routes
 app.use '/facebook', facebookRouter
@@ -24,4 +24,4 @@ app.use (req, res) ->
   res.sendStatus 404
 
 # start the server
-app.listen process.env.PORT or 3000
+module.exports = app.listen process.env.PORT or 3000
