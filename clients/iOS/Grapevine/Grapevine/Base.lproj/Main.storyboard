@@ -303,6 +303,7 @@
                                     <outlet property="button" destination="v6W-rG-qaq" id="XA7-Pj-R6S"/>
                                     <outlet property="eventNameLabel" destination="pzZ-nc-Y6z" id="hx6-gU-sIz"/>
                                     <outlet property="eventTimeLabel" destination="XP1-AL-D7v" id="sy7-ZH-Orh"/>
+                                    <segue destination="AkW-fN-skM" kind="showDetail" id="eiK-Ir-bn0"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -316,6 +317,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="V2p-or-2S4" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2026" y="404"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="YHB-AA-i9C">
+            <objects>
+                <viewController id="Ke9-FM-ock" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="fDq-1Y-fP8"/>
+                        <viewControllerLayoutGuide type="bottom" id="Ir4-S0-dyy"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="hC4-4m-beB">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="bs8-4m-9GQ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4bQ-Cp-Vmd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3643" y="404"/>
         </scene>
         <!--Calendar View Controller-->
         <scene sceneID="Gql-WB-Cvh">
@@ -359,13 +379,13 @@
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QQI-ap-q29">
                                                     <rect key="frame" x="8" y="11" width="81" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZt-m3-cEB">
                                                     <rect key="frame" x="466" y="11" width="86" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -422,7 +442,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0WV-1d-JCz" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="9fo-SM-X0t" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3517" y="404"/>
+            <point key="canvasLocation" x="2839" y="1180"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="XSt-Sg-pxP">
@@ -458,7 +478,25 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1HG-ng-H16" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2705" y="404"/>
+            <point key="canvasLocation" x="2026" y="1180"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="0mP-Ea-cJk">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="AkW-fN-skM" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Dck-9L-Poh">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Ke9-FM-ock" kind="relationship" relationship="rootViewController" id="3lh-eB-D4q"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="B3i-QH-2ix" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2839" y="404"/>
         </scene>
     </scenes>
     <resources>
