@@ -1,7 +1,6 @@
-package cs.lmu.grapevine.requests.listeners;
+package cs.lmu.grapevine.requests.listeners.success;
 
 import android.app.Activity;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.android.volley.Response;
@@ -11,8 +10,8 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
-import cs.lmu.grapevine.Entities.Event;
-import cs.lmu.grapevine.EventFeedArrayAdapter;
+import cs.lmu.grapevine.entities.Event;
+import cs.lmu.grapevine.adapters.EventFeedArrayAdapter;
 import cs.lmu.grapevine.R;
 
 /**
@@ -40,11 +39,17 @@ public class EventSuccessListener implements Response.Listener<JSONArray> {
     }
 
     private void InflateEventFeed(ArrayList eventList) {
-        //if eventList.size == 0, print message
+        if (eventList.size() == 0) {
+            printEmptyListMessage();
+        }
         EventFeedArrayAdapter eventAdapter = new EventFeedArrayAdapter(parentActivity, eventList);
         ListView eventFeed = (ListView) parentActivity.findViewById(R.id.event_feed);
         eventFeed.setAdapter(eventAdapter);
 
     }
 
+    private void printEmptyListMessage() {
+        TextView emptyMessageContainer = (TextView) parentActivity.findViewById(R.id.empty_message);
+        emptyMessageContainer.setText(R.string.event_list_empty);
+    }
 }

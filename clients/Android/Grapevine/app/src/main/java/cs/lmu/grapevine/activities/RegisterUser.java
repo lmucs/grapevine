@@ -1,4 +1,4 @@
-package cs.lmu.grapevine;
+package cs.lmu.grapevine.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-
+import cs.lmu.grapevine.R;
 import cs.lmu.grapevine.requests.RegisterUserRequest;
 
 public class RegisterUser extends AppCompatActivity {
@@ -56,7 +56,7 @@ public class RegisterUser extends AppCompatActivity {
                         + "\"}";
 
         RegisterUserRequest registerUserRequest= new RegisterUserRequest(this,requestBodyString);
-        MainActivity.httpRequestQueue.add(registerUserRequest);
+        Login.httpRequestQueue.add(registerUserRequest);
 
     }
 }

@@ -1,4 +1,4 @@
-package cs.lmu.grapevine.requests.listeners;
+package cs.lmu.grapevine.requests.listeners.success;
 
 import android.app.Activity;
 import android.content.Context;
@@ -8,13 +8,10 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
-import cs.lmu.grapevine.FeedEvents;
-import cs.lmu.grapevine.MainActivity;
+import cs.lmu.grapevine.activities.EventFeed;
+import cs.lmu.grapevine.activities.Login;
 import cs.lmu.grapevine.R;
 
-/**
- * Created by jeff on 10/18/15.
- */
 public class RegisterUserSuccessListener implements Response.Listener<JSONObject> {
     private Activity parentActivity;
 
@@ -25,10 +22,10 @@ public class RegisterUserSuccessListener implements Response.Listener<JSONObject
     @Override
     public void onResponse(JSONObject response) {
         try{
-            MainActivity.authenticationToken = response.getString("token");
-            MainActivity.userId              = Integer.parseInt(response.getString("userID"));
+            Login.authenticationToken = response.getString("token");
+            Login.userId              = Integer.parseInt(response.getString("userID"));
 
-            Intent feedEvents = new Intent(parentActivity.getApplicationContext(), FeedEvents.class);
+            Intent feedEvents = new Intent(parentActivity.getApplicationContext(), EventFeed.class);
             parentActivity.startActivity(feedEvents);
         }
         catch (JSONException e) {
