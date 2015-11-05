@@ -64,7 +64,7 @@ class LoginViewController: UIViewController {
         self.activityIndicator.startAnimating()
         
     
-        let loginUrl = NSURL(string: "http://grapevine.herokuapp.com/login")
+        let loginUrl = NSURL(string: apiBaseUrl + "/login")
         
         let loginCredentials: [String: AnyObject] = [
             "username": String(self.usernameTextField.text!),
@@ -72,14 +72,6 @@ class LoginViewController: UIViewController {
         ]
         
         debugPrint(loginCredentials)
-        
-        let loginUser = Mapper<User>().map(loginCredentials)
-        debugPrint(loginUser)
-        
-        let loginObj = Mapper().toJSON(loginUser!)
-        debugPrint(loginObj)
-        let loginStr = Mapper().toJSONString(loginUser!, prettyPrint: true)
-        debugPrint(loginStr!)
         
         print("here")
         if NSJSONSerialization.isValidJSONObject(loginCredentials){
