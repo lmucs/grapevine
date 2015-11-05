@@ -9,6 +9,8 @@
 import Foundation
 import CVCalendar
 
+let apiBaseUrl = "http://localhost:8000"
+
 // User feedback on text fields
 
 func setErrorColor(textField: UITextField) {
