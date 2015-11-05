@@ -1,4 +1,5 @@
 request = require 'request'
+fs = require 'fs'
 intervalInSeconds = 10
 serverName = 'http://localhost:3000/'
 twitterURL = 'twitter/posts/'
@@ -153,50 +154,9 @@ fbParams =
   IDs: fbScreenNames
   timeStamp: fbTimeStamp
 
-extractEvents = (text, author) ->
-  events = []
-  parsedDate = chrono.parse text
-  for date in parsedDate
-    myEvent = {}
-    myEvent.startTime = date.start.date()
-    myEvent.endTime = date.end.date() if date.end
-    myEvent.text = text
-    myEvent.author = author
-    myEvent.processedInfo = date
-    events.push myEvent
-  events
-
-processRawTweets = (tweets) ->
-  events = []
-  for tweet in tweets
-    tweetText = tweet.text
-    author = tweet.user.screen_name
-    events = [events..., extractEvents(tweetText, author)...]
-  events
-
-processRawPosts = (posts, screenName) ->
-  events = []
-  for post in posts
-    postText = post.message ? ""
-    events = [events..., extractEvents(postText, screenName)...]
-  events
-
-getEventsFromTweets = (screenName, sinceID) ->
-  requestURL = "#{serverName}#{twitterURL}#{screenName}"
-  requestURL += '/' + sinceID if sinceID
-  request requestURL, (err, res, body) ->
-    if res.statusCode is 200
-      events = processRawTweets JSON.parse body
-      #TODO: Send events to database
-
-getEventsFromFBPosts = (screenName, timeStamp) ->
-  requestURL = "#{serverName}#{fbPostURL}#{screenName}"
-  requestURL += '/' + timeStamp if timeStamp
-  request requestURL, (err, res, body) ->
-    if res.statusCode is 200 and JSON.parse(body).data?
-      rawPosts = JSON.parse(body).data
-      events = processRawPosts rawPosts, screenName
-      #TODO: Send events to database
+getEvents = ->
+  getTwitterEvents()
+  getFBEvents()
 
 getTwitterEvents = ->
   ids = []
@@ -224,13 +184,72 @@ getFBEvents = ->
       timeStamp = resultsOfCall.timeStamp
       callback()
     (callback) ->
-      getEventsFromTweets name, timeStamp for id in ids
+      getEventsFromFBPosts name, timeStamp for id in ids
       callback()
   ]
 
-getEvents = ->
-  getTwitterEvents()
-  getFBEvents()
+getEventsFromTweets = (screenName, sinceID) ->
+  requestURL = "#{serverName}#{twitterURL}#{screenName}"
+  requestURL += '/' + sinceID if sinceID
+  request requestURL, (err, res, body) ->
+    if res.statusCode is 200
+      events = processRawTweets JSON.parse body
+      writeEventsToFile(events, 'event_objects.txt')
 
+getEventsFromFBPosts = (screenName, timeStamp) ->
+  requestURL = "#{serverName}#{fbPostURL}#{screenName}"
+  requestURL += '/' + timeStamp if timeStamp
+  request requestURL, (err, res, body) ->
+    if res.statusCode is 200 and JSON.parse(body).data?
+      rawPosts = JSON.parse(body).data
+      events = processRawPosts rawPosts, screenName
+      writeEventsToFile(events, 'event_objects.txt')
+
+writeEventsToFile = (events, path) ->
+  for event in events
+    fs.appendFile path, JSON.stringify(event), (err) ->
+      throw err if err
+
+processRawTweets = (tweets) ->
+  events = []
+  for tweet in tweets
+    tweetText = tweet.text
+    author = tweet.user.screen_name
+    url = getTwitterURL(author, tweet.id_str)
+    tweetInfo = {url, author}
+    events = [events..., extractEvents(tweetText, tweetInfo)...]
+  events
+
+processRawPosts = (posts, author) ->
+  events = []
+  for post in posts
+    postText = post.message ? ""
+    url = getFacebookURL(id)
+    postInfo = {author, url}
+    events = [events..., extractEvents(postText, postInfo)...]
+  events
+
+getFacebookURL = (id) ->
+  [user, post] = id.split("_")
+  "https://www.facebook.com/#{user}/posts/#{post}"
+
+getTwitterURL = (screenName, tweetID) ->
+  "https://twitter.com/#{screenName}/status/#{tweetID}"
+
+# Make sure all dates are UNIX timestamps in milliseconds
+# Stringify the processedInfo into a string
+extractEvents = (text, postInfo) ->
+  events = []
+  parsedDate = chrono.parse text
+  for date in parsedDate
+    myEvent = {}
+    myEvent.start_time = date.start.date()
+    myEvent.end_time = date.end.date() if date.end
+    myEvent.post = text
+    myEvent.URL = postInfo.url
+    myEvent.author = postInfo.author
+    myEvent.processedInfo = date
+    events.push myEvent
+  events
 
 exports.getEventsFromSocialFeeds = getEvents
