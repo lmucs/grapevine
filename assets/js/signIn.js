@@ -23,7 +23,9 @@ $(function () {
     $("#signIn").on('click', function () {
         var username = $("#username").val();
         var password = $("#password").val();
-        var newUser = new loginUser({
+        window.location.href="mainpage.html";
+        // Commented out because CORS.
+        /*var newUser = new loginUser({
             username: username,
             password: password
         });
@@ -36,7 +38,7 @@ $(function () {
                 $("#fail").html(response.responseJSON.message);
                 window.location.href="mainpage.html";
             } 
-        });
+        });*/
     });
 
     // ^ v DRY
@@ -52,7 +54,9 @@ $(function () {
     $("#submitNewUser").on('click', function () {
         var username = $("#createUserName").val();
         var password = $("#createPassword").val();
-        var regUser = new registeringUser({
+        window.location.href="mainpage.html";
+        // Commented out because CORS.
+        /*var regUser = new registeringUser({
             username: username,
             password: password
         });
@@ -63,9 +67,8 @@ $(function () {
             }, 
             error: function (model, response) {
                 $("#fail").html(response.responseJSON.message);
-                window.location.href="mainpage.html";
             } 
-        });
+        });*/
     });
 
     $("#goBack").on("click", function () {
