@@ -34,9 +34,9 @@ $(function () {
             }, 
             error: function (model, response) {
                 $("#fail").html(response.responseJSON.message);
+                window.location.href="mainpage.html";
             } 
         });
-        console.log("Signed in? :D");
     });
 
     // ^ v DRY
@@ -63,6 +63,7 @@ $(function () {
             }, 
             error: function (model, response) {
                 $("#fail").html(response.responseJSON.message);
+                window.location.href="mainpage.html";
             } 
         });
     });
