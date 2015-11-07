@@ -1,0 +1,148 @@
+@font-face {
+    font-family: Flower; 
+    src: url("FLOWER.ttf");
+}
+
+body {
+    margin: 0;
+    background-color: #F9FEF9;
+}
+
+#header {
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: -webkit-linear-gradient(#270035 , #14001B); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#270035, #14001B); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#270035, #14001B); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#270035 , #14001B); /* Standard syntax */
+    background-color: #14001B;
+    overflow: auto;
+}
+
+#logo {
+    float: right;
+    width: 37px;
+    height: 37px;
+    margin: 5px 0 0 5px;
+    border: 1px solid #FFF;
+}
+
+#name {
+    float: right;
+    color: #FFF;
+    margin-left: 10px;
+    font-size: 30px;
+    font-family: "URW Chancery L", cursive;
+    line-height: 1.4;
+}
+
+#tab1 {
+    margin: 20px 0 0 5px;
+    height: 30px;
+    width: 60px;
+    background-color: #F9FEF9;
+    position: absolute;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#homegrapes {
+    width: 25px;
+    height: 25px;
+    margin: 2px 0 0 15px;
+}
+
+#tab2 {
+    margin: 20px 0 0 70px;
+    height: 30px;
+    width: 60px;
+    position: absolute;
+    background-color: #9DAB9D;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+#settings {
+    width: 25px;
+    height: 25px;
+    margin: 2px 0 0 15px;
+}
+
+#content {
+    margin: 5px 5px 0 5px;
+    background-color: #BCF5BC;
+    border-radius: 25px;
+    border: 3px solid #79EB79;
+    text-align: center;
+    overflow: auto;
+}
+
+#login {
+    margin-top: 90px;
+}
+
+
+.calendarMain {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 10px auto;
+    table-layout: fixed;
+    position: relative;
+}
+
+th:first-child {
+    border-top-left-radius: 10px;
+}
+
+th:last-child {
+    border-top-right-radius: 10px;
+}
+
+tr:last-child td:first-child {
+    border-bottom-left-radius: 10px;
+}
+
+tr:last-child td:last-child {
+    border-bottom-right-radius: 10px;
+}
+
+.daysOfTheWeek {
+    border-bottom: 3px solid #4B2156;
+    background-color: #C38AD2;
+    height: 30px;
+}
+
+.day {
+    border-right: 1px solid #6B2F7A;
+    border-bottom: 1px solid #6B2F7A;
+    height: 120px;
+    vertical-align: top;
+}
+
+.oddWeek {
+    background-color: #E8D3EE;
+    text-align: left;
+}
+
+.evenWeek {
+    background-color: #D5AEE0;
+    text-align: left;
+}
+
+.last {
+    border-right: none;
+}
+
+.end {
+    border-bottom: none;
+}
+
+#calwrapper {   
+    background-color: #FFF;
+    float: right;
+    width: 80%;
+    margin: 10px 10px 10px 10px;
+    border-radius: 20px;
+    padding: 2px 10px 2px 10px;
+}

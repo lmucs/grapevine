@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+
+    <head>
+        <title>Login</title>
+        <link rel="icon" type="image/png" href="assets/grapevine.png">
+        <link rel="stylesheet" href="assets/css/reset.css">
+        <link rel="stylesheet" href="assets/css/main.css">
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+    </head>
+
+    <body>
+
+        <div id="mainContainer">
+            <div id="header"><span id="headerText">Grapevine</span></div>
+            <div id="mainContent">
+                <div id="submitBlock">
+                    <div id="login">
+                        <input type="text" placeholder="Username" id="username"> <br><br>
+                        <input type="password" placeholder="Password" id="password"> <br><br>
+                        <input type="button" value="Sign In" id="signIn"> <br><br>
+                    </div>
+                    <div id="createAcct">
+                        <input type="button" value="Create An Account" id="signUp">
+                        <div id="hiddenStuff" style="display: none;">
+                            <input type="text" placeholder="New username" id="createUserName"> <br><br>
+                            <input type="password" placeholder="New password" id="createPassword"><br><br>
+                            <input type="button" value="Create Your Account!" id="submitNewUser"><br><br>
+                            <input type="button" value="Back" id="goBack">
+                        </div>
+                    </div><br><br>
+                    <p id="fail"></p>
+                </div>
+            </div>
+        </div>
+
+        <script src="assets/js/jquery-2.1.4.min.js"></script>
+        <script src="assets/js/underscore-min.js"></script>
+        <script src="assets/js/backbone-min.js"></script>
+        <script src="assets/js/signIn.js"></script>
+    </body>
+
+</html>

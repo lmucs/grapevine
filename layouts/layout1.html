@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+
+    <head>
+        <title>Sample layout 1</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="css/reset.css">
+        <link rel="stylesheet" type="text/css" href="css/layout1.css">
+    </head>
+
+    <body>
+        <div id="header">
+            <div id="logo"></div>
+            <span id="name">Grapevine</span>
+            <!--<div id="tab1"><img src="grapes.png" id="homegrapes"></div>-->
+            <div id="tab2"><img src="https://pixabay.com/static/uploads/photo/2013/07/12/13/50/cog-147414_640.png" id="settings"></div>
+        </div>
+        <div id="content" style="height: 300px;">
+            <div id="login">
+                Username: <input type="text" id="username"> <br><br>
+                Password: <input type="text" id="pass"> <br><br>
+                <input type="button" id="signin" value="Sign In"> <br><br>
+                Don't have an account? <br>
+                <input type="button" id="createacct" value="Sign Up">
+            </div>
+        </div>
+
+        <script src="../assets/js/jquery-2.1.4.min.js"></script>
+        <script src="../assets/js/underscore-min.js"></script>
+        <script src="../assets/js/backbone-min.js"></script>
+        <script src="../assets/js/event.js"></script>
+        <script src="../assets/js/apicall.js"></script>
+    </body>
+
+</html>

@@ -1,0 +1,92 @@
+<!doctype html>
+
+<html>
+
+    <head>
+        <title>Home</title>
+        <link rel="icon" type="image/png" href="assets/grapevine.png">
+        <link rel="stylesheet" href="assets/css/reset.css">
+        <link rel="stylesheet" href="assets/css/main.css">
+        <link rel="stylesheet" href="assets/css/cal.css">
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Tangerine">
+    </head>
+
+    <body>
+        <div id="mainContainer">
+            <div id="header"><span id="headerText">Grapevine</span></div>
+            <div id="mainContent">
+                <!--<div id="options">
+                    <input type="button" value="Calendar View" id="viewCal" class="viewOptions" disabled>
+                    <input type="button" value="List View" id="viewList" class="viewOptions" >
+                </div>-->
+                <div id="calwrapper">
+                    <div id="cal">
+                        <table class="calendarMain">
+                            <tr class="daysOfTheWeek">
+                                <th> Sunday </th>
+                                <th> Monday </th>
+                                <th> Tuesday </th>
+                                <th> Wednesday </th>
+                                <th> Thursday </th>
+                                <th> Friday </th>
+                                <th> Saturday </th>
+                            </tr>
+                            <tr class="oddWeek">
+                                <td class="day calView"> <div class="date"> 1  </div> <div class="info">Sample event!</div></td>
+                                <td class="day calView"> <div class="date"> 2  </div> <div class="info"></div></td>
+                                <td class="day calView"> <div class="date"> 3  </div> <div class="info"></div></td>
+                                <td class="day calView"> <div class="date"> 4  </div> <div class="info"></div></td>
+                                <td class="day calView"> <div class="date"> 5  </div> <div class="info"></div></td>
+                                <td class="day calView"> <div class="date"> 6  </div> <div class="info"></div></td>
+                                <td class="day calView last"> <div class="date"> 7  </div> <div class="info"></div></td>
+                            </tr>
+                            <tr class="evenWeek">
+                                <td class="day calView"> <div class="date"> 8  </div> <div class="info"></div></td>
+                                <td class="day calView"> <div class="date"> 9  </div> <div class="info"></div></td>
+                                <td class="day calView"> <div class="date"> 10 </div> <div class="info"></div> </td>
+                                <td class="day calView"> <div class="date"> 11 </div> <div class="info"></div> </td>
+                                <td class="day calView"> <div class="date"> 12 </div> <div class="info"></div> </td>
+                                <td class="day calView"> <div class="date"> 13 </div> <div class="info"></div> </td>
+                                <td class="day calView last"> <div class="date"> 14 </div> <div class="info"></div> </td>
+                            </tr>
+                            <tr class="oddWeek">
+                                <td class="day calView"> <div class="date"> 15 </div> <div class="info"></div> </td>
+                                <td class="day calView"> <div class="date"> 16 </div> <div class="info"></div> </td>
+                                <td class="day calView"> <div class="date"> 17 </div> <div class="info"></div> </td>
+                                <td class="day calView"> <div class="date"> 18 </div> <div class="info"></div> </td>
+                                <td class="day calView"> <div class="date"> 19 </div> <div class="info"></div> </td>
+                                <td class="day calView"> <div class="date"> 20 </div> <div class="info">Another Event</div> </td>
+                                <td class="day calView last"> <div class="date"> 21 </div> <div class="info"></div> </td>
+                            </tr>
+                            <tr class="evenWeek">
+                                <td class="day calView"> <div class="date"> 22 </div> <div class="info">An event <br> And An Event <br> And another event<br></div> </td>
+                                <td class="day calView"> <div class="date"> 23 </div> <div class="info"></div> </td>
+                                <td class="day calView"> <div class="date"> 24 </div> <div class="info"></div> </td>
+                                <td class="day calView"> <div class="date"> 25 </div> <div class="info"></div> </td>
+                                <td class="day calView"> <div class="date"> 26 </div> <div class="info"></div> </td>
+                                <td class="day calView"> <div class="date"> 27 </div> <div class="info"></div> </td>
+                                <td class="day calView last"> <div class="date"> 28 </div> <div class="info"></div> </td>
+                            </tr>
+                            <tr class="oddWeek">
+                                <td class="day calView end"> <div class="date"> 29 </div> <div class="info"></div> </td>
+                                <td class="day calView end"> <div class="date"> 30 </div> <div class="info"></div> </td>
+                                <td class="day calView end"> <div class="date"> 31 </div> <div class="info"></div> </td>
+                                <td class="day calView end"> <div class="date"></div> <div class="info"></div> </td>
+                                <td class="day calView end"> <div class="date"></div> <div class="info"></div> </td>
+                                <td class="day calView end"> <div class="date"></div> <div class="info"></div> </td>
+                                <td class="day calView last end"> <div class="date"></div> <div class="info"></div> </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        <script src="assets/js/jquery-2.1.4.min.js"></script>
+        <script src="assets/js/underscore-min.js"></script>
+        <script src="assets/js/backbone-min.js"></script>
+        <script src="assets/js/event.js"></script>
+        <script src="assets/js/cal.js"></script>
+    </body>
+
+</html>

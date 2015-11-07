@@ -1,0 +1,54 @@
+#options {
+    position: absolute;
+    margin-right: 10px;
+}
+
+.calendarMain {
+    border-collapse: collapse;
+    table-layout: fixed;
+    float: right;
+}
+
+td {
+    width: 150px;
+}
+
+.daysOfTheWeek {
+    border-bottom: 3px solid #4B2156;
+    background-color: #C38AD2;
+    height: 30px;
+}
+
+.day {
+    border-right: 1px solid #6B2F7A;
+    border-bottom: 1px solid #6B2F7A;
+}
+
+.calView {
+    height: 150px;
+    vertical-align: top;
+}
+
+.oddWeek {
+    background-color: #E8D3EE;
+}
+
+.evenWeek {
+    background-color: #D5AEE0;
+}
+
+.last {
+    border-right: none;
+}
+
+.end {
+    border-bottom: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.date {
+    margin: 0 auto;
+}

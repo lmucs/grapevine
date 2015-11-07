@@ -1,0 +1,59 @@
+#header {
+    left: 0;
+    right: 0;
+    height: 30px;
+    background: -webkit-linear-gradient(#270035 , #14001B); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(#270035, #14001B); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(#270035, #14001B); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(#270035 , #14001B); /* Standard syntax */
+    background-color: #14001B;
+    overflow: auto;
+}
+
+#logo {
+    float: right;
+    width: 37px;
+    height: 18px;
+    margin: 5px 5px 0 5px;
+    border: 1px solid #FFF;
+}
+
+#name {
+    float: left;
+    color: #FFF;
+    margin-left: 100px;
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+#content {
+    margin: 20px auto;
+    width: 90%;
+    height: 200px;
+}
+
+#listView {
+    border-collapse: collapse;
+    width: 80%;
+    margin: 10px auto;
+    position: relative;
+}
+
+.date {
+    font-weight: bold;
+    width: 100px;
+    color: green;
+}
+
+.time {
+    width: 100px;
+}
+
+.title {
+    font-weight: bold;
+    width: 100px;
+}
+
+.eventInfo {
+    width: 100px;
+}

@@ -1,0 +1,41 @@
+body {
+    background-color: #FEFEFE;
+}
+
+#header {
+    background-color: #001000;
+    height: 100px;
+    color: #D2FFD2;
+    font-family: "Tangerine", serif;
+    font-size: 70px;
+}
+
+#headerText {
+    float: right;
+    padding-right: 20px;
+    line-height: 1.35;
+}
+
+#mainContainer {
+    background-color: #F8FAF8;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+    overflow: auto;
+}
+
+#mainContent {
+    margin: 0 auto;
+}
+
+#submitBlock {
+    padding-top: 100px;
+    text-align: center;
+}
+
+#fail {
+    color: #FF0000;
+}
