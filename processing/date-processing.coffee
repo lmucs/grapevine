@@ -144,7 +144,7 @@ fbScreenNames = [
   "lmuyogastudies"
 ]
 
-fbTimeStamp = new Date(2015,9,20).toISOString()
+fbTimeStamp = new Date(2015,9,31).toISOString()
 
 twitterParams =
   IDs: twitterScreenNames
@@ -157,6 +157,19 @@ fbParams =
 getEvents = ->
   getTwitterEvents()
   getFBEvents()
+
+getEventsDemo = ->
+  tweetIDs = twitterParams.IDs
+  sinceID = twitterParams.timeStamp
+  for id in tweetIDs
+    do(id) ->
+      getEventsFromTweets id, sinceID
+
+  fbIDs = fbParams.IDs
+  timeStamp = fbParams.timeStamp
+  for id in fbIDs
+    do(id) ->
+      getEventsFromFBPosts id, timeStamp
 
 getTwitterEvents = ->
   ids = []
@@ -202,12 +215,14 @@ getEventsFromFBPosts = (screenName, timeStamp) ->
   request requestURL, (err, res, body) ->
     if res.statusCode is 200 and JSON.parse(body).data?
       rawPosts = JSON.parse(body).data
+      console.log JSON.parse body
       events = processRawPosts rawPosts, screenName
+      console.log events
       writeEventsToFile(events, 'event_objects.txt')
 
 writeEventsToFile = (events, path) ->
   for event in events
-    fs.appendFile path, JSON.stringify(event), (err) ->
+    fs.appendFile path, JSON.stringify(event, null, 4), (err) ->
       throw err if err
 
 processRawTweets = (tweets) ->
@@ -224,7 +239,7 @@ processRawPosts = (posts, author) ->
   events = []
   for post in posts
     postText = post.message ? ""
-    url = getFacebookURL(id)
+    url = getFacebookURL(post.id)
     postInfo = {author, url}
     events = [events..., extractEvents(postText, postInfo)...]
   events
@@ -238,18 +253,21 @@ getTwitterURL = (screenName, tweetID) ->
 
 # Make sure all dates are UNIX timestamps in milliseconds
 # Stringify the processedInfo into a string
+# Get rid of events from a previous day or from today
 extractEvents = (text, postInfo) ->
   events = []
   parsedDate = chrono.parse text
   for date in parsedDate
     myEvent = {}
-    myEvent.start_time = date.start.date()
-    myEvent.end_time = date.end.date() if date.end
+    myEvent.start_time = date.start.date().getTime()
+    myEvent.end_time = date.end.date().getTime() if date.end
     myEvent.post = text
     myEvent.URL = postInfo.url
     myEvent.author = postInfo.author
-    myEvent.processedInfo = date
+    myEvent.processedInfo = JSON.stringify date
     events.push myEvent
   events
 
 exports.getEventsFromSocialFeeds = getEvents
+
+getEventsDemo()
