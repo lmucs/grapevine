@@ -215,9 +215,7 @@ getEventsFromFBPosts = (screenName, timeStamp) ->
   request requestURL, (err, res, body) ->
     if res.statusCode is 200 and JSON.parse(body).data?
       rawPosts = JSON.parse(body).data
-      console.log JSON.parse body
       events = processRawPosts rawPosts, screenName
-      console.log events
       writeEventsToFile(events, 'event_objects.txt')
 
 writeEventsToFile = (events, path) ->
