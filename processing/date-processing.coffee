@@ -1,9 +1,11 @@
 request = require 'request'
-intervalInSeconds = 60
+fs = require 'fs'
+intervalInSeconds = 10
 serverName = 'http://localhost:3000/'
 twitterURL = 'twitter/posts/'
 fbPostURL = 'facebook/posts/'
 chrono = require 'chrono-node'
+async = require 'async'
 
 twitterScreenNames = [
   'ACTILMU'
@@ -63,12 +65,13 @@ twitterScreenNames = [
   'LMUAdmission'
 ]
 lastTweetID = "650742578401011100"
-fbScreenNames = ["LMUARC"]
-###"actilmu"
-  #"groups/lmuaaaa"
+
+fbScreenNames = [
+  "actilmu"
+  "groups/lmuaaaa"
   "lmualumni"
   "lmustararhs"
-  #"aspalmu"
+  "aspalmu"
   "LMUWomensVolleyball"
   "LMULionTRaXC"
   "lmumensbasketball"
@@ -86,7 +89,7 @@ fbScreenNames = ["LMUARC"]
   "LmuBurnsRecreationCenter"
   "lmucampusmin"
   "LMUCAST"
-  #"groups/39893463773"
+  "groups/39893463773"
   "lmucrs"
   "LMUCSA"
   "LMUCSLA"
@@ -97,7 +100,7 @@ fbScreenNames = ["LMUARC"]
   "LMUConferences"
   "LMUdanceprogram"
   "lmuhospitality"
-  #"LMU-English-Department-280903465269783"
+  "LMU-English-Department-280903465269783"
   "LMUEIS"
   "LMUEMBA"
   "LMUExtension"
@@ -128,7 +131,7 @@ fbScreenNames = ["LMUARC"]
   "oisslmu"
   "lmupols"
   "lmuschoolpsychology"
-  "roarnetwork"
+  "roarstudiosla"
   "LMUDoctoral"
   "LMUSFTV"
   "LMUCenterforStudentSuccess"
@@ -138,10 +141,10 @@ fbScreenNames = ["LMUARC"]
   "tsehaipublishers"
   "lmuadmission"
   "lmuyoga"
-  "lmuyogastudies'
-  ###
+  "lmuyogastudies"
+]
 
-fbTimeStamp = new Date(2015,8,5).getTime()
+fbTimeStamp = new Date(2015,9,20).toISOString()
 
 twitterParams =
   IDs: twitterScreenNames
@@ -151,63 +154,102 @@ fbParams =
   IDs: fbScreenNames
   timeStamp: fbTimeStamp
 
-extractEvents = (text, author) ->
-  events = []
-  parsedDate = chrono.parse text
-  for date in parsedDate
-    myEvent = {}
-    myEvent.startTime = date.start.date()
-    myEvent.endTime = date.end.date() if date.end
-    myEvent.text = text
-    myEvent.author = author
-    myEvent.processedInfo = date
-    events.push myEvent
-  console.log "We finished doing it for #{author}"
-  console.log events
-  events
+getEvents = ->
+  getTwitterEvents()
+  getFBEvents()
 
-processRawTweets = (tweets) ->
+getTwitterEvents = ->
+  ids = []
+  sinceID = null
   events = []
-  console.log tweets
-  for tweet in tweets
-    tweetText = tweet.text
-    author = tweet.user.screen_name
-    events = [events..., extractEvents tweetText, author ...]
-  events
+  async.series [
+    (callback) ->
+      ## Make API CAll
+      ids = resultsOfCall.id
+      sinceID = resultsOfCall.sinceID
+      callback()
+    (callback) ->
+      getEventsFromTweets name, sinceID for id in ids
+      callback()
+  ]
 
-processRawPosts = (posts, screenName) ->
+getFBEvents = ->
+  ids = []
+  timeStamp = null
   events = []
-  for post in posts
-    postText = post.message
-    events = [events..., extractEvents postText, screenName ...]
-  events
+  async.series [
+    (callback) ->
+      ## Make API CAll
+      ids = resultsOfCall.id
+      timeStamp = resultsOfCall.timeStamp
+      callback()
+    (callback) ->
+      getEventsFromFBPosts name, timeStamp for id in ids
+      callback()
+  ]
 
 getEventsFromTweets = (screenName, sinceID) ->
   requestURL = "#{serverName}#{twitterURL}#{screenName}"
   requestURL += '/' + sinceID if sinceID
   request requestURL, (err, res, body) ->
-    events = processRawTweets JSON.parse body
-    console.log events
+    if res.statusCode is 200
+      events = processRawTweets JSON.parse body
+      writeEventsToFile(events, 'event_objects.txt')
 
 getEventsFromFBPosts = (screenName, timeStamp) ->
-  console.log "We want the stuff from #{screenName}"
   requestURL = "#{serverName}#{fbPostURL}#{screenName}"
   requestURL += '/' + timeStamp if timeStamp
   request requestURL, (err, res, body) ->
-    rawPosts = JSON.parse(body).data
-    events = processRawPosts rawPosts, screenName
+    if res.statusCode is 200 and JSON.parse(body).data?
+      rawPosts = JSON.parse(body).data
+      events = processRawPosts rawPosts, screenName
+      writeEventsToFile(events, 'event_objects.txt')
 
-getEventsFromSocialFeeds = (twitterParams, fbParams) ->
-  twitterNames = twitterParams.IDs
-  twitterTimeStamp = twitterParams.timeStamp
-  #fbNames = fbParams.IDs
-  #fbTimeStamp = fbParams.timeStamp
-  getEventsFromTweets name, twitterTimeStamp for name in twitterNames
-  #getEventsFromFBPosts name, fbTimeStamp for name in fbNames
+writeEventsToFile = (events, path) ->
+  for event in events
+    fs.appendFile path, JSON.stringify(event), (err) ->
+      throw err if err
 
-run = ->
-  twitterProcessing 'LoyolaMarymount'
-  return
+processRawTweets = (tweets) ->
+  events = []
+  for tweet in tweets
+    tweetText = tweet.text
+    author = tweet.user.screen_name
+    url = getTwitterURL(author, tweet.id_str)
+    tweetInfo = {url, author}
+    events = [events..., extractEvents(tweetText, tweetInfo)...]
+  events
 
-setInterval getEventsFromSocialFeeds(twitterParams, fbParams),
-  1000 * intervalInSeconds
+processRawPosts = (posts, author) ->
+  events = []
+  for post in posts
+    postText = post.message ? ""
+    url = getFacebookURL(id)
+    postInfo = {author, url}
+    events = [events..., extractEvents(postText, postInfo)...]
+  events
+
+getFacebookURL = (id) ->
+  [user, post] = id.split("_")
+  "https://www.facebook.com/#{user}/posts/#{post}"
+
+getTwitterURL = (screenName, tweetID) ->
+  "https://twitter.com/#{screenName}/status/#{tweetID}"
+
+# Make sure all dates are UNIX timestamps in milliseconds
+# Stringify the processedInfo into a string
+extractEvents = (text, postInfo) ->
+  events = []
+  parsedDate = chrono.parse text
+  for date in parsedDate
+    myEvent = {}
+    myEvent.start_time = date.start.date()
+    myEvent.end_time = date.end.date() if date.end
+    myEvent.post = text
+    myEvent.URL = postInfo.url
+    myEvent.author = postInfo.author
+    myEvent.processedInfo = date
+    events.push myEvent
+  events
+
+exports.getEventsFromSocialFeeds = getEvents
