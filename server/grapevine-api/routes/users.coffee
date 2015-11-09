@@ -2,6 +2,18 @@ pgClient = require '../../../database/pg-client'
 request  = require 'request'
 
 users =
+  create: (req, res) ->
+    unless req.body.username and req.body.password
+      return res.status(400).json 'message': 'username and password required'
+    insertUser req.body.username, req.body.password, (err) ->
+      if err
+        return res.status(400).json (
+          if err.code is '23505'
+          then 'message': "username #{req.body.username} already exists,
+                           please choose another"
+          else err
+        )
+      require('./tokens').create req, res
 
   getAllEvents: (req, res) ->
     pgClient.query
@@ -21,7 +33,7 @@ users =
              WHERE events.feed_id = user_follows_feed.feed_id
              AND user_follows_feed.user_id = $1
              AND time_processed > $2',
-      values: [req.params.userID, req.params.timestamp]
+      values: [req.params.userID, req.params.after]
     , (err, result) ->
       return res.status(400).json err if err
       res.status(200).json result.rows
@@ -72,6 +84,12 @@ users =
                         for #{req.params.userID}"
       else
         res.status(404).json 'message': "#{req.params.feedName} does not exist"
+
+insertUser = (username, password, callback) ->
+  pgClient.query
+    text: 'INSERT INTO users (username, password, role) VALUES ($1, $2, $3)',
+    values: [username, password, 'user']
+  , callback
 
 checkValidFeed = (feedName, sourceName, callback) ->
   request "https://social-media.herokuapp.com/#{sourceName}/posts/#{feedName}", callback
