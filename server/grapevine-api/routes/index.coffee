@@ -1,23 +1,23 @@
 express  = require 'express'
-auth     = require './auth'
+tokens   = require './tokens'
 users    = require './users'
-events   = require './events'
 feeds    = require './feeds'
+events   = require './events'
 
 router   = express.Router()
 
 # Routes that can be accessed by any one
-router.post '/register', auth.register
-router.post '/login',    auth.login
+router.post '/api/v1/users',  users.create
+router.post '/api/v1/tokens', tokens.create
 
 #  Routes that can be accessed only by autheticated users
-router.get    '/api/v1/feeds',                                     feeds.getAll
-router.get    '/api/v1/users/:userID/events',                      users.getAllEvents
-router.get    '/api/v1/users/:userID/events/:timestamp',           users.getLatestEvents
-router.post   '/api/v1/users/:userID/feeds',                       users.followFeed
-router.delete '/api/v1/users/:userID/feeds/:sourceName/:feedName', users.unfollowFeed
+router.get    '/api/v1/feeds',                               feeds.getAll
+router.get    '/api/v1/users/:userID/events',                users.getAllEvents
+router.get    '/api/v1/users/:userID/events/:after',         users.getLatestEvents
+router.post   '/api/v1/users/:userID/feeds',                 users.followFeed
+router.delete '/api/v1/users/:userID/feeds/:network/:feed',  users.unfollowFeed
 
 # Routes that can be accessed only by authenticated & authorized users
-# TODO: router.post '/api/v1/admin/events', events.create
+router.post '/admin/v1/events', events.create
 
 module.exports = router

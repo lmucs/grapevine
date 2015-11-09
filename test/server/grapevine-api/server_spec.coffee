@@ -27,26 +27,25 @@ describe 'Grapevine API', ->
         .end (err, res) ->
           throw err if err
           (res.status).should.be.eql 404
+          (res.body.message).should.be.eql 'resource not found'
           done()
 
-  context 'when a valid route is used', ->
-
-    context 'when a client POSTs to the /register endpoint', ->
+    context 'when a client POSTs to the /api/v1/users endpoint', ->
 
       context 'when the username or password are omitted', ->
         it 'responds with a 400 bad request', (done) ->
           request 'http://localhost:8000'
-            .post '/register'
+            .post '/api/v1/users'
             .end (err, res) ->
               throw err if err
               (res.status).should.be.eql 400
               (res.body.message).should.be.eql 'username and password required'
               done()
 
-      context 'when someone tries to register an existing username', ->
+      context 'when someone tries to create a user with an existing username', ->
         beforeEach (done) ->
           request 'http://localhost:8000'
-            .post '/register'
+            .post '/api/v1/users'
             .send {username: 'foo', password: 'bar'}
             .end (err, res) ->
               throw err if err
@@ -54,7 +53,7 @@ describe 'Grapevine API', ->
 
         it 'responds with a 400 bad request', (done) ->
           request 'http://localhost:8000'
-            .post '/register'
+            .post '/api/v1/users'
             .send {username: 'foo', password: 'baz'}
             .end (err, res) ->
               throw err if err
@@ -64,13 +63,14 @@ describe 'Grapevine API', ->
               done()
 
       context 'when a valid username and password are given', ->
-        it 'responds with a 200 OK, an access token, and the user ID', (done) ->
+        it 'responds with a 201 created, an access token,
+            and the user ID of the newly created user', (done) ->
           request 'http://localhost:8000'
-            .post '/register'
+            .post '/api/v1/users'
             .send {username: 'foo', password: 'bar'}
             .end (err, res) ->
               throw err if err
-              (res.status).should.be.eql 200
+              (res.status).should.be.eql 201
 
               token = res.body.token
               should.exist token
@@ -81,12 +81,12 @@ describe 'Grapevine API', ->
 
               done()
 
-    context 'when a client POSTs to the /login endpoint', ->
+    context 'when a client POSTs to the /api/v1/tokens endpoint', ->
 
       context 'when the username or password are omitted', ->
         it 'responds with a 401 unauthorized', (done) ->
           request 'http://localhost:8000'
-            .post '/login'
+            .post '/api/v1/tokens'
             .end (err, res) ->
               throw err if err
               (res.status).should.be.eql 401
@@ -97,7 +97,7 @@ describe 'Grapevine API', ->
                does not exist in the database', ->
         it 'responds with a 401 unauthorized', (done) ->
           request 'http://localhost:8000'
-            .post '/login'
+            .post '/api/v1/tokens'
             .send {username: 'invalidUsername', password: 'invalidPassword'}
             .end (err, res) ->
               throw err if err
@@ -109,19 +109,21 @@ describe 'Grapevine API', ->
                does exist in the database', ->
         beforeEach (done) ->
           request 'http://localhost:8000'
-            .post '/register'
+            .post '/api/v1/users'
             .send {username: 'foo', password: 'bar'}
             .end (err, res) ->
               throw err if err
               done()
 
-        it 'responds with a 200 OK, an access token, and the user ID', (done) ->
+        it 'responds with a 201 created,
+            the newly created access token,
+            and the user ID', (done) ->
           request 'http://localhost:8000'
-            .post '/login'
+            .post '/api/v1/tokens'
             .send {username: 'foo', password: 'bar'}
             .end (err, res) ->
               throw err if err
-              (res.status).should.be.eql 200
+              (res.status).should.be.eql 201
 
               token = res.body.token
               should.exist token
@@ -160,7 +162,7 @@ describe 'Grapevine API', ->
         context 'when a valid access token is given', ->
           beforeEach (done) ->
             request 'http://localhost:8000'
-              .post '/register'
+              .post '/api/v1/users'
               .send {username: 'foo', password: 'bar'}
               .end (err, res) =>
                 throw err if err
@@ -175,6 +177,7 @@ describe 'Grapevine API', ->
                 throw err if err
                 (res.status).should.be.eql 200
                 feeds = res.body
+                console.log feeds.length
                 (feeds.length).should.be.eql 1
                 (feeds[0].feed_name).should.be.eql 'LMUHousing'
                 (feeds[0].source_name).should.be.eql 'twitter'
@@ -208,7 +211,7 @@ describe 'Grapevine API', ->
         context 'when a valid access token is given', ->
           beforeEach (done) ->
             request 'http://localhost:8000'
-              .post '/register'
+              .post '/api/v1/users'
               .send {username: 'foo', password: 'bar'}
               .end (err, res) =>
                 throw err if err
@@ -296,7 +299,7 @@ describe 'Grapevine API', ->
         context 'when a valid access token is given', ->
           beforeEach (done) ->
             request 'http://localhost:8000'
-              .post '/register'
+              .post '/api/v1/users'
               .send {username: 'foo', password: 'bar'}
               .end (err, res) =>
                 throw err if err
@@ -329,4 +332,3 @@ describe 'Grapevine API', ->
                     (res.status).should.be.eql 200
                     (res.body.message).should.be.eql 'successfully followed feed for userID 1'
                     done()
-
