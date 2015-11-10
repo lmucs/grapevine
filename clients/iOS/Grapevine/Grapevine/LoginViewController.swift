@@ -26,6 +26,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var userToken: Token!
+    var appUser: User!
     
     
     override func viewDidLoad() {
@@ -71,9 +72,8 @@ class LoginViewController: UIViewController {
             "password": String(self.passwordTextField.text!)
         ]
         
-        debugPrint(loginCredentials)
+        self.appUser = Mapper<User>().map(loginCredentials)
         
-        print("here")
         if NSJSONSerialization.isValidJSONObject(loginCredentials){
             Alamofire.request(.POST, loginUrl!, parameters: loginCredentials, encoding: .JSON)
                 .responseJSON { response in
@@ -81,17 +81,22 @@ class LoginViewController: UIViewController {
                         print("debug response printing")
                         debugPrint(response)
                         if response.1?.statusCode == 200 {
-                            print(response.2.value)
+                            print(response.2.value!)
+                            print("here")
+                            
                             let responseToken = Mapper<Token>().map(response.2.value)
                             print("Response token is \(responseToken!.token) \n")
                             self.userToken = responseToken
-                            print("Token Object is \(self.userToken.token)")
+                            print("UserID is \(self.userToken.userID)")
+                            self.appUser.userID = self.userToken.userID
+                            //print(self.appUser.userID)
                             self.performSegueWithIdentifier("loginSegue", sender: self)
                         }
                         else {
                             print("didn't get a 200")
                             self.loginFailedLabel.text = "Invalid Credentials"
                             loginFailed()
+                            self.appUser = nil
                             // handle errors based on response code
                             
                         }
@@ -100,6 +105,7 @@ class LoginViewController: UIViewController {
                         print("no response")
                         self.loginFailedLabel.text = "Connection Failed"
                         loginFailed()
+                        self.appUser = nil
                         
                     }
                     
@@ -122,11 +128,33 @@ class LoginViewController: UIViewController {
         if segue.identifier == "loginSegue" {
             let nav = segue.destinationViewController as! UINavigationController
             let eventsView = nav.topViewController as! EventListTableViewController
-            print("about to perform segue")
-            //print("\(self.userToken.token)")
-            //print("\(self.userToken.xkey)")
-            let getAllEventsLink = "http://localhost:8000/api/v1/users/:userID/events"
-            //var = Mapper().toJSON(self.userToken)
+            print("Token Object again is \(self.userToken.token)")
+            
+            let getEventsUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events")
+            let requestHeader: [String: String] = [
+                "Content-Type": "application/json",
+                "x-access-token": String(self.userToken.token!)
+            ]
+            print("calling for events now swag")
+            Alamofire.request(.GET, getEventsUrl!, encoding: .JSON, headers: requestHeader)
+                .responseJSON { response in
+                    if response.1 != nil {
+                        
+                        if response.1?.statusCode == 200 {
+                            let results = response.2.value! as! NSArray
+                            //debugPrint(results)
+                            for item in results {
+                                debugPrint(item)
+                                let responseEvent = Mapper<Event>().map(item)
+                                eventsView.events.append(responseEvent!)
+                            }
+                            eventsView.tableView.reloadData()
+                        }
+                    }
+            }
+
+            
+            
             
             
             

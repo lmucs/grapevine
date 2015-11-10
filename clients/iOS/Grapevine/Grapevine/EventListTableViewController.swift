@@ -14,10 +14,11 @@ import SwiftyJSON
 class EventListTableViewController: UITableViewController {
     
     var token: Token!
+    var events: [Event] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print(events.count)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -39,14 +40,14 @@ class EventListTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
-        return 1
+        return events.count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
-        cell.eventNameLabel.text = "Event Name goes here"
-        cell.eventTimeLabel.text = "Event Time goes here"
+        cell.eventNameLabel.text = self.events[indexPath.row].title
+        cell.eventTimeLabel.text = String(self.events[indexPath.row].location)
         cell.button.addTarget(self, action: "getEvents:", forControlEvents: UIControlEvents.TouchUpInside)
         return cell
 
