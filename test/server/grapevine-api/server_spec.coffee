@@ -358,13 +358,13 @@ describe 'Grapevine API', ->
                       throw err if err
                       (res.status).should.be.eql 201
                       (res.body.message).should.be.eql 'successfully followed feed for userID 1'
+                      # the feed gets added to the list of all feeds to follow
                       @db.query 'SELECT * FROM feeds', (err, result) ->
                         (result.rows.length).should.be.eql 1
                         done()
 
             context 'when it is not a valid feed to follow', ->
-              it 'responds with a 201 created
-                  (created an association between the user and feed)', (done) ->
+              it 'responds with a 404 not found', (done) ->
                 @db.query 'INSERT INTO users (user_id) VALUES (1);'
                 request 'http://localhost:8000'
                   .post '/api/v1/users/1/feeds'
@@ -375,3 +375,53 @@ describe 'Grapevine API', ->
                     (res.status).should.be.eql 404
                     (res.body.message).should.be.eql 'twitter does not contain feed %'
                     done()
+
+    context 'when a client DELETEs from the /api/v1/users/{userID}/feeds/{network}/{feedName} endpoint', ->
+
+      context 'when the client omits the access token', ->
+        it 'responds with a 401 unauthorized', (done) ->
+          request 'http://localhost:8000'
+            .delete '/api/v1/users/1/feeds/facebook/LMUHousing'
+            .end (err, res) ->
+              throw err if err
+              (res.status).should.be.eql 401
+              (res.body.message).should.be.eql 'access token required'
+              done()
+
+      context 'when the client does not omit the access token', ->
+
+        context 'when an invalid access token is given', ->
+          it 'responds with a 401 unauthorized', (done) ->
+            request 'http://localhost:8000'
+              .delete '/api/v1/users/1/feeds/facebook/LMUHousing'
+              .set 'x-access-token', 'invalid-access-token'
+              .end (err, res) ->
+                throw err if err
+                (res.status).should.be.eql 401
+                (res.body.message).should.be.eql 'invalid access token'
+                done()
+
+        context 'when a valid access token is given', ->
+          beforeEach (done) ->
+            request 'http://localhost:8000'
+              .post '/api/v1/users'
+              .send {username: 'foo', password: 'bar'}
+              .end (err, res) =>
+                throw err if err
+                @token = res.body.token
+                done()
+
+          it 'responds with a 200 OK and deletes the association of the user with the feed', (done) ->
+            @db.query 'INSERT INTO users (user_id) VALUES (1);
+                       INSERT INTO feeds (feed_id, feed_name, network_name) VALUES (1, \'LMUHousing\', \'twitter\');
+                       INSERT INTO user_follows_feed (feed_id, user_id) VALUES (1, 1)'
+            request 'http://localhost:8000'
+              .delete '/api/v1/users/1/feeds/twitter/LMUHousing'
+              .set 'x-access-token', @token
+              .end (err, res) ->
+                throw err if err
+                (res.status).should.be.eql 200
+                (res.body.message).should.be.eql 'successfully unfollowed LMUHousing for userID 1'
+                done()
+
+

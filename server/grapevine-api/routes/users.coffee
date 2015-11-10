@@ -82,7 +82,7 @@ users =
           return res.status(400).json err if err
           res.status(200).json
             'message': "successfully unfollowed #{req.params.feedName}
-                        for #{req.params.userID}"
+                        for userID #{req.params.userID}"
       else
         res.status(404).json 'message': "#{req.params.feedName} does not exist"
 
