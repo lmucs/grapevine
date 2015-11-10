@@ -145,7 +145,7 @@ describe 'Grapevine API', ->
 
     context 'when a client GETs from the /api/v1/feeds endpoint', ->
 
-      context 'when the client omits the access token', ->
+      context 'when the client omits the access token from the headers', ->
         it 'responds with a 401 unauthorized', (done) ->
           request 'http://localhost:8000'
             .get '/api/v1/feeds'
@@ -193,7 +193,7 @@ describe 'Grapevine API', ->
 
     context 'when a client GETs from the /api/v1/users/{userID}/events endpoint', ->
 
-      context 'when the client omits the access token', ->
+      context 'when the client omits the access token from the header', ->
         it 'responds with a 401 unauthorized', (done) ->
           request 'http://localhost:8000'
             .get '/api/v1/users/1/events'
@@ -281,7 +281,7 @@ describe 'Grapevine API', ->
 
     context 'when a client POSTs to the /api/v1/users/{userID}/feeds endpoint', ->
 
-      context 'when the client omits the access token', ->
+      context 'when the client omits the access token from the headers', ->
         it 'responds with a 401 unauthorized', (done) ->
           request 'http://localhost:8000'
             .post '/api/v1/users/1/feeds'
@@ -508,3 +508,83 @@ describe 'Grapevine API', ->
                       ((result.rows).every (row) -> row.last_pulled is '123').should.be.true
                       done()
 
+    context 'when a client POSTs to the /admin/v1/events endpoint', ->
+
+      context 'when the client omits the access token from the header', ->
+        it 'responds with a 401 unauthorized', (done) ->
+          request 'http://localhost:8000'
+            .post '/admin/v1/events'
+            .end (err, res) ->
+              throw err if err
+              (res.status).should.be.eql 401
+              (res.body.message).should.be.eql 'access token required'
+              done()
+   context 'when the client does not omit the access token', ->
+
+        context 'when an invalid access token is given', ->
+          it 'responds with a 401 unauthorized', (done) ->
+            request 'http://localhost:8000'
+              .put '/admin/v1/feeds'
+              .set 'x-access-token', 'invalid-access-token'
+              .end (err, res) ->
+                throw err if err
+                (res.status).should.be.eql 401
+                (res.body.message).should.be.eql 'invalid access token'
+                done()
+
+        context 'when a valid access token is given', ->
+
+          context 'when the user is not an admin', ->
+            it 'responds with a 403 forbidden', (done) ->
+              @db.query 'INSERT INTO users (user_id, username, password, role) VALUES (1, \'foo\',\'bar\', \'user\');'
+              request 'http://localhost:8000'
+                .post '/api/v1/tokens'
+                .send {username: 'foo', password: 'bar'}
+                .end (err, res) ->
+                  throw err if err
+                  request 'http://localhost:8000'
+                    .post '/admin/v1/events'
+                    .set 'x-access-token', res.body.token
+                    .end (err, res) ->
+                      throw err if err
+                      (res.status).should.be.eql 403
+                      done()
+
+          context 'when the user is an admin', ->
+            beforeEach (done) ->
+              @db.query 'INSERT INTO users (user_id, username, password, role)
+                         VALUES (1, \'foo\',\'bar\', \'admin\');'
+              request 'http://localhost:8000'
+                .post '/api/v1/tokens'
+                .send {username: 'foo', password: 'bar'}
+                .end (err, res) =>
+                  throw err if err
+                  @token = res.body.token
+                  done()
+
+            context 'an array of events is not given in the request body', ->
+              it 'responds with a 400 bad request', (done) ->
+                request 'http://localhost:8000'
+                  .post '/admin/v1/events'
+                  .set 'x-access-token', @token
+                  .end (err, res) ->
+                    throw err if err
+                    (res.status).should.be.eql 400
+                    (res.body.message).should.be.eql 'list of events required'
+                    done()
+
+            context 'an array of events is given in the request body', ->
+              it 'responds with a 200 ok and adds all of the given events to the data store', (done) ->
+                @db.query 'INSERT INTO feeds (feed_id) VALUES (1);'
+                request 'http://localhost:8000'
+                  .post '/admin/v1/events'
+                  .set 'x-access-token', @token
+                  .send {events: [{'title': 'blah', 'feedID': 1}]}
+                  .end (err, res) =>
+                    throw err if err
+                    (res.status).should.be.eql 200
+                    (res.body.message).should.be.eql 'successfully added events'
+                    @db.query 'SELECT * FROM events', (err, result) ->
+                      throw err if err
+                      (result.rows.length).should.be.eql 1
+                      done()
