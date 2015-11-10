@@ -35,9 +35,9 @@ app.post   '/api/v1/users/:userID/feeds',                        [auth, users.fo
 app.delete '/api/v1/users/:userID/feeds/:networkName/:feedName', [auth, users.unfollowFeed]
 
 # Routes that can be accessed only by authenticated & authorized users
-# app.put  '/admin/v1/feeds/:feedID'
-# app.put  '/admin/v1/feeds',  [auth, feeds.updateAll]
-app.post '/admin/v1/events', [auth, events.create]
+app.put  '/admin/v1/feeds/:feedID', [auth, feeds.updateOne]
+app.put  '/admin/v1/feeds',         [auth, feeds.updateAll]
+# app.post '/admin/v1/events',       [auth, events.create]
 
 
 # handle invalid routes

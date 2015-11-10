@@ -12,8 +12,8 @@ module.exports = (req, res, next) ->
     retrieveUser decodedToken.user.username, (err, user) ->
       return res.status(400).json err if err
       if user
-        if req.url.indexOf 'admin' >= 0 and user.role is 'admin' or
-           req.url.indexOf 'admin' < 0
+        if req.url.indexOf('admin') >= 0 and user.role is 'admin' or
+           req.url.indexOf('admin') < 0
           next()
         else
           res.status(403).json 'message': 'forbidden'

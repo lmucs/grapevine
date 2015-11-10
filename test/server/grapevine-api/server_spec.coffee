@@ -1,5 +1,4 @@
 should   = require 'should'
-assert   = require 'assert'
 request  = require 'supertest'
 sinon    = require 'sinon'
 
@@ -31,7 +30,7 @@ describe 'Grapevine API', ->
 
   context 'when a valid route is used', ->
 
-    context 'when an invalid method is used', ->
+    context 'when an invalid method is used for /api/v1/users', ->
       it 'responds with a 405 method not allowed', (done) ->
         request 'http://localhost:8000'
           .get '/api/v1/users'
@@ -40,6 +39,7 @@ describe 'Grapevine API', ->
             (res.status).should.be.eql 405
             (res.body.message).should.be.eql 'method not allowed'
             done()
+
 
     context 'when a client POSTs to the /api/v1/users endpoint', ->
 
@@ -424,4 +424,87 @@ describe 'Grapevine API', ->
                 (res.body.message).should.be.eql 'successfully unfollowed LMUHousing for userID 1'
                 done()
 
+    context 'when a client PUTs to the /admin/v1/feeds endpoint', ->
+
+      context 'when the client omits the access token', ->
+        it 'responds with a 401 unauthorized', (done) ->
+          request 'http://localhost:8000'
+            .put '/admin/v1/feeds'
+            .end (err, res) ->
+              throw err if err
+              (res.status).should.be.eql 401
+              (res.body.message).should.be.eql 'access token required'
+              done()
+
+      context 'when the client does not omit the access token', ->
+
+        context 'when an invalid access token is given', ->
+          it 'responds with a 401 unauthorized', (done) ->
+            request 'http://localhost:8000'
+              .put '/admin/v1/feeds'
+              .set 'x-access-token', 'invalid-access-token'
+              .end (err, res) ->
+                throw err if err
+                (res.status).should.be.eql 401
+                (res.body.message).should.be.eql 'invalid access token'
+                done()
+
+        context 'when a valid access token is given', ->
+
+          context 'when the user is not an admin', ->
+            it 'responds with a 403 forbidden', (done) ->
+              @db.query 'INSERT INTO users (user_id, username, password, role) VALUES (1, \'foo\',\'bar\', \'user\');'
+              request 'http://localhost:8000'
+                .post '/api/v1/tokens'
+                .send {username: 'foo', password: 'bar'}
+                .end (err, res) ->
+                  throw err if err
+                  request 'http://localhost:8000'
+                    .put '/admin/v1/feeds'
+                    .set 'x-access-token', res.body.token
+                    .end (err, res) ->
+                      throw err if err
+                      (res.status).should.be.eql 403
+                      done()
+
+          context 'when the user is an admin', ->
+            beforeEach (done) ->
+              @db.query 'INSERT INTO users (user_id, username, password, role)
+                         VALUES (1, \'foo\',\'bar\', \'admin\');'
+              request 'http://localhost:8000'
+                .post '/api/v1/tokens'
+                .send {username: 'foo', password: 'bar'}
+                .end (err, res) =>
+                  throw err if err
+                  @token = res.body.token
+                  done()
+
+            context 'when a timestamp indicating the new last time when posts were processed is not provided', ->
+              it 'responds with a 400 bad request', (done) ->
+                request 'http://localhost:8000'
+                  .put '/admin/v1/feeds'
+                  .set 'x-access-token', @token
+                  .end (err, res) ->
+                    throw err if err
+                    (res.status).should.be.eql 400
+                    (res.body.message).should.be.eql 'lastPulled timestamp required'
+                    done()
+
+
+            context 'when a timestamp indicating the new last time when posts were processed is provided', ->
+              it 'updates the timestamp of when all feeds were last pulled', (done) ->
+                @db.query 'INSERT INTO feeds (feed_id, last_pulled) VALUES (1,0);
+                           INSERT INTO feeds (feed_id, last_pulled) VALUES (2,0);'
+                request 'http://localhost:8000'
+                  .put '/admin/v1/feeds'
+                  .send {lastPulled: 123}
+                  .set 'x-access-token', @token
+                  .end (err, res) =>
+                    throw err if err
+                    (res.status).should.be.eql 200
+                    (res.body.message).should.be.eql 'successfully updated time last pulled for all feeds'
+                    @db.query 'SELECT last_pulled FROM feeds', (err, result) ->
+                      throw err if err
+                      ((result.rows).every (row) -> row.last_pulled is '123').should.be.true
+                      done()
 
