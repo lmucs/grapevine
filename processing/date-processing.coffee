@@ -64,7 +64,7 @@ twitterScreenNames = [
   'tsehai'
   'LMUAdmission'
 ]
-lastTweetID = "650742578401011100"
+
 
 fbScreenNames = [
   "actilmu"
@@ -144,6 +144,7 @@ fbScreenNames = [
   "lmuyogastudies"
 ]
 
+lastTweetID = "650742578401011100"
 fbTimeStamp = new Date(2015,9,31).toISOString()
 
 twitterParams =
@@ -249,22 +250,34 @@ getFacebookURL = (id) ->
 getTwitterURL = (screenName, tweetID) ->
   "https://twitter.com/#{screenName}/status/#{tweetID}"
 
-# Make sure all dates are UNIX timestamps in milliseconds
-# Stringify the processedInfo into a string
 # Get rid of events from a previous day or from today
 extractEvents = (text, postInfo) ->
   events = []
   parsedDate = chrono.parse text
+  today = new Date()
+  tomorrow = getMidnightForNextDay(today)
   for date in parsedDate
-    myEvent = {}
-    myEvent.start_time = date.start.date().getTime()
-    myEvent.end_time = date.end.date().getTime() if date.end
-    myEvent.post = text
-    myEvent.URL = postInfo.url
-    myEvent.author = postInfo.author
-    myEvent.processedInfo = JSON.stringify date
-    events.push myEvent
+    startDate = date.start.date()
+    if startDate.getTime() > tomorrow.getTime()
+      myEvent = {}
+      myEvent.time_processsed = new Date().getTime()
+      myEvent.start_time = startDate.getTime()
+      myEvent.end_time = if date.end then date.end.date().getTime() else startDate.getTime()
+      myEvent.post = text
+      myEvent.URL = postInfo.url
+      myEvent.author = postInfo.author
+      myEvent.processed_info = JSON.stringify date
+      events.push myEvent
   events
+
+getMidnightForNextDay = (date) ->
+  tomorrow = date
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  tomorrow.setHours(0)
+  tomorrow.setMinutes(0)
+  tomorrow.setSeconds(0)
+  tomorrow
+
 
 exports.getEventsFromSocialFeeds = getEvents
 
