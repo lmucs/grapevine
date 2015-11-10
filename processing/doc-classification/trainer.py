@@ -1,5 +1,6 @@
 import nltk
 import csv
+import pickle
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 
@@ -21,17 +22,21 @@ for row in testDataArray:
 
 classified_set = []
 for classifiedPost in testData:
+
    post = nltk.word_tokenize( classifiedPost["post"] )
    for word in post:
       if word in stop_words:
          post.remove(word)
-   for header in labelHeaders:
-      if classifiedPost[header]:
-         classified_set.append( (post, header) )
+
+   for label in labelHeaders:
+      if classifiedPost[label]:
+         classified_set.append( (post, label) )
 
 
 print classified_set[0]
 
 # classifier = nltk.NaiveBayesClassifier.train(training_set)
 # accuracy = nltk.classify.accuracy(classifier, testing_set)
-# print 
+
+# save_classifier = open("naivebayesclassifier.pickle", "wb")
+# pickle.dump(classifier, save_classifier)
