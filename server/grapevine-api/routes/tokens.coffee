@@ -3,6 +3,8 @@ pgClient = require '../../../database/pg-client'
 
 tokens =
   create: (req, res) ->
+    unless req.body.username and req.body.password
+      return res.status(400).json 'message': 'username and password required'
     getUser req.body.username, req.body.password, (err, user) ->
       return res.status(400).json err if err
       return res.status(401).json 'message': 'invalid credentials' unless user
