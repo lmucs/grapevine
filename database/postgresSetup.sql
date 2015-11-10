@@ -1,18 +1,19 @@
---populate with mock user & events 
+--populate with mock user & events
 
 CREATE TABLE IF NOT EXISTS feeds(
       feed_id SERIAL PRIMARY KEY,
       feed_name text,
-      source_name text,
-      UNIQUE (feed_name, source_name));
+      network_name text,
+      last_pulled bigint,
+      UNIQUE (feed_name, network_name));
 
 CREATE TABLE IF NOT EXISTS events(
       event_id SERIAL PRIMARY KEY,
       title text,
-      time_processed integer,
+      time_processed bigint,
       location text,
-      start_time integer,
-      end_time integer,
+      start_time bigint,
+      end_time bigint,
       repeats_weekly boolean,
       tags text[],
       url text,
@@ -35,14 +36,14 @@ INSERT INTO feeds(feed_name) VALUES ('fakeFeed1');
 INSERT INTO user_follows_feed(feed_id, user_id) VALUES (1,1);
 
 INSERT INTO events(
-	title, 
-	time_processed, 
-	start_time, 
+	title,
+	time_processed,
+	start_time,
 	end_time,
-	location, 
-	repeats_weekly, 
-	tags, 
-	url, 
+	location,
+	repeats_weekly,
+	tags,
+	url,
 	post,
 	feed_id
 ) values (
@@ -54,21 +55,21 @@ INSERT INTO events(
   FALSE,
   '{"religion","students"}',
   'www.facebook.com/LoyolaMarymountUniversity/blah',
-  'Prior to his historic arrival in Washington D.C. today, \\		
-            Pope Francis made an unannounced detour to "visit" the Bluff! ‪#‎JesuitEducated‬ ‪#‎ILoveLMU‬ \\		
+  'Prior to his historic arrival in Washington D.C. today, \\
+            Pope Francis made an unannounced detour to "visit" the Bluff! ‪#‎JesuitEducated‬ ‪#‎ILoveLMU‬ \\
             STUDENTS: "Pose with the Pope" tomorrow from 12-2 p.m. on Regents Grass (end of Alumni Mall): bit.ly/posepope',
   1
 );
 
 INSERT INTO events(
-  title, 
-  time_processed, 
-  start_time, 
+  title,
+  time_processed,
+  start_time,
   end_time,
-  location, 
-  repeats_weekly, 
-  tags, 
-  url, 
+  location,
+  repeats_weekly,
+  tags,
+  url,
   post,
   feed_id
 ) values (
@@ -85,14 +86,14 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  title, 
-  time_processed, 
-  start_time, 
+  title,
+  time_processed,
+  start_time,
   end_time,
-  location, 
-  repeats_weekly, 
-  tags,  
-  url, 
+  location,
+  repeats_weekly,
+  tags,
+  url,
   post,
   feed_id
 ) values (
@@ -110,14 +111,14 @@ This Friday from 6-10 p.m. outside the Foley Building, join the ninth annual Bea
 );
 
 INSERT INTO events(
-  title, 
-  time_processed, 
-  start_time, 
+  title,
+  time_processed,
+  start_time,
   end_time,
-  location, 
-  repeats_weekly, 
-  tags,  
-  url, 
+  location,
+  repeats_weekly,
+  tags,
+  url,
   post,
   feed_id
 ) values (
@@ -136,14 +137,14 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  title, 
-  time_processed, 
-  start_time, 
+  title,
+  time_processed,
+  start_time,
   end_time,
-  location, 
-  repeats_weekly, 
-  tags,  
-  url, 
+  location,
+  repeats_weekly,
+  tags,
+  url,
   post,
   feed_id
 ) values (
@@ -161,14 +162,14 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  title, 
-  time_processed, 
-  start_time, 
+  title,
+  time_processed,
+  start_time,
   end_time,
-  location, 
-  repeats_weekly, 
-  tags,  
-  url, 
+  location,
+  repeats_weekly,
+  tags,
+  url,
   post,
   feed_id
 ) values (
@@ -185,14 +186,14 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  title, 
-  time_processed, 
-  start_time, 
+  title,
+  time_processed,
+  start_time,
   end_time,
-  location, 
-  repeats_weekly, 
-  tags,  
-  url, 
+  location,
+  repeats_weekly,
+  tags,
+  url,
   post,
   feed_id
 ) values (
@@ -209,14 +210,14 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  title, 
-  time_processed, 
-  start_time, 
+  title,
+  time_processed,
+  start_time,
   end_time,
-  location, 
-  repeats_weekly, 
-  tags,  
-  url, 
+  location,
+  repeats_weekly,
+  tags,
+  url,
   post,
   feed_id
 ) values (
@@ -233,14 +234,14 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  title, 
-  time_processed, 
-  start_time, 
+  title,
+  time_processed,
+  start_time,
   end_time,
-  location, 
-  repeats_weekly, 
-  tags,  
-  url, 
+  location,
+  repeats_weekly,
+  tags,
+  url,
   post,
   feed_id
 ) values (
@@ -257,14 +258,14 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  title, 
-  time_processed, 
-  start_time, 
+  title,
+  time_processed,
+  start_time,
   end_time,
-  location, 
-  repeats_weekly, 
-  tags,  
-  url, 
+  location,
+  repeats_weekly,
+  tags,
+  url,
   post,
   feed_id
 ) values (
@@ -281,14 +282,14 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  title, 
-  time_processed, 
-  start_time, 
+  title,
+  time_processed,
+  start_time,
   end_time,
-  location, 
-  repeats_weekly, 
-  tags,  
-  url, 
+  location,
+  repeats_weekly,
+  tags,
+  url,
   post,
   feed_id
 ) values (
@@ -305,14 +306,14 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  title, 
-  time_processed, 
-  start_time, 
+  title,
+  time_processed,
+  start_time,
   end_time,
-  location, 
-  repeats_weekly, 
-  tags,  
-  url, 
+  location,
+  repeats_weekly,
+  tags,
+  url,
   post,
   feed_id
 ) values (
@@ -329,14 +330,14 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  title, 
-  time_processed, 
-  start_time, 
+  title,
+  time_processed,
+  start_time,
   end_time,
-  location, 
-  repeats_weekly, 
-  tags,  
-  url, 
+  location,
+  repeats_weekly,
+  tags,
+  url,
   post,
   feed_id
 ) values (
@@ -353,14 +354,14 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  title, 
-  time_processed, 
-  start_time, 
+  title,
+  time_processed,
+  start_time,
   end_time,
-  location, 
-  repeats_weekly, 
-  tags,  
-  url, 
+  location,
+  repeats_weekly,
+  tags,
+  url,
   post,
   feed_id
 ) values (
@@ -377,14 +378,14 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  title, 
-  time_processed, 
-  start_time, 
+  title,
+  time_processed,
+  start_time,
   end_time,
-  location, 
-  repeats_weekly, 
-  tags,  
-  url, 
+  location,
+  repeats_weekly,
+  tags,
+  url,
   post,
   feed_id
 ) values (
