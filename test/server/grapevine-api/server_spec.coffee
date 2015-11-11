@@ -40,6 +40,75 @@ describe 'Grapevine API', ->
             (res.body.message).should.be.eql 'method not allowed'
             done()
 
+    context 'when an invalid method is used for /api/v1/tokens', ->
+      it 'responds with a 405 method not allowed', (done) ->
+        request 'http://localhost:8000'
+          .get '/api/v1/tokens'
+          .end (err, res) ->
+            throw err if err
+            (res.status).should.be.eql 405
+            (res.body.message).should.be.eql 'method not allowed'
+            done()
+
+    context 'when an invalid method is used for /api/v1/feeds', ->
+      it 'responds with a 405 method not allowed', (done) ->
+        request 'http://localhost:8000'
+          .post '/api/v1/feeds'
+          .end (err, res) ->
+            throw err if err
+            (res.status).should.be.eql 405
+            (res.body.message).should.be.eql 'method not allowed'
+            done()
+
+    context 'when an invalid method is used for /api/v1/users/{userID}/events', ->
+      it 'responds with a 405 method not allowed', (done) ->
+        request 'http://localhost:8000'
+          .post '/api/v1/users/1/events'
+          .end (err, res) ->
+            throw err if err
+            (res.status).should.be.eql 405
+            (res.body.message).should.be.eql 'method not allowed'
+            done()
+
+    context 'when an invalid method is used for /api/v1/users/{userID}/feeds', ->
+      it 'responds with a 405 method not allowed', (done) ->
+        request 'http://localhost:8000'
+          .get '/api/v1/users/1/feeds'
+          .end (err, res) ->
+            throw err if err
+            (res.status).should.be.eql 405
+            (res.body.message).should.be.eql 'method not allowed'
+            done()
+
+    context 'when an invalid method is used for /api/v1/users/{userID}/feeds/{networkName}/{feedName}', ->
+      it 'responds with a 405 method not allowed', (done) ->
+        request 'http://localhost:8000'
+          .get '/api/v1/users/1/feeds/twitter/LMUHousing'
+          .end (err, res) ->
+            throw err if err
+            (res.status).should.be.eql 405
+            (res.body.message).should.be.eql 'method not allowed'
+            done()
+
+    context 'when an invalid method is used for /admin/v1/feeds', ->
+      it 'responds with a 405 method not allowed', (done) ->
+        request 'http://localhost:8000'
+          .get '/admin/v1/feeds'
+          .end (err, res) ->
+            throw err if err
+            (res.status).should.be.eql 405
+            (res.body.message).should.be.eql 'method not allowed'
+            done()
+
+    context 'when an invalid method is used for /admin/v1/events', ->
+      it 'responds with a 405 method not allowed', (done) ->
+        request 'http://localhost:8000'
+          .get '/admin/v1/events'
+          .end (err, res) ->
+            throw err if err
+            (res.status).should.be.eql 405
+            (res.body.message).should.be.eql 'method not allowed'
+            done()
 
     context 'when a client POSTs to the /api/v1/users endpoint', ->
 

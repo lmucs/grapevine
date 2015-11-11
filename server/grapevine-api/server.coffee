@@ -29,15 +29,23 @@ app.all  '/api/v1/tokens', methodNotAllowed
 
 #  Routes that can be accessed only by autheticated users
 app.get    '/api/v1/feeds',                                      [auth, feeds.getAll]
+app.all    '/api/v1/feeds',                                      methodNotAllowed
 app.get    '/api/v1/users/:userID/events',                       [auth, users.getAllEvents]
+app.all    '/api/v1/users/:userID/events',                       methodNotAllowed
 app.get    '/api/v1/users/:userID/events/:after',                [auth, users.getLatestEvents]
+app.all    '/api/v1/users/:userID/events/:after',                methodNotAllowed
 app.post   '/api/v1/users/:userID/feeds',                        [auth, users.followFeed]
+app.all    '/api/v1/users/:userID/feeds',                         methodNotAllowed
 app.delete '/api/v1/users/:userID/feeds/:networkName/:feedName', [auth, users.unfollowFeed]
+app.all    '/api/v1/users/:userID/feeds/:networkName/:feedName', methodNotAllowed
 
 # Routes that can be accessed only by authenticated & authorized users
-app.put  '/admin/v1/feeds/:feedID', [auth, feeds.updateOne]
 app.put  '/admin/v1/feeds',         [auth, feeds.updateAll]
+app.all  '/admin/v1/feeds',         methodNotAllowed
+app.put  '/admin/v1/feeds/:feedID', [auth, feeds.updateOne]
+app.all  '/admin/v1/feeds/:feedID', methodNotAllowed
 app.post '/admin/v1/events',        [auth, events.create]
+app.all  '/admin/v1/events',        methodNotAllowed
 
 
 # handle invalid routes
