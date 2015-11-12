@@ -253,10 +253,10 @@ getTwitterURL = (screenName, tweetID) ->
 # Get rid of events from a previous day or from today
 extractEvents = (text, postInfo) ->
   events = []
-  parsedDate = chrono.parse text
+  parsedDates = chrono.parse text
   today = new Date()
   tomorrow = getMidnightForNextDay(today)
-  for date in parsedDate
+  for date in parsedDates
     startDate = date.start.date()
     if startDate.getTime() > tomorrow.getTime()
       myEvent = {}
