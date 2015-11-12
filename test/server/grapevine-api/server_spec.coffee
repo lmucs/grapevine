@@ -5,16 +5,18 @@ sinon    = require 'sinon'
 
 describe 'Grapevine API', ->
 
-  before (done) ->
+  before ->
     @app = require '../../../server/grapevine-api/server'
-    @db  = require '../../../database/schema'
-    @db.register done
+    @db  = require '../../../database/pg-client'
 
-  beforeEach (done) ->
-    @db.clean done
+  beforeEach ->
+    @db.query '
+      DELETE FROM user_follows_feed;
+      DELETE FROM users;
+      DELETE FROM events;
+      DELETE FROM feeds;'
 
-  after (done) ->
-    @db.clean done
+  after ->
     @app.close()
 
   context 'when an invalid route is used', ->
