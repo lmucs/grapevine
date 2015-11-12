@@ -29,7 +29,7 @@ feeds =
 
   insert: (feedName, newtworkName, callback) ->
     if newtworkName is 'twitter'
-      request.post "https://social-media.herokuapp.com/twitter/feeds/#{feedName}", (err) ->
+      request.post "http://social-media.herokuapp.com/twitter/feeds/#{feedName}", (err) ->
         return res.status(400).json err if err
         pgClient.query
           text: 'INSERT INTO feeds (feed_name, network_name, last_pulled)
