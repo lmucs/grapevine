@@ -656,4 +656,5 @@ describe 'Grapevine API', ->
                     @db.query 'SELECT * FROM events', (err, result) ->
                       throw err if err
                       (result.rows.length).should.be.eql 1
+                      (result.rows[0].title).should.be.eql 'blah'
                       done()
