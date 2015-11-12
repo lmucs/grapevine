@@ -28,7 +28,7 @@ twitterRouter.post '/feeds/:screenName', (req, res) ->
   url = "#{twitterAPIHost}/" +
         "lists/members/create.json" +
         "?user_id=#{process.env.TWITTER_SCREEN_NAME}" +
-        "&list_id=#{process.env.TWITTER_ID}" +
+        "&list_id=#{process.env.TWITTER_LIST_ID}" +
         "&screen_name=#{req.params.screenName}"
   request.post {url, oauth}, (error, response, body) ->
     parsedBody = JSON.parse body
