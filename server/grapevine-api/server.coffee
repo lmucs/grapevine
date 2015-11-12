@@ -35,7 +35,7 @@ app.all    '/api/v1/users/:userID/events',                       methodNotAllowe
 app.get    '/api/v1/users/:userID/events/:after',                [auth, users.getLatestEvents]
 app.all    '/api/v1/users/:userID/events/:after',                methodNotAllowed
 app.post   '/api/v1/users/:userID/feeds',                        [auth, users.followFeed]
-app.all    '/api/v1/users/:userID/feeds',                         methodNotAllowed
+app.all    '/api/v1/users/:userID/feeds',                        methodNotAllowed
 app.delete '/api/v1/users/:userID/feeds/:networkName/:feedName', [auth, users.unfollowFeed]
 app.all    '/api/v1/users/:userID/feeds/:networkName/:feedName', methodNotAllowed
 
