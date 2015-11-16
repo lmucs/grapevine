@@ -11,6 +11,8 @@ import CVCalendar
 
 class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalendarMenuViewDelegate, UITableViewDelegate, UITableViewDataSource {
     
+    var events: [Event]!
+    
     @IBOutlet weak var menuView: CVCalendarMenuView!
     @IBOutlet weak var calendarView: CVCalendarView!
     @IBOutlet weak var tableView: UITableView!
@@ -181,23 +183,23 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     // Mark: - Table View Delegate Functions
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 1
+        if events != nil {
+            return events.count
+        }
+        return 0
     }
     
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        print("this ran")
         let cell = tableView.dequeueReusableCellWithIdentifier("calendarEventCell", forIndexPath: indexPath) as! EventTableViewCell
-        cell.eventNameLabel.text = "Swag Event"
-        cell.eventTimeLabel.text = "All-day son"
+        cell.eventNameLabel.text = self.events[indexPath.row].title
+        cell.eventTimeLabel.text = String(self.events[indexPath.row].location)
         return cell
         
     }

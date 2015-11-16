@@ -48,7 +48,6 @@ class EventListTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
         cell.eventNameLabel.text = self.events[indexPath.row].title
         cell.eventTimeLabel.text = String(self.events[indexPath.row].location)
-        cell.button.addTarget(self, action: "getEvents:", forControlEvents: UIControlEvents.TouchUpInside)
         return cell
 
     }
@@ -104,14 +103,20 @@ class EventListTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
+        let nav = segue.destinationViewController as! UINavigationController
+        let calendarView = nav.topViewController as! CalendarViewController
+        calendarView.events = self.events
+        
+        
+        
     }
-    */
+
 
 }
