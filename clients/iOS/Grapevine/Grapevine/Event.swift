@@ -8,16 +8,17 @@
 
 import UIKit
 import ObjectMapper
+import CVCalendar
 
 class Event: NSObject, Mappable {
     var title: String!
-    var date: String!
+    var date: NSDate!
     var status: String!
     var eventId: Int!
     var feedId: Int!
     var timeProcessed: NSDate!
-    var startTime: Int!
-    var endTime: String!
+    var startTime: NSDate!
+    var endTime: NSDate!
     var repeatsWeekly: Int!
     var tags: [String]!
     var url: String!
@@ -34,13 +35,13 @@ class Event: NSObject, Mappable {
     
     func mapping(map: Map) {
         self.title <- map["title"]
-        self.date <- map["date"]
+        self.date <- (map["date"], DateTransform())
         self.status <- map["status"]
         self.eventId <- map["event_id"]
         self.feedId <- map["feed_id"]
-        self.timeProcessed <- map["time_processed"]
-        self.startTime <- map["start_time"]
-        self.endTime <- map["end_time"]
+        self.timeProcessed <- (map["time_processed"], DateTransform())
+        self.startTime <- (map["start_time"], DateTransform())
+        self.endTime <- (map["end_time"], DateTransform())
         self.repeatsWeekly <- map["repeats_weekly"]
         self.tags <- map["tags"]
         self.url <- map["url"]

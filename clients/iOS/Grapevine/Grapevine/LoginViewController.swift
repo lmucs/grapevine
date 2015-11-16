@@ -150,7 +150,7 @@ class LoginViewController: UIViewController {
                                 eventsView.events.append(responseEvent!)
                             }
                             if eventsView.events.count > 1 {
-                                eventsView.events = eventsView.events.sort({$0.startTime > $1.startTime})
+                                eventsView.events = eventsView.events.sort({$0.startTime.compare($1.startTime) == NSComparisonResult.OrderedAscending})
                             }
                             eventsView.tableView.reloadData()
                         }
