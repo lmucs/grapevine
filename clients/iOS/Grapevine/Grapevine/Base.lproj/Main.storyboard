@@ -171,6 +171,9 @@
                                 <state key="normal" title="Create Account">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="createAccount:" destination="omL-Zz-hpD" eventType="touchUpInside" id="HA4-UY-KPS"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rBR-CC-OSa">
                                 <rect key="frame" x="277" y="343" width="46" height="30"/>
@@ -184,6 +187,16 @@
                                     <segue destination="23K-R9-8ua" kind="unwind" unwindAction="backToLoginViewController:" id="k9T-kD-KQ2"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="XlU-JX-VLi">
+                                <rect key="frame" x="282" y="372" width="37" height="37"/>
+                                <color key="color" red="0.33003109959999999" green="0.89565577649999994" blue="0.24522612369999999" alpha="1" colorSpace="calibratedRGB"/>
+                            </activityIndicatorView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="E62-mi-dih">
+                                <rect key="frame" x="257" y="380" width="87" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -220,13 +233,16 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="XlU-JX-VLi" id="p5o-pe-JEU"/>
                         <outlet property="createAccountButton" destination="7LJ-RV-8z8" id="8Vr-Q4-qDc"/>
                         <outlet property="emailAddressTextField" destination="qao-EI-2US" id="RsS-su-wTj"/>
+                        <outlet property="feedbackLabel" destination="E62-mi-dih" id="Aik-ea-Gza"/>
                         <outlet property="firstNameTextField" destination="pvA-5T-EDj" id="Fcv-rJ-rm7"/>
                         <outlet property="lastNameTextField" destination="jg8-xd-Hsb" id="Hyg-IJ-8Qk"/>
                         <outlet property="passwordTextField" destination="IEO-xD-UKg" id="unm-iq-f3c"/>
                         <outlet property="repeatPasswordTextField" destination="24K-6X-3gN" id="VYv-GY-kZd"/>
                         <outlet property="usernameTextField" destination="HDf-zf-Tan" id="GhK-Pd-cvK"/>
+                        <segue destination="HwR-Mg-ZmM" kind="show" identifier="createAccountSegue" id="Mja-Vk-DqZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mef-dE-V9m" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -502,4 +518,7 @@
     <resources>
         <image name="grapevine" width="473" height="464"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="Mja-Vk-DqZ"/>
+    </inferredMetricsTieBreakers>
 </document>

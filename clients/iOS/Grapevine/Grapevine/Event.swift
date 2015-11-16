@@ -49,4 +49,6 @@ class Event: NSObject, Mappable {
     }
     
     
+    
+    
 }
