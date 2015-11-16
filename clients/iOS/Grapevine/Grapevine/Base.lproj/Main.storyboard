@@ -267,7 +267,7 @@
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="mVi-Wp-5to"/>
                                 <barButtonItem title="Calendar" id="l0u-a8-640">
                                     <connections>
-                                        <segue destination="OyG-pm-mSW" kind="showDetail" id="c9L-X1-XMO"/>
+                                        <segue destination="OyG-pm-mSW" kind="showDetail" identifier="goToCalendar" id="c9L-X1-XMO"/>
                                     </connections>
                                 </barButtonItem>
                                 <barButtonItem style="plain" systemItem="flexibleSpace" id="jId-Wa-R7K"/>
@@ -284,39 +284,32 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EventNameLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pzZ-nc-Y6z">
-                                            <rect key="frame" x="8" y="8" width="144" height="23"/>
+                                            <rect key="frame" x="8" y="8" width="559" height="23"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="559" id="uQ0-EM-5d8"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EventTimeLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XP1-AL-D7v">
-                                            <rect key="frame" x="8" y="41" width="144" height="21"/>
+                                            <rect key="frame" x="8" y="41" width="278" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="278" id="v9Y-fw-6kg"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v6W-rG-qaq">
-                                            <rect key="frame" x="160" y="25" width="399" height="30"/>
-                                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                            <state key="normal" title="Test HTTP">
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="XP1-AL-D7v" firstAttribute="leading" secondItem="Iiv-ca-hfz" secondAttribute="leadingMargin" id="2fY-Fc-3pb"/>
-                                        <constraint firstItem="v6W-rG-qaq" firstAttribute="leading" secondItem="pzZ-nc-Y6z" secondAttribute="trailing" constant="8" id="9wj-VI-B09"/>
                                         <constraint firstItem="XP1-AL-D7v" firstAttribute="top" secondItem="pzZ-nc-Y6z" secondAttribute="bottom" constant="10" id="Jwc-8R-elv"/>
-                                        <constraint firstItem="v6W-rG-qaq" firstAttribute="leading" secondItem="XP1-AL-D7v" secondAttribute="trailing" constant="8" id="cTF-br-x9G"/>
-                                        <constraint firstItem="v6W-rG-qaq" firstAttribute="trailing" secondItem="Iiv-ca-hfz" secondAttribute="trailingMargin" id="dJo-kn-zac"/>
-                                        <constraint firstItem="v6W-rG-qaq" firstAttribute="leading" secondItem="XP1-AL-D7v" secondAttribute="trailing" constant="8" id="eD3-d4-KvZ"/>
                                         <constraint firstItem="pzZ-nc-Y6z" firstAttribute="leading" secondItem="Iiv-ca-hfz" secondAttribute="leadingMargin" id="eeD-uK-6lf"/>
-                                        <constraint firstItem="v6W-rG-qaq" firstAttribute="centerY" secondItem="Iiv-ca-hfz" secondAttribute="centerY" id="hMb-OU-v4R"/>
                                         <constraint firstItem="pzZ-nc-Y6z" firstAttribute="top" secondItem="Iiv-ca-hfz" secondAttribute="topMargin" id="ncA-5W-PlE"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="button" destination="v6W-rG-qaq" id="XA7-Pj-R6S"/>
                                     <outlet property="eventNameLabel" destination="pzZ-nc-Y6z" id="hx6-gU-sIz"/>
                                     <outlet property="eventTimeLabel" destination="XP1-AL-D7v" id="sy7-ZH-Orh"/>
                                     <segue destination="AkW-fN-skM" kind="showDetail" id="eiK-Ir-bn0"/>
