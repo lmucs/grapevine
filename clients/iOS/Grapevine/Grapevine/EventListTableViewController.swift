@@ -47,7 +47,8 @@ class EventListTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
         cell.eventNameLabel.text = self.events[indexPath.row].title
-        cell.eventTimeLabel.text = String(self.events[indexPath.row].location)
+        cell.eventLocationLabel.text = String(self.events[indexPath.row].location)
+        cell.eventTimeLabel.text = String(self.events[indexPath.row].startTime)
         return cell
 
     }
@@ -110,9 +111,12 @@ class EventListTableViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
-        let nav = segue.destinationViewController as! UINavigationController
-        let calendarView = nav.topViewController as! CalendarViewController
-        calendarView.events = self.events
+        if segue.identifier == "goToCalendar" {
+            let nav = segue.destinationViewController as! UINavigationController
+            let calendarView = nav.topViewController as! CalendarViewController
+            calendarView.events = self.events
+        }
+        
         
         
         

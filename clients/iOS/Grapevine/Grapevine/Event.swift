@@ -11,13 +11,13 @@ import ObjectMapper
 
 class Event: NSObject, Mappable {
     var title: String!
-    var date: NSDate!
+    var date: String!
     var status: String!
     var eventId: Int!
     var feedId: Int!
     var timeProcessed: NSDate!
-    var startTime: NSDate!
-    var endTime: NSDate!
+    var startTime: Int!
+    var endTime: String!
     var repeatsWeekly: Int!
     var tags: [String]!
     var url: String!

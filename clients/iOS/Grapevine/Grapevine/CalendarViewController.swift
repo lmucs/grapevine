@@ -12,6 +12,7 @@ import CVCalendar
 class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalendarMenuViewDelegate, UITableViewDelegate, UITableViewDataSource {
     
     var events: [Event]!
+    var filteredEvents: [Event]!
     
     @IBOutlet weak var menuView: CVCalendarMenuView!
     @IBOutlet weak var calendarView: CVCalendarView!
@@ -112,6 +113,10 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         self.title =  monthIntToMonthString(cvDate) + " " + String(cvDate.year)
     }
     
+    func presentedDateUpdated(date: Date){
+        print("date updated")
+    }
+    
     /*
     * Functions available to be implemented if needed
     
@@ -120,9 +125,6 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     }
     
     
-    func presentedDateUpdated(date: Date){
-    
-    }
     
     func topMarker(shouldDisplayOnDayView dayView: DayView) -> Bool {
     

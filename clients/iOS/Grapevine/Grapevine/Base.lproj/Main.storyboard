@@ -293,23 +293,29 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EventTimeLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XP1-AL-D7v">
-                                            <rect key="frame" x="8" y="41" width="278" height="21"/>
-                                            <constraints>
-                                                <constraint firstAttribute="width" constant="278" id="v9Y-fw-6kg"/>
-                                            </constraints>
+                                            <rect key="frame" x="8" y="41" width="122" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EventLocationLabel" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cJ3-cB-RgY">
+                                            <rect key="frame" x="409" y="41" width="150" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
-                                        <constraint firstItem="XP1-AL-D7v" firstAttribute="leading" secondItem="Iiv-ca-hfz" secondAttribute="leadingMargin" id="2fY-Fc-3pb"/>
-                                        <constraint firstItem="XP1-AL-D7v" firstAttribute="top" secondItem="pzZ-nc-Y6z" secondAttribute="bottom" constant="10" id="Jwc-8R-elv"/>
+                                        <constraint firstItem="cJ3-cB-RgY" firstAttribute="trailing" secondItem="Iiv-ca-hfz" secondAttribute="trailingMargin" id="08K-ql-azp"/>
+                                        <constraint firstItem="XP1-AL-D7v" firstAttribute="top" secondItem="pzZ-nc-Y6z" secondAttribute="bottom" constant="10" id="4en-MY-zQz"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="cJ3-cB-RgY" secondAttribute="bottom" constant="9" id="MqG-cL-WCt"/>
                                         <constraint firstItem="pzZ-nc-Y6z" firstAttribute="leading" secondItem="Iiv-ca-hfz" secondAttribute="leadingMargin" id="eeD-uK-6lf"/>
                                         <constraint firstItem="pzZ-nc-Y6z" firstAttribute="top" secondItem="Iiv-ca-hfz" secondAttribute="topMargin" id="ncA-5W-PlE"/>
+                                        <constraint firstItem="XP1-AL-D7v" firstAttribute="leading" secondItem="Iiv-ca-hfz" secondAttribute="leadingMargin" id="teB-VS-itD"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="eventLocationLabel" destination="cJ3-cB-RgY" id="CPZ-lh-4PF"/>
                                     <outlet property="eventNameLabel" destination="pzZ-nc-Y6z" id="hx6-gU-sIz"/>
                                     <outlet property="eventTimeLabel" destination="XP1-AL-D7v" id="sy7-ZH-Orh"/>
                                     <segue destination="AkW-fN-skM" kind="showDetail" id="eiK-Ir-bn0"/>
