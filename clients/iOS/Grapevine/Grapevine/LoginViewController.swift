@@ -146,7 +146,11 @@ class LoginViewController: UIViewController {
                             for item in results {
                                 debugPrint(item)
                                 let responseEvent = Mapper<Event>().map(item)
+                                print(responseEvent!.startTime)
                                 eventsView.events.append(responseEvent!)
+                            }
+                            if eventsView.events.count > 1 {
+                                eventsView.events = eventsView.events.sort({$0.startTime > $1.startTime})
                             }
                             eventsView.tableView.reloadData()
                         }
