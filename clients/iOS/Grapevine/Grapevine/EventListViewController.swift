@@ -10,15 +10,24 @@ import UIKit
 import Alamofire
 import AlamofireObjectMapper
 import SwiftyJSON
+import CVCalendar
 
-class EventListTableViewController: UITableViewController {
+class EventListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var token: Token!
     var events: [Event] = []
+    
+    @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
+        tableView.dataSource = self
         print(events.count)
+        for event in events {
+            print("here")
+            print(event.startTimeNS)
+        }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -33,35 +42,28 @@ class EventListTableViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
         return events.count
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
         cell.eventNameLabel.text = self.events[indexPath.row].title
         cell.eventLocationLabel.text = String(self.events[indexPath.row].location)
-        cell.eventTimeLabel.text = String(self.events[indexPath.row].startTime)
+        cell.eventTimeLabel.text = String(self.events[indexPath.row].startTimeNS)
+        if self.events[indexPath.row].startTime != nil {
+            cell.eventMonthLabel.text = String(self.events[indexPath.row].startTime.month)
+            cell.eventDayLabel.text = String(self.events[indexPath.row].startTime.day)
+        }
         return cell
 
-    }
-    
-    @IBAction func getEvents(sender: UIButton){
-        print("test button pressed")
-        sender.enabled = false
-        let url = NSURL(string: "http://localhost:8000/api/v1/events")
-        Alamofire.request(.GET, url!)
-            .responseJSON { response in
-                print("Response JSON: \(response)")
-            }
-        
     }
     
     @IBAction func backToEventListViewController(segue:UIStoryboardSegue){
@@ -115,6 +117,7 @@ class EventListTableViewController: UITableViewController {
             let nav = segue.destinationViewController as! UINavigationController
             let calendarView = nav.topViewController as! CalendarViewController
             calendarView.events = self.events
+            
         }
         
         

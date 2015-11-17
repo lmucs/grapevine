@@ -97,7 +97,7 @@ class CreateAccountViewController: UIViewController {
         // Pass the selected object to the new view controller.
         if segue.identifier == "createAccountSegue" {
             let nav = segue.destinationViewController as! UINavigationController
-            let eventsView = nav.topViewController as! EventListTableViewController
+            let eventsView = nav.topViewController as! EventListViewController
             eventsView.token = self.userToken
         }
         

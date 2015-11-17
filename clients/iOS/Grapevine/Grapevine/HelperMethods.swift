@@ -57,5 +57,12 @@ func monthIntToMonthString(date: CVDate) -> String {
     }
 }
 
+func sameDate(date1: CVDate, date2: CVDate) -> Bool {
+    if ((date1.month == date2.month) && (date2.day == date1.day) && (date1.year == date2.year)) {
+        return true
+    }
+    return false
+}
+
 
 
