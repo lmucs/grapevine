@@ -2,7 +2,10 @@
 # Grapevine
 
 
-Grapevine is a application that (describe it).
+Grapevine is a application that automatically populates a user's calendar with events from Twitter and Facebook. A user can add a list of facebook users and twitter users to follow. Grapevine will listen to these feeds and extract events from feeds.
+
+## Extracting Events
+Consider the case where Grapevine is listening to @LoyolaMarymount. 
 
 TODO - server info, App Store / Google Play info
 
@@ -21,3 +24,9 @@ It was created as part of the CMSI 401 class at Loyola Marymount University duri
 * Jeff Fennell
 * Matt Flickner
 * Joaquín Loustau
+
+## Acknoledgments
+Grapevine makes use of the following libraries, without which Grapevine would be impossible.
+* [Chrono-Node](https://github.com/wanasit/chrono)
+* [NLTK Python Libraries](http://www.nltk.org/)
+* [Caldroid](https://github.com/roomorama/Caldroid)
