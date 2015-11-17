@@ -155,22 +155,28 @@ fbParams =
   IDs: fbScreenNames
   timeStamp: fbTimeStamp
 
-getEvents = ->
-  getTwitterEvents()
-  getFBEvents()
-
 getEventsDemo = ->
   tweetIDs = twitterParams.IDs
   sinceID = twitterParams.timeStamp
   for id in tweetIDs
-    do(id) ->
+    do (id) ->
       getEventsFromTweets id, sinceID
 
   fbIDs = fbParams.IDs
   timeStamp = fbParams.timeStamp
   for id in fbIDs
-    do(id) ->
+    do (id) ->
       getEventsFromFBPosts id, timeStamp
+
+getEvents = ->
+  getTwitterEvents()
+  getFBEvents()
+
+getEventsFromFBUser = (user_name) ->
+  getEventsFromFBPosts user_name
+
+getEventsFromTwitterUser = (screen_name) ->
+  getEventsFromTweets screen_name
 
 getTwitterEvents = ->
   ids = []
@@ -254,15 +260,14 @@ getTwitterURL = (screenName, tweetID) ->
 extractEvents = (text, postInfo) ->
   events = []
   parsedDates = chrono.parse text
-  today = new Date()
-  tomorrow = getMidnightForNextDay(today)
+  tomorrow = getTomorrowMidnight()
   for date in parsedDates
     startDate = date.start.date()
     if startDate.getTime() > tomorrow.getTime()
       myEvent = {}
       myEvent.time_processsed = new Date().getTime()
       myEvent.start_time = startDate.getTime()
-      myEvent.end_time = if date.end then date.end.date().getTime() else startDate.getTime()
+      myEvent.end_time = date.end?.date().getTime() or startDate.getTime()
       myEvent.post = text
       myEvent.URL = postInfo.url
       myEvent.author = postInfo.author
@@ -270,15 +275,19 @@ extractEvents = (text, postInfo) ->
       events.push myEvent
   events
 
-getMidnightForNextDay = (date) ->
-  tomorrow = date
-  tomorrow.setDate(tomorrow.getDate() + 1)
-  tomorrow.setHours(0)
-  tomorrow.setMinutes(0)
-  tomorrow.setSeconds(0)
+
+
+getTomorrowMidnight = () ->
+  tomorrow = new Date()
+  tomorrow.setDate tomorrow.getDate() + 1
+  tomorrow.setHours 0
+  tomorrow.setMinutes 0
+  tomorrow.setSeconds 0
   tomorrow
 
 
 exports.getEventsFromSocialFeeds = getEvents
+exports.getEventsFromFBUser = getEventsFromFBUser
+exports.getEventsFromTwitterUser = getEventsFromTwitterUser
 
 getEventsDemo()
