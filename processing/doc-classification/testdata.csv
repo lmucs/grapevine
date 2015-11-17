@@ -1,7 +1,7 @@
 "post","food","academic","sports"
 "come join us for some free food",1,0,0
 "Come get some pizza and hang with us",1,0,0
-"join us for a speech in the lecture hall",0,1,0
+"join us for a speech in\n the lecture hall",0,1,0
 "go team go",0,0,1
 "there will be food at the holiday event this week",1,0,0
 "come support your local community. food provided",1,0,0
