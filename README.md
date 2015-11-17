@@ -33,7 +33,7 @@ It was created as part of the CMSI 401 class at Loyola Marymount University duri
 * Matt Flickner
 * Joaquín Loustau
 
-## Acknoledgments
+## Acknowledgments
 Grapevine makes use of the following libraries, without which Grapevine would be impossible.
 * [Chrono-Node](https://github.com/wanasit/chrono)
 * [NLTK Python Libraries](http://www.nltk.org/)
