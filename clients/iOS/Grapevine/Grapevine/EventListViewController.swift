@@ -59,7 +59,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.eventLocationLabel.text = String(self.events[indexPath.row].location)
         cell.eventTimeLabel.text = String(self.events[indexPath.row].startTimeNS)
         if self.events[indexPath.row].startTime != nil {
-            cell.eventMonthLabel.text = String(self.events[indexPath.row].startTime.month)
+            cell.eventMonthLabel.text = monthIntToShortMonthString(self.events[indexPath.row].startTime.month)
             cell.eventDayLabel.text = String(self.events[indexPath.row].startTime.day)
         }
         return cell
