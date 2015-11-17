@@ -11,6 +11,7 @@ import SwiftyJSON
 import Alamofire
 import AlamofireObjectMapper
 import ObjectMapper
+import CVCalendar
 
 class LoginViewController: UIViewController {
 
@@ -127,7 +128,7 @@ class LoginViewController: UIViewController {
         
         if segue.identifier == "loginSegue" {
             let nav = segue.destinationViewController as! UINavigationController
-            let eventsView = nav.topViewController as! EventListTableViewController
+            let eventsView = nav.topViewController as! EventListViewController
             print("Token Object again is \(self.userToken.token)")
             
             let getEventsUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events")
@@ -146,11 +147,19 @@ class LoginViewController: UIViewController {
                             for item in results {
                                 debugPrint(item)
                                 let responseEvent = Mapper<Event>().map(item)
-                                print(responseEvent!.startTime)
+                                if responseEvent!.dateNS != nil {
+                                    responseEvent!.date = Date(date: responseEvent!.dateNS)
+                                }
+                                if responseEvent!.startTimeNS != nil {
+                                    responseEvent!.date = Date(date: responseEvent!.startTimeNS)
+                                }
+                                if responseEvent!.endTimeNS != nil {
+                                    responseEvent!.date = Date(date: responseEvent!.endTimeNS)
+                                }
                                 eventsView.events.append(responseEvent!)
                             }
                             if eventsView.events.count > 1 {
-                                eventsView.events = eventsView.events.sort({$0.startTime.compare($1.startTime) == NSComparisonResult.OrderedAscending})
+                                eventsView.events = eventsView.events.sort({$0.startTimeNS.compare($1.startTimeNS) == NSComparisonResult.OrderedAscending})
                             }
                             eventsView.tableView.reloadData()
                         }
