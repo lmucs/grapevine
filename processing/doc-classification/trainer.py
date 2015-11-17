@@ -1,43 +1,68 @@
 import nltk
 import csv
 import pickle
+import random
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 
 stop_words = set(stopwords.words('english'))
 stop_words.update( set(line.strip() for line in open('customstopwords.txt')) )
 
-testDataArray = list( csv.reader( open("testdata.csv") ) )
-headers = testDataArray.pop(0)
-labelHeaders = headers[1:]
+test_data_array = list( csv.reader( open("testdata.csv") ) )
+headers = test_data_array.pop(0)
+label_headers = headers[1:]
 
-
-testData = []
-for row in testDataArray:
-   boolRow = [row.pop(0)]
+test_data = []
+for row in test_data_array:
+   post = row.pop(0).decode("string_escape")
+   processed_bool_row = [post]
    for label in row:
-      boolRow.append( bool(int(label)) )
-   testData.append( dict(zip(headers, boolRow)))
+      processed_bool_row.append( bool(int(label)) )
+   test_data.append( dict(zip(headers, processed_bool_row)))
 
-
-classified_set = []
-for classifiedPost in testData:
-
-   post = nltk.word_tokenize( classifiedPost["post"] )
-   post = [word.lower() for word in post]
-   for word in post:
+def processString(string) :
+   words = nltk.word_tokenize(string)
+   words = [word.lower() for word in words]
+   for word in words:
       if word in stop_words:
-         post = filter(lambda a: a != word, post)
+         words = filter(lambda a: a!= word, words)
+   return words
 
-   for label in labelHeaders:
-      if classifiedPost[label]:
-         classified_set.append( (post, label) )
+all_words = []
+classified_set = []
+for classified_post in test_data:
+
+   words = processString( classified_post["post"] )
+   all_words.extend(words)
+   print words
+
+   for label in label_headers:
+      if classified_post[label]:
+         classified_set.append( (words, label) )
+
+all_words = nltk.FreqDist(all_words)
+word_features = all_words.keys()
 
 
-print classified_set
+def find_features(post):
+    words = set(post)
+    features = {}
+    for w in word_features:
+        features[w] = (w in words)
+    return features
 
-# classifier = nltk.NaiveBayesClassifier.train(training_set)
-# accuracy = nltk.classify.accuracy(classifier, testing_set)
+features_set = [(find_features(post), label) for (post, label) in classified_set]
+random.shuffle(features_set)
+
+training_set = features_set[:13]
+testing_set = features_set[13:]
+
+
+classifier = nltk.NaiveBayesClassifier.train(training_set)
+accuracy = nltk.classify.accuracy(classifier, testing_set)
+
+print accuracy
+print classifier.show_most_informative_features(30)
 
 # save_classifier = open("naivebayesclassifier.pickle", "wb")
 # pickle.dump(classifier, save_classifier)
