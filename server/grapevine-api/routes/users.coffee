@@ -1,7 +1,20 @@
-pgClient = require '../../../database/pg-client'
-request  = require 'request'
+pgClient  = require '../../../database/pg-client'
+feeds     = require './feeds'
+userFeeds = require './user_feeds'
 
 users =
+  create: (req, res) ->
+    unless req.body.username and req.body.password
+      return res.status(400).json 'message': 'username and password required'
+    insertUser req.body.username, req.body.password, (err) ->
+      if err
+        return res.status(400).json (
+          if err.code is '23505'
+          then 'message': "username #{req.body.username} already exists,
+                           please choose another"
+          else err
+        )
+      require('./tokens').create req, res
 
   getAllEvents: (req, res) ->
     pgClient.query
@@ -21,73 +34,63 @@ users =
              WHERE events.feed_id = user_follows_feed.feed_id
              AND user_follows_feed.user_id = $1
              AND time_processed > $2',
-      values: [req.params.userID, req.params.timestamp]
+      values: [req.params.userID, req.params.after]
     , (err, result) ->
       return res.status(400).json err if err
       res.status(200).json result.rows
 
   followFeed: (req, res) ->
     feedName   = req.body?.feedName
-    sourceName = req.body?.sourceName
-    unless feedName and sourceName
-      return res.status(400).json 'message': 'feed name and source name required'
+    networkName = req.body?.networkName
+    unless feedName and networkName
+      return res.status(400)
+        .json 'message': "feed name and network name (e.g. 'twitter', 'facebook') required"
 
-    getFeed feedName, sourceName, (err, result) ->
+    feeds.get feedName, networkName, (err, result) ->
       return res.status(400).json err if err
       feed = result.rows[0]
+
+      # create an association between the user and the feed if the feed already
+      # exists in our list of all feeds that we follow
       if feed
-        createUserFeedAssociation req.params.userID, feed.feed_id
+        userFeeds.createAssociation req.params.userID, feed.feed_id, (err) ->
+          return res.status(400).json 'message' : 'user already follows feed' if err
+          return res.status(201)
+            .json 'message' : "successfully followed feed for userID #{req.params.userID}"
+
+      # if the feed is not one already followed by a Grapevine user, check to see
+      # that it is a valid feed to follow, add the feed to our list of all feeds to follow,
+      # and then create the association between the user and feed
       else
-        checkValidFeed feedName, sourceName, (err, response, body) ->
+        feeds.findInNetwork feedName, networkName, (err, response, body) ->
           if err or response.statusCode isnt 200
             return res.status(404).json
-              'message': "#{sourceName} does not contain feed #{feedName}"
-          insertFeed feedName, sourceName, (err, result) ->
+              'message': "#{networkName} does not contain feed #{feedName}"
+          feeds.insert feedName, networkName, (err, result) ->
             return res.status(400).json err if err
-            createUserFeedAssociation req.params.userID, result.rows[0].feed_id
-
-    createUserFeedAssociation = (userID, feedID) ->
-      pgClient.query
-        text: 'INSERT INTO user_follows_feed (user_id, feed_id)
-               VALUES ($1, $2)',
-        values: [userID, feedID]
-      , (err, result) ->
-        return res.status(400).json 'message': 'user already follows feed' if err
-        res.status(200).json
-          'message': "successfully followed feed for userID #{userID}"
+            userFeeds.createAssociation req.params.userID, result.rows[0].feed_id, (err) ->
+              return res.status(400).json 'message' : 'user already follows feed' if err
+              return res.status(201)
+                .json 'message' : "successfully followed feed for userID #{req.params.userID}"
 
   unfollowFeed: (req, res) ->
-    getFeed req.params.feedName, req.params.sourceName, (err, result) ->
+    feeds.get req.params.feedName, req.params.networkName, (err, result) ->
       return res.status(400).json err if err
       feed = result.rows[0]
       if feed
-        pgClient.query
-          text: 'DELETE FROM user_follows_feed
-                 WHERE user_id = $1 AND feed_id = $2',
-          values: [req.params.userID, feed.feed_id]
-        , (err) ->
+        userFeeds.deleteAssociation req.params.userID, feed.feed_id, (err) ->
           return res.status(400).json err if err
           res.status(200).json
             'message': "successfully unfollowed #{req.params.feedName}
-                        for #{req.params.userID}"
+                        for userID #{req.params.userID}"
       else
         res.status(404).json 'message': "#{req.params.feedName} does not exist"
 
-checkValidFeed = (feedName, sourceName, callback) ->
-  request "https://social-media.herokuapp.com/#{sourceName}/posts/#{feedName}", callback
-
-insertFeed = (feedName, sourceName, callback) ->
+insertUser = (username, password, callback) ->
   pgClient.query
-    text: 'INSERT INTO feeds (feed_name, source_name)
-           VALUES ($1, $2)
-           RETURNING feed_id, feed_name',
-    values: [feedName, sourceName]
+    text: 'INSERT INTO users (username, password, role) VALUES ($1, $2, $3)',
+    values: [username, password, 'user']
   , callback
 
-getFeed = (feedName, sourceName, callback) ->
-  pgClient.query
-    text: 'SELECT * FROM feeds WHERE feed_name = $1 AND source_name = $2',
-    values: [feedName, sourceName]
-  , callback
 
 module.exports = users
