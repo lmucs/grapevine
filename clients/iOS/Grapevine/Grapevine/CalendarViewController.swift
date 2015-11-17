@@ -267,19 +267,29 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     }
     */
 
+    func eventAtIndexPath(path: NSIndexPath) -> Event {
+        return self.events[path.row]
+    }
     
-    
-    
-    
+    @IBAction func backToCalendarViewController(segue:UIStoryboardSegue){
+        
+    }
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "eventDetailFromCalendar" {
+            let nav = segue.destinationViewController as! UINavigationController
+            let detailView = nav.topViewController as! EventDetailViewController
+            let path = self.tableView.indexPathForSelectedRow!
+            detailView.event = eventAtIndexPath(path)
+            
+        }
     }
-    */
+
 
 }

@@ -79,7 +79,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
-                        <color key="backgroundColor" red="0.23495085686621228" green="0.83623342803030298" blue="0.28053175416682097" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="4C9-R4-X1O" firstAttribute="top" secondItem="rgt-sx-7ce" secondAttribute="bottom" constant="8" id="25y-nk-8pc"/>
                             <constraint firstItem="RPP-wG-TD6" firstAttribute="top" secondItem="CHN-9D-RWW" secondAttribute="bottom" constant="8" id="2qE-gX-Kqb"/>
@@ -283,7 +283,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="eventCell" rowHeight="90" id="awM-dn-rfD" customClass="EventTableViewCell" customModule="Grapevine" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="92" width="600" height="90"/>
+                                        <rect key="frame" x="0.0" y="28" width="600" height="90"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="awM-dn-rfD" id="asY-z3-22h">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="89"/>
@@ -367,7 +367,7 @@
                                             <outlet property="eventMonthLabel" destination="Zko-aF-vmB" id="Pln-nI-YF4"/>
                                             <outlet property="eventNameLabel" destination="sse-7D-nHj" id="Aq1-hC-A92"/>
                                             <outlet property="eventTimeLabel" destination="Dd7-EJ-R1I" id="tl8-SW-VqX"/>
-                                            <segue destination="AkW-fN-skM" kind="showDetail" id="m2J-bx-KXE"/>
+                                            <segue destination="AkW-fN-skM" kind="showDetail" identifier="goToEventDetailSegue" id="m2J-bx-KXE"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -394,10 +394,10 @@
             </objects>
             <point key="canvasLocation" x="2026" y="404"/>
         </scene>
-        <!--View Controller-->
+        <!--Event Detail View Controller-->
         <scene sceneID="YHB-AA-i9C">
             <objects>
-                <viewController id="Ke9-FM-ock" sceneMemberID="viewController">
+                <viewController id="Ke9-FM-ock" customClass="EventDetailViewController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="fDq-1Y-fP8"/>
                         <viewControllerLayoutGuide type="bottom" id="Ir4-S0-dyy"/>
@@ -405,20 +405,78 @@
                     <view key="view" contentMode="scaleToFill" id="hC4-4m-beB">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FpM-YS-l52">
+                                <rect key="frame" x="20" y="115" width="560" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9IH-uy-83z">
+                                <rect key="frame" x="20" y="144" width="560" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F6E-n7-hZK">
+                                <rect key="frame" x="20" y="80" width="560" height="27"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Link" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tRe-b6-CW4">
+                                <rect key="frame" x="20" y="173" width="560" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="HxT-ln-k3i"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="F6E-n7-hZK" firstAttribute="top" secondItem="fDq-1Y-fP8" secondAttribute="bottom" constant="16" id="0m8-dS-xY9"/>
+                            <constraint firstItem="9IH-uy-83z" firstAttribute="trailing" secondItem="hC4-4m-beB" secondAttribute="trailingMargin" id="27X-8Y-HFW"/>
+                            <constraint firstItem="F6E-n7-hZK" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="7PP-sH-m4J"/>
+                            <constraint firstItem="9IH-uy-83z" firstAttribute="leading" secondItem="hC4-4m-beB" secondAttribute="leadingMargin" id="7ve-2u-NoH"/>
+                            <constraint firstItem="FpM-YS-l52" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="GFW-JV-Obq"/>
+                            <constraint firstItem="tRe-b6-CW4" firstAttribute="trailing" secondItem="hC4-4m-beB" secondAttribute="trailingMargin" id="MLe-He-H6o"/>
+                            <constraint firstItem="FpM-YS-l52" firstAttribute="trailing" secondItem="hC4-4m-beB" secondAttribute="trailingMargin" id="XLX-oI-naJ"/>
+                            <constraint firstItem="9IH-uy-83z" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="Y5T-cd-xTr"/>
+                            <constraint firstItem="9IH-uy-83z" firstAttribute="top" secondItem="FpM-YS-l52" secondAttribute="bottom" constant="8" id="aKM-MG-V0B"/>
+                            <constraint firstItem="FpM-YS-l52" firstAttribute="top" secondItem="F6E-n7-hZK" secondAttribute="bottom" constant="8" id="gEf-gj-gL3"/>
+                            <constraint firstItem="FpM-YS-l52" firstAttribute="leading" secondItem="hC4-4m-beB" secondAttribute="leadingMargin" id="iqg-4c-NVT"/>
+                            <constraint firstItem="tRe-b6-CW4" firstAttribute="top" secondItem="9IH-uy-83z" secondAttribute="bottom" constant="8" id="k4b-fl-RxU"/>
+                            <constraint firstItem="F6E-n7-hZK" firstAttribute="trailing" secondItem="hC4-4m-beB" secondAttribute="trailingMargin" id="ulL-y4-3ve"/>
+                            <constraint firstItem="tRe-b6-CW4" firstAttribute="leading" secondItem="hC4-4m-beB" secondAttribute="leadingMargin" id="vKz-08-eI8"/>
+                            <constraint firstItem="tRe-b6-CW4" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="vmf-tW-jd5"/>
+                            <constraint firstItem="F6E-n7-hZK" firstAttribute="leading" secondItem="hC4-4m-beB" secondAttribute="leadingMargin" id="zKJ-A8-ugs"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bs8-4m-9GQ">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="Csh-Sk-2U6">
+                        <barButtonItem key="leftBarButtonItem" title="List" id="Csh-Sk-2U6">
                             <connections>
                                 <segue destination="gO1-1i-VP1" kind="unwind" unwindAction="backToEventListViewController:" id="TrG-Q1-Cwf"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Calendar" id="2lo-6u-ZlY">
+                            <connections>
+                                <segue destination="gO1-1i-VP1" kind="unwind" unwindAction="backToCalendarViewController:" id="0yG-Ku-YIT"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="eventDateLabel" destination="FpM-YS-l52" id="sAa-gB-RdO"/>
+                        <outlet property="eventLinkLabel" destination="tRe-b6-CW4" id="WJf-UL-35t"/>
+                        <outlet property="eventTimeLabel" destination="9IH-uy-83z" id="tMr-fC-wlG"/>
+                        <outlet property="eventTitleLabel" destination="F6E-n7-hZK" id="Y9u-BP-TVf"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4bQ-Cp-Vmd" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="gO1-1i-VP1" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3643" y="404"/>
+            <point key="canvasLocation" x="3845" y="404"/>
         </scene>
         <!--Calendar View Controller-->
         <scene sceneID="Gql-WB-Cvh">
@@ -494,6 +552,7 @@
                                             <outlet property="eventLocationLabel" destination="Z2q-FW-Lrf" id="2t7-vm-6gS"/>
                                             <outlet property="eventNameLabel" destination="QQI-ap-q29" id="5DB-pY-7ly"/>
                                             <outlet property="eventTimeLabel" destination="lZt-m3-cEB" id="4br-QY-KNv"/>
+                                            <segue destination="AkW-fN-skM" kind="showDetail" id="QrZ-Yx-yTX"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -573,7 +632,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="B3i-QH-2ix" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2839" y="404"/>
+            <point key="canvasLocation" x="2975" y="404"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="xFG-xU-ERF">
@@ -599,5 +658,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="YbQ-fN-3ob"/>
+        <segue reference="QrZ-Yx-yTX"/>
     </inferredMetricsTieBreakers>
 </document>

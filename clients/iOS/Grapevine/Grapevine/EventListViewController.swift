@@ -105,6 +105,10 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         return true
     }
     */
+    
+    func eventAtIndexPath(path: NSIndexPath) -> Event {
+        return self.events[path.row]
+    }
 
     
     // MARK: - Navigation
@@ -117,6 +121,14 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             let nav = segue.destinationViewController as! UINavigationController
             let calendarView = nav.topViewController as! CalendarViewController
             calendarView.events = self.events
+            
+        }
+        
+        if segue.identifier == "goToEventDetailSegue" {
+            let path = self.tableView.indexPathForSelectedRow!
+            let nav = segue.destinationViewController as! UINavigationController
+            let detailView = nav.topViewController as! EventDetailViewController
+            detailView.event = eventAtIndexPath(path)
             
         }
         
