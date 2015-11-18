@@ -252,7 +252,6 @@ describe 'Grapevine API', ->
               .get '/api/v1/feeds'
               .set 'x-access-token', @token
               .end (err, res) ->
-                console.log "ERR #{err}"
                 throw err if err
                 (res.status).should.be.eql 200
                 (res.body).should.be.eql
