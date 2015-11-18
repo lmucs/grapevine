@@ -3,36 +3,39 @@ request  = require 'request'
 async    = require 'async'
 
 feeds =
-  updateAll: (req, res) ->
+  update: (req, res) ->
     return res.status(400).json 'message': 'lastPulled timestamp required' unless req.body.lastPulled
     pgClient.query
       text: 'UPDATE feeds SET last_pulled = $1',
       values: [req.body.lastPulled]
     , (err) ->
       return res.status(400).json err if err
-      res.status(200).json 'message' : 'successfully updated time last pulled for all feeds'
+      res.status(200).json 'message' : 'successfully updated time last pulled'
 
   getAll: (req, res) ->
-    pgClient.query 'SELECT feed_name FROM feeds WHERE network_name = \'facebook\'', (err, result) ->
+    pgClient.query 'SELECT feed_name, last_pulled FROM feeds WHERE network_name = \'facebook\'', (err, result) ->
       return res.status(400).json err if err
-      res.status(200).json  {'facebook' : {'feeds' : result.rows}, 'twitter'  :  {'listID' : process.env.TWITTER_LIST_ID}}
+      feeds = (feed.feed_name for feed in result.rows)
+      res.status(200).json
+        facebook: feeds,
+        twitter:  process.env.TWITTER_LIST_ID,
+        lastPulled: result.rows[0].last_pulled
 
   insert: (feedName, newtworkName, callback) ->
     if newtworkName is 'twitter'
-      request.post "http://social-media.herokuapp.com/twitter/feeds/#{feedName}", (err) ->
-        return res.status(400).json err if err
-        pgClient.query
-          text: 'INSERT INTO feeds (feed_name, network_name, last_pulled)
-                 VALUES ($1, $2, $3)
-                 RETURNING feed_id, feed_name',
-          values: [feedName, newtworkName, (new Date).getTime()]
-        , callback
+      request.post "http://social-media.herokuapp.com/twitter/feeds/#{feedName}",
+      pgClient.query
+        text: 'INSERT INTO feeds (feed_name, network_name, last_pulled)
+               VALUES ($1, $2, $3)
+               RETURNING feed_id, feed_name',
+        values: [feedName, newtworkName, (new Date()).getTime()]
+      , callback
     else
       pgClient.query
         text: 'INSERT INTO feeds (feed_name, network_name, last_pulled)
                VALUES ($1, $2, $3)
                RETURNING feed_id, feed_name',
-        values: [feedName, newtworkName, (new Date).getTime()]
+        values: [feedName, newtworkName, (new Date()).getTime()]
       , callback
 
   get: (feedName, newtworkName, callback) ->
