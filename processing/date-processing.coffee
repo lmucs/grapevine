@@ -204,9 +204,20 @@ getFBEvents = ->
       timeStamp = resultsOfCall.timeStamp
       callback()
     (callback) ->
+
       getEventsFromFBPosts name, timeStamp for id in ids
       callback()
   ]
+
+setIntervalX = (callback, delay, repetitions) ->
+  counter = 0
+  intervalID = setInterval((->
+    callback()
+    if ++counter == repetitions
+      clearInterval intervalID
+    return
+  ), delay)
+  return
 
 getEventsFromTweets = (screenName, sinceID) ->
   requestURL = "#{serverName}#{twitterURL}#{screenName}"
