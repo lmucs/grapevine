@@ -3,16 +3,6 @@ request  = require 'request'
 async    = require 'async'
 
 feeds =
-  updateOne: (req, res) ->
-    return res.status(400).json 'message': 'lastPulled timestamp required' unless req.body.lastPulled
-    pgClient.query
-      text: 'UPDATE feeds SET last_pulled = $1 WHERE feed_id = $2',
-      values: [req.body.lastPulled, req.params.feedID]
-    , (err) ->
-      console.log "MADE THE QUERY BITCH"
-      return res.status(400).json err if err
-      res.status(200).json 'message' : "successfully updated time last pulled for feed with ID #{req.params.feedID}"
-
   updateAll: (req, res) ->
     return res.status(400).json 'message': 'lastPulled timestamp required' unless req.body.lastPulled
     pgClient.query
@@ -23,9 +13,9 @@ feeds =
       res.status(200).json 'message' : 'successfully updated time last pulled for all feeds'
 
   getAll: (req, res) ->
-    pgClient.query 'SELECT * FROM feeds', (err, result) ->
+    pgClient.query 'SELECT feed_name FROM feeds WHERE network_name = \'facebook\'', (err, result) ->
       return res.status(400).json err if err
-      res.status(200).json result.rows
+      res.status(200).json  {'facebook' : {'feeds' : result.rows}, 'twitter'  :  {'listID' : process.env.TWITTER_LIST_ID}}
 
   insert: (feedName, newtworkName, callback) ->
     if newtworkName is 'twitter'

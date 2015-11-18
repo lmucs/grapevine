@@ -247,17 +247,18 @@ describe 'Grapevine API', ->
                 @token = res.body.token
                 done()
           it 'responds with a 200 OK and all feeds Grapevine currently pulls from', (done) ->
-            @db.query 'INSERT INTO feeds (feed_name, network_name) VALUES (\'LMUHousing\', \'twitter\')'
+            @db.query 'INSERT INTO feeds (feed_name, network_name) VALUES (\'LMUHousing\', \'facebook\')'
             request 'http://localhost:8000'
               .get '/api/v1/feeds'
               .set 'x-access-token', @token
               .end (err, res) ->
                 throw err if err
                 (res.status).should.be.eql 200
-                feeds = res.body
-                (feeds.length).should.be.eql 1
-                (feeds[0].feed_name).should.be.eql 'LMUHousing'
-                (feeds[0].network_name).should.be.eql 'twitter'
+                (res.body).should.be.eql
+                  facebook:
+                    feeds: [feed_name: 'LMUHousing']
+                  twitter:
+                    listID: process.env.TWITTER_LIST_ID
                 done()
 
     context 'when a client GETs from the /api/v1/users/{userID}/events endpoint', ->
@@ -521,25 +522,28 @@ describe 'Grapevine API', ->
         context 'when a valid access token is given', ->
 
           context 'when the user is not an admin', ->
-            it 'responds with a 403 forbidden', (done) ->
-              @db.query 'INSERT INTO users (user_id, username, password, role) VALUES (1, \'foo\',\'bar\', \'user\');'
+            beforeEach (done) ->
               request 'http://localhost:8000'
-                .post '/api/v1/tokens'
+                .post '/api/v1/users'
                 .send {username: 'foo', password: 'bar'}
+                .end (err, res) =>
+                  throw err if err
+                  @token = res.body.token
+                  done()
+
+            it 'responds with a 403 forbidden', (done) ->
+              request 'http://localhost:8000'
+                .put '/admin/v1/feeds'
+                .set 'x-access-token', @token
                 .end (err, res) ->
                   throw err if err
-                  request 'http://localhost:8000'
-                    .put '/admin/v1/feeds'
-                    .set 'x-access-token', res.body.token
-                    .end (err, res) ->
-                      throw err if err
-                      (res.status).should.be.eql 403
-                      done()
+                  (res.status).should.be.eql 403
+                  done()
 
           context 'when the user is an admin', ->
             beforeEach (done) ->
               @db.query 'INSERT INTO users (user_id, username, password, role)
-                         VALUES (1, \'foo\',\'bar\', \'admin\');'
+                         VALUES (1, \'foo\', crypt(\'bar\', gen_salt(\'md5\')), \'admin\');'
               request 'http://localhost:8000'
                 .post '/api/v1/tokens'
                 .send {username: 'foo', password: 'bar'}
@@ -588,6 +592,8 @@ describe 'Grapevine API', ->
               (res.status).should.be.eql 401
               (res.body.message).should.be.eql 'access token required'
               done()
+
+
    context 'when the client does not omit the access token', ->
 
         context 'when an invalid access token is given', ->
@@ -605,7 +611,8 @@ describe 'Grapevine API', ->
 
           context 'when the user is not an admin', ->
             it 'responds with a 403 forbidden', (done) ->
-              @db.query 'INSERT INTO users (user_id, username, password, role) VALUES (1, \'foo\',\'bar\', \'user\');'
+              @db.query 'INSERT INTO users (user_id, username, password, role)
+                         VALUES (1, \'foo\', crypt(\'bar\', gen_salt(\'md5\')), \'user\');'
               request 'http://localhost:8000'
                 .post '/api/v1/tokens'
                 .send {username: 'foo', password: 'bar'}
@@ -622,7 +629,7 @@ describe 'Grapevine API', ->
           context 'when the user is an admin', ->
             beforeEach (done) ->
               @db.query 'INSERT INTO users (user_id, username, password, role)
-                         VALUES (1, \'foo\',\'bar\', \'admin\');'
+                         VALUES (1, \'foo\', crypt(\'bar\', gen_salt(\'md5\')), \'admin\');'
               request 'http://localhost:8000'
                 .post '/api/v1/tokens'
                 .send {username: 'foo', password: 'bar'}
