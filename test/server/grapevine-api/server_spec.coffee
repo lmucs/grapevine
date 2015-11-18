@@ -255,13 +255,10 @@ describe 'Grapevine API', ->
                 console.log "ERR #{err}"
                 throw err if err
                 (res.status).should.be.eql 200
-                console.log JSON.stringify res.body
-                # (res.body).should.be.eql
-                #   facebook:
-                #     feeds: [feed_name: 'LMUHousing']
-                #   twitter:
-                #     listID: process.env.TWITTER_LIST_ID
-                #   lastPulled: 123
+                (res.body).should.be.eql
+                  facebook: ['LMUHousing']
+                  twitter: process.env.TWITTER_LIST_ID
+                  lastPulled: '123'
                 done()
 
     context 'when a client GETs from the /api/v1/users/{userID}/events endpoint', ->
