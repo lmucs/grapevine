@@ -88,9 +88,9 @@ users =
 
 insertUser = (username, password, callback) ->
   pgClient.query
-    text: 'INSERT INTO users (username, password, role) VALUES ($1, $2, $3)',
+    text: 'INSERT INTO users (username, password, role)
+           VALUES ($1, crypt($2, gen_salt(\'md5\')), $3)',
     values: [username, password, 'user']
   , callback
-
 
 module.exports = users
