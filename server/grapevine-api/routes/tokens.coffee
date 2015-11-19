@@ -14,7 +14,7 @@ tokens =
 
 getUser = (username, password, callback) ->
   pgClient.query
-    text: 'SELECT * FROM users WHERE username = $1 AND password = $2',
+    text: 'SELECT * FROM users WHERE username = $1 AND password = crypt($2, password);',
     values: [username, password]
   , (err, result) ->
     return callback err if err
