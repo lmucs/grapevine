@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS feeds(
       feed_id SERIAL PRIMARY KEY,
       feed_name text,
       network_name text,
-      last_pulled bigint,
+      last_pulled bigint DEFAULT 0,
       UNIQUE (feed_name, network_name));
 
 CREATE TABLE IF NOT EXISTS events(
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS events(
       user_id int REFERENCES users,
       PRIMARY KEY (feed_id, user_id));
 
-INSERT INTO users(username, password) values ('foo', 'bar');
+INSERT INTO users(username, password) values ('foo', crypt('bar', gen_salt('md5')));
 INSERT INTO feeds(feed_name) VALUES ('fakeFeed1');
 INSERT INTO user_follows_feed(feed_id, user_id) VALUES (1,1);
 
