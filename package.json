@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "An app that creates a calendar from scraping social media.",
   "scripts": {
-    "start": "coffee server/grapevine-api/server.coffee",
-    "test": "node_modules/mocha/bin/mocha --compilers coffee:coffee-script/register test --recursive --slow 4000"
+    "start": "coffee server/grapevine-api/server.coffee"
   },
   "repository": {
     "type": "git",
