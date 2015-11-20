@@ -6,11 +6,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
+import java.util.ArrayList;
 import cs.lmu.grapevine.R;
+import cs.lmu.grapevine.entities.Event;
 import cs.lmu.grapevine.listeners.EventListClickListener;
 import cs.lmu.grapevine.requests.EventFeedRequest;
 
 public class EventFeed extends AppCompatActivity {
+    public static ArrayList<Event> usersEvents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
