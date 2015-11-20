@@ -1,6 +1,7 @@
 package cs.lmu.grapevine.requests.listeners.error;
 
 import android.app.Activity;
+import android.view.View;
 import android.widget.TextView;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -26,5 +27,7 @@ public class LoginErrorListener implements Response.ErrorListener {
         } else {
             loginStatus.setText(R.string.general_login_error);
         }
+
+        parentActivity.findViewById(R.id.login_progress).setVisibility(View.INVISIBLE);
     }
 }
