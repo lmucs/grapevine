@@ -13,7 +13,7 @@ import cs.lmu.grapevine.requests.listeners.success.LoginSuccessListener;
  * Un-authenticated request for logging in to Grapevine.
  */
 public class LoginRequest extends JsonObjectRequest {
-    private static String loginUrl = BuildConfig.API_HOST + "login";
+    private static String loginUrl = BuildConfig.API_HOST + "tokens";
     private Activity parentActivity;
 
     public LoginRequest(Activity parentActivity, String requestBodyString) {
