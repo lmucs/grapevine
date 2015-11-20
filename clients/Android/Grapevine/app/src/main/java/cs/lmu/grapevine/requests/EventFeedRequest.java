@@ -14,7 +14,7 @@ import cs.lmu.grapevine.requests.listeners.success.EventSuccessListener;
  */
 public class EventFeedRequest extends JsonArrayRequest {
     public static String eventRequestURL = BuildConfig.API_HOST
-            + "api/v1/users/"
+            + "users/"
             + Login.userId
             + "/events";
 
