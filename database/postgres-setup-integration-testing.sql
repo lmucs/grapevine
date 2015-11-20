@@ -1,4 +1,5 @@
 --populate with mock user & events
+CREATE EXTENSION pgcrypto;
 
 CREATE TABLE IF NOT EXISTS feeds(
       feed_id SERIAL PRIMARY KEY,
