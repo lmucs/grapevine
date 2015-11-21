@@ -247,7 +247,7 @@ describe 'Grapevine API', ->
                 @token = res.body.token
                 done()
           it 'responds with a 200 OK and all feeds Grapevine currently pulls from', (done) ->
-            @db.query 'INSERT INTO feeds (feed_name, network_name, last_pulled) VALUES (\'LMUHousing\', \'facebook\', 123)'
+            @db.query 'INSERT INTO feeds (feed_name, network_name) VALUES (\'LMUHousing\', \'facebook\')'
             request 'http://localhost:8000'
               .get '/api/v1/feeds'
               .set 'x-access-token', @token
@@ -257,7 +257,7 @@ describe 'Grapevine API', ->
                 (res.body).should.be.eql
                   facebook: ['LMUHousing']
                   twitter: process.env.TWITTER_LIST_ID
-                  lastPulled: '123'
+                  lastPulled: '0'
                 done()
 
     context 'when a client GETs from the /api/v1/users/{userID}/events endpoint', ->
