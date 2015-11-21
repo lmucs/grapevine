@@ -66,7 +66,7 @@ class LoginViewController: UIViewController {
         self.activityIndicator.startAnimating()
         
     
-        let loginUrl = NSURL(string: apiBaseUrl + "/login")
+        let loginUrl = NSURL(string: apiBaseUrl + "/api/v1/tokens")
         
         let loginCredentials: [String: AnyObject] = [
             "username": String(self.usernameTextField.text!),
@@ -81,7 +81,7 @@ class LoginViewController: UIViewController {
                     if response.1 != nil {
                         print("debug response printing")
                         debugPrint(response)
-                        if response.1?.statusCode == 200 {
+                        if response.1?.statusCode == 201 {
                             print(response.2.value!)
                             print("here")
                             
@@ -94,7 +94,7 @@ class LoginViewController: UIViewController {
                             self.performSegueWithIdentifier("loginSegue", sender: self)
                         }
                         else {
-                            print("didn't get a 200")
+                            print("didn't get a 201")
                             self.loginFailedLabel.text = "Invalid Credentials"
                             loginFailed()
                             self.appUser = nil
@@ -150,6 +150,7 @@ class LoginViewController: UIViewController {
                                 if responseEvent!.dateNS != nil {
                                     responseEvent!.date = Date(date: responseEvent!.dateNS)
                                 }
+                                else
                                 if responseEvent!.startTimeNS != nil {
                                     responseEvent!.date = Date(date: responseEvent!.startTimeNS)
                                 }
@@ -159,7 +160,7 @@ class LoginViewController: UIViewController {
                                 eventsView.events.append(responseEvent!)
                             }
                             if eventsView.events.count > 1 {
-                                eventsView.events = eventsView.events.sort({$0.startTimeNS.compare($1.startTimeNS) == NSComparisonResult.OrderedAscending})
+                                //eventsView.events = eventsView.events.sort({$0.startTimeNS.compare($1.startTimeNS) == NSComparisonResult.OrderedAscending})
                             }
                             eventsView.tableView.reloadData()
                         }

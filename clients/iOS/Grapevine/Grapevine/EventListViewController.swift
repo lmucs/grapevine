@@ -57,10 +57,26 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
         cell.eventNameLabel.text = self.events[indexPath.row].title
         cell.eventLocationLabel.text = String(self.events[indexPath.row].location)
-        cell.eventTimeLabel.text = String(self.events[indexPath.row].startTimeNS)
-        if self.events[indexPath.row].startTime != nil {
+        
+        func setDateBoxes(dateTime: CVDate){
             cell.eventMonthLabel.text = monthIntToShortMonthString(self.events[indexPath.row].startTime.month)
             cell.eventDayLabel.text = String(self.events[indexPath.row].startTime.day)
+        }
+        
+        if self.events[indexPath.row].startTimeNS != nil {
+            cell.eventTimeLabel.text = String(self.events[indexPath.row].startTimeNS)
+            setDateBoxes(self.events[indexPath.row].startTime)
+        }
+        else if self.events[indexPath.row].endTimeNS != nil {
+            cell.eventTimeLabel.text = String(self.events[indexPath.row].endTimeNS)
+            setDateBoxes(self.events[indexPath.row].endTime)
+        }
+        else if self.events[indexPath.row].dateNS != nil {
+            cell.eventTimeLabel.text = String(self.events[indexPath.row].dateNS)
+            setDateBoxes(self.events[indexPath.row].date)
+        }
+        else {
+            cell.eventTimeLabel.text = "No date specified"
         }
         return cell
 
