@@ -506,7 +506,7 @@ describe 'Grapevine API', ->
                     (res.body).should.be.eql
                       facebook: ['LMUHousing']
                       twitter: process.env.TWITTER_LIST_ID
-                      lastPulled: '1'
+                      lastPulled: '0'
                     done()
 
     context 'when a client PUTs to the /admin/v1/feeds endpoint', ->
