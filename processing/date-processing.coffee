@@ -2,6 +2,7 @@ request = require 'request'
 fs = require 'fs'
 intervalInSeconds = 10
 serverName = 'http://localhost:3000/'
+databaseAPI = 'http://localhost:8000/'
 twitterURL = 'twitter/posts/'
 fbPostURL = 'facebook/posts/'
 chrono = require 'chrono-node'
@@ -169,8 +170,12 @@ getEventsDemo = ->
       getEventsFromFBPosts id, timeStamp
 
 getEvents = ->
-  getTwitterEvents()
-  getFBEvents()
+  request {url:"#{databaseAPI}/api/v1/tokens"}, (err, res) ->
+    options =
+      url: '#{databaseAPI}/api/v1/feeds'
+      headers: 'x-access-token': res.body.token
+    request options, (err, res) ->
+      console.log res
 
 getEventsFromFBUser = (user_name) ->
   getEventsFromFBPosts user_name
