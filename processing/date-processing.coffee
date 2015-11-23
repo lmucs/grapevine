@@ -1,3 +1,8 @@
+# load environment variables
+dotenv         = require 'dotenv-with-overload'
+dotenv._getKeysAndValuesFromEnvFilePath "#{__dirname}/.env"
+dotenv._setEnvs()
+
 request = require 'request'
 fs = require 'fs'
 intervalInSeconds = 10
@@ -7,6 +12,7 @@ twitterURL = 'twitter/posts/'
 fbPostURL = 'facebook/posts/'
 chrono = require 'chrono-node'
 async = require 'async'
+
 
 twitterScreenNames = [
   'ACTILMU'
@@ -146,7 +152,7 @@ fbScreenNames = [
 ]
 
 lastTweetID = "650742578401011100"
-fbTimeStamp = new Date(2015,9,31).toISOString()
+fbTimeStamp = new Date(2015, 9, 31).toISOString()
 
 twitterParams =
   IDs: twitterScreenNames
@@ -156,7 +162,7 @@ fbParams =
   IDs: fbScreenNames
   timeStamp: fbTimeStamp
 
-getEventsDemo = ->
+exports.getEventsDemo = ->
   tweetIDs = twitterParams.IDs
   sinceID = twitterParams.timeStamp
   for id in tweetIDs
@@ -167,21 +173,15 @@ getEventsDemo = ->
   timeStamp = fbParams.timeStamp
   for id in fbIDs
     do (id) ->
-      getEventsFromFBPosts id, timeStamp
+      getEventsFromFBFeed id, timeStamp
 
 getEvents = ->
-  request {url:"#{databaseAPI}/api/v1/tokens"}, (err, res) ->
+  request {url: "#{databaseAPI}/api/v1/tokens"} , (err, res) ->
     options =
       url: '#{databaseAPI}/api/v1/feeds'
       headers: 'x-access-token': res.body.token
     request options, (err, res) ->
       console.log res
-
-getEventsFromFBUser = (user_name) ->
-  getEventsFromFBPosts user_name
-
-getEventsFromTwitterUser = (screen_name) ->
-  getEventsFromTweets screen_name
 
 getTwitterEvents = ->
   ids = []
@@ -210,7 +210,7 @@ getFBEvents = ->
       callback()
     (callback) ->
 
-      getEventsFromFBPosts name, timeStamp for id in ids
+      getEventsFromFBFeed name, timeStamp for id in ids
       callback()
   ]
 
@@ -230,15 +230,34 @@ getEventsFromTweets = (screenName, sinceID) ->
   request requestURL, (err, res, body) ->
     if res.statusCode is 200
       events = processRawTweets JSON.parse body
-      writeEventsToFile(events, 'event_objects.txt')
+      request
+        url: "#{databaseAPI}api/v1/tokens"
+        method: 'POST'
+        headers:
+          'content-type': 'application/json'
+        body: JSON.stringify {username: process.env.USERNAME, password: process.env.PASSWORD}
+      , (err, response, body) ->
+        throw err if err
+        request
+          url: "#{databaseAPI}admin/v1/events"
+          method: 'POST'
+          headers:
+            'content-type': 'application/json'
+            'x-access-token': (JSON.parse body).token
+          body: JSON.stringify({'events': events})
+        , (err, response, body) ->
+          console.log err
+          console.log body
 
-getEventsFromFBPosts = (screenName, timeStamp) ->
+getEventsFromFBFeed = (screenName, timeStamp) ->
   requestURL = "#{serverName}#{fbPostURL}#{screenName}"
   requestURL += '/' + timeStamp if timeStamp
+  console.log "request URL #{requestURL}"
   request requestURL, (err, res, body) ->
     if res.statusCode is 200 and JSON.parse(body).data?
       rawPosts = JSON.parse(body).data
       events = processRawPosts rawPosts, screenName
+      console.log "WRITING EVENTS TO A FILE"
       writeEventsToFile(events, 'event_objects.txt')
 
 writeEventsToFile = (events, path) ->
@@ -272,38 +291,29 @@ getFacebookURL = (id) ->
 getTwitterURL = (screenName, tweetID) ->
   "https://twitter.com/#{screenName}/status/#{tweetID}"
 
-# Get rid of events from a previous day or from today
+# Get rid of events that have already happened
 extractEvents = (text, postInfo) ->
   events = []
   parsedDates = chrono.parse text
-  tomorrow = getTomorrowMidnight()
+  currentTime = (new Date).getTime()
   for date in parsedDates
     startDate = date.start.date()
-    if startDate.getTime() > tomorrow.getTime()
-      myEvent = {}
-      myEvent.time_processsed = new Date().getTime()
-      myEvent.start_time = startDate.getTime()
-      myEvent.end_time = date.end?.date().getTime() or startDate.getTime()
-      myEvent.post = text
-      myEvent.URL = postInfo.url
-      myEvent.author = postInfo.author
-      myEvent.processed_info = JSON.stringify date
-      events.push myEvent
+    if startDate.getTime() > currentTime
+      events.push
+        timeProcessed: new Date().getTime()
+        startTimeIsKnown: date.start.knownValues.hour?
+        endTimeIsKnown: date.end?
+        startTime: startDate.getTime()
+        endTime: if date.end then date.end.date().getTime() else null
+        post: text
+        url: postInfo.url
+        author: postInfo.author
+        processedInfo: JSON.stringify date
+        tags: [] #TODO: CLASSIFIER WORK HERE
   events
 
 
-
-getTomorrowMidnight = () ->
-  tomorrow = new Date()
-  tomorrow.setDate tomorrow.getDate() + 1
-  tomorrow.setHours 0
-  tomorrow.setMinutes 0
-  tomorrow.setSeconds 0
-  tomorrow
-
-
 exports.getEventsFromSocialFeeds = getEvents
-exports.getEventsFromFBUser = getEventsFromFBUser
-exports.getEventsFromTwitterUser = getEventsFromTwitterUser
+exports.getEventsFromFBFeed = getEventsFromFBFeed
+exports.getEventsFromTweets = getEventsFromTweets
 
-getEventsDemo()
