@@ -52,8 +52,8 @@
                 android:value=".activities.EventFeed" />
         </activity>
         <activity
-            android:name=".activities.AddGroup"
-            android:label="@string/title_activity_add_group" >
+            android:name=".activities.FollowFeed"
+            android:label="@string/title_activity_manage_feeds" >
         </activity>
     </application>
 
