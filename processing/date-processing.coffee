@@ -62,8 +62,8 @@ setIntervalX = (callback, delay, repetitions) ->
   ), delay)
   return
 
-getEventsFromTweets = (screenName, sinceID) ->
-  requestURL = "#{serverName}#{twitterURL}#{screenName}"
+getEventsFromTweets = (networkName, feedName, sinceID) ->
+  requestURL = "#{serverName}#{twitterURL}#{feedName}"
   requestURL += '/' + sinceID if sinceID
   request requestURL, (err, res, body) ->
     if res.statusCode is 200
