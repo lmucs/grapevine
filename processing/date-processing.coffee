@@ -4,7 +4,6 @@ dotenv._getKeysAndValuesFromEnvFilePath "#{__dirname}/.env"
 dotenv._setEnvs()
 
 request = require 'request'
-fs = require 'fs'
 intervalInSeconds = 10
 serverName = 'http://localhost:3000/'
 databaseAPI = 'http://localhost:8000/'

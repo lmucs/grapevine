@@ -1,4 +1,18 @@
+# load environment variables
+dotenv         = require 'dotenv-with-overload'
+dotenv._getKeysAndValuesFromEnvFilePath "#{__dirname}/.env"
+dotenv._setEnvs()
+
 dateProcessor = require './date-processing'
+request = require 'request'
+fs = require 'fs'
+intervalInSeconds = 10
+serverName = 'http://localhost:3000/'
+databaseAPI = 'http://localhost:8000/'
+twitterURL = 'twitter/posts/'
+fbPostURL = 'facebook/posts/'
+chrono = require 'chrono-node'
+async = require 'async'
 
 twitterScreenNames = [
   'ACTILMU'
@@ -148,15 +162,34 @@ fbParams =
   IDs: fbScreenNames
   timeStamp: fbTimeStamp
 
-exports.getEventsDemo = ->
-  tweetIDs = twitterParams.IDs
-  sinceID = twitterParams.timeStamp
-  for id in tweetIDs
-    do (id) ->
-      dateProcessor.getEventsFromFeed 'twitter', id, sinceID
+# tweetIDs = twitterParams.IDs
+# sinceID = twitterParams.timeStamp
+# for id in tweetIDs
+#   do (id) ->
+#     dateProcessor.getEventsFromFeed 'twitter', id, sinceID
+request
+  url: "#{databaseAPI}api/v1/tokens"
+  method: 'POST'
+  headers:
+    'content-type': 'application/json'
+  body: JSON.stringify {username: process.env.USERNAME, password: process.env.PASSWORD}
+, (err, response, body) ->
+  throw err if err
+  console.log body
+  request
+    url: "#{databaseAPI}admin/v1/feeds"
+    method: 'GET'
+    headers:
+      'content-type': 'application/json'
+      'x-access-token': (JSON.parse body).token
+  , (err, response, body) ->
+    parsedBody = JSON.parse body
+    for feed in parsedBody.facebook
+      console.log feed
+      dateProcessor.getEventsFromFeed 'facebook', feed.feedName, fbParams.timeStamp
 
-  fbIDs = fbParams.IDs
-  timeStamp = fbParams.timeStamp
-  for id in fbIDs
-    do (id) ->
-      dateProcessor.getEventsFromFeed 'facebook', id, timeStamp
+# fbIDs = fbParams.IDs
+# timeStamp = fbParams.timeStamp
+# for id in fbIDs
+#   do (id) ->
+#     dateProcessor.getEventsFromFeed 'facebook', id, timeStamp
