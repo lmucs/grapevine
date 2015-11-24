@@ -68,7 +68,7 @@ public class CalendarView extends AppCompatActivity {
     }
 
     private void launchAddGroup() {
-        Intent addGroup = new Intent(this, AddGroup.class);
+        Intent addGroup = new Intent(this, FollowFeed.class);
         startActivity(addGroup);
     }
 
