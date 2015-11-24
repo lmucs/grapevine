@@ -58,6 +58,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         cell.eventNameLabel.text = self.events[indexPath.row].title
         cell.eventLocationLabel.text = String(self.events[indexPath.row].location)
         
+        
         func setDateBoxes(dateTime: CVDate){
             cell.eventMonthLabel.text = monthIntToShortMonthString(self.events[indexPath.row].startTime.month)
             cell.eventDayLabel.text = String(self.events[indexPath.row].startTime.day)
@@ -146,6 +147,15 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             let detailView = nav.topViewController as! EventDetailViewController
             detailView.event = eventAtIndexPath(path)
             
+        }
+        
+        if segue.identifier == "goToFeedManagementSegue" {
+            let nav = segue.destinationViewController as! UINavigationController
+            let feedView = nav.topViewController as! FeedManagementViewController
+            
+            if feedView.myFeeds == nil {
+                print("will call for feeds when endpoint exists")
+            }
         }
         
         

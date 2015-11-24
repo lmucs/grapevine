@@ -14,8 +14,11 @@ class EventTableViewCell: UITableViewCell {
     @IBOutlet weak var eventTimeLabel: UILabel!
     @IBOutlet weak var eventLocationLabel: UILabel!
     @IBOutlet weak var eventMonthLabel: UILabel!
+    @IBOutlet weak var eventMonthView: UIView!
     @IBOutlet weak var eventDayLabel: UILabel!
+    @IBOutlet weak var eventDayView: UIView!
     @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var textField: UITextField!
 
     override func awakeFromNib() {
         super.awakeFromNib()
