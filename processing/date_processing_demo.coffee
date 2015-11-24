@@ -162,34 +162,35 @@ fbParams =
   IDs: fbScreenNames
   timeStamp: fbTimeStamp
 
-# tweetIDs = twitterParams.IDs
-# sinceID = twitterParams.timeStamp
-# for id in tweetIDs
-#   do (id) ->
-#     dateProcessor.getEventsFromFeed 'twitter', id, sinceID
-request
-  url: "#{databaseAPI}api/v1/tokens"
-  method: 'POST'
-  headers:
-    'content-type': 'application/json'
-  body: JSON.stringify {username: process.env.USERNAME, password: process.env.PASSWORD}
-, (err, response, body) ->
-  throw err if err
-  console.log body
-  request
-    url: "#{databaseAPI}admin/v1/feeds"
-    method: 'GET'
-    headers:
-      'content-type': 'application/json'
-      'x-access-token': (JSON.parse body).token
-  , (err, response, body) ->
-    parsedBody = JSON.parse body
-    for feed in parsedBody.facebook
-      console.log feed
-      dateProcessor.getEventsFromFeed 'facebook', feed.feedName, fbParams.timeStamp
+tweetIDs = twitterParams.IDs
+sinceID = twitterParams.timeStamp
+for id in tweetIDs
+  do (id) ->
+    dateProcessor.getEventsFromFeed 'twitter', id, sinceID
 
-# fbIDs = fbParams.IDs
-# timeStamp = fbParams.timeStamp
-# for id in fbIDs
-#   do (id) ->
-#     dateProcessor.getEventsFromFeed 'facebook', id, timeStamp
+fbIDs = fbParams.IDs
+timeStamp = fbParams.timeStamp
+for id in fbIDs
+  do (id) ->
+    dateProcessor.getEventsFromFeed 'facebook', id, timeStamp
+
+
+  #   url: "#{databaseAPI}api/v1/tokens"
+  #   method: 'POST'
+  #   headers:
+  #     'content-type': 'application/json'
+  #   body: JSON.stringify {username: process.env.USERNAME, password: process.env.PASSWORD}
+  # , (err, response, body) ->
+  #   throw err if err
+  #   console.log body
+  #   request
+  #     url: "#{databaseAPI}admin/v1/feeds"
+  #     method: 'GET'
+  #     headers:
+  #       'content-type': 'application/json'
+  #       'x-access-token': (JSON.parse body).token
+  #   , (err, response, body) ->
+  #     parsedBody = JSON.parse body
+  #     for feed in parsedBody.facebook
+  #       console.log feed
+  #       dateProcessor.getEventsFromFeed 'facebook', feed.feedName, fbParams.timeStamp

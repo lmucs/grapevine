@@ -12,55 +12,6 @@ fbPostURL = 'facebook/posts/'
 chrono = require 'chrono-node'
 async = require 'async'
 
-
-getEvents = ->
-  request {url: "#{databaseAPI}/api/v1/tokens"} , (err, res) ->
-    options =
-      url: '#{databaseAPI}/api/v1/feeds'
-      headers: 'x-access-token': res.body.token
-    request options, (err, res) ->
-
-getTwitterEvents = ->
-  ids = []
-  sinceID = null
-  events = []
-  async.series [
-    (callback) ->
-      ## Make API CAll
-      ids = resultsOfCall.id
-      sinceID = resultsOfCall.sinceID
-      callback()
-    (callback) ->
-      getEventsFromTweets name, sinceID for id in ids
-      callback()
-  ]
-
-getFBEvents = ->
-  ids = []
-  timeStamp = null
-  events = []
-  async.series [
-    (callback) ->
-      ## Make API CAll
-      ids = resultsOfCall.id
-      timeStamp = resultsOfCall.timeStamp
-      callback()
-    (callback) ->
-
-      getEventsFromFBFeed name, timeStamp for id in ids
-      callback()
-  ]
-
-setIntervalX = (callback, delay, repetitions) ->
-  counter = 0
-  intervalID = setInterval((->
-    callback()
-    if ++counter == repetitions
-      clearInterval intervalID
-    return
-  ), delay)
-  return
-
 getRequestURL = (networkName, feedName, since) ->
   requestURL = ""
   if networkName is 'twitter'
@@ -99,7 +50,15 @@ getEventsFromFeed = (networkName, feedName, sinceID) ->
           body: JSON.stringify({'events': events})
         , (err, response, body) ->
           throw err if err
-          console.log 'done-zo'
+          request
+            url: "#{databaseAPI}admin/v1/feeds"
+            method: 'PUT'
+            headers:
+              'content-type': 'application/json'
+              'x-access-token': (JSON.parse body).token
+            body: JSON.stringify({'lastPulled': if networkName is 'twitter' then maxSinceID else (new Date).getTime()})
+          , (err, response, body) ->
+            console.log 'done-zo'
 
 processRawTweets = (tweets) ->
   events = []
@@ -149,6 +108,5 @@ extractEvents = (text, postInfo) ->
   events
 
 
-exports.getEventsFromSocialFeeds = getEvents
 exports.getEventsFromFeed = getEventsFromFeed
 
