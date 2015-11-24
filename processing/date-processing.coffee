@@ -62,12 +62,27 @@ setIntervalX = (callback, delay, repetitions) ->
   ), delay)
   return
 
-getEventsFromTweets = (networkName, feedName, sinceID) ->
-  requestURL = "#{serverName}#{twitterURL}#{feedName}"
-  requestURL += '/' + sinceID if sinceID
+getRequestURL = (networkName, feedName, since) ->
+  requestURL = ""
+  if networkName is 'twitter'
+    requestURL = "#{serverName}#{twitterURL}#{feedName}"
+    requestURL += '/' + since if since
+  else if networkName is 'facebook'
+    requestURL = "#{serverName}#{fbPostURL}#{feedName}"
+    requestURL += '/' + since if since
+  return requestURL
+
+
+getEventsFromFeed = (networkName, feedName, sinceID) ->
+  requestURL = getRequestURL networkName, feedName, sinceID
   request requestURL, (err, res, body) ->
     if res.statusCode is 200
-      events = processRawTweets JSON.parse body
+      events = []
+      if networkName is 'twitter'
+        events = processRawTweets JSON.parse body
+      else if networkName is 'facebook' and JSON.parse(body).data?
+        rawPosts = JSON.parse(body).data
+        events = processRawPosts rawPosts, networkName
       request
         url: "#{databaseAPI}api/v1/tokens"
         method: 'POST'
@@ -86,37 +101,6 @@ getEventsFromTweets = (networkName, feedName, sinceID) ->
         , (err, response, body) ->
           throw err if err
           console.log 'done-zo'
-
-getEventsFromFBFeed = (screenName, timeStamp) ->
-  requestURL = "#{serverName}#{fbPostURL}#{screenName}"
-  requestURL += '/' + timeStamp if timeStamp
-  request requestURL, (err, res, body) ->
-    if res.statusCode is 200 and JSON.parse(body).data?
-      rawPosts = JSON.parse(body).data
-      events = processRawPosts rawPosts, screenName
-      request
-        url: "#{databaseAPI}api/v1/tokens"
-        method: 'POST'
-        headers:
-          'content-type': 'application/json'
-        body: JSON.stringify {username: process.env.USERNAME, password: process.env.PASSWORD}
-      , (err, response, body) ->
-        throw err if err
-        request
-          url: "#{databaseAPI}admin/v1/events"
-          method: 'POST'
-          headers:
-            'content-type': 'application/json'
-            'x-access-token': (JSON.parse body).token
-          body: JSON.stringify({'events': events})
-        , (err, response, body) ->
-          throw err if err
-          console.log 'done-zo'
-
-writeEventsToFile = (events, path) ->
-  for event in events
-    fs.appendFile path, JSON.stringify(event, null, 4), (err) ->
-      throw err if err
 
 processRawTweets = (tweets) ->
   events = []
@@ -167,6 +151,5 @@ extractEvents = (text, postInfo) ->
 
 
 exports.getEventsFromSocialFeeds = getEvents
-exports.getEventsFromFBFeed = getEventsFromFBFeed
-exports.getEventsFromTweets = getEventsFromTweets
+exports.getEventsFromFeed = getEventsFromFeed
 

@@ -153,10 +153,10 @@ exports.getEventsDemo = ->
   sinceID = twitterParams.timeStamp
   for id in tweetIDs
     do (id) ->
-      dateProcessor.getEventsFromTweets id, sinceID
+      dateProcessor.getEventsFromFeed 'twitter', id, sinceID
 
   fbIDs = fbParams.IDs
   timeStamp = fbParams.timeStamp
   for id in fbIDs
     do (id) ->
-      dateProcessor.getEventsFromFBFeed id, timeStamp
+      dateProcessor.getEventsFromFeed 'facebook', id, timeStamp
