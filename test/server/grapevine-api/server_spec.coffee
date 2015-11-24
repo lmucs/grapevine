@@ -254,7 +254,7 @@ describe 'Grapevine API', ->
 
               it 'responds with a 200 OK and all events from the feeds the user follows', (done) ->
                 @db.query 'INSERT INTO feeds (feed_id) VALUES (1);
-                           INSERT INTO events (title, feed_id) VALUES (\'Sunset at the Bluff\', 1);
+                           INSERT INTO events (post, feed_id) VALUES (\'Sunset at the Bluff\', 1);
                            INSERT INTO users (user_id) VALUES (1);
                            INSERT INTO user_follows_feed (user_id, feed_id) VALUES (1,1);'
 
@@ -267,15 +267,15 @@ describe 'Grapevine API', ->
                     userEvent = res.body[0]
                     (userEvent.user_id).should.be.eql 1
                     (userEvent.feed_id).should.be.eql 1
-                    (userEvent.title).should.be.eql 'Sunset at the Bluff'
+                    (userEvent.post).should.be.eql 'Sunset at the Bluff'
                     done()
 
             context 'when the client does include a timestamp', ->
 
               it 'responds with a 200 OK and all events that have been processed after the timestamp', (done) ->
                 @db.query 'INSERT INTO feeds (feed_id) VALUES (1);
-                           INSERT INTO events (title, feed_id, time_processed) VALUES (\'Sunrise at the Bluff\', 1, 123);
-                           INSERT INTO events (title, feed_id, time_processed) VALUES (\'Sunset at the Bluff\', 1, 456);
+                           INSERT INTO events (post, feed_id, time_processed) VALUES (\'Sunrise at the Bluff\', 1, 123);
+                           INSERT INTO events (post, feed_id, time_processed) VALUES (\'Sunset at the Bluff\', 1, 456);
                            INSERT INTO users (user_id) VALUES (1);
                            INSERT INTO user_follows_feed (user_id, feed_id) VALUES (1,1);'
 
@@ -288,7 +288,7 @@ describe 'Grapevine API', ->
                     userEvent = res.body[0]
                     (userEvent.user_id).should.be.eql 1
                     (userEvent.feed_id).should.be.eql 1
-                    (userEvent.title).should.be.eql 'Sunset at the Bluff'
+                    (userEvent.post).should.be.eql 'Sunset at the Bluff'
                     done()
 
     context 'when a client POSTs to the /api/v1/users/{userID}/feeds endpoint', ->
@@ -506,7 +506,7 @@ describe 'Grapevine API', ->
                     (res.body).should.be.eql
                       facebook: ['LMUHousing']
                       twitter: process.env.TWITTER_LIST_ID
-                      lastPulled: '0'
+                      lastPulled: '1'
                     done()
 
     context 'when a client PUTs to the /admin/v1/feeds endpoint', ->
@@ -670,13 +670,14 @@ describe 'Grapevine API', ->
                 request 'http://localhost:8000'
                   .post '/admin/v1/events'
                   .set 'x-access-token', @token
-                  .send {events: [{'title': 'blah', 'feedID': 1}]}
+                  .send {events: [{'post': 'blah1', 'feedID': 1}, {'post': 'blah2', 'feedID': 1}]}
                   .end (err, res) =>
                     throw err if err
-                    (res.status).should.be.eql 200
+                    (res.status).should.be.eql 201
                     (res.body.message).should.be.eql 'successfully added events'
                     @db.query 'SELECT * FROM events', (err, result) ->
                       throw err if err
-                      (result.rows.length).should.be.eql 1
-                      (result.rows[0].title).should.be.eql 'blah'
+                      (result.rows.length).should.be.eql 2
+                      (result.rows[0].post).should.be.eql 'blah1'
+                      (result.rows[1].post).should.be.eql 'blah2'
                       done()
