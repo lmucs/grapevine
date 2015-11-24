@@ -22,8 +22,12 @@ events =
                                                  (eventToAdd.feedID or 1)
                                                  ("{#{(eventToAdd.tags or []).join(',')}}")]
     eventsInsertion.text = (eventsInsertion.text)[0...eventsInsertion.text.length-1]
-    pgClient.query eventsInsertion, (err) ->
-      return res.status(400).send 'message': err.detail if err
-      res.status(201).send 'message' : 'successfully added events'
+    if eventsInsertion.values.length > 0
+      pgClient.query eventsInsertion, (err) ->
+        return res.status(400).send 'message': err.detail if err
+        res.status(201).send 'message' : 'successfully added events'
+    else
+      res.status(200).send 'message' : 'no new events created'
+
 
 module.exports = events
