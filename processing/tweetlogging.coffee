@@ -2,7 +2,7 @@ fs = require 'fs'
 request = require 'request'
 chrono = require 'chrono-node'
 
-intervalInSeconds = 5
+intervalInSeconds = 60*5
 serverName = 'http://localhost:3000/'
 twitterURL = 'twitter/posts/'
 fbURL = ''
@@ -24,12 +24,14 @@ saveSinceId = ->
 
 twitterProcessing = (screenName, sinceID) ->
   requestURL = "#{serverName}#{twitterURL}#{screenName}"
-  #requestURL += sinceID if sinceID
+  requestURL += sinceID if sinceID
   #events = []
   request requestURL , (err, res, body) ->
 
     tweets = JSON.parse body
     if err || tweets.errors?
+      console.log err
+      console.log tweets.errors
       console.log 'there was an error in the request'
 
     for tweet in tweets
