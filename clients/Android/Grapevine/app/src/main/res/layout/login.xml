@@ -35,7 +35,8 @@
                 android:hint="@string/prompt_email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:text="foo"/>
 
             <EditText
                 android:id="@+id/password"
@@ -46,7 +47,8 @@
                 android:imeOptions="actionUnspecified"
                 android:inputType="textPassword"
                 android:maxLines="1"
-                android:singleLine="true" />
+                android:singleLine="true"
+                android:text="bar"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -83,9 +85,15 @@
                 android:layout_height="match_parent"
                 android:id="@+id/login_status"
                 android:textColor="@color/red"/>
-
+            <ProgressBar
+                android:id="@+id/login_progress"
+                style="@android:style/Widget.ProgressBar.Small"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center"
+                android:visibility="invisible"/>
         </LinearLayout>
-    </ScrollView>
 
+    </ScrollView>
 </LinearLayout>
 

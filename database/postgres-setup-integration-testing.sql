@@ -1,4 +1,5 @@
 --populate with mock user & events
+CREATE EXTENSION pgcrypto;
 
 CREATE EXTENSION pgcrypto;
 
