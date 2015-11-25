@@ -27,7 +27,7 @@ events =
         return res.status(400).send 'message': err.detail if err
         res.status(201).send 'message' : 'successfully added events'
     else
-      res.status(200).send 'message' : 'no new events created'
+      res.status(201).send 'message' : 'no new events created'
 
 
 module.exports = events

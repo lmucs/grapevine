@@ -22,18 +22,18 @@ twitterRouter.get '/posts/:screenName/:sinceID?', (req, res) ->
     parsedBody = JSON.parse body
     if parsedBody.errors?.length > 0
       return res.status(400).json parsedBody
-    res.send body
+    res.status(200).json body
 
-twitterRouter.get '/lists/:listID/:sinceID?', (req, res) ->
-  console.log 'twitter api was called'
+twitterRouter.get '/lists/:sinceID?', (req, res) ->
   url = "#{twitterAPIHost}/" +
         "lists/statuses.json" +
-        "?include_rts=0" +
-        "&list_id=#{req.params.listID}" +
-        "&count=#{req.params.tweetLimit}"
+        "?user_id=#{process.env.TWITTER_SCREEN_NAME}" +
+        "&list_id=#{process.env.TWITTER_LIST_ID}" +
+        "&include_rts=0"
   url += "&since_id=#{req.params.sinceID}" if req.params.sinceID
-
   request.get {url, oauth}, (error, response, body) ->
+    return res.status(400).json error if error
+    res.send body
 
 twitterRouter.post '/feeds/:screenName', (req, res) ->
   url = "#{twitterAPIHost}/" +
