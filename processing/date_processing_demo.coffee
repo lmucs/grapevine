@@ -191,6 +191,6 @@ request
       'x-access-token': (JSON.parse body).token
   , (err, response, body) ->
     parsedBody = JSON.parse body
-    for feed in parsedBody.facebook
+    for feed in parsedBody
       console.log feed
-      dateProcessor.getEventsFromFeed 'facebook', feed.feedName, feed.feedID, fbParams.timeStamp
+      dateProcessor.getEventsFromFBFeed feed

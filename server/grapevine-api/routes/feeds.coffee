@@ -13,13 +13,9 @@ feeds =
       res.status(200).json 'message' : 'successfully updated time last pulled'
 
   getAll: (req, res) ->
-    pgClient.query 'SELECT feed_name, feed_id, last_pulled FROM feeds WHERE network_name = \'facebook\'', (err, result) ->
+    pgClient.query 'SELECT * FROM feeds', (err, result) ->
       return res.status(400).json err if err
-      feeds = ({feedName: feed.feed_name, feedID: feed.feed_id} for feed in result.rows)
-      res.status(200).json
-        facebook: feeds,
-        twitter:  process.env.TWITTER_LIST_ID,
-        lastPulled: result.rows[0]?.last_pulled or 0
+      res.status(200).json result.rows
 
   insert: (feedName, newtworkName, callback) ->
     if newtworkName is 'twitter'
