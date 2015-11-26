@@ -11,6 +11,7 @@ import Alamofire
 import AlamofireObjectMapper
 import SwiftyJSON
 import CVCalendar
+import ObjectMapper
 
 class EventListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -132,7 +133,80 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     // MARK: Network functions
+    func getAllUserEvents(){
+        
+        let getEventsUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.token.userID!) + "/events")
+        let requestHeader: [String: String] = [
+            "Content-Type": "application/json",
+            "x-access-token": String(self.token.token!)
+        ]
+        print("calling for events now swag")
+        Alamofire.request(.GET, getEventsUrl!, encoding: .JSON, headers: requestHeader)
+            .responseJSON { response in
+                if response.1 != nil {
+                    
+                    if response.1?.statusCode == 200 {
+                        let results = response.2.value! as! NSArray
+                        //debugPrint(results)
+                        for item in results {
+                            debugPrint(item)
+                            let responseEvent = Mapper<Event>().map(item)
+                            if responseEvent!.dateNS != nil {
+                                responseEvent!.date = Date(date: responseEvent!.dateNS)
+                            }
+                            else
+                                if responseEvent!.startTimeNS != nil {
+                                    responseEvent!.date = Date(date: responseEvent!.startTimeNS)
+                            }
+                            if responseEvent!.endTimeNS != nil {
+                                responseEvent!.date = Date(date: responseEvent!.endTimeNS)
+                            }
+                            self.events.append(responseEvent!)
+                        }
+                        // May need to add a time sort here
+                        self.tableView.reloadData()
+                        self.lastUpdated = NSDate()
+                    }
+                }
+            }
+
+    }
+    
     func getEventsSince(date: NSDate){
+        let getEventsSinceUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.token.userID!) + "/events/" + String(self.lastUpdated.timeIntervalSince1970))
+        let requestHeader: [String: String] = [
+            "Content-Type": "application/json",
+            "x-access-token": String(self.token.token!)
+        ]
+        print("calling for events now swag")
+        Alamofire.request(.GET, getEventsSinceUrl!, encoding: .JSON, headers: requestHeader)
+            .responseJSON { response in
+                if response.1 != nil {
+                    
+                    if response.1?.statusCode == 200 {
+                        let results = response.2.value! as! NSArray
+                        //debugPrint(results)
+                        for item in results {
+                            debugPrint(item)
+                            let responseEvent = Mapper<Event>().map(item)
+                            if responseEvent!.dateNS != nil {
+                                responseEvent!.date = Date(date: responseEvent!.dateNS)
+                            }
+                            else
+                                if responseEvent!.startTimeNS != nil {
+                                    responseEvent!.date = Date(date: responseEvent!.startTimeNS)
+                            }
+                            if responseEvent!.endTimeNS != nil {
+                                responseEvent!.date = Date(date: responseEvent!.endTimeNS)
+                            }
+                            self.events.append(responseEvent!)
+                        }
+                        // May need to add a time sort here
+                        self.tableView.reloadData()
+                        self.lastUpdated = NSDate()
+                    }
+                }
+            }
         
     }
 

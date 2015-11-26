@@ -131,48 +131,8 @@ class LoginViewController: UIViewController {
             let eventsView = nav.topViewController as! EventListViewController
             print("Token Object again is \(self.userToken.token)")
             eventsView.token = self.userToken
-            
-            let getEventsUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events")
-            let requestHeader: [String: String] = [
-                "Content-Type": "application/json",
-                "x-access-token": String(self.userToken.token!)
-            ]
-            print("calling for events now swag")
-            Alamofire.request(.GET, getEventsUrl!, encoding: .JSON, headers: requestHeader)
-                .responseJSON { response in
-                    if response.1 != nil {
-                        
-                        if response.1?.statusCode == 200 {
-                            let results = response.2.value! as! NSArray
-                            //debugPrint(results)
-                            for item in results {
-                                debugPrint(item)
-                                let responseEvent = Mapper<Event>().map(item)
-                                if responseEvent!.dateNS != nil {
-                                    responseEvent!.date = Date(date: responseEvent!.dateNS)
-                                }
-                                else
-                                if responseEvent!.startTimeNS != nil {
-                                    responseEvent!.date = Date(date: responseEvent!.startTimeNS)
-                                }
-                                if responseEvent!.endTimeNS != nil {
-                                    responseEvent!.date = Date(date: responseEvent!.endTimeNS)
-                                }
-                                eventsView.events.append(responseEvent!)
-                            }
-                            if eventsView.events.count > 1 {
-                                //eventsView.events = eventsView.events.sort({$0.startTimeNS.compare($1.startTimeNS) == NSComparisonResult.OrderedAscending})
-                            }
-                            eventsView.tableView.reloadData()
-                        }
-                    }
-            }
-
-            
-            
-            
-            
-            
+            eventsView.getAllUserEvents()
+        
         }
     }
    
