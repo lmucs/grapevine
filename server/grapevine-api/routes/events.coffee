@@ -24,6 +24,8 @@ events =
     eventsInsertion.text = (eventsInsertion.text)[0...eventsInsertion.text.length-1]
     if eventsInsertion.values.length > 0
       pgClient.query eventsInsertion, (err) ->
+        console.log err
+        console.log eventsInsertion
         return res.status(400).send 'message': err.detail if err
         res.status(201).send 'message' : 'successfully added events'
     else

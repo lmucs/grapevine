@@ -6,7 +6,7 @@ fbURL          = "https%3A%2F%2Fwww.facebook.com%2F"
 APIHost        = 'https://graph.facebook.com/v2.5'
 feedLimit      = 100
 
-facebookRouter.get '/:feedType/:pageName/:timestamp?', (req, res) ->
+facebookRouter.get '/:feedType(events|posts)/:pageName/:timestamp?', (req, res) ->
 
   getPageID = (next) ->
     pageIDEndpoint = "#{APIHost}/" +
@@ -17,7 +17,7 @@ facebookRouter.get '/:feedType/:pageName/:timestamp?', (req, res) ->
       return res.sendStatus response.statusCode if parsedBody.error
       next parsedBody.id
 
-  getFeedFromID = (id) ->
+  getFeedFromPageID = (id) ->
     feedEndpoint = "#{APIHost}/#{id}/" +
                    "#{req.params.feedType}" +
                    "?access_token=#{process.env.FB_TOKEN}" +
@@ -27,7 +27,7 @@ facebookRouter.get '/:feedType/:pageName/:timestamp?', (req, res) ->
       return res.sendStatus response.statusCode if (JSON.parse body).error
       res.send body
 
-  getPageID getFeedFromID
+  getPageID getFeedFromPageID
 
 
 module.exports = facebookRouter
