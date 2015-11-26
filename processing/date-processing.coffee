@@ -26,13 +26,15 @@ getEventsFromFBFeed = (feed) ->
       currentTime = new Date().getTime()
       for FBevent in events
         startTime = new Date(FBevent.start_time).getTime()
-        endTime = new Date(FBevent.end_time).getTime() if FBevent.end_time
+        endTime = if FBevent.end_time then new Date(FBevent.end_time).getTime() else 0
+        console.log "FBevent #{JSON.stringify FBevent}"
+        console.log "FUTURE #{startTime > currentTime or endTime > currentTime}"
         if startTime > currentTime or endTime > currentTime
           eventInfoToPost.push
             timeProcessed: new Date().getTime()
-            location: [FBevent.location?.country, FBevent.location?.state, FBevent.location?.city, FBevent.location?.street]
-            startTimeIsKnown: FBevent.start_time?
-            endTimeIsKnown: FBevent.end_time?
+            location: [FBevent.place?.name, FBevent.place?.location?.country, FBevent.place?.location?.state, FBevent.place?.location?.city, FBevent.place.location?.street]
+            # startTimeIsKnown: null
+            # endTimeIsKnown: null
             startTime: startTime
             endTime: endTime
             post: FBevent.description
@@ -51,7 +53,8 @@ getEventsFromFBFeed = (feed) ->
         postText = post.message or ''
         url = getFacebookURL(post.id)
         postInfo = {author:feed.feed_name, url}
-        events.push.apply events, extractEvents postText, postInfo, feed.feed_id, post.created_time
+        eventInfoToPost = extractEvents postText, postInfo, feed.feed_id, post.created_time
+        events.push eventInfoToPost if eventInfoToPost
       next events
 
   getFBFeedPosts extractEventsFromPosts pushEvents done
@@ -109,11 +112,11 @@ extractEvents = (text, postInfo, feedID, createdTime) ->
   myEvent = null
   for date in parsedDates
     startDate = date.start.date()
-    if startDate.getTime() > currentTime
+    if startDate.getTime() > currentTime or true
       myEvent =
         timeProcessed: new Date().getTime()
-        startTimeIsKnown: date.start.knownValues.hour?
-        endTimeIsKnown: date.end?
+        # startTimeIsKnown: date.start.knownValues.hour?
+        # endTimeIsKnown: date.end?
         startTime: startDate.getTime()
         endTime: if date.end then date.end.date().getTime() else null
         post: text
@@ -122,11 +125,8 @@ extractEvents = (text, postInfo, feedID, createdTime) ->
         processedInfo: JSON.stringify date
         feedID: feedID
         tags: [] #TODO: CLASSIFIER WORK HERE
-  if myEvent then [myEvent] else []
-
-
-containsRelativeDate = (text) ->
-  text.toLowerCase() in ['today', 'tomorrow', 'tonight']
+  myEvent
+  # if myEvent then [myEvent] else []
 
 exports.getEventsFromFBFeed = getEventsFromFBFeed
 
