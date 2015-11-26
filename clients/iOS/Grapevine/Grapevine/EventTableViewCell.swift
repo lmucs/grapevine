@@ -19,6 +19,7 @@ class EventTableViewCell: UITableViewCell {
     @IBOutlet weak var eventDayView: UIView!
     @IBOutlet weak var button: UIButton!
     @IBOutlet weak var textField: UITextField!
+    @IBOutlet weak var segControl: UISegmentedControl!
 
     override func awakeFromNib() {
         super.awakeFromNib()

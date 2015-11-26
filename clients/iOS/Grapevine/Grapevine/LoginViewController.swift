@@ -130,6 +130,7 @@ class LoginViewController: UIViewController {
             let nav = segue.destinationViewController as! UINavigationController
             let eventsView = nav.topViewController as! EventListViewController
             print("Token Object again is \(self.userToken.token)")
+            eventsView.token = self.userToken
             
             let getEventsUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events")
             let requestHeader: [String: String] = [

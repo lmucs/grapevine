@@ -16,6 +16,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var token: Token!
     var events: [Event] = []
+    var lastUpdated: NSDate!
     
     @IBOutlet weak var tableView: UITableView!
 
@@ -65,14 +66,17 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         }
         
         if self.events[indexPath.row].startTimeNS != nil {
+            print("got a start time!")
             cell.eventTimeLabel.text = String(self.events[indexPath.row].startTimeNS)
             setDateBoxes(self.events[indexPath.row].startTime)
         }
         else if self.events[indexPath.row].endTimeNS != nil {
+            print("got an end time!")
             cell.eventTimeLabel.text = String(self.events[indexPath.row].endTimeNS)
             setDateBoxes(self.events[indexPath.row].endTime)
         }
         else if self.events[indexPath.row].dateNS != nil {
+            print("got a date!")
             cell.eventTimeLabel.text = String(self.events[indexPath.row].dateNS)
             setDateBoxes(self.events[indexPath.row].date)
         }
@@ -126,6 +130,11 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     func eventAtIndexPath(path: NSIndexPath) -> Event {
         return self.events[path.row]
     }
+    
+    // MARK: Network functions
+    func getEventsSince(date: NSDate){
+        
+    }
 
     
     // MARK: - Navigation
@@ -152,7 +161,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         if segue.identifier == "goToFeedManagementSegue" {
             let nav = segue.destinationViewController as! UINavigationController
             let feedView = nav.topViewController as! FeedManagementViewController
-            
+            feedView.token = self.token
             if feedView.myFeeds == nil {
                 print("will call for feeds when endpoint exists")
             }
