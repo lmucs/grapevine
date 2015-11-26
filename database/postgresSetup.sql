@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS feeds(
 CREATE TABLE IF NOT EXISTS events(
       event_id SERIAL PRIMARY KEY,
       time_processed bigint,
+      location text[],
+      title text,
       start_time_is_known boolean,
       end_time_is_known boolean,
       start_time bigint,
