@@ -10,8 +10,8 @@ events =
     count = 1
     for eventToAdd in events
       eventsInsertion.text += "($#{count++}, $#{count++}, $#{count++}, $#{count++}, $#{count++}, $#{count++}, $#{count++}, $#{count++}, $#{count++}, $#{count++}, $#{count++}),"
-      Array::push.apply eventsInsertion.values, [(eventToAdd.startTimeIsKnown or null),
-                                                 (eventToAdd.endTimeIsKnown or null),
+      Array::push.apply eventsInsertion.values, [(eventToAdd.startTimeIsKnown or false),
+                                                 (eventToAdd.endTimeIsKnown or false),
                                                  (eventToAdd.timeProcessed or (new Date).getTime()),
                                                  (eventToAdd.startTime or null),
                                                  (eventToAdd.endTime or null),

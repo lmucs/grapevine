@@ -10,14 +10,39 @@ databaseAPI = 'http://localhost:8000/'
 chrono = require 'chrono-node'
 async = require 'async'
 
-# getRequestURLFor = ({network_name, feed_name, last_pulled}) ->
-#   requestURL = "#{host}/#{network_name]}/posts/#{feed_name}/#{if last_pulled then last_pulled else ''}"
-
 getEventsFromFBFeed = (feed) ->
 
   getFBFeedPosts = (next) ->
     request "#{socialMediaAPIHost}/facebook/posts/#{feed.feed_name}", (err, res, body) ->
+      throw err if err
       next JSON.parse(body)?.data
+
+  getFBFeedEvents = (next) ->
+    request "#{socialMediaAPIHost}/facebook/events/#{feed.feed_name}", (err, res, body) ->
+      console.log "EVENTS: #{body}"
+      throw err if err
+      events = JSON.parse(body)?.data
+      eventInfoToPost = []
+      currentTime = new Date().getTime()
+      for FBevent in events
+        startTime = new Date(FBevent.start_time).getTime()
+        endTime = new Date(FBevent.end_time).getTime() if FBevent.end_time
+        if startTime > currentTime or endTime > currentTime
+          eventInfoToPost.push
+            timeProcessed: new Date().getTime()
+            location: [FBevent.location?.country, FBevent.location?.state, FBevent.location?.city, FBevent.location?.street]
+            startTimeIsKnown: FBevent.start_time?
+            endTimeIsKnown: FBevent.end_time?
+            startTime: startTime
+            endTime: endTime
+            post: FBevent.description
+            # url: postInfo.url
+            # author: postInfo.author
+            # processedInfo: ""
+            feedID: feed.feed_id
+            title: FBevent.title
+            tags: [] #TODO: CLASSIFIER WORK HERE
+      next eventInfoToPost
 
   extractEventsFromPosts = (next) ->
     (posts) ->
@@ -26,11 +51,12 @@ getEventsFromFBFeed = (feed) ->
         postText = post.message or ''
         url = getFacebookURL(post.id)
         postInfo = {author:feed.feed_name, url}
-        events.push.apply events, extractEvents postText, postInfo, feed.feed_id
+        events.push.apply events, extractEvents postText, postInfo, feed.feed_id, post.created_time
       next events
 
   getFBFeedPosts extractEventsFromPosts pushEvents done
-  # getFBFeedEvents pushEvents
+  getFBFeedEvents pushEvents done
+  # TODO: update pull time
 
 getLoginToken = (callback) ->
   request
@@ -57,40 +83,7 @@ pushEvents = (callback) ->
         callback()
 
 done = -> console.log 'done'
-# getEventsFromFeed = (feed) ->
-#   request getRequestURLFor feed, (err, res, body) ->
-#     if res.statusCode is 200
-#       events = []
-#       if JSON.parse(body).data?
-#         rawPosts = JSON.parse(body).data
-#         events = processRawPosts rawPosts, feed_name, feed_id
-#       request
-#         url: "#{databaseAPI}api/v1/tokens"
-#         method: 'POST'
-#         headers: 'content-type': 'application/json'
-#         body: JSON.stringify {username: process.env.USERNAME, password: process.env.PASSWORD}
-#       , (err, response, body) ->
-#         console.log events
-#         throw err if err
-#         request
-#           url: "#{databaseAPI}admin/v1/events"
-#           method: 'POST'
-#           headers:
-#             'content-type': 'application/json'
-#             'x-access-token': (JSON.parse body).token
-#           body: JSON.stringify({'events': events})
-#         , (err, response, body) ->
-#           throw err if err
-#           console.log 'done-zo'
-          # request
-          #   url: "#{databaseAPI}admin/v1/feeds"
-          #   method: 'PUT'
-          #   headers:
-          #     'content-type': 'application/json'
-          #     'x-access-token': (JSON.parse body).token
-          #   body: JSON.stringify({'lastPulled': if networkName is 'twitter' then maxSinceID else (new Date).getTime()})
-          # , (err, response, body) ->
-          #   console.log 'done-zo'
+
 processRawTweets = (tweets, feedID) ->
   events = []
   for tweet in tweets
@@ -98,18 +91,7 @@ processRawTweets = (tweets, feedID) ->
     author = tweet.user.screen_name
     url = getTwitterURL(author, tweet.id_str)
     tweetInfo = {url, author}
-    events = [events..., extractEvents(tweetText, tweetInfo, feedID)...]
-  events
-
-processRawPosts = (posts, author, feedID) ->
-  console.log 'processing raw posts'
-  console.log "length of posts #{posts.length}"
-  events = []
-  for post in posts
-    postText = post.message ? ""
-    url = getFacebookURL(post.id)
-    postInfo = {author, url}
-    events = [events..., extractEvents(postText, postInfo, feedID)...]
+    events.push.apply events, extractEvents tweetText, tweetInfo, feedID, tweet.created_at
   events
 
 getFacebookURL = (id) ->
@@ -120,13 +102,12 @@ getTwitterURL = (screenName, tweetID) ->
   "https://twitter.com/#{screenName}/status/#{tweetID}"
 
 # Get rid of events that have already happened
-extractEvents = (text, postInfo, feedID) ->
+extractEvents = (text, postInfo, feedID, createdTime) ->
   events = []
-  parsedDates = chrono.parse text
+  parsedDates = chrono.parse text, new Date(createdTime)
   currentTime = (new Date).getTime()
   myEvent = null
   for date in parsedDates
-    # date = parsedDates[-1..]
     startDate = date.start.date()
     if startDate.getTime() > currentTime
       myEvent =
@@ -143,6 +124,9 @@ extractEvents = (text, postInfo, feedID) ->
         tags: [] #TODO: CLASSIFIER WORK HERE
   if myEvent then [myEvent] else []
 
+
+containsRelativeDate = (text) ->
+  text.toLowerCase() in ['today', 'tomorrow', 'tonight']
 
 exports.getEventsFromFBFeed = getEventsFromFBFeed
 
