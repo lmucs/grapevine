@@ -635,7 +635,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Hn4-NC-8lu">
-                                <rect key="frame" x="0.0" y="64" width="600" height="472"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="addFeedCell" rowHeight="80" id="GcL-Ev-IOA" customClass="EventTableViewCell" customModule="Grapevine" customModuleProvider="target">
@@ -721,10 +721,10 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="Hn4-NC-8lu" firstAttribute="leading" secondItem="edN-AO-aTe" secondAttribute="leadingMargin" constant="-20" id="9GB-t4-d4H"/>
-                            <constraint firstItem="Hn4-NC-8lu" firstAttribute="top" secondItem="CdH-eB-vQf" secondAttribute="bottom" id="XXT-uM-UhV"/>
-                            <constraint firstItem="Hn4-NC-8lu" firstAttribute="centerY" secondItem="edN-AO-aTe" secondAttribute="centerY" id="oYf-HN-55L"/>
-                            <constraint firstItem="Hn4-NC-8lu" firstAttribute="centerX" secondItem="edN-AO-aTe" secondAttribute="centerX" id="sSg-aq-yCk"/>
+                            <constraint firstItem="Hn4-NC-8lu" firstAttribute="centerX" secondItem="edN-AO-aTe" secondAttribute="centerX" id="Q5t-jM-Viu"/>
+                            <constraint firstItem="Hn4-NC-8lu" firstAttribute="centerY" secondItem="edN-AO-aTe" secondAttribute="centerY" id="XCl-CB-xYn"/>
+                            <constraint firstItem="Hn4-NC-8lu" firstAttribute="leading" secondItem="edN-AO-aTe" secondAttribute="leadingMargin" constant="-20" id="ZuG-7g-7YF"/>
+                            <constraint firstItem="Hn4-NC-8lu" firstAttribute="top" secondItem="edN-AO-aTe" secondAttribute="topMargin" id="t0J-G3-jRv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Feed Management" id="BCD-lt-b5u">

@@ -51,6 +51,13 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         }
     }
     
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Add Feed"
+        }
+        return "My Feeds"
+    }
+    
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
