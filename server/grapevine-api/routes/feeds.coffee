@@ -17,14 +17,14 @@ feeds =
       return res.status(400).json err if err
       res.status(200).json result.rows
 
-  insert: (feedName, newtworkName, callback) ->
+  insert: (feedName, newtworkName, id, callback) ->
     if newtworkName is 'twitter'
       request.post "http://social-media.herokuapp.com/twitter/feeds/#{feedName}",
       pgClient.query
-        text: 'INSERT INTO feeds (feed_name, network_name, last_pulled)
-               VALUES ($1, $2, $3)
+        text: 'INSERT INTO feeds (feed_name, network_name, feed_id, last_pulled)
+               VALUES ($1, $2, $3, $4)
                RETURNING feed_id, feed_name',
-        values: [feedName, newtworkName, (new Date()).getTime()]
+        values: [feedName, newtworkName, id, (new Date()).getTime()]
       , callback
     else
       pgClient.query

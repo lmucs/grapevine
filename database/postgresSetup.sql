@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS events(
       time_processed bigint,
       location text[],
       title text,
-      start_time_is_known boolean,
+      is_all_day boolean,
       end_time_is_known boolean,
       start_time bigint,
       end_time bigint,

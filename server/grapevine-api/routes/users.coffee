@@ -66,7 +66,8 @@ users =
           if err or response.statusCode isnt 200
             return res.status(404).json
               'message': "#{networkName} does not contain feed #{feedName}"
-          feeds.insert feedName, networkName, (err, result) ->
+          feedID = if networkName is 'facebook' then null else ((JSON.parse(body))[0]).user.id
+          feeds.insert feedName, networkName, feedID, (err, result) ->
             return res.status(400).json err if err
             userFeeds.createAssociation req.params.userID, result.rows[0].feed_id, (err) ->
               return res.status(400).json 'message' : 'user already follows feed' if err

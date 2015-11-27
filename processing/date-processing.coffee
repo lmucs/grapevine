@@ -10,7 +10,7 @@ databaseAPI = 'http://localhost:8000/'
 chrono = require 'chrono-node'
 async = require 'async'
 
-getEventsFromFBFeed = (feed) ->
+exports.sendEventsFromFBFeed = (feed) ->
 
   getFBFeedPosts = (next) ->
     request "#{socialMediaAPIHost}/facebook/posts/#{feed.feed_name}", (err, res, body) ->
@@ -19,47 +19,97 @@ getEventsFromFBFeed = (feed) ->
 
   getFBFeedEvents = (next) ->
     request "#{socialMediaAPIHost}/facebook/events/#{feed.feed_name}", (err, res, body) ->
-      console.log "EVENTS: #{body}"
       throw err if err
-      events = JSON.parse(body)?.data
-      eventInfoToPost = []
-      currentTime = new Date().getTime()
-      for FBevent in events
-        startTime = new Date(FBevent.start_time).getTime()
-        endTime = if FBevent.end_time then new Date(FBevent.end_time).getTime() else 0
-        console.log "FBevent #{JSON.stringify FBevent}"
-        console.log "FUTURE #{startTime > currentTime or endTime > currentTime}"
-        if startTime > currentTime or endTime > currentTime
-          eventInfoToPost.push
-            timeProcessed: new Date().getTime()
-            location: [FBevent.place?.name, FBevent.place?.location?.country, FBevent.place?.location?.state, FBevent.place?.location?.city, FBevent.place.location?.street]
-            # startTimeIsKnown: null
-            # endTimeIsKnown: null
-            startTime: startTime
-            endTime: endTime
-            post: FBevent.description
-            # url: postInfo.url
-            # author: postInfo.author
-            # processedInfo: ""
-            feedID: feed.feed_id
-            title: FBevent.title
-            tags: [] #TODO: CLASSIFIER WORK HERE
-      next eventInfoToPost
+      next JSON.parse(body)?.data
 
-  extractEventsFromPosts = (next) ->
+  extractGrapevineEventsFromPosts = (next) ->
     (posts) ->
-      events = []
+      grapevineEvents = []
       for post in posts
-        postText = post.message or ''
-        url = getFacebookURL(post.id)
-        postInfo = {author:feed.feed_name, url}
-        eventInfoToPost = extractEvents postText, postInfo, feed.feed_id, post.created_time
-        events.push eventInfoToPost if eventInfoToPost
-      next events
+        extractedTimeAttributes = getTimeAttributes post.message, post.created_time
+        if extractedTimeAttributes
+          # we consider a post to be an event if we were able to extract date/time info from it
+          grapevineEvent = extractedTimeAttributes
+          if isFutureEvent grapevineEvent
+            grapevineEvent.url = ((id) ->
+              [user, post] = id.split("_")
+              "https://www.facebook.com/#{user}/posts/#{post}")(post.id)
+            grapevineEvent.feedID = feed.feed_id
+            grapevineEvents.push grapevineEvent
+      next grapevineEvents
 
-  getFBFeedPosts extractEventsFromPosts pushEvents done
-  getFBFeedEvents pushEvents done
-  # TODO: update pull time
+  extractGrapevineEventsFromFBEvents = (next) ->
+    (FBevents) ->
+      grapevineEvents = []
+      for FBevent in FBevents
+        if (new Date(FBevent.start_time).getTime() > new Date().getTime())
+          grapevineEvents.push
+            timeProcessed: new Date().getTime()
+            location: getFBEventLocation FBevent
+            isAllDay: FBevent.end_time?
+            startTime: new Date(FBevent.start_time).getTime()
+            endTime:   if FBevent.end_time then new Date(FBevent.end_time).getTime() else null
+            post: FBevent.description
+            url: "https://www.facebook.com/events/#{FBevent.id}"
+            feedID: feed.feed_id
+            title: FBevent.name
+            tags: [] #TODO: CLASSIFIER WORK HERE
+      next grapevineEvents
+
+  # THE MEAT AND POTATOES!
+  async.parallel [
+    (callback) -> getFBFeedPosts extractGrapevineEventsFromPosts pushGrapevineEvents callback
+    (callback) -> getFBFeedEvents extractGrapevineEventsFromFBEvents pushGrapevineEvents callback
+  ], (err) ->
+    console.log err if err
+
+exports.sendEventsFromTwitterList = (list) ->
+
+  getTweets = (next) ->
+    request "#{socialMediaAPIHost}/twitter/list/#{list.list_id}", (err, res, body) ->
+      throw err if err
+      next JSON.parse body
+
+  extractGrapevineEventsFromTweets = (next) ->
+    (tweets) ->
+      grapevineEvents = []
+      for tweet in tweets
+        extractedTimeAttributes = getTimeAttributes tweet.text, tweet.created_at
+        if extractedTimeAttributes
+          # we consider a tweet to be an event if we extract time info from it
+          grapevineEvent = extractedTimeAttributes
+          if isFutureEvent grapevineEvent
+            grapevineEvent.feedID = 45
+            #TODO: event URL?
+            grapevineEvents.push grapevineEvent
+      next grapevineEvents
+
+  getTweets extractGrapevineEventsFromTweets pushGrapevineEvents -> console.log 'done'
+
+exports.sendEventsFromTwitterFeed = (feed) ->
+
+  getTweets = (next) ->
+    request "#{socialMediaAPIHost}/twitter/posts/#{feed.feed_name}", (err, res, body) ->
+      throw err if err
+      next JSON.parse body
+
+  extractGrapevineEventsFromTweets = (next) ->
+    (tweets) ->
+      grapevineEvents = []
+      console.log "TWEETS #{JSON.stringify tweets}"
+      for tweet in tweets
+        console.log "TWEET #{JSON.stringify tweet}"
+        extractedTimeAttributes = getTimeAttributes tweet.text, tweet.created_at
+        if extractedTimeAttributes
+          console.log "extractedTimeAttributes #{JSON.stringify extractedTimeAttributes}"
+          # we consider a tweet to be an event if we extract time info from it
+          grapevineEvent = extractedTimeAttributes
+          if isFutureEvent grapevineEvent
+            grapevineEvent.feedID = tweet.user.id
+            grapevineEvents.push grapevineEvent
+      next grapevineEvents
+
+  getTweets extractGrapevineEventsFromTweets pushGrapevineEvents -> console.log 'done'
 
 getLoginToken = (callback) ->
   request
@@ -71,8 +121,19 @@ getLoginToken = (callback) ->
     return callback err if err
     callback null, (JSON.parse body).token
 
-pushEvents = (callback) ->
-  (events) ->
+isFutureEvent = (event) ->
+  currentTime = (new Date).getTime()
+  event.startTime > currentTime or event.endTime > currentTime
+
+getFBEventLocation = (FBevent) ->
+  [FBevent.place?.name,
+   FBevent.place?.location?.country,
+   FBevent.place?.location?.state,
+   FBevent.place?.location?.city,
+   FBevent.place?.location?.street]
+
+pushGrapevineEvents = (callback) ->
+  (grapevineEvents) ->
     getLoginToken (err, token) ->
       request
         url: "#{databaseAPI}admin/v1/events"
@@ -80,53 +141,24 @@ pushEvents = (callback) ->
         headers:
           'content-type': 'application/json'
           'x-access-token': token
-        body: JSON.stringify({'events': events})
+        body: JSON.stringify({'events': grapevineEvents})
       , (err, response, body) ->
-        throw err if err
-        callback()
+        return callback err if err
+        callback null, 'message' : 'done pushing events'
 
-done = -> console.log 'done'
-
-processRawTweets = (tweets, feedID) ->
-  events = []
-  for tweet in tweets
-    tweetText = tweet.text
-    author = tweet.user.screen_name
-    url = getTwitterURL(author, tweet.id_str)
-    tweetInfo = {url, author}
-    events.push.apply events, extractEvents tweetText, tweetInfo, feedID, tweet.created_at
-  events
-
-getFacebookURL = (id) ->
-  [user, post] = id.split("_")
-  "https://www.facebook.com/#{user}/posts/#{post}"
-
-getTwitterURL = (screenName, tweetID) ->
-  "https://twitter.com/#{screenName}/status/#{tweetID}"
-
-# Get rid of events that have already happened
-extractEvents = (text, postInfo, feedID, createdTime) ->
-  events = []
-  parsedDates = chrono.parse text, new Date(createdTime)
-  currentTime = (new Date).getTime()
-  myEvent = null
-  for date in parsedDates
-    startDate = date.start.date()
-    if startDate.getTime() > currentTime or true
-      myEvent =
-        timeProcessed: new Date().getTime()
-        # startTimeIsKnown: date.start.knownValues.hour?
-        # endTimeIsKnown: date.end?
-        startTime: startDate.getTime()
-        endTime: if date.end then date.end.date().getTime() else null
-        post: text
-        url: postInfo.url
-        author: postInfo.author
-        processedInfo: JSON.stringify date
-        feedID: feedID
-        tags: [] #TODO: CLASSIFIER WORK HERE
-  myEvent
-  # if myEvent then [myEvent] else []
-
-exports.getEventsFromFBFeed = getEventsFromFBFeed
-
+getTimeAttributes = (text, timeCreated) ->
+  # chrono extracts relative date information given the post and the time the post was created
+  # ('tomorrow' means something different depending on when the post was created)
+  parsedDates = chrono.parse text, new Date timeCreated
+  if parsedDates.length > 0
+    #TODO: fix this hack
+    chronosDateInfo = parsedDates[parsedDates.length - 1]
+    post:           text
+    timeProcessed:  new Date().getTime()
+    chronosOutput:  JSON.stringify chronosDateInfo
+    isAllDay:       not chronosDateInfo.start.knownValues.hour?
+    endTimeIsKnown: chronosDateInfo.end?
+    startTime:      chronosDateInfo.start.date().getTime()
+    endTime:        chronosDateInfo.end?.date().getTime()
+  else
+    null
