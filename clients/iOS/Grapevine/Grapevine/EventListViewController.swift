@@ -15,7 +15,7 @@ import ObjectMapper
 
 class EventListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var token: Token!
+    var userToken: Token!
     var events: [Event] = []
     var lastUpdated: NSDate!
     
@@ -132,13 +132,14 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         return self.events[path.row]
     }
     
-    // MARK: Network functions
+    // MARK: - Network functions
+    
     func getAllUserEvents(){
         
-        let getEventsUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.token.userID!) + "/events")
+        let getEventsUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events")
         let requestHeader: [String: String] = [
             "Content-Type": "application/json",
-            "x-access-token": String(self.token.token!)
+            "x-access-token": String(self.userToken.token!)
         ]
         print("calling for events now swag")
         Alamofire.request(.GET, getEventsUrl!, encoding: .JSON, headers: requestHeader)
@@ -173,10 +174,10 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func getEventsSince(date: NSDate){
-        let getEventsSinceUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.token.userID!) + "/events/" + String(self.lastUpdated.timeIntervalSince1970))
+        let getEventsSinceUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events/" + String(self.lastUpdated.timeIntervalSince1970))
         let requestHeader: [String: String] = [
             "Content-Type": "application/json",
-            "x-access-token": String(self.token.token!)
+            "x-access-token": String(self.userToken.token!)
         ]
         print("calling for events now swag")
         Alamofire.request(.GET, getEventsSinceUrl!, encoding: .JSON, headers: requestHeader)
@@ -232,10 +233,10 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             
         }
         
-        if segue.identifier == "goToFeedManagementSegue" {
+        if segue.identifier == "goToFeedManagement" {
             let nav = segue.destinationViewController as! UINavigationController
             let feedView = nav.topViewController as! FeedManagementViewController
-            feedView.token = self.token
+            feedView.userToken = self.userToken
             if feedView.myFeeds == nil {
                 print("will call for feeds when endpoint exists")
             }
