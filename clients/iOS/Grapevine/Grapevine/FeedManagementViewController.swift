@@ -14,7 +14,7 @@ import SwiftyJSON
 class FeedManagementViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var myFeeds: [String]!
-    var token: Token!
+    var userToken: Token!
     
     @IBOutlet weak var tableView: UITableView!
 
@@ -59,7 +59,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             tableView.rowHeight = 90
             cell.button.enabled = false;
             cell.button.addTarget(self, action: "addFeed:", forControlEvents: UIControlEvents.TouchUpInside)
-            cell.segControl.addTarget(self, action: "facebookOrTwitter:", forControlEvents: UIControlEvents.ValueChanged)
+            cell.segControl.addTarget(self, action: "selectNetwork:", forControlEvents: UIControlEvents.ValueChanged)
             return cell
         }
         tableView.rowHeight = 44
@@ -76,6 +76,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         print(facebookOrTwitter(sender))
         
     }
+    
     
     func facebookOrTwitter(segControl: UISegmentedControl) -> String {
         switch segControl.selectedSegmentIndex {
@@ -95,26 +96,23 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         let indexPath = NSIndexPath(forRow:0, inSection:0)
         let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! EventTableViewCell
         let feedName = cell.textField.text
-        let addFeedUrl = NSURL(string: apiBaseUrl + "api/v1/users/" + String(self.token.userID) + "/feeds")
+        let addFeedUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID) + "/feeds")
         let feedInfo: [String: AnyObject] = [
             "feedName": String(feedName),
             "networkName": String(facebookOrTwitter(cell.segControl))
         ]
-        
-        /*
-        let requestHeaders: [String: String] = [
-            
+        let requestHeader: [String: String] = [
+            "Content-Type": "application/json",
+            "x-access-token": String(self.userToken.token!)
         ]
-        */
 
         if NSJSONSerialization.isValidJSONObject(feedInfo){
-            Alamofire.request(.POST, addFeedUrl!, parameters: feedInfo, encoding: .JSON/*, headers: */)
+            Alamofire.request(.POST, addFeedUrl!, parameters: feedInfo, encoding: .JSON, headers: requestHeader)
                 .responseJSON { response in
                     if response.1 != nil {
-                        print("response printing")
-                        debugPrint(response)
                         if response.1?.statusCode == 200 {
                             print("here")
+                            self.getFeeds()
                             
                         }
                         else {
@@ -122,14 +120,13 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                             setErrorColor(cell.textField)
                             sender.enabled = true
                             // handle errors based on response code
-                            
                         }
                     }
                     else {
                         print("no response")
                         sender.enabled = true
-                        
                     }
+                    
                     
             }
         }
@@ -143,6 +140,10 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     
     @IBAction func unfollowFeed(sender: UIButton){
         print("unfollow support coming soon")
+    }
+    
+    func getFeeds(){
+        
     }
 
     

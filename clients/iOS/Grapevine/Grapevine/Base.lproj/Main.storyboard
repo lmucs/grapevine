@@ -268,7 +268,7 @@
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="ldB-n0-nbC"/>
                                     <barButtonItem systemItem="add" id="an7-o4-jRu">
                                         <connections>
-                                            <segue destination="Pn3-Bv-ySk" kind="showDetail" identifier="goToFeedManage" id="F8G-OL-APN"/>
+                                            <segue destination="Pn3-Bv-ySk" kind="showDetail" identifier="goToFeedManagement" id="F8G-OL-APN"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="KqU-yA-6XY"/>
