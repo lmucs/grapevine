@@ -22,7 +22,9 @@ facebookRouter.get '/:feedType(events|posts)/:pageName/:timestamp?', (req, res) 
                    "#{req.params.feedType}" +
                    "?access_token=#{process.env.FB_TOKEN}" +
                    "&limit=#{feedLimit}"
-    feedEndpoint += "&since=#{req.params.timestamp}" if req.params.timestamp
+    if req.params.timestamp
+      timestamp = Math.round(req.params.timestamp/1000)
+      feedEndpoint += "&since=#{timestamp}"
     request feedEndpoint, (err, response, body) ->
       return res.sendStatus response.statusCode if (JSON.parse body).error
       res.send body
