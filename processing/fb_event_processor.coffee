@@ -4,16 +4,17 @@ timeExtractor       = require './time_extractor'
 util                = require './processor_util'
 pushGrapevineEvents = util.pushGrapevineEvents
 isFutureEvent       = util.isFutureEvent
+updateLastPulled    = util.updateLastPulled
 
 exports.extractAndSendEventsFromFeed = (feed) ->
 
   getFBFeedPosts = (next) ->
-    request "#{process.env.SOCIAL_MEDIA_API_HOST}/facebook/posts/#{feed.feed_name}", (err, res, body) ->
+    request "#{process.env.SOCIAL_MEDIA_API_HOST}/facebook/posts/#{feed.feed_name}/#{feed.last_pulled}", (err, res, body) ->
       throw err if err
       next JSON.parse(body)?.data
 
   getFBFeedEvents = (next) ->
-    request "#{process.env.SOCIAL_MEDIA_API_HOST}/facebook/events/#{feed.feed_name}", (err, res, body) ->
+    request "#{process.env.SOCIAL_MEDIA_API_HOST}/facebook/events/#{feed.feed_name}/#{feed.last_pulled}", (err, res, body) ->
       throw err if err
       next JSON.parse(body)?.data
 
@@ -59,3 +60,4 @@ exports.extractAndSendEventsFromFeed = (feed) ->
     (callback) -> getFBFeedEvents extractGrapevineEventsFromFBEvents pushGrapevineEvents callback
   ], (err) ->
     console.log err if err
+    updateLastPulled feed

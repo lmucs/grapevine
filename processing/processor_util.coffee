@@ -27,3 +27,15 @@ exports.pushGrapevineEvents = (callback) ->
 exports.isFutureEvent = (event) ->
   currentTime = (new Date).getTime()
   event.startTime > currentTime or event.endTime > currentTime
+
+exports.updateLastPulled = (feed) ->
+  exports.getLoginToken (err, token) ->
+    request
+      url: "#{process.env.GRAPEVINE_API_HOST}/admin/v1/feeds/#{feed.feed_id}"
+      method: 'PUT'
+      headers:
+        'content-type': 'application/json'
+        'x-access-token': token
+      body: JSON.stringify({'lastPulled': (new Date).getTime()})
+    , (err, response, body) ->
+      throw err if err

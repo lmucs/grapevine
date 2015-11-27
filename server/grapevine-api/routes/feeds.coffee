@@ -12,6 +12,15 @@ feeds =
       return res.status(400).json err if err
       res.status(200).json 'message' : 'successfully updated time last pulled'
 
+  updateOne: (req, res) ->
+    return res.status(400).json 'message': 'lastPulled timestamp required' unless req.body.lastPulled
+    pgClient.query
+      text: 'UPDATE feeds SET last_pulled = $1 WHERE feed_id = $2',
+      values: [req.body.lastPulled, req.params.feedID]
+    , (err) ->
+      return res.status(400).json err if err
+      res.status(200).json 'message' : 'successfully updated time last pulled'
+
   getAll: (req, res) ->
     pgClient.query 'SELECT * FROM feeds where network_name=\'facebook\'', (err, result) ->
       return res.status(400).json err if err

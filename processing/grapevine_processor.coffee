@@ -25,4 +25,6 @@ run = ->
         FBEventProcessor.extractAndSendEventsFromFeed feed
 
 
-setInterval run, 1000 * intervalInSeconds
+# setInterval run, 1000 * intervalInSeconds
+
+run()
