@@ -132,6 +132,7 @@ class LoginViewController: UIViewController {
             print("Token Object again is \(self.userToken.token)")
             eventsView.userToken = self.userToken
             eventsView.getAllUserEvents()
+
         
         }
     }

@@ -82,7 +82,7 @@ class CreateAccountViewController: UIViewController {
             }
         }
         else {
-            print("Json serialization failed. Critical Error")
+            print("Json serialization failed. Critical Error. We should not be here.")
         }
         
     }

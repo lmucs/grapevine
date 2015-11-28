@@ -22,7 +22,7 @@ class EventDetailViewController: UIViewController {
         super.viewDidLoad()
         if self.event != nil {
             self.eventTitleLabel.text = self.event.title
-            self.eventTimeLabel.text = String(self.event.startTimeNS)
+            self.eventTimeLabel.text = String(self.event.startTime.dateNS)
             self.eventLinkLabel.text = self.event.url
             self.eventLinkLabel.numberOfLines = 0
 
