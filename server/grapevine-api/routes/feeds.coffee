@@ -35,14 +35,14 @@ feeds =
         text: 'INSERT INTO feeds (feed_name, network_name, feed_id, last_pulled)
                VALUES ($1, $2, $3, $4)
                RETURNING feed_id, feed_name',
-        values: [feedName, newtworkName, id, (new Date()).getTime()]
+        values: [feedName, newtworkName, id, 0]
       , callback
     else
       pgClient.query
         text: 'INSERT INTO feeds (feed_name, network_name, last_pulled)
                VALUES ($1, $2, $3)
                RETURNING feed_id, feed_name',
-        values: [feedName, newtworkName, (new Date()).getTime()]
+        values: [feedName, newtworkName, 0]
       , callback
 
   get: (feedName, newtworkName, callback) ->

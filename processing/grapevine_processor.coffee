@@ -21,6 +21,7 @@ run = ->
         'x-access-token': token
     , (err, response, body) ->
       parsedBody = JSON.parse body
+      console.log parsedBody
       for feed in parsedBody.facebook
         FBEventProcessor.extractAndSendEventsFromFeed feed
 
