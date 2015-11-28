@@ -11,11 +11,13 @@ import Alamofire
 import AlamofireObjectMapper
 import SwiftyJSON
 import CVCalendar
+import ObjectMapper
 
 class EventListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var token: Token!
+    var userToken: Token!
     var events: [Event] = []
+    var lastUpdated: NSDate!
     
     @IBOutlet weak var tableView: UITableView!
 
@@ -24,10 +26,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.delegate = self
         tableView.dataSource = self
         print(events.count)
-        for event in events {
-            print("here")
-            print(event.startTimeNS)
-        }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -57,11 +55,15 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
         cell.eventNameLabel.text = self.events[indexPath.row].title
         cell.eventLocationLabel.text = String(self.events[indexPath.row].location)
-        cell.eventTimeLabel.text = String(self.events[indexPath.row].startTimeNS)
-        if self.events[indexPath.row].startTime != nil {
-            cell.eventMonthLabel.text = monthIntToShortMonthString(self.events[indexPath.row].startTime.month)
-            cell.eventDayLabel.text = String(self.events[indexPath.row].startTime.day)
+        
+        
+        func setDateBoxes(dateTime: CVDate){
+            cell.eventMonthLabel.text = monthIntToShortMonthString(self.events[indexPath.row].startTime.dateCV.month)
+            cell.eventDayLabel.text = String(self.events[indexPath.row].startTime.dateCV.day)
         }
+        
+        cell.eventTimeLabel.text = buildEventTimeRange(events[indexPath.row])
+        setDateBoxes(self.events[indexPath.row].startTime.dateCV)
         return cell
 
     }
@@ -109,6 +111,68 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     func eventAtIndexPath(path: NSIndexPath) -> Event {
         return self.events[path.row]
     }
+    
+    // MARK: - Network functions
+    
+    func getAllUserEvents(){
+        
+        let getEventsUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events")
+        let requestHeader: [String: String] = [
+            "Content-Type": "application/json",
+            "x-access-token": String(self.userToken.token!)
+        ]
+        print("calling for events now swag")
+        Alamofire.request(.GET, getEventsUrl!, encoding: .JSON, headers: requestHeader)
+            .responseJSON { response in
+                if response.1 != nil {
+                    if response.1?.statusCode == 200 {
+                        let results = response.2.value! as! NSArray
+                        //debugPrint(results)
+                        for item in results {
+                            debugPrint(item)
+                            let responseEvent = Mapper<Event>().map(item)
+                            responseEvent?.dateMap(item as! [String : AnyObject])
+                            self.events.append(responseEvent!)
+                        }
+            
+                        // May need to add a time sort here
+                        self.tableView.reloadData()
+                        self.lastUpdated = NSDate()
+                    }
+                }
+            }
+
+    }
+    
+    func getEventsSince(date: NSDate){
+        let getEventsSinceUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events/" + String(self.lastUpdated.timeIntervalSince1970))
+        let requestHeader: [String: String] = [
+            "Content-Type": "application/json",
+            "x-access-token": String(self.userToken.token!)
+        ]
+        print("calling for events now swag")
+        Alamofire.request(.GET, getEventsSinceUrl!, encoding: .JSON, headers: requestHeader)
+            .responseJSON { response in
+                if response.1 != nil {
+                    
+                    if response.1?.statusCode == 200 {
+                        let results = response.2.value! as! NSArray
+                        //debugPrint(results)
+                        for item in results {
+                            debugPrint(item)
+                            let responseEvent = Mapper<Event>().map(item)
+                            responseEvent?.dateMap(item as! [String : AnyObject])
+                            self.events.append(responseEvent!)
+                        }
+                        
+                        // May need to add a time sort here
+                        self.tableView.reloadData()
+                        self.lastUpdated = NSDate()
+                    }
+                }
+            }
+        
+    }
 
     
     // MARK: - Navigation
@@ -130,6 +194,15 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             let detailView = nav.topViewController as! EventDetailViewController
             detailView.event = eventAtIndexPath(path)
             
+        }
+        
+        if segue.identifier == "goToFeedManagement" {
+            let nav = segue.destinationViewController as! UINavigationController
+            let feedView = nav.topViewController as! FeedManagementViewController
+            feedView.userToken = self.userToken
+            if feedView.myFeeds == nil {
+                print("will call for feeds when endpoint exists")
+            }
         }
         
         

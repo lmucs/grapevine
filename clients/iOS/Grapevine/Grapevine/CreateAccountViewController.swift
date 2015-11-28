@@ -82,7 +82,7 @@ class CreateAccountViewController: UIViewController {
             }
         }
         else {
-            print("Json serialization failed. Critical Error")
+            print("Json serialization failed. Critical Error. We should not be here.")
         }
         
     }
@@ -98,7 +98,7 @@ class CreateAccountViewController: UIViewController {
         if segue.identifier == "createAccountSegue" {
             let nav = segue.destinationViewController as! UINavigationController
             let eventsView = nav.topViewController as! EventListViewController
-            eventsView.token = self.userToken
+            eventsView.userToken = self.userToken
         }
         
     }
