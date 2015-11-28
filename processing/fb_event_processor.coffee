@@ -11,7 +11,8 @@ exports.extractAndSendEventsFromFeed = (feed) ->
   numOfNewEventsToPull = 100
 
   getFBFeedPosts = (next) ->
-    request "#{process.env.SOCIAL_MEDIA_API_HOST}/facebook/posts/#{feed.feed_name}/#{(feed.last_pulled or '')}", (err, res, body) ->
+    since = if feed.last_pulled > 0 then feed.last_pulled else ''
+    request "#{process.env.SOCIAL_MEDIA_API_HOST}/facebook/posts/#{feed.feed_name}/#{since}", (err, res, body) ->
       throw err if err
       posts = JSON.parse(body)?.data
       # Since FB events can't be filtered by the time they were created (but we FB posts can be),
@@ -65,7 +66,7 @@ exports.extractAndSendEventsFromFeed = (feed) ->
     (callback) -> getFBFeedEvents extractGrapevineEventsFromFBEvents pushGrapevineEvents callback
   ], (err) ->
     throw err if err
-    updateLastPulled feed, (err) ->
+    updateLastPulled {feed}, (err) ->
       throw err if err
       console.log "extracted events from posts and events of FB feed #{feed.feed_name},
                    sent events to Grapevine,

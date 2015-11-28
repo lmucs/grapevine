@@ -23,11 +23,12 @@ twitterRouter.get '/posts/:screenName/:sinceID?', (req, res) ->
     return res.status(400).json error if error
     res.status(200).json JSON.parse body
 
-twitterRouter.get '/list/:listID/members', (req, res) ->
+twitterRouter.get '/list/:listID/members/:cursor?', (req, res) ->
   url = "#{twitterAPIHost}/" +
       "lists/members.json" +
       "?list_id=#{process.env.TWITTER_LIST_ID}" +
       "&slug=#{process.env.TWITTER_SCREEN_NAME}"
+  url += "&cursor=#{req.params.cursor}" if req.params.cursor
   request.get {url, oauth}, (error, response, body) ->
     return res.status(400).json error if error
     res.status(200).json JSON.parse body

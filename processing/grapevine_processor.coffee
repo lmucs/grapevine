@@ -11,7 +11,6 @@ TwitterEventProcessor = require './twitter_event_processor'
 intervalInSeconds = 60*5
 
 run = ->
-  console.log "running"
   getLoginToken (err, token) ->
     throw err if err
     request
@@ -26,7 +25,6 @@ run = ->
       for feed in parsedBody.facebook
         FBEventProcessor.extractAndSendEventsFromFeed feed
       for list in parsedBody.twitter
-        TwitterEventProcessor.extractAndSendEventsFromList list
+        TwitterEventProcessor.extractAndSendEvents list
 
-# setInterval run, 1000 * intervalInSeconds
-run()
+setInterval run, 1000 * intervalInSeconds
