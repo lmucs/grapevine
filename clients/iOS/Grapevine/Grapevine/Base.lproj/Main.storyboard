@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
@@ -505,7 +506,7 @@
                                     <constraint firstAttribute="height" constant="300" id="fqw-AT-aZ5"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PFg-zw-ruZ">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="PFg-zw-ruZ">
                                 <rect key="frame" x="20" y="414" width="560" height="186"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -574,18 +575,29 @@
                             <constraint firstItem="PFg-zw-ruZ" firstAttribute="centerX" secondItem="Vpb-u8-zxG" secondAttribute="centerX" id="ziy-20-8O9"/>
                         </constraints>
                     </view>
+                    <toolbarItems>
+                        <barButtonItem style="plain" systemItem="flexibleSpace" id="Ygc-NN-Rq2"/>
+                    </toolbarItems>
                     <navigationItem key="navigationItem" id="Rep-7p-QcL">
                         <barButtonItem key="leftBarButtonItem" title="List" id="bwL-33-vNy">
                             <connections>
                                 <segue destination="9fo-SM-X0t" kind="unwind" unwindAction="backToEventListViewController:" id="h3V-0c-mVc"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Today" id="I4y-ip-B47">
-                            <connections>
-                                <action selector="todayPressed" destination="aAM-Se-11v" id="JTr-6b-whs"/>
-                            </connections>
-                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Today" id="I4y-ip-B47">
+                                <connections>
+                                    <action selector="todayPressed" destination="aAM-Se-11v" id="JTr-6b-whs"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem title="Week" id="5uE-je-JqX">
+                                <connections>
+                                    <action selector="changeView:" destination="aAM-Se-11v" id="SuB-wb-6Fw"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="calendarView" destination="P52-3w-4NV" id="G8j-2I-ADY"/>
                         <outlet property="menuView" destination="VUE-qr-9S0" id="lMY-A2-FSq"/>
@@ -798,6 +810,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="YbQ-fN-3ob"/>
-        <segue reference="m2J-bx-KXE"/>
+        <segue reference="QrZ-Yx-yTX"/>
     </inferredMetricsTieBreakers>
 </document>
