@@ -9,7 +9,7 @@
 import Foundation
 import CVCalendar
 
-let apiBaseUrl = "http://localhost:8000"
+let apiBaseUrl = "http://grapevine.herokuapp.com"
 
 // User feedback on text fields
 
@@ -94,6 +94,19 @@ func sameDate(date1: CVDate, date2: CVDate) -> Bool {
         return true
     }
     return false
+}
+
+func buildEventTimeRange(myEvent: Event) -> String {
+    let start = String(myEvent.startTime.hour) + ":" +  myEvent.startTime.minuteToString()
+    if myEvent.hasEndTime {
+        let end = String(myEvent.endTime.hour) + ":" +  myEvent.endTime.minuteToString()
+        return start + "-" + end
+    }
+    if (myEvent.startTime.hour == 12 && myEvent.startTime.minute == 0){
+        return "All-Day"
+    }
+    return "Starts at " + start
+    
 }
 
 
