@@ -4,7 +4,6 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
-        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
@@ -273,13 +272,17 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="KqU-yA-6XY"/>
-                                    <barButtonItem title="Calendar" id="0No-qX-5sT">
+                                    <barButtonItem image="glyphicons-46-calendar" id="0No-qX-5sT">
                                         <connections>
                                             <segue destination="OyG-pm-mSW" kind="showDetail" identifier="goToCalendar" id="Q4j-mo-yL1"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="7WO-n9-cLK"/>
-                                    <barButtonItem title="Settings" id="PcT-VV-iyM"/>
+                                    <barButtonItem systemItem="refresh" id="pAS-E3-RM9">
+                                        <connections>
+                                            <action selector="updateEvents:" destination="d4C-Ke-usC" id="cbd-w1-Was"/>
+                                        </connections>
+                                    </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="oJW-JU-cj2"/>
                                 </items>
                             </toolbar>
@@ -324,7 +327,7 @@
                                                         <constraint firstAttribute="height" constant="21" id="cBi-pj-ONr"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="13" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vbE-xU-ez9">
@@ -382,13 +385,7 @@
                             <constraint firstItem="Hqc-hy-Lg4" firstAttribute="top" secondItem="YzN-nx-1VJ" secondAttribute="bottom" id="tVI-s1-Ysy"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Events Coming Soon" id="8aY-or-hzN">
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="pAS-E3-RM9">
-                            <connections>
-                                <action selector="updateEvents:" destination="d4C-Ke-usC" id="cbd-w1-Was"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Events Coming Soon" id="8aY-or-hzN"/>
                     <connections>
                         <outlet property="tableView" destination="YzN-nx-1VJ" id="YGL-g7-kqc"/>
                     </connections>
@@ -430,34 +427,35 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Link" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tRe-b6-CW4">
-                                <rect key="frame" x="20" y="260" width="560" height="80"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="POA-Ce-o7B">
+                                <rect key="frame" x="20" y="255" width="560" height="90"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="eBm-Ea-5hV"/>
+                                    <constraint firstAttribute="height" constant="90" id="Mbs-e0-VIu"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="openLink:" destination="Ke9-FM-ock" eventType="touchUpInside" id="YFU-dU-uAl"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="POA-Ce-o7B" firstAttribute="trailing" secondItem="hC4-4m-beB" secondAttribute="trailingMargin" id="5hm-5g-0Ui"/>
                             <constraint firstItem="9IH-uy-83z" firstAttribute="trailing" secondItem="hC4-4m-beB" secondAttribute="trailingMargin" id="6hR-7U-MtP"/>
                             <constraint firstItem="F6E-n7-hZK" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="81V-O3-pVO"/>
                             <constraint firstItem="FpM-YS-l52" firstAttribute="trailing" secondItem="hC4-4m-beB" secondAttribute="trailingMargin" id="AVE-7T-Oyh"/>
                             <constraint firstItem="FpM-YS-l52" firstAttribute="top" secondItem="F6E-n7-hZK" secondAttribute="bottom" constant="35" id="BIN-Uk-wsZ"/>
+                            <constraint firstItem="POA-Ce-o7B" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="I9h-Vr-2zS"/>
+                            <constraint firstItem="POA-Ce-o7B" firstAttribute="leading" secondItem="hC4-4m-beB" secondAttribute="leadingMargin" id="JLb-5o-dnL"/>
                             <constraint firstItem="9IH-uy-83z" firstAttribute="leading" secondItem="hC4-4m-beB" secondAttribute="leadingMargin" id="KbV-dM-2L7"/>
                             <constraint firstItem="F6E-n7-hZK" firstAttribute="leading" secondItem="hC4-4m-beB" secondAttribute="leadingMargin" id="TCB-Ef-nmx"/>
-                            <constraint firstItem="tRe-b6-CW4" firstAttribute="trailing" secondItem="hC4-4m-beB" secondAttribute="trailingMargin" id="TJ0-xI-MCI"/>
-                            <constraint firstItem="tRe-b6-CW4" firstAttribute="top" secondItem="9IH-uy-83z" secondAttribute="bottom" constant="13" id="VCK-SO-MFa"/>
                             <constraint firstItem="F6E-n7-hZK" firstAttribute="trailing" secondItem="hC4-4m-beB" secondAttribute="trailingMargin" id="a0T-t1-CZ8"/>
                             <constraint firstItem="9IH-uy-83z" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="cdV-bn-8M7"/>
                             <constraint firstItem="9IH-uy-83z" firstAttribute="top" secondItem="FpM-YS-l52" secondAttribute="bottom" constant="8" id="mCP-fq-y5q"/>
-                            <constraint firstItem="tRe-b6-CW4" firstAttribute="leading" secondItem="hC4-4m-beB" secondAttribute="leadingMargin" id="qNu-qI-yhm"/>
                             <constraint firstItem="F6E-n7-hZK" firstAttribute="top" secondItem="fDq-1Y-fP8" secondAttribute="bottom" constant="8" id="tgs-oX-8mt"/>
-                            <constraint firstItem="tRe-b6-CW4" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="u28-gJ-4Dk"/>
                             <constraint firstItem="FpM-YS-l52" firstAttribute="leading" secondItem="hC4-4m-beB" secondAttribute="leadingMargin" id="uKf-2E-Uor"/>
                             <constraint firstItem="FpM-YS-l52" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="vYF-yY-mbJ"/>
+                            <constraint firstItem="POA-Ce-o7B" firstAttribute="top" secondItem="9IH-uy-83z" secondAttribute="bottom" constant="8" id="wrV-6W-i7c"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bs8-4m-9GQ">
@@ -474,7 +472,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="eventDateLabel" destination="FpM-YS-l52" id="sAa-gB-RdO"/>
-                        <outlet property="eventLinkLabel" destination="tRe-b6-CW4" id="WJf-UL-35t"/>
+                        <outlet property="eventLinkButton" destination="POA-Ce-o7B" id="6Vr-DU-9hc"/>
                         <outlet property="eventTimeLabel" destination="9IH-uy-83z" id="tMr-fC-wlG"/>
                         <outlet property="eventTitleLabel" destination="F6E-n7-hZK" id="Y9u-BP-TVf"/>
                     </connections>
@@ -590,18 +588,11 @@
                                 <segue destination="9fo-SM-X0t" kind="unwind" unwindAction="backToEventListViewController:" id="h3V-0c-mVc"/>
                             </connections>
                         </barButtonItem>
-                        <rightBarButtonItems>
-                            <barButtonItem title="Today" id="I4y-ip-B47">
-                                <connections>
-                                    <action selector="todayPressed" destination="aAM-Se-11v" id="JTr-6b-whs"/>
-                                </connections>
-                            </barButtonItem>
-                            <barButtonItem title="Week" id="5uE-je-JqX">
-                                <connections>
-                                    <action selector="changeView:" destination="aAM-Se-11v" id="SuB-wb-6Fw"/>
-                                </connections>
-                            </barButtonItem>
-                        </rightBarButtonItems>
+                        <barButtonItem key="rightBarButtonItem" title="Week" id="5uE-je-JqX">
+                            <connections>
+                                <action selector="changeView:" destination="aAM-Se-11v" id="SuB-wb-6Fw"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -811,11 +802,12 @@
     </scenes>
     <resources>
         <image name="glyphicons-193-circle-remove" width="26" height="26"/>
+        <image name="glyphicons-46-calendar" width="23" height="24"/>
         <image name="grapevine" width="473" height="464"/>
         <image name="purple-round-1" width="548" height="560"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="YbQ-fN-3ob"/>
-        <segue reference="m2J-bx-KXE"/>
+        <segue reference="QrZ-Yx-yTX"/>
     </inferredMetricsTieBreakers>
 </document>

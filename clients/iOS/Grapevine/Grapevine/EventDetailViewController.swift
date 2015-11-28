@@ -12,7 +12,7 @@ class EventDetailViewController: UIViewController {
     
     var event: Event!
     
-    @IBOutlet weak var eventLinkLabel : UILabel!
+    @IBOutlet weak var eventLinkButton : UIButton!
     @IBOutlet weak var eventDateLabel: UILabel!
     @IBOutlet weak var eventTimeLabel: UILabel!
     @IBOutlet weak var eventTitleLabel: UILabel!
@@ -26,8 +26,9 @@ class EventDetailViewController: UIViewController {
             self.eventTitleLabel.numberOfLines = 0
             self.eventDateLabel.text = monthIntToMonthString(date) + " " + String(date.day) + ", " + String(date.year)
             self.eventTimeLabel.text = buildEventTimeRange(event)
-            self.eventLinkLabel.text = self.event.url
-            self.eventLinkLabel.numberOfLines = 0
+            self.eventLinkButton.setTitle(self.event.url, forState: .Normal)
+            self.eventLinkButton.titleLabel?.numberOfLines = 0
+            //self.eventLinkLabel.numberOfLines = 0
 
         }
 
@@ -37,6 +38,17 @@ class EventDetailViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    @IBAction func openLink(sender: AnyObject) {
+        var link = eventLinkButton.titleLabel!.text!
+        let urlStartHttp: String = "http://"
+        let urlStartHttps: String = "https://"
+        if !(link.hasPrefix(urlStartHttp) || link.hasPrefix(urlStartHttps)) {
+            link = urlStartHttp + link
+        }
+        print(link)
+        UIApplication.sharedApplication().openURL(NSURL(string: link)!)
     }
     
 

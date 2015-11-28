@@ -141,7 +141,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                             self.events.append(responseEvent!)
                         }
             
-                        // May need to add a time sort here
+                        self.events.sortInPlace({ $0.startTime.dateNS.compare($1.startTime.dateNS) == NSComparisonResult.OrderedAscending })
                         self.tableView.reloadData()
                         self.lastUpdated = NSDate()
                     }
@@ -171,7 +171,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                             self.events.append(responseEvent!)
                         }
                         
-                        // May need to add a time sort here
+                        self.events.sortInPlace({ $0.startTime.dateNS.compare($1.startTime.dateNS) == NSComparisonResult.OrderedAscending })
                         self.tableView.reloadData()
                         self.lastUpdated = NSDate()
                     }

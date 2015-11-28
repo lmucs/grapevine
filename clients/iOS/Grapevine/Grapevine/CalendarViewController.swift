@@ -41,11 +41,6 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     }
     
     
-    
-    @IBAction func todayPressed(){
-        
-    }
-    
     @IBAction func changeView(sender: UIBarButtonItem){
         if self.inMonthView {
             self.toWeekView()
@@ -120,6 +115,16 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     func didShowPreviousMonthView(date: NSDate){
         let cvDate = CVDate(date: date)
         self.title =  monthIntToMonthString(cvDate) + " " + String(cvDate.year)
+    }
+    
+    func didShowNextWeekView(date: NSDate){
+        let cvDate = CVDate(date: date)
+        self.title = monthIntToMonthString(cvDate) + " " + String(cvDate.year)
+    }
+    
+    func didShowPreviousWeekView(date: NSDate){
+        let cvDate = CVDate(date: date)
+        self.title = monthIntToMonthString(cvDate) + " " + String(cvDate.year)
     }
     
     func presentedDateUpdated(date: Date){
