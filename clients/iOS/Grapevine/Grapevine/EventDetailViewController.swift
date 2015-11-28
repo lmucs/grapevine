@@ -21,8 +21,11 @@ class EventDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         if self.event != nil {
+            let date = event.startTime.dateCV
             self.eventTitleLabel.text = self.event.title
-            self.eventTimeLabel.text = String(self.event.startTime.dateNS)
+            self.eventTitleLabel.numberOfLines = 0
+            self.eventDateLabel.text = monthIntToMonthString(date) + " " + String(date.day) + ", " + String(date.year)
+            self.eventTimeLabel.text = buildEventTimeRange(event)
             self.eventLinkLabel.text = self.event.url
             self.eventLinkLabel.numberOfLines = 0
 
