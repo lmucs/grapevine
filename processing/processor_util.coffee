@@ -12,6 +12,7 @@ exports.getLoginToken = (callback) ->
 
 exports.pushGrapevineEvents = (callback) ->
   (grapevineEvents) ->
+    console.log "PUSH grapevineEvents #{JSON.stringify grapevineEvents}"
     exports.getLoginToken (err, token) ->
       request
         url: "#{process.env.GRAPEVINE_API_HOST}/admin/v1/events"
@@ -28,15 +29,16 @@ exports.isFutureEvent = (event) ->
   currentTime = (new Date).getTime()
   event.startTime > currentTime or event.endTime > currentTime
 
-exports.updateLastPulled = (feed, lastPulled) ->
-    console.log feed
-    exports.getLoginToken (err, token) ->
-      request
-        url: "#{process.env.GRAPEVINE_API_HOST}/admin/v1/feeds/#{(feed.feed_id or feed.list_id)}"
-        method: 'PUT'
-        headers:
-          'content-type': 'application/json'
-          'x-access-token': token
-        body: JSON.stringify({'lastPulled': (new Date).getTime()})
-      , (err, response, body) ->
-        return console.log err if err
+exports.updateLastPulled = ({feed, lastPulled}, callback) ->
+  lastPulled = lastPulled or (new Date).getTime()
+  exports.getLoginToken (err, token) ->
+    request
+      url: "#{process.env.GRAPEVINE_API_HOST}/admin/v1/feeds/#{feed.feed_id}"
+      method: 'PUT'
+      headers:
+        'content-type': 'application/json'
+        'x-access-token': token
+      body: JSON.stringify({'lastPulled': lastPulled})
+    , (err, response, body) ->
+      return callback err if err
+      callback null

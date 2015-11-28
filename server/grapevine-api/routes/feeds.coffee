@@ -25,7 +25,7 @@ feeds =
     pgClient.query 'SELECT * FROM feeds', (err, result) ->
       return res.status(400).json err if err
       facebookFeeds = (feed for feed in result.rows when feed.network_name is 'facebook')
-      twitterList = ({list_id: list.feed_id, last_pulled: list.last_pulled} for list in result.rows when list.feed_name is 'twitter_list')
+      twitterList = (list for list in result.rows when list.feed_name is 'twitter_list')
       res.status(200).json {facebook: facebookFeeds, twitter: twitterList}
 
   insert: (feedName, newtworkName, id, callback) ->
@@ -38,7 +38,6 @@ feeds =
         values: [feedName, newtworkName, id, 0]
       , callback
     else
-      console.log 'YO SHOULD BE IN HERE'
       pgClient.query
         text: 'INSERT INTO feeds (feed_name, network_name, last_pulled)
                VALUES ($1, $2, $3)
