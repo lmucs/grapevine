@@ -17,6 +17,9 @@ facebookRouter.get '/:feedType(events|posts)/:pageName/:after?', (req, res) ->
       return res.sendStatus response.statusCode if parsedBody.error
       next parsedBody.id
 
+
+
+  # TODO: split into different methods for events and posts
   getFeedFromPageID = (id) ->
     feedEndpoint = "#{APIHost}/#{id}/" +
                    "#{req.params.feedType}" +
