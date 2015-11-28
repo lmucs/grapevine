@@ -14,6 +14,8 @@ exports.extractAndSendEventsFromFeed = (feed) ->
     request "#{process.env.SOCIAL_MEDIA_API_HOST}/facebook/posts/#{feed.feed_name}/#{feed.last_pulled}", (err, res, body) ->
       throw err if err
       posts = JSON.parse(body)?.data
+      # Since FB events can't be filtered by the time they were created, we count how many of the new
+      # posts pulled are events. We then just pull the appropriate number of events.
       numOfNewEventsToPull = (posts.filter (post) -> post.message?.indexOf 'added an event.' >= 0).length
       next posts
 

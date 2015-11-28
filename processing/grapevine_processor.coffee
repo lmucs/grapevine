@@ -24,6 +24,4 @@ run = ->
       for feed in parsedBody.facebook
         FBEventProcessor.extractAndSendEventsFromFeed feed
 
-# setInterval run, 1000 * intervalInSeconds
-run()
-
+setInterval run, 1000 * intervalInSeconds
