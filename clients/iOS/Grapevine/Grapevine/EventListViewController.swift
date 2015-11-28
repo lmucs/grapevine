@@ -62,7 +62,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.eventDayLabel.text = String(self.events[indexPath.row].startTime.dateCV.day)
         }
         
-        cell.eventTimeLabel.text = self.buildEventTimeRange(events[indexPath.row])
+        cell.eventTimeLabel.text = buildEventTimeRange(events[indexPath.row])
         setDateBoxes(self.events[indexPath.row].startTime.dateCV)
         return cell
 
@@ -107,19 +107,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         return true
     }
     */
-    
-    func buildEventTimeRange(myEvent: Event) -> String {
-        let start = String(myEvent.startTime.hour) + ":" +  myEvent.startTime.minuteToString()
-        if myEvent.hasEndTime {
-            let end = String(myEvent.endTime.hour) + ":" +  myEvent.endTime.minuteToString()
-            return start + "-" + end
-        }
-        if (myEvent.startTime.hour == 12 && myEvent.startTime.minute == 0){
-            return "All-Day"
-        }
-        return "Starts at " + start
-        
-    }
     
     func eventAtIndexPath(path: NSIndexPath) -> Event {
         return self.events[path.row]
