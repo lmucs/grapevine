@@ -21,10 +21,29 @@ public class Event implements Serializable {
     private boolean repeatsWeekly;
     private String[] tags;
     private String url;
-    @SerializedName("postcontent")
+    @SerializedName("post")
     private String postContent;
     @SerializedName("feed_id")
     private int feedId;
+
+    public String getProcessedInfo() {
+        return processedInfo;
+    }
+
+    public void setProcessedInfo(String processedInfo) {
+        this.processedInfo = processedInfo;
+    }
+
+    public String getPostContent() {
+        return postContent;
+    }
+
+    public void setPostContent(String postContent) {
+        this.postContent = postContent;
+    }
+
+    @SerializedName("processed_info")
+    private String processedInfo;
 
     public static int MILLISECONDS_PER_SECOND = 1000;
 

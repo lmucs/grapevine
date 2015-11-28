@@ -1,5 +1,5 @@
 {
-  "name": "social-feed-calendar",
+  "name": "grapevine",
   "version": "1.0.0",
   "description": "An app that creates a calendar from scraping social media.",
   "scripts": {
@@ -8,13 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lmucs/social-feed-calendar.git"
+    "url": "git+https://github.com/lmucs/grapevine.git"
   },
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/lmucs/social-feed-calendar/issues"
+    "url": "https://github.com/lmucs/grapevine/issues"
   },
-  "homepage": "https://github.com/lmucs/social-feed-calendar#readme",
+  "homepage": "https://github.com/lmucs/grapevine#readme",
   "devDependencies": {
     "mocha": "^2.3.3",
     "should": "^7.1.0",
