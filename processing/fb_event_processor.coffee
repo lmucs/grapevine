@@ -14,6 +14,7 @@ exports.extractAndSendEventsFromFeed = (feed) ->
       next JSON.parse(body)?.data
 
   getFBFeedEvents = (next) ->
+    #TODO NEEDS A FIX
     request "#{process.env.SOCIAL_MEDIA_API_HOST}/facebook/events/#{feed.feed_name}/#{feed.last_pulled}", (err, res, body) ->
       throw err if err
       next JSON.parse(body)?.data
@@ -59,5 +60,5 @@ exports.extractAndSendEventsFromFeed = (feed) ->
     (callback) -> getFBFeedPosts extractGrapevineEventsFromPosts pushGrapevineEvents callback
     (callback) -> getFBFeedEvents extractGrapevineEventsFromFBEvents pushGrapevineEvents callback
   ], (err) ->
-    console.log err if err
+    throw err if err
     updateLastPulled feed
