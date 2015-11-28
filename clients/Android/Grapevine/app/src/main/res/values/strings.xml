@@ -19,10 +19,13 @@
     <string name="register_user_success">Account created</string>
     <string name="register_user_general_error">Whoops. There was a problem registering account. Please try again later.</string>
     <string name="event_list_empty">It looks like there are no events in your grapevine. Try adding some groups and we\'ll tell you what they\'ve planned :)</string>
-    <string name="add_group">Add group</string>
-    <string name="title_activity_add_group">AddGroup</string>
-    <string name="add_group_hint">Group name</string>
+    <string name="add_group">Add</string>
+    <string name="title_activity_manage_feeds">Manage Feeds</string>
+    <string name="add_group_hint">Feed name</string>
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
     <string name="event_error">There was an error fetching your events from the server.</string>
+    <string name="add_feed">Add feed</string>
+    <string name="following">Following</string>
+    <string name="follow_feed_error">There was an error following this feed.</string>
 </resources>
