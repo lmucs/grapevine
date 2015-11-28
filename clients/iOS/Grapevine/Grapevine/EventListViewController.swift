@@ -62,7 +62,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.eventDayLabel.text = String(self.events[indexPath.row].startTime.dateCV.day)
         }
         
-        cell.eventTimeLabel.text = buildEventTimeRange(events[indexPath.row])
+        cell.eventTimeLabel.text = buildEventTimeRange(self.events[indexPath.row])
         setDateBoxes(self.events[indexPath.row].startTime.dateCV)
         return cell
 
