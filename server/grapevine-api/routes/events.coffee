@@ -9,6 +9,7 @@ events =
     return res.status(400).json 'message' : 'list of events required' unless events
     count = 1
     for eventToAdd in events
+      # TODO: FIX THIS DISGUSTING STUFF
       eventsInsertion.text += "($#{count++},
                                 $#{count++},
                                 $#{count++},
@@ -28,8 +29,8 @@ events =
                                                  (eventToAdd.url or null),
                                                  (eventToAdd.post or null),
                                                  (eventToAdd.feedID or 1)
-                                                 ("{#{((t or '_') for t in (eventToAdd.tags or [])).join(',')}}")
-                                                 ("{#{((loc or '_') for loc in (eventToAdd.location or [])).join(',')}}")
+                                                 ("{#{(tag for tag in (eventToAdd.tags or [])).join(',')}}")
+                                                 ("{#{(locationDetail for locationDetail in (eventToAdd.location or [])).join(',')}}")
                                                  (eventToAdd.title or null)
                                                ]
     eventsInsertion.text = (eventsInsertion.text)[0...eventsInsertion.text.length-1]

@@ -11,11 +11,12 @@ exports.extractAndSendEventsFromFeed = (feed) ->
   numOfNewEventsToPull = 100
 
   getFBFeedPosts = (next) ->
-    request "#{process.env.SOCIAL_MEDIA_API_HOST}/facebook/posts/#{feed.feed_name}/#{feed.last_pulled}", (err, res, body) ->
+    request "#{process.env.SOCIAL_MEDIA_API_HOST}/facebook/posts/#{feed.feed_name}/#{(feed.last_pulled or '')}", (err, res, body) ->
       throw err if err
       posts = JSON.parse(body)?.data
-      # Since FB events can't be filtered by the time they were created, we count how many of the new
-      # posts pulled are events. We then just pull the appropriate number of events.
+      # Since FB events can't be filtered by the time they were created (but we FB posts can be),
+      # we count how many of the newest created posts pulled are events.
+      # We can then just pull the appropriate number of events in getFBFeedEvents().
       numOfNewEventsToPull = (posts.filter (post) -> post.message?.indexOf 'added an event.' >= 0).length
       next posts
 
@@ -48,9 +49,7 @@ exports.extractAndSendEventsFromFeed = (feed) ->
         if (startTime > new Date().getTime())
           grapevineEvents.push
             timeProcessed: new Date().getTime()
-            location: [FBevent.place?.name, FBevent.place?.location?.country,
-                       FBevent.place?.location?.state, FBevent.place?.location?.city,
-                       FBevent.place?.location?.street]
+            location: getLocationInfo FBevent
             isAllDay: FBevent.end_time?
             startTime: startTime
             endTime: if FBevent.end_time then new Date(FBevent.end_time).getTime() else null
@@ -66,4 +65,15 @@ exports.extractAndSendEventsFromFeed = (feed) ->
     (callback) -> getFBFeedEvents extractGrapevineEventsFromFBEvents pushGrapevineEvents callback
   ], (err) ->
     throw err if err
-    updateLastPulled feed
+    updateLastPulled feed, (err) ->
+      throw err if err
+      console.log "extracted events from posts and events of FB feed #{feed.feed_name},
+                   sent events to Grapevine,
+                   and updated time when feed was last pulled from"
+
+getLocationInfo = (FBevent) ->
+  [FBevent.place?.name or '_',
+   FBevent.place?.location?.country or '_',
+   FBevent.place?.location?.state or '_',
+   FBevent.place?.location?.city or '_',
+   FBevent.place?.location?.street or '_']
