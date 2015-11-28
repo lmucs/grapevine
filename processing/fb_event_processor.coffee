@@ -8,14 +8,17 @@ updateLastPulled    = util.updateLastPulled
 
 exports.extractAndSendEventsFromFeed = (feed) ->
 
+  numOfNewEventsToPull = 100
+
   getFBFeedPosts = (next) ->
     request "#{process.env.SOCIAL_MEDIA_API_HOST}/facebook/posts/#{feed.feed_name}/#{feed.last_pulled}", (err, res, body) ->
       throw err if err
-      next JSON.parse(body)?.data
+      posts = JSON.parse(body)?.data
+      numOfNewEventsToPull = (posts.filter (post) -> post.message?.indexOf 'added an event.' >= 0).length
+      next posts
 
   getFBFeedEvents = (next) ->
-    #TODO NEEDS A FIX
-    request "#{process.env.SOCIAL_MEDIA_API_HOST}/facebook/events/#{feed.feed_name}/#{feed.last_pulled}", (err, res, body) ->
+    request "#{process.env.SOCIAL_MEDIA_API_HOST}/facebook/events/#{feed.feed_name}/#{numOfNewEventsToPull}", (err, res, body) ->
       throw err if err
       next JSON.parse(body)?.data
 
@@ -56,7 +59,7 @@ exports.extractAndSendEventsFromFeed = (feed) ->
             tags: [] #TODO: CLASSIFIER WORK HERE
       next grapevineEvents
 
-  async.parallel [
+  async.series [
     (callback) -> getFBFeedPosts extractGrapevineEventsFromPosts pushGrapevineEvents callback
     (callback) -> getFBFeedEvents extractGrapevineEventsFromFBEvents pushGrapevineEvents callback
   ], (err) ->
