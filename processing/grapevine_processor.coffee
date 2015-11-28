@@ -3,9 +3,10 @@ dotenv         = require 'dotenv-with-overload'
 dotenv._getKeysAndValuesFromEnvFilePath "#{__dirname}/.env"
 dotenv._setEnvs()
 
-request = require 'request'
-getLoginToken = require('./processor_util').getLoginToken
-FBEventProcessor = require './fb_event_processor'
+request               = require 'request'
+getLoginToken         = require('./processor_util').getLoginToken
+FBEventProcessor      = require './fb_event_processor'
+TwitterEventProcessor = require './twitter_event_processor'
 
 intervalInSeconds = 60*5
 
@@ -24,5 +25,8 @@ run = ->
       console.log parsedBody
       for feed in parsedBody.facebook
         FBEventProcessor.extractAndSendEventsFromFeed feed
+      for list in parsedBody.twitter
+        TwitterEventProcessor.extractAndSendEventsFromList list
 
-setInterval run, 1000 * intervalInSeconds
+# setInterval run, 1000 * intervalInSeconds
+run()

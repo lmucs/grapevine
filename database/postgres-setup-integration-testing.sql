@@ -4,7 +4,7 @@ CREATE EXTENSION pgcrypto;
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 CREATE TABLE IF NOT EXISTS feeds(
-      feed_id SERIAL PRIMARY KEY,
+      feed_id bigserial PRIMARY KEY,
       feed_name text,
       network_name text,
       last_pulled bigint DEFAULT 0,
@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS events(
       tags text[],
       url text,
       post text,
-      feed_id SERIAL REFERENCES feeds);
+      feed_id bigserial REFERENCES feeds);
 
     CREATE TABLE IF NOT EXISTS users(
       user_id SERIAL PRIMARY KEY,
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS events(
       role text);
 
     CREATE TABLE IF NOT EXISTS user_follows_feed(
-      feed_id int REFERENCES feeds ON DELETE CASCADE,
+      feed_id bigserial REFERENCES feeds ON DELETE CASCADE,
       user_id int REFERENCES users,
       PRIMARY KEY (feed_id, user_id));
 
@@ -42,7 +42,7 @@ INSERT INTO feeds(feed_name) VALUES ('fakeFeed1');
 INSERT INTO user_follows_feed(feed_id, user_id) VALUES (1,1);
 
 INSERT INTO events(
-  start_time_is_known,
+  is_all_day,
   end_time_is_known,
 	time_processed,
 	start_time,
@@ -70,7 +70,7 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  start_time_is_known,
+  is_all_day,
   end_time_is_known,
   time_processed,
   start_time,
@@ -96,7 +96,7 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  start_time_is_known,
+  is_all_day,
   end_time_is_known,
   time_processed,
   start_time,
@@ -123,7 +123,7 @@ This Friday from 6-10 p.m. outside the Foley Building, join the ninth annual Bea
 );
 
 INSERT INTO events(
-  start_time_is_known,
+  is_all_day,
   end_time_is_known,
   time_processed,
   start_time,
@@ -151,7 +151,7 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  start_time_is_known,
+  is_all_day,
   end_time_is_known,
   time_processed,
   start_time,
@@ -178,7 +178,7 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  start_time_is_known,
+  is_all_day,
   end_time_is_known,
   time_processed,
   start_time,
@@ -204,7 +204,7 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  start_time_is_known,
+  is_all_day,
   end_time_is_known,
   time_processed,
   start_time,
@@ -230,7 +230,7 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  start_time_is_known,
+  is_all_day,
   end_time_is_known,
   time_processed,
   start_time,
@@ -256,7 +256,7 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  start_time_is_known,
+  is_all_day,
   end_time_is_known,
   time_processed,
   start_time,
@@ -282,7 +282,7 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  start_time_is_known,
+  is_all_day,
   end_time_is_known,
   time_processed,
   start_time,
@@ -308,7 +308,7 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  start_time_is_known,
+  is_all_day,
   end_time_is_known,
   time_processed,
   start_time,
@@ -334,7 +334,7 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  start_time_is_known,
+  is_all_day,
   end_time_is_known,
   time_processed,
   start_time,
@@ -360,7 +360,7 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  start_time_is_known,
+  is_all_day,
   end_time_is_known,
   time_processed,
   start_time,
@@ -386,7 +386,7 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  start_time_is_known,
+  is_all_day,
   end_time_is_known,
   time_processed,
   start_time,
@@ -412,7 +412,7 @@ INSERT INTO events(
 );
 
 INSERT INTO events(
-  start_time_is_known,
+  is_all_day,
   end_time_is_known,
   time_processed,
   start_time,
