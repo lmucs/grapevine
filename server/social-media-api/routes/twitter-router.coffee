@@ -11,6 +11,7 @@ oauth =
   token:            process.env.TWITTER_TOKEN
   token_secret:     process.env.TWITTER_TOKEN_SECRET
 
+
 twitterRouter.get '/posts/:screenName/:sinceID?', (req, res) ->
   url = "#{twitterAPIHost}/" +
         "statuses/user_timeline.json" +
@@ -18,6 +19,15 @@ twitterRouter.get '/posts/:screenName/:sinceID?', (req, res) ->
         "&count=#{tweetlimit}"
   url += "&since_id#{req.params.sinceID}" if req.params.sinceID
 
+  request.get {url, oauth}, (error, response, body) ->
+    return res.status(400).json error if error
+    res.status(200).json JSON.parse body
+
+twitterRouter.get '/list/:listID/members', (req, res) ->
+  url = "#{twitterAPIHost}/" +
+      "lists/members.json" +
+      "?list_id=#{process.env.TWITTER_LIST_ID}" +
+      "&slug=#{process.env.TWITTER_SCREEN_NAME}"
   request.get {url, oauth}, (error, response, body) ->
     return res.status(400).json error if error
     res.status(200).json JSON.parse body

@@ -38,6 +38,7 @@ feeds =
         values: [feedName, newtworkName, id, 0]
       , callback
     else
+      console.log 'YO SHOULD BE IN HERE'
       pgClient.query
         text: 'INSERT INTO feeds (feed_name, network_name, last_pulled)
                VALUES ($1, $2, $3)
