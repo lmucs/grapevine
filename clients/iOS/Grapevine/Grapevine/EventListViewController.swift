@@ -71,6 +71,12 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     @IBAction func backToEventListViewController(segue:UIStoryboardSegue){
         
     }
+    
+    @IBAction func updateEvents(sender: UIBarButtonItem){
+        sender.enabled = false
+        getEventsSince(self.lastUpdated)
+        sender.enabled = true
+    }
 
 
     /*

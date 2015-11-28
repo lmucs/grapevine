@@ -382,7 +382,13 @@
                             <constraint firstItem="Hqc-hy-Lg4" firstAttribute="top" secondItem="YzN-nx-1VJ" secondAttribute="bottom" id="tVI-s1-Ysy"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Events Coming Soon" id="8aY-or-hzN"/>
+                    <navigationItem key="navigationItem" title="Events Coming Soon" id="8aY-or-hzN">
+                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="pAS-E3-RM9">
+                            <connections>
+                                <action selector="updateEvents:" destination="d4C-Ke-usC" id="cbd-w1-Was"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="YzN-nx-1VJ" id="YGL-g7-kqc"/>
                     </connections>
@@ -810,6 +816,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="YbQ-fN-3ob"/>
-        <segue reference="QrZ-Yx-yTX"/>
+        <segue reference="m2J-bx-KXE"/>
     </inferredMetricsTieBreakers>
 </document>
