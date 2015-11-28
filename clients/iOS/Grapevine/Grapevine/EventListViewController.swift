@@ -26,10 +26,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.delegate = self
         tableView.dataSource = self
         print(events.count)
-        for event in events {
-            print("here")
-            print(event.startTimeNS)
-        }
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -62,28 +58,12 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         
         
         func setDateBoxes(dateTime: CVDate){
-            cell.eventMonthLabel.text = monthIntToShortMonthString(self.events[indexPath.row].startTime.month)
-            cell.eventDayLabel.text = String(self.events[indexPath.row].startTime.day)
+            cell.eventMonthLabel.text = monthIntToShortMonthString(self.events[indexPath.row].startTime.dateCV.month)
+            cell.eventDayLabel.text = String(self.events[indexPath.row].startTime.dateCV.day)
         }
         
-        if self.events[indexPath.row].startTimeNS != nil {
-            print("got a start time!")
-            cell.eventTimeLabel.text = String(self.events[indexPath.row].startTimeNS)
-            setDateBoxes(self.events[indexPath.row].startTime)
-        }
-        else if self.events[indexPath.row].endTimeNS != nil {
-            print("got an end time!")
-            cell.eventTimeLabel.text = String(self.events[indexPath.row].endTimeNS)
-            setDateBoxes(self.events[indexPath.row].endTime)
-        }
-        else if self.events[indexPath.row].dateNS != nil {
-            print("got a date!")
-            cell.eventTimeLabel.text = String(self.events[indexPath.row].dateNS)
-            setDateBoxes(self.events[indexPath.row].date)
-        }
-        else {
-            cell.eventTimeLabel.text = "No date specified"
-        }
+        cell.eventTimeLabel.text = self.buildEventTimeRange(events[indexPath.row])
+        setDateBoxes(self.events[indexPath.row].startTime.dateCV)
         return cell
 
     }
@@ -128,6 +108,19 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     */
     
+    func buildEventTimeRange(myEvent: Event) -> String {
+        let start = String(myEvent.startTime.hour) + ":" +  myEvent.startTime.minuteToString()
+        if myEvent.hasEndTime {
+            let end = String(myEvent.endTime.hour) + ":" +  myEvent.endTime.minuteToString()
+            return start + "-" + end
+        }
+        if (myEvent.startTime.hour == 12 && myEvent.startTime.minute == 0){
+            return "All-Day"
+        }
+        return "Starts at " + start
+        
+    }
+    
     func eventAtIndexPath(path: NSIndexPath) -> Event {
         return self.events[path.row]
     }
@@ -145,25 +138,16 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         Alamofire.request(.GET, getEventsUrl!, encoding: .JSON, headers: requestHeader)
             .responseJSON { response in
                 if response.1 != nil {
-                    
                     if response.1?.statusCode == 200 {
                         let results = response.2.value! as! NSArray
                         //debugPrint(results)
                         for item in results {
                             debugPrint(item)
                             let responseEvent = Mapper<Event>().map(item)
-                            if responseEvent!.dateNS != nil {
-                                responseEvent!.date = Date(date: responseEvent!.dateNS)
-                            }
-                            else
-                                if responseEvent!.startTimeNS != nil {
-                                    responseEvent!.date = Date(date: responseEvent!.startTimeNS)
-                            }
-                            if responseEvent!.endTimeNS != nil {
-                                responseEvent!.date = Date(date: responseEvent!.endTimeNS)
-                            }
+                            responseEvent?.dateMap(item as! [String : AnyObject])
                             self.events.append(responseEvent!)
                         }
+            
                         // May need to add a time sort here
                         self.tableView.reloadData()
                         self.lastUpdated = NSDate()
@@ -190,18 +174,10 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                         for item in results {
                             debugPrint(item)
                             let responseEvent = Mapper<Event>().map(item)
-                            if responseEvent!.dateNS != nil {
-                                responseEvent!.date = Date(date: responseEvent!.dateNS)
-                            }
-                            else
-                                if responseEvent!.startTimeNS != nil {
-                                    responseEvent!.date = Date(date: responseEvent!.startTimeNS)
-                            }
-                            if responseEvent!.endTimeNS != nil {
-                                responseEvent!.date = Date(date: responseEvent!.endTimeNS)
-                            }
+                            responseEvent?.dateMap(item as! [String : AnyObject])
                             self.events.append(responseEvent!)
                         }
+                        
                         // May need to add a time sort here
                         self.tableView.reloadData()
                         self.lastUpdated = NSDate()

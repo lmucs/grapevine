@@ -18,11 +18,9 @@ class Event: NSObject, Mappable {
     var eventId: Int!
     var feedId: Int!
     var timeProcessed: NSDate!
-    var startTimeNS: NSDate!
-    var startTime: CVDate!
-    var endTimeNS: NSDate!
-    var endTime: CVDate!
-    var repeatsWeekly: Int!
+    var startTime: EventTime!
+    var endTime: EventTime!
+    var hasEndTime: Bool = false
     var tags: [String]!
     var url: String!
     var location: String!
@@ -33,16 +31,37 @@ class Event: NSObject, Mappable {
         
     }
     
+    
+    // Default map function doesn't work for dates for some reason hence this
+    func dateMap(dict: [String: AnyObject]){
+        // Events will always have a start time and therefore a date
+        
+        let dateFromJson = NSDate(timeIntervalSince1970: NSTimeInterval(dict["start_time"] as! String)!)
+        self.startTime = EventTime()
+        self.startTime.setAll(dateFromJson)
+        
+        if (dict["date"] != nil){
+            self.dateNS = NSDate(timeIntervalSince1970: NSTimeInterval(dict["date"] as! String)!)
+            self.date = CVDate(date: self.dateNS)
+        }
+        
+        if (dict["end_time"] != nil) {
+            self.endTime = EventTime()
+            self.endTime.setAll(NSDate(timeIntervalSince1970: NSTimeInterval(dict["end_time"] as! String)!))
+            self.hasEndTime = true
+        }
+        else {
+            self.hasEndTime = false
+        }
+    }
+    
+    
     func mapping(map: Map) {
         self.title <- map["title"]
-        self.dateNS <- (map["date"], DateTransform())
         self.status <- map["status"]
         self.eventId <- map["event_id"]
         self.feedId <- map["feed_id"]
-        self.timeProcessed <- (map["time_processed"], DateTransform())
-        self.startTimeNS <- (map["start_time"], DateTransform())
-        self.endTimeNS <- (map["end_time"], DateTransform())
-        self.repeatsWeekly <- map["repeats_weekly"]
+        self.timeProcessed <- map["time_processed"]
         self.tags <- map["tags"]
         self.url <- map["url"]
         self.location <- map["location"]
