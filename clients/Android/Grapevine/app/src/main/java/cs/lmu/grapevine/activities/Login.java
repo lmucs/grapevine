@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -86,6 +87,9 @@ public class Login extends Activity implements LoaderManager.LoaderCallbacks<Cur
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
+
+        hideKeyboard();
+        clearErrorMessage();
 
         // Store values at the time of the login attempt.
         String email = mEmailView.getText().toString();
@@ -196,5 +200,15 @@ public class Login extends Activity implements LoaderManager.LoaderCallbacks<Cur
     public void launchCreateAccountActivity(View view) {
         Intent createNewAccount = new Intent(getApplicationContext(), RegisterUser.class);
         startActivity(createNewAccount);
+    }
+
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+    }
+
+    private void clearErrorMessage() {
+        TextView loginStatus = (TextView)findViewById(R.id.login_status);
+        loginStatus.setText("");
     }
 }

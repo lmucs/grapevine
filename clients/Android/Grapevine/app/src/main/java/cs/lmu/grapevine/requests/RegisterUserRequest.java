@@ -10,7 +10,7 @@ import cs.lmu.grapevine.requests.listeners.success.RegisterUserSuccessListener;
  * Request made to register a new user.
  * */
 public class RegisterUserRequest extends JsonObjectRequest {
-    private static String registerUrl = BuildConfig.API_HOST + "register";
+    private static String registerUrl = BuildConfig.API_HOST + "users";
 
     public RegisterUserRequest(Activity parentActivity, String requestBodyString) {
         super(Method.POST,

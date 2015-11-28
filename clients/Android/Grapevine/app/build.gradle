@@ -15,9 +15,14 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "API_HOST", "\"https://grapevine.herokuapp.com/api/v1/\""
         }
         debug {
-            buildConfigField "String", "API_HOST", "\"https://grapevine.herokuapp.com/\""
+            //buildConfigField "String", "API_HOST", "\"http://10.0.1.226:8000/api/v1/\""
+            buildConfigField "String", "API_HOST", "\"http://192.168.1.71:8000/api/v1/\""
+            //buildConfigField "String", "API_HOST", "\"http://192.168.43.153:8000/api/v1/\""
+            //buildConfigField "String", "API_HOST", "\"http://10.0.1.58:8000/api/v1/\""
+
         }
     }
 
