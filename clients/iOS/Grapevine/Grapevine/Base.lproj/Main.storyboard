@@ -65,7 +65,7 @@
                                 <rect key="frame" x="282" y="469" width="37" height="37"/>
                                 <color key="color" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </activityIndicatorView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grapevine" translatesAutoresizingMaskIntoConstraints="NO" id="ctz-9h-uJv">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grapevineNew" translatesAutoresizingMaskIntoConstraints="NO" id="ctz-9h-uJv">
                                 <rect key="frame" x="180" y="28" width="240" height="240"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="240" id="8Xe-2Y-lYH"/>
@@ -803,11 +803,11 @@
     <resources>
         <image name="glyphicons-193-circle-remove" width="26" height="26"/>
         <image name="glyphicons-46-calendar" width="23" height="24"/>
-        <image name="grapevine" width="473" height="464"/>
+        <image name="grapevineNew" width="521" height="522"/>
         <image name="purple-round-1" width="548" height="560"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="YbQ-fN-3ob"/>
+        <segue reference="mco-2s-tLG"/>
         <segue reference="QrZ-Yx-yTX"/>
     </inferredMetricsTieBreakers>
 </document>
