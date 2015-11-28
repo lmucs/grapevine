@@ -1,4 +1,11 @@
-exports.sendEventsFromTwitterList = (list) ->
+request             = require 'request'
+timeExtractor       = require './time_extractor'
+util                = require './processor_util'
+pushGrapevineEvents = util.pushGrapevineEvents
+isFutureEvent       = util.isFutureEvent
+updateLastPulled    = util.updateLastPulled
+
+exports.extractAndSendEventsFromList = (list) ->
 
   getTweets = (next) ->
     request "#{socialMediaAPIHost}/twitter/list/#{list.list_id}", (err, res, body) ->
