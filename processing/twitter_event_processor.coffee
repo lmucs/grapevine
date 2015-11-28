@@ -40,5 +40,5 @@ exports.extractAndSendEvents = (feed) ->
                  and updated time when list was last pulled from"
 
   getTweets extractGrapevineEventsFromTweets pushGrapevineEvents (err) ->
-    updateLastPulled {feed, lastPulled}, done if lastPulled
+    return updateLastPulled {feed, lastPulled}, done if lastPulled
     done null

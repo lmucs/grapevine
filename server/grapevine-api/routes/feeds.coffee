@@ -54,5 +54,4 @@ feeds =
   findInNetwork: (feedName, newtworkName, callback) ->
     request "https://social-media.herokuapp.com/#{newtworkName}/posts/#{feedName}", callback
 
-
 module.exports = feeds

@@ -6,7 +6,7 @@ pushGrapevineEvents = util.pushGrapevineEvents
 isFutureEvent       = util.isFutureEvent
 updateLastPulled    = util.updateLastPulled
 
-exports.extractAndSendEventsFromFeed = (feed) ->
+exports.extractAndSendEvents = (feed) ->
 
   numOfNewEventsToPull = 100
 

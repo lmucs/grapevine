@@ -18,7 +18,6 @@ getLoginToken = (callback) ->
     callback null, (JSON.parse body).token
 
 requestMembers = (cursor, callback) ->
-  console.log callback
   request
     url: "#{process.env.SOCIAL_MEDIA_API_HOST}/twitter/list/222479944/members/#{(cursor or '')}"
     method: 'GET'
@@ -32,7 +31,6 @@ requestMembers = (cursor, callback) ->
     callback()
 
 followFeeds = ->
-  console.log feeds
   getLoginToken (err, token) ->
     for feed in feeds
       console.log "adding feed #{feed}"
