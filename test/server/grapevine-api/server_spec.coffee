@@ -266,7 +266,7 @@ describe 'Grapevine API', ->
                     (res.body.length).should.be.eql 1
                     userEvent = res.body[0]
                     (userEvent.user_id).should.be.eql 1
-                    (userEvent.feed_id).should.be.eql 1
+                    (userEvent.feed_id).should.be.eql '1'
                     (userEvent.post).should.be.eql 'Sunset at the Bluff'
                     done()
 
@@ -287,7 +287,7 @@ describe 'Grapevine API', ->
                     (res.body.length).should.be.eql 1
                     userEvent = res.body[0]
                     (userEvent.user_id).should.be.eql 1
-                    (userEvent.feed_id).should.be.eql 1
+                    (userEvent.feed_id).should.be.eql '1'
                     (userEvent.post).should.be.eql 'Sunset at the Bluff'
                     done()
 
@@ -507,11 +507,11 @@ describe 'Grapevine API', ->
                   (res.status).should.be.eql 200
                   (res.body).should.be.eql
                     facebook: [
-                      {feed_name: 'LMUHousing', feed_id: 1, last_pulled: '123', network_name: 'facebook'}
-                      {feed_name: 'LMUCS', feed_id: 2, last_pulled: '456', network_name: 'facebook'}
+                      {feed_name: 'LMUHousing', feed_id: '1', last_pulled: '123', network_name: 'facebook'}
+                      {feed_name: 'LMUCS', feed_id: '2', last_pulled: '456', network_name: 'facebook'}
                     ]
                     twitter: [
-                      {list_id: 3, last_pulled: '789'}
+                      {feed_name: 'twitter_list', feed_id: '3', last_pulled: '789', network_name: 'twitter'}
                     ]
                   done()
 
