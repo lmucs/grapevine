@@ -24,7 +24,7 @@ class EventDetailViewController: UIViewController {
             let date = event.startTime.dateCV
             self.eventTitleLabel.text = self.event.title
             self.eventTitleLabel.numberOfLines = 0
-            self.eventDateLabel.text = monthIntToMonthString(date) + " " + String(date.day) + ", " + String(date.year)
+            self.eventDateLabel.text = buildEventDateString(date)
             self.eventTimeLabel.text = buildEventTimeRange(event)
             self.eventLinkButton.setTitle(self.event.url, forState: .Normal)
             self.eventLinkButton.titleLabel?.numberOfLines = 0

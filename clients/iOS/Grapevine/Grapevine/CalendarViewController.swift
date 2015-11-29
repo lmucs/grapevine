@@ -154,6 +154,12 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         filterEvents()
     }
     
+    /*
+    func topMarker(shouldDisplayOnDayView dayView: DayView) -> Bool {
+    
+    }
+    */
+    
     
     /*
     * Functions available to be implemented if needed
@@ -162,11 +168,6 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     
     }
     
-    
-    
-    func topMarker(shouldDisplayOnDayView dayView: DayView) -> Bool {
-    
-    }
     
     func dotMarker(moveOffsetOnDayView dayView: DayView) -> CGFloat {
     
