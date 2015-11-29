@@ -10,24 +10,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cs.lmu.grapevine.activities.Login"
     android:weightSum="1">
-
     <ImageView
-        android:layout_width="150sp"
-        android:layout_height="150sp"
-        android:background="@drawable/grapevine_logo"
-        />
+        android:layout_width="@dimen/login_logo"
+        android:layout_height="@dimen/login_logo"
+        android:background="@drawable/grapevine_logo" />
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        >
-
+        android:layout_height="fill_parent">
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <AutoCompleteTextView
                 android:id="@+id/email"
                 android:layout_width="match_parent"
@@ -37,7 +32,6 @@
                 android:maxLines="1"
                 android:singleLine="true"
                 android:text="foo"/>
-
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
@@ -57,15 +51,14 @@
                 <Button
                     android:id="@+id/email_sign_in_button"
                     style="?android:textAppearanceSmall"
-                    android:layout_weight=".6"
-                    android:layout_width="0dp"
+                    android:layout_weight="@dimen/login_button_weight"
+                    android:layout_width="@dimen/login_button_width"
                     android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="@dimen/login_button_margin_top"
                     android:text="@string/action_sign_in"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"/>
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,13 +66,12 @@
                 android:gravity="center">
                 <Button
                     android:layout_height="wrap_content"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/login_button_width"
                     android:text="@string/login_create_account"
                     android:onClick="launchCreateAccountActivity"
                     style="?android:attr/borderlessButtonStyle"
-                    android:layout_weight=".6"/>
+                    android:layout_weight="@dimen/login_button_weight"/>
             </LinearLayout>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -88,11 +80,10 @@
             <ProgressBar
                 android:id="@+id/login_progress"
                 style="@android:style/Widget.ProgressBar.Small"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="@dimen/progress_spinner_size"
+                android:layout_height="@dimen/progress_spinner_size"
                 android:layout_gravity="center"
                 android:visibility="invisible"/>
         </LinearLayout>
-
     </ScrollView>
 </LinearLayout>
