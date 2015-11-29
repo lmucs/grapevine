@@ -66,7 +66,7 @@ class LoginViewController: UIViewController {
         self.activityIndicator.startAnimating()
         
     
-        let loginUrl = NSURL(string: apiBaseUrl + "/login")
+        let loginUrl = NSURL(string: apiBaseUrl + "/api/v1/tokens")
         
         let loginCredentials: [String: AnyObject] = [
             "username": String(self.usernameTextField.text!),
@@ -81,7 +81,7 @@ class LoginViewController: UIViewController {
                     if response.1 != nil {
                         print("debug response printing")
                         debugPrint(response)
-                        if response.1?.statusCode == 200 {
+                        if response.1?.statusCode == 201 {
                             print(response.2.value!)
                             print("here")
                             
@@ -94,7 +94,7 @@ class LoginViewController: UIViewController {
                             self.performSegueWithIdentifier("loginSegue", sender: self)
                         }
                         else {
-                            print("didn't get a 200")
+                            print("didn't get a 201")
                             self.loginFailedLabel.text = "Invalid Credentials"
                             loginFailed()
                             self.appUser = nil
@@ -130,47 +130,10 @@ class LoginViewController: UIViewController {
             let nav = segue.destinationViewController as! UINavigationController
             let eventsView = nav.topViewController as! EventListViewController
             print("Token Object again is \(self.userToken.token)")
-            
-            let getEventsUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events")
-            let requestHeader: [String: String] = [
-                "Content-Type": "application/json",
-                "x-access-token": String(self.userToken.token!)
-            ]
-            print("calling for events now swag")
-            Alamofire.request(.GET, getEventsUrl!, encoding: .JSON, headers: requestHeader)
-                .responseJSON { response in
-                    if response.1 != nil {
-                        
-                        if response.1?.statusCode == 200 {
-                            let results = response.2.value! as! NSArray
-                            //debugPrint(results)
-                            for item in results {
-                                debugPrint(item)
-                                let responseEvent = Mapper<Event>().map(item)
-                                if responseEvent!.dateNS != nil {
-                                    responseEvent!.date = Date(date: responseEvent!.dateNS)
-                                }
-                                if responseEvent!.startTimeNS != nil {
-                                    responseEvent!.date = Date(date: responseEvent!.startTimeNS)
-                                }
-                                if responseEvent!.endTimeNS != nil {
-                                    responseEvent!.date = Date(date: responseEvent!.endTimeNS)
-                                }
-                                eventsView.events.append(responseEvent!)
-                            }
-                            if eventsView.events.count > 1 {
-                                eventsView.events = eventsView.events.sort({$0.startTimeNS.compare($1.startTimeNS) == NSComparisonResult.OrderedAscending})
-                            }
-                            eventsView.tableView.reloadData()
-                        }
-                    }
-            }
+            eventsView.userToken = self.userToken
+            eventsView.getAllUserEvents()
 
-            
-            
-            
-            
-            
+        
         }
     }
    

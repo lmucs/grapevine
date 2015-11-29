@@ -58,6 +58,14 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         }
     }
     
+    @IBAction func toWeekView(sender: AnyObject) {
+        calendarView.changeMode(.WeekView)
+    }
+    
+    @IBAction func toMonthView(sender: AnyObject) {
+        calendarView.changeMode(.MonthView)
+    }
+    
     // Mark: - CVCalendarView Delegate Functions
     
     // Required
@@ -121,7 +129,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
             self.filteredEvents = []
             for event in events {
                 if event.startTime != nil {
-                    if sameDate(event.startTime, date2: date){
+                    if sameDate(event.startTime.dateCV, date2: date){
                         filteredEvents.append(event)
                     }
                 }
@@ -225,7 +233,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("calendarEventCell", forIndexPath: indexPath) as! EventTableViewCell
         cell.eventNameLabel.text = self.filteredEvents[indexPath.row].title
-        cell.eventTimeLabel.text = String(self.filteredEvents[indexPath.row].startTimeNS)
+        cell.eventTimeLabel.text = String(self.filteredEvents[indexPath.row].startTime)
         cell.eventLocationLabel.text = self.filteredEvents[indexPath.row].location
         return cell
         
