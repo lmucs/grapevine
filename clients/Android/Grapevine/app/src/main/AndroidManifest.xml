@@ -35,7 +35,8 @@
         <activity
             android:name=".activities.CalendarView"
             android:label="@string/calendar_view"
-            android:parentActivityName=".activities.EventFeed" >
+            android:parentActivityName=".activities.EventFeed"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.EventFeed" />
