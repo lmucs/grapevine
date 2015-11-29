@@ -133,7 +133,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                 if response.1 != nil {
                     if response.1?.statusCode == 200 {
                         let results = response.2.value! as! NSArray
-                        //debugPrint(results)
                         for item in results {
                             debugPrint(item)
                             let responseEvent = Mapper<Event>().map(item)
@@ -152,6 +151,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func getEventsSince(date: NSDate){
         let getEventsSinceUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events/" + String(self.lastUpdated.timeIntervalSince1970))
+        print(getEventsSinceUrl)
         let requestHeader: [String: String] = [
             "Content-Type": "application/json",
             "x-access-token": String(self.userToken.token!)
@@ -159,6 +159,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         print("calling for events now swag")
         Alamofire.request(.GET, getEventsSinceUrl!, encoding: .JSON, headers: requestHeader)
             .responseJSON { response in
+                debugPrint(response)
                 if response.1 != nil {
                     
                     if response.1?.statusCode == 200 {
