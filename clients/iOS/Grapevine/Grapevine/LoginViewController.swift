@@ -11,6 +11,7 @@ import SwiftyJSON
 import Alamofire
 import AlamofireObjectMapper
 import ObjectMapper
+import CVCalendar
 
 class LoginViewController: UIViewController {
 
@@ -18,6 +19,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordLabel: UILabel!
     @IBOutlet weak var passwordTextField: UITextField!
+    @IBOutlet weak var loginFailedLabel: UILabel!
     
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var createAccountButton: UIButton!
@@ -25,6 +27,7 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     var userToken: Token!
+    var appUser: User!
     
     
     override func viewDidLoad() {
@@ -32,6 +35,7 @@ class LoginViewController: UIViewController {
         
          // Do any additional setup after loading the view.
         self.activityIndicator.hidden = true
+        self.loginFailedLabel.hidden = true
         
     }
 
@@ -48,38 +52,62 @@ class LoginViewController: UIViewController {
     
 
     @IBAction func loginPressed(sender: UIButton){
-        self.loginButton.enabled = false
+        
+        func loginFailed(){
+            self.activityIndicator.hidden = true
+            self.loginFailedLabel.hidden = false
+            setErrorColor(self.usernameTextField)
+            setErrorColor(self.passwordTextField)
+            sender.enabled =  true
+        }
+        
+        sender.enabled = false
         self.activityIndicator.hidden = false
         self.activityIndicator.startAnimating()
         
-        
-        let url = NSURL(string: "http://localhost:8000/login")
+    
+        let loginUrl = NSURL(string: apiBaseUrl + "/api/v1/tokens")
         
         let loginCredentials: [String: AnyObject] = [
-            "username": String(self.usernameTextField.text),
-            "password": String(self.passwordTextField.text)
+            "username": String(self.usernameTextField.text!),
+            "password": String(self.passwordTextField.text!)
         ]
-        print("here")
+        
+        self.appUser = Mapper<User>().map(loginCredentials)
+        
         if NSJSONSerialization.isValidJSONObject(loginCredentials){
-            Alamofire.request(.POST, url!, parameters: loginCredentials, encoding: .JSON)
+            Alamofire.request(.POST, loginUrl!, parameters: loginCredentials, encoding: .JSON)
                 .responseJSON { response in
                     if response.1 != nil {
                         print("debug response printing")
                         debugPrint(response)
-                        if response.1?.statusCode == 200 {
-                            print(response.2.value)
+                        if response.1?.statusCode == 201 {
+                            print(response.2.value!)
+                            print("here")
+                            
                             let responseToken = Mapper<Token>().map(response.2.value)
-                            print("\(responseToken!.token) \n")
+                            print("Response token is \(responseToken!.token) \n")
                             self.userToken = responseToken
-                            print("\(self.userToken.token)")
+                            print("UserID is \(self.userToken.userID)")
+                            self.appUser.userID = self.userToken.userID
+                            //print(self.appUser.userID)
                             self.performSegueWithIdentifier("loginSegue", sender: self)
                         }
                         else {
+                            print("didn't get a 201")
+                            self.loginFailedLabel.text = "Invalid Credentials"
+                            loginFailed()
+                            self.appUser = nil
                             // handle errors based on response code
+                            
                         }
                     }
                     else {
-                        // no response
+                        print("no response")
+                        self.loginFailedLabel.text = "Connection Failed"
+                        loginFailed()
+                        self.appUser = nil
+                        
                     }
                     
             }
@@ -100,15 +128,12 @@ class LoginViewController: UIViewController {
         
         if segue.identifier == "loginSegue" {
             let nav = segue.destinationViewController as! UINavigationController
-            let eventsView = nav.topViewController as! EventListTableViewController
-            print("about to perform segue")
-            //print("\(self.userToken.token)")
-            //print("\(self.userToken.xkey)")
-            let getAllEventsLink = "http://localhost:8000/api/v1/users/:userID/events"
-            //var = Mapper().toJSON(self.userToken)
-            
-            
-            
+            let eventsView = nav.topViewController as! EventListViewController
+            print("Token Object again is \(self.userToken.token)")
+            eventsView.userToken = self.userToken
+            eventsView.getAllUserEvents()
+
+        
         }
     }
    

@@ -2,6 +2,7 @@ request = require 'request'
 fs = require 'fs'
 intervalInSeconds = 10
 serverName = 'http://localhost:3000/'
+databaseAPI = 'http://localhost:8000/'
 twitterURL = 'twitter/posts/'
 fbPostURL = 'facebook/posts/'
 chrono = require 'chrono-node'
@@ -64,7 +65,7 @@ twitterScreenNames = [
   'tsehai'
   'LMUAdmission'
 ]
-lastTweetID = "650742578401011100"
+
 
 fbScreenNames = [
   "actilmu"
@@ -144,7 +145,8 @@ fbScreenNames = [
   "lmuyogastudies"
 ]
 
-fbTimeStamp = new Date(2015,9,20).toISOString()
+lastTweetID = "650742578401011100"
+fbTimeStamp = new Date(2015,9,31).toISOString()
 
 twitterParams =
   IDs: twitterScreenNames
@@ -154,9 +156,32 @@ fbParams =
   IDs: fbScreenNames
   timeStamp: fbTimeStamp
 
+getEventsDemo = ->
+  tweetIDs = twitterParams.IDs
+  sinceID = twitterParams.timeStamp
+  for id in tweetIDs
+    do (id) ->
+      getEventsFromTweets id, sinceID
+
+  fbIDs = fbParams.IDs
+  timeStamp = fbParams.timeStamp
+  for id in fbIDs
+    do (id) ->
+      getEventsFromFBPosts id, timeStamp
+
 getEvents = ->
-  getTwitterEvents()
-  getFBEvents()
+  request {url:"#{databaseAPI}/api/v1/tokens"}, (err, res) ->
+    options =
+      url: '#{databaseAPI}/api/v1/feeds'
+      headers: 'x-access-token': res.body.token
+    request options, (err, res) ->
+      console.log res
+
+getEventsFromFBUser = (user_name) ->
+  getEventsFromFBPosts user_name
+
+getEventsFromTwitterUser = (screen_name) ->
+  getEventsFromTweets screen_name
 
 getTwitterEvents = ->
   ids = []
@@ -184,9 +209,20 @@ getFBEvents = ->
       timeStamp = resultsOfCall.timeStamp
       callback()
     (callback) ->
+
       getEventsFromFBPosts name, timeStamp for id in ids
       callback()
   ]
+
+setIntervalX = (callback, delay, repetitions) ->
+  counter = 0
+  intervalID = setInterval((->
+    callback()
+    if ++counter == repetitions
+      clearInterval intervalID
+    return
+  ), delay)
+  return
 
 getEventsFromTweets = (screenName, sinceID) ->
   requestURL = "#{serverName}#{twitterURL}#{screenName}"
@@ -207,7 +243,7 @@ getEventsFromFBPosts = (screenName, timeStamp) ->
 
 writeEventsToFile = (events, path) ->
   for event in events
-    fs.appendFile path, JSON.stringify(event), (err) ->
+    fs.appendFile path, JSON.stringify(event, null, 4), (err) ->
       throw err if err
 
 processRawTweets = (tweets) ->
@@ -224,7 +260,7 @@ processRawPosts = (posts, author) ->
   events = []
   for post in posts
     postText = post.message ? ""
-    url = getFacebookURL(id)
+    url = getFacebookURL(post.id)
     postInfo = {author, url}
     events = [events..., extractEvents(postText, postInfo)...]
   events
@@ -236,20 +272,38 @@ getFacebookURL = (id) ->
 getTwitterURL = (screenName, tweetID) ->
   "https://twitter.com/#{screenName}/status/#{tweetID}"
 
-# Make sure all dates are UNIX timestamps in milliseconds
-# Stringify the processedInfo into a string
+# Get rid of events from a previous day or from today
 extractEvents = (text, postInfo) ->
   events = []
-  parsedDate = chrono.parse text
-  for date in parsedDate
-    myEvent = {}
-    myEvent.start_time = date.start.date()
-    myEvent.end_time = date.end.date() if date.end
-    myEvent.post = text
-    myEvent.URL = postInfo.url
-    myEvent.author = postInfo.author
-    myEvent.processedInfo = date
-    events.push myEvent
+  parsedDates = chrono.parse text
+  tomorrow = getTomorrowMidnight()
+  for date in parsedDates
+    startDate = date.start.date()
+    if startDate.getTime() > tomorrow.getTime()
+      myEvent = {}
+      myEvent.time_processsed = new Date().getTime()
+      myEvent.start_time = startDate.getTime()
+      myEvent.end_time = date.end?.date().getTime() or startDate.getTime()
+      myEvent.post = text
+      myEvent.URL = postInfo.url
+      myEvent.author = postInfo.author
+      myEvent.processed_info = JSON.stringify date
+      events.push myEvent
   events
 
+
+
+getTomorrowMidnight = () ->
+  tomorrow = new Date()
+  tomorrow.setDate tomorrow.getDate() + 1
+  tomorrow.setHours 0
+  tomorrow.setMinutes 0
+  tomorrow.setSeconds 0
+  tomorrow
+
+
 exports.getEventsFromSocialFeeds = getEvents
+exports.getEventsFromFBUser = getEventsFromFBUser
+exports.getEventsFromTwitterUser = getEventsFromTwitterUser
+
+getEventsDemo()

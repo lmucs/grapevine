@@ -24,4 +24,39 @@ twitterRouter.get '/posts/:screenName/:sinceID?', (req, res) ->
       return res.status(400).json parsedBody
     res.send body
 
+twitterRouter.get '/lists/:listID/:sinceID?', (req, res) ->
+  console.log 'twitter api was called'
+  url = "#{twitterAPIHost}/" +
+        "lists/statuses.json" +
+        "?include_rts=0" +
+        "&list_id=#{req.params.listID}" +
+        "&count=#{req.params.tweetLimit}"
+  url += "&since_id=#{req.params.sinceID}" if req.params.sinceID
+
+  request.get {url, oauth}, (error, response, body) ->
+
+twitterRouter.post '/feeds/:screenName', (req, res) ->
+  url = "#{twitterAPIHost}/" +
+        "lists/members/create.json" +
+        "?user_id=#{process.env.TWITTER_SCREEN_NAME}" +
+        "&list_id=#{process.env.TWITTER_LIST_ID}" +
+        "&screen_name=#{req.params.screenName}"
+  request.post {url, oauth}, (error, response, body) ->
+    parsedBody = JSON.parse body
+    if parsedBody.errors?.length > 0
+      return res.status(400).json parsedBody
+    res.send body
+
+twitterRouter.delete '/feeds/:screenName', (req, res) ->
+  url = "#{twitterAPIHost}/" +
+        "lists/members/destroy.json" +
+        "?user_id=#{process.env.TWITTER_SCREEN_NAME}" +
+        "&list_id=#{process.env.TWITTER_LIST_ID}" +
+        "&screen_name=#{req.params.screenName}"
+  request.post {url, oauth}, (error, response, body) ->
+    parsedBody = JSON.parse body
+    if parsedBody.errors?.length > 0
+      return res.status(400).json parsedBody
+    res.send body
+
 module.exports = twitterRouter

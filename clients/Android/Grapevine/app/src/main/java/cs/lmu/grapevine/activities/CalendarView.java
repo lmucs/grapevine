@@ -6,9 +6,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 import com.roomorama.caldroid.CaldroidFragment;
 import java.util.Calendar;
+import java.util.Date;
 import cs.lmu.grapevine.R;
+import cs.lmu.grapevine.adapters.EventFeedArrayAdapter;
+import cs.lmu.grapevine.entities.Event;
+import cs.lmu.grapevine.listeners.CalendarListener;
+import cs.lmu.grapevine.listeners.EventListClickListener;
 
 public class CalendarView extends AppCompatActivity {
 
@@ -27,9 +35,13 @@ public class CalendarView extends AppCompatActivity {
         FragmentTransaction t = getSupportFragmentManager().beginTransaction();
         t.add(R.id.calendar_fragment_container, caldroidFragment);
         t.commit();
+        CalendarListener calendarListener = new CalendarListener(this);
+        caldroidFragment.setCaldroidListener(calendarListener);
+
+        populateCalenderWithEvents(caldroidFragment);
+        insertCalendarFeed();
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -55,8 +67,47 @@ public class CalendarView extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void launchAddGroup() {
-        Intent addGroup = new Intent(this, AddGroup.class);
+    private void launchAddGroup() {
+        Intent addGroup = new Intent(this, FollowFeed.class);
         startActivity(addGroup);
     }
+
+    private void populateCalenderWithEvents(CaldroidFragment calendar) {
+        for (int i = 0; i < EventFeed.usersEvents.size(); i++) {
+            Date eventDate = new Date(EventFeed.usersEvents.get(i).getStartTimeTimestamp()* Event.MILLISECONDS_PER_SECOND);
+            calendar.setBackgroundResourceForDate(R.color.event_highlight, eventDate);
+        }
+
+        calendar.refreshView();
+    }
+
+    private void insertCalendarFeed() {
+        if (EventFeed.usersEvents.size() == 0){
+            printEmptyFeedMessage();
+        }
+        else {
+            removeEmptyMessageContainer();
+            insertEventsIntoFeed();
+        }
+
+    }
+
+    private void printEmptyFeedMessage() {
+        TextView emptyMessageContainer = (TextView) findViewById(R.id.empty_message);
+        emptyMessageContainer.setText(R.string.event_list_empty);
+
+    }
+
+    private void insertEventsIntoFeed() {
+        ListView eventFeed = (ListView) findViewById(R.id.calendar_feed);
+        EventFeedArrayAdapter adapter = new EventFeedArrayAdapter(this,EventFeed.usersEvents);
+        eventFeed.setAdapter(adapter);
+        eventFeed.setOnItemClickListener(new EventListClickListener(this));
+    }
+
+    private void removeEmptyMessageContainer() {
+        TextView emptyMessageContainer = (TextView)findViewById(R.id.empty_message);
+        ((LinearLayout)emptyMessageContainer.getParent()).removeView(emptyMessageContainer);
+    }
+
 }
