@@ -146,7 +146,7 @@ fbScreenNames = [
 ]
 
 lastTweetID = "650742578401011100"
-fbTimeStamp = new Date(2015,9,31).toISOString()
+fbTimeStamp = new Date(2015,11,30).toISOString()
 
 twitterParams =
   IDs: twitterScreenNames
