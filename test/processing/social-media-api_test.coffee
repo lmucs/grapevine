@@ -2,7 +2,8 @@ expect = require('chai').expect
 request = require 'request'
 
 serverName = 'http://localhost:3000/'
-twitterURL = 'twitter/posts/'
+twitterUsersURL = 'twitter/posts/'
+twitterListURL = 'twitter/lists/'
 fbPostURL = 'facebook/posts/'
 
 twitterScreenNames = [
@@ -144,7 +145,7 @@ fbScreenNames = [
 describe 'Making social media requests', ->
   describe 'when making Facebook API calls', ->
     for name in fbScreenNames
-      do(name) ->
+      do (name) ->
         it "We get a 200 from #{name}", (done) ->
           requestURL = "#{serverName}#{fbPostURL}#{name}"
           request requestURL, (err, res, body) ->
@@ -152,12 +153,19 @@ describe 'Making social media requests', ->
             expect((JSON.parse body).data).to.not.eql undefined
             done()
 
-  describe 'when making Twitter API calls', ->
+  describe 'when making Twitter API calls for a single user', ->
     for name in twitterScreenNames
-      do(name) ->
+      do (name) ->
         it "We get a 200 from #{name}", (done) ->
-          console.log "We are making a request for #{name}"
-          requestURL = "#{serverName}#{twitterURL}#{name}"
+          requestURL = "#{serverName}#{twitterUsersURL}#{name}"
           request requestURL, (err, res, body) ->
             expect(res.statusCode).to.eql 200
             done()
+
+    describe 'when making Twitter API calls for a list', ->
+      it 'We get a 200', (done) ->
+        list_id = 222479944
+        requestURL = "#{serverName}#{twitterListURL}#{listName}"
+        request requestURL, (err, res, body) ->
+          expect(res.statusCode).to.eql 200
+          done()

@@ -2,14 +2,57 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/event_title" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/event_date" />
+        android:orientation="horizontal">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:src="@drawable/blank_calendar"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:text="Nov"
+                    android:textSize="14dp"
+                    android:gravity="center"
+                    android:id="@+id/event_month"/>
+                <TextView
+                    android:layout_width="55sp"
+                    android:layout_height="40sp"
+                    android:text="18"
+                    android:textSize="30dp"
+                    android:gravity="center"
+                    android:id="@+id/event_day"/>
+            </LinearLayout>
 
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/event_title"
+                android:textSize="@dimen/event_feed_title_size"
+                android:text="this is a long title"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/event_time"
+                android:text="event time"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

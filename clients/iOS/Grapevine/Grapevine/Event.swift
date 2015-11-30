@@ -8,39 +8,67 @@
 
 import UIKit
 import ObjectMapper
+import CVCalendar
 
 class Event: NSObject, Mappable {
     var title: String!
-    var date: NSDate!
+    var dateNS: NSDate!
+    var date: CVDate!
     var status: String!
-    var id: Int!
+    var eventId: Int!
+    var feedId: Int!
     var timeProcessed: NSDate!
-    var startTime: NSDate!
-    var endTime: NSDate!
-    var repeatsWeekly: Bool!
+    var startTime: EventTime!
+    var endTime: EventTime!
+    var hasEndTime: Bool = false
     var tags: [String]!
     var url: String!
-    
-    // Need to figure out correct object
-    //var location: Location!
+    var location: String!
+    var post: String!
     
     // Required to implement ObjectMapper
     required init?(_ map: Map){
         
     }
     
-    func mapping(map: Map) {
-        title <- map["title"]
-        date <- map["date"]
-        status <- map["status"]
-        id <- map["id"]
-        timeProcessed <- map["timeProcessed"]
-        startTime <- map["startTime"]
-        endTime <- map["endTime"]
-        repeatsWeekly <- map["repeatsWeekly"]
-        tags <- map["tags"]
-        url <- map["url"]
+    
+    // Default map function doesn't work for dates for some reason hence this
+    func dateMap(dict: [String: AnyObject]){
+        // Events will always have a start time and therefore a date
+        
+        let dateFromJson = NSDate(timeIntervalSince1970: NSTimeInterval(dict["start_time"] as! String)!)
+        self.startTime = EventTime()
+        self.startTime.setAll(dateFromJson)
+        
+        if (dict["date"] != nil){
+            self.dateNS = NSDate(timeIntervalSince1970: NSTimeInterval(dict["date"] as! String)!)
+            self.date = CVDate(date: self.dateNS)
+        }
+        
+        if (dict["end_time"] != nil) {
+            self.endTime = EventTime()
+            self.endTime.setAll(NSDate(timeIntervalSince1970: NSTimeInterval(dict["end_time"] as! String)!))
+            self.hasEndTime = true
+        }
+        else {
+            self.hasEndTime = false
+        }
     }
+    
+    
+    func mapping(map: Map) {
+        self.title <- map["title"]
+        self.status <- map["status"]
+        self.eventId <- map["event_id"]
+        self.feedId <- map["feed_id"]
+        self.timeProcessed <- map["time_processed"]
+        self.tags <- map["tags"]
+        self.url <- map["url"]
+        self.location <- map["location"]
+        self.post <- map["post"]
+        
+    }
+    
     
     
 }

@@ -10,6 +10,8 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.List;
+
+import cs.lmu.grapevine.activities.EventFeed;
 import cs.lmu.grapevine.entities.Event;
 import cs.lmu.grapevine.adapters.EventFeedArrayAdapter;
 import cs.lmu.grapevine.R;
@@ -34,6 +36,7 @@ public class EventSuccessListener implements Response.Listener<JSONArray> {
     private ArrayList<Event> deserializeJson(JSONArray userEventsJSON) {
         ArrayList<Event> usersEvents = gson.fromJson(userEventsJSON.toString(), new TypeToken<List<Event>>() {
         }.getType());
+        EventFeed.usersEvents = usersEvents;
 
         return usersEvents;
     }
