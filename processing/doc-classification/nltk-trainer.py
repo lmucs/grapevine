@@ -34,7 +34,7 @@ for classified_post in test_data:
 
    words = processString( classified_post["post"] )
    all_words.extend(words)
-   print words
+   print (words)
 
    for label in label_headers:
       if classified_post[label]:
@@ -61,8 +61,8 @@ testing_set = features_set[13:]
 classifier = nltk.NaiveBayesClassifier.train(training_set)
 accuracy = nltk.classify.accuracy(classifier, testing_set)
 
-print accuracy
-print classifier.show_most_informative_features(30)
+print (accuracy)
+print (classifier.show_most_informative_features(30))
 
 # save_classifier = open("naivebayesclassifier.pickle", "wb")
 # pickle.dump(classifier, save_classifier)
