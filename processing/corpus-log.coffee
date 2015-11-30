@@ -15,7 +15,7 @@ process = (filename) ->
    raw_objs_string = raw_objs_string.toString 'utf8'
    raw_objs_string = raw_objs_string.replace(/}{/g, '},{') #insert a comma between each object
    objs_string = "[#{raw_objs_string}]" #wrap in a list, to make valid json
-   objs = JSON.parse(objs_string)  #parse json
+   objs = JSON.parse(objs_string)
 
    for obj in objs
       do (obj) ->
