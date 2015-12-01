@@ -7,9 +7,9 @@ import random
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 from sklearn.pipeline import Pipeline
-from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.svm import LinearSVC
-from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.multiclass import OneVsRestClassifier
 
 stop_words = set(stopwords.words('english'))
@@ -21,6 +21,7 @@ label_headers = headers[1:]
 
 posts = []
 binary_labels = []
+
 for row in test_data_array:
    posts.append( (row.pop(0)).decode("string_escape") )
    labels = []
@@ -28,15 +29,13 @@ for row in test_data_array:
       labels.append( int(label) )
    binary_labels.append( labels )
 
-posts = np.array(posts)
-binary_labels = np.array(binary_labels)
-
 def process(string) :
    words = []
    split_string = string.split(' ')
    for string in split_string:
-      if string.startswith("http") or string.startswith("&amp"):
+      if string.startswith(("http","&amp")):
          continue
+      string = string.decode("unicode_escape")
       string = nltk.word_tokenize(string)
       string = [s.lower() for s in string]
       words.extend(string)
@@ -47,6 +46,14 @@ def process(string) :
 
 posts = [process(post) for post in posts]
 
-for post in posts:
-   print post 
-print binary_labels
+posts = np.array(posts)
+binary_labels = np.array(binary_labels)
+
+NBclassifier = Pipeline([
+    ('vectorizer', TfidfVectorizer()),
+    ('clf', OneVsRestClassifier(MultinomialNB()))])
+NBclassifier.fit(posts[:10], binary_labels[:10])
+predicted = NBclassifier.predict(posts[10:])
+
+print posts[10:]
+print predicted
