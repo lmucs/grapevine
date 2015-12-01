@@ -51,7 +51,7 @@
                 <Button
                     android:id="@+id/email_sign_in_button"
                     style="?android:textAppearanceSmall"
-                    android:layout_weight="@dimen/login_button_weight"
+                    android:layout_weight=".6"
                     android:layout_width="@dimen/login_button_width"
                     android:layout_gravity="center_vertical"
                     android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                     android:text="@string/login_create_account"
                     android:onClick="launchCreateAccountActivity"
                     style="?android:attr/borderlessButtonStyle"
-                    android:layout_weight="@dimen/login_button_weight"/>
+                    android:layout_weight=".6"/>
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
