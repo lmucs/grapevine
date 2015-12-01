@@ -40,6 +40,7 @@ app.all    '/api/v1/users/:userID/feeds/:networkName/:feedName', methodNotAllowe
 # Routes that can be accessed only by authenticated & authorized users
 app.get  '/admin/v1/feeds',         [auth, feeds.getAll]
 app.put  '/admin/v1/feeds/',        [auth, feeds.update]
+app.put  '/admin/v1/feeds/:feedID', [auth, feeds.updateOne]
 app.all  '/admin/v1/feeds',         methodNotAllowed
 app.post '/admin/v1/events',        [auth, events.create]
 app.all  '/admin/v1/events',        methodNotAllowed
