@@ -5,15 +5,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import java.util.ArrayList;
 import cs.lmu.grapevine.R;
 import cs.lmu.grapevine.entities.Event;
 import cs.lmu.grapevine.listeners.EventListClickListener;
 import cs.lmu.grapevine.requests.EventFeedRequest;
+import cs.lmu.grapevine.requests.RefreshEventFeedRequest;
 
 public class EventFeed extends AppCompatActivity {
     public static ArrayList<Event> usersEvents;
+    public static ArrayAdapter usersEventsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,8 @@ public class EventFeed extends AppCompatActivity {
             viewCalendar();
         } else if (id == R.id.action_add_group) {
             launchAddGroup();
+        } else if (id == R.id.action_refresh_feed) {
+            refreshFeed();
         }
 
         return super.onOptionsItemSelected(item);
@@ -60,5 +66,10 @@ public class EventFeed extends AppCompatActivity {
     public void launchAddGroup() {
         Intent addGroup = new Intent(this, FollowFeed.class);
         startActivity(addGroup);
+    }
+
+    public void refreshFeed() {
+        RefreshEventFeedRequest getNewEvents = new RefreshEventFeedRequest(this);
+        Login.httpRequestQueue.add(getNewEvents);
     }
 }
