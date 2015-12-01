@@ -24,6 +24,7 @@ import android.widget.TextView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import cs.lmu.grapevine.R;
 import cs.lmu.grapevine.requests.LoginRequest;
@@ -35,6 +36,7 @@ public class Login extends Activity implements LoaderManager.LoaderCallbacks<Cur
     public static AutoCompleteTextView mEmailView;
     private       EditText             mPasswordView;
     public static RequestQueue         httpRequestQueue;
+    public static long                 timestampOfLogin;
 
 
     @Override
@@ -65,6 +67,7 @@ public class Login extends Activity implements LoaderManager.LoaderCallbacks<Cur
 
         httpRequestQueue = Volley.newRequestQueue(this);
         authenticationToken = null;
+        timestampOfLogin = new Date().getTime();
     }
 
     /**

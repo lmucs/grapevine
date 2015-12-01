@@ -28,4 +28,7 @@
     <string name="add_feed">Add feed</string>
     <string name="following">Following</string>
     <string name="follow_feed_error">There was an error following this feed.</string>
+    <string name="refresh_error_toast">There was an error retrieving new events</string>
+    <string name="refresh_success_toast">Successfully refreshed event feed</string>
+    <string name="refresh">Refresh</string>
 </resources>
