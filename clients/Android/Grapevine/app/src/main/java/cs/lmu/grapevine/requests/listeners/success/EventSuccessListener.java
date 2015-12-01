@@ -31,15 +31,16 @@ public class EventSuccessListener implements Response.Listener<JSONArray> {
 
     @Override
     public void onResponse(JSONArray response) {
-        InflateEventFeed(deserializeJson(response));
+        ArrayList<Event> usersEvents = deserializeJson(response);
+        EventFeed.usersEvents = usersEvents;
+        Collections.sort(EventFeed.usersEvents);
+        InflateEventFeed(usersEvents);
     }
 
     public static ArrayList<Event> deserializeJson(JSONArray userEventsJSON) {
         Gson gson = new GsonBuilder().setDateFormat("MM/dd/yyyy").create();
         ArrayList<Event> usersEvents = gson.fromJson(userEventsJSON.toString(), new TypeToken<List<Event>>() {
         }.getType());
-        EventFeed.usersEvents = usersEvents;
-        Collections.sort(EventFeed.usersEvents);
 
         return usersEvents;
     }
