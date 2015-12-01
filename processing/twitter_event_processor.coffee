@@ -29,6 +29,7 @@ exports.extractAndSendEvents = (feed) ->
           grapevineEvent = extractedTimeAttributes
           if isFutureEvent grapevineEvent
             grapevineEvent.feedID = tweet.user.id
+            grapevineEvent.tags = [] #TODO
             #TODO: event URL?
             grapevineEvents.push grapevineEvent
       next grapevineEvents

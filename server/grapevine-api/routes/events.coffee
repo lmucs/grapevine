@@ -2,37 +2,29 @@ pgClient = require '../../../database/pg-client'
 
 events =
   create: (req, res) ->
+    events = req.body.events
     eventsInsertion =
       text: 'INSERT INTO events (is_all_day, time_processed, start_time, end_time, processed_info, url, post, feed_id, tags, location, title) VALUES '
       values: []
-    events = req.body.events
     return res.status(400).json 'message' : 'list of events required' unless events
-    count = 1
+    index = 1
+    numOfAttributes = 11
     for eventToAdd in events
-      # TODO: FIX THIS DISGUSTING STUFF
-      eventsInsertion.text += "($#{count++},
-                                $#{count++},
-                                $#{count++},
-                                $#{count++},
-                                $#{count++},
-                                $#{count++},
-                                $#{count++},
-                                $#{count++},
-                                $#{count++},
-                                $#{count++},
-                                $#{count++}),"
-      Array::push.apply eventsInsertion.values, [(eventToAdd.isAllDay or false),
-                                                 (eventToAdd.timeProcessed or (new Date).getTime()),
-                                                 (eventToAdd.startTime or null),
-                                                 (eventToAdd.endTime or null),
-                                                 (eventToAdd.chronosOutput or null),
-                                                 (eventToAdd.url or null),
-                                                 (eventToAdd.post or null),
-                                                 (eventToAdd.feedID or 1)
-                                                 ("{#{(tag for tag in (eventToAdd.tags or [])).join(',')}}")
-                                                 ("{#{(locationDetail for locationDetail in (eventToAdd.location or [])).join(',')}}")
-                                                 (eventToAdd.title or null)
-                                               ]
+      eventsInsertion.text += "(#{('$'+i for i in [index...index+numOfAttributes]).join(', ')}),"
+      index += numOfAttributes
+      Array::push.apply eventsInsertion.values, [
+        (eventToAdd.isAllDay or false),
+        (eventToAdd.timeProcessed or (new Date).getTime()),
+        (eventToAdd.startTime or null),
+        (eventToAdd.endTime or null),
+        (eventToAdd.chronosOutput or null),
+        (eventToAdd.url or null),
+        (eventToAdd.post or null),
+        (eventToAdd.feedID or 1)
+        ("{#{(tag for tag in (eventToAdd.tags or [])).join(',')}}")
+        ("{#{(locationDetail for locationDetail in (eventToAdd.location or [])).join(',')}}")
+        (eventToAdd.title or null)
+      ]
     eventsInsertion.text = (eventsInsertion.text)[0...eventsInsertion.text.length-1]
     if eventsInsertion.values.length > 0
       pgClient.query eventsInsertion, (err) ->

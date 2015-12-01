@@ -1,6 +1,4 @@
 --populate with mock user & events
-CREATE EXTENSION pgcrypto;
-
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 CREATE TABLE IF NOT EXISTS feeds(
@@ -44,13 +42,13 @@ INSERT INTO user_follows_feed(feed_id, user_id) VALUES (1,1);
 INSERT INTO events(
   is_all_day,
   end_time_is_known,
-	time_processed,
-	start_time,
-	end_time,
-	tags,
-	url,
-	post,
-	feed_id,
+  time_processed,
+  start_time,
+  end_time,
+  tags,
+  url,
+  post,
+  feed_id,
   author,
   processed_info
 ) values (
