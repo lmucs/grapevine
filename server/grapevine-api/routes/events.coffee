@@ -2,27 +2,36 @@ pgClient = require '../../../database/pg-client'
 
 events =
   create: (req, res) ->
-    eventsInsertion =
-      text: 'INSERT INTO events (title, time_processed, location, start_time, end_time, author, processed_info, tags, url, post, feed_id) VALUES '
-      values: []
     events = req.body.events
+    eventsInsertion =
+      text: 'INSERT INTO events (is_all_day, time_processed, start_time, end_time, processed_info, url, post, feed_id, tags, location, title) VALUES '
+      values: []
     return res.status(400).json 'message' : 'list of events required' unless events
+    index = 1
+    numOfAttributes = 11
     for eventToAdd in events
-      eventsInsertion.text += '($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11),'
-      Array::push.apply eventsInsertion.values, [(eventToAdd.title or null),
-                                                 (eventToAdd.timeProcessed or null),
-                                                 (eventToAdd.location or null),
-                                                 (eventToAdd.startTime or null),
-                                                 (eventToAdd.endTime or null),
-                                                 (eventToAdd.author or null),
-                                                 (eventToAdd.processedInfo or null),
-                                                 (eventToAdd.tags or null),
-                                                 (eventToAdd.url or null),
-                                                 (eventToAdd.post or null),
-                                                 (eventToAdd.feedID or 1)]
+      eventsInsertion.text += "(#{('$'+i for i in [index...index+numOfAttributes]).join(', ')}),"
+      index += numOfAttributes
+      Array::push.apply eventsInsertion.values, [
+        (eventToAdd.isAllDay or false),
+        (eventToAdd.timeProcessed or (new Date).getTime()),
+        (eventToAdd.startTime or null),
+        (eventToAdd.endTime or null),
+        (eventToAdd.chronosOutput or null),
+        (eventToAdd.url or null),
+        (eventToAdd.post or null),
+        (eventToAdd.feedID or 1)
+        ("{#{(tag for tag in (eventToAdd.tags or [])).join(',')}}")
+        ("{#{(locationDetail for locationDetail in (eventToAdd.location or [])).join(',')}}")
+        (eventToAdd.title or null)
+      ]
     eventsInsertion.text = (eventsInsertion.text)[0...eventsInsertion.text.length-1]
-    pgClient.query eventsInsertion, (err) ->
-      return res.status(400).send 'message': err.detail if err
-      res.status(200).send 'message' : 'successfully added events'
+    if eventsInsertion.values.length > 0
+      pgClient.query eventsInsertion, (err) ->
+        return res.status(400).send 'message': err.detail if err
+        res.status(201).send 'message' : 'successfully added events'
+    else
+      res.status(201).send 'message' : 'no new events created'
+
 
 module.exports = events

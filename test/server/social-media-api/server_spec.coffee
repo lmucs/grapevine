@@ -35,14 +35,14 @@ describe 'Social Media API', ->
     context 'when a timestamp (in seconds) is provided', ->
       it 'should only respond with posts
           since the provided timestamp', (done) ->
-        timestampFromOneWeekAgo = Math.round((Date.now() - (1000*60*60*24*7))/1000)
+        timestampFromOneWeekAgo = (Date.now() - (1000*60*60*24*7))
         request 'http://localhost:3000'
           .get "/facebook/posts/LMUStudentHousing/#{timestampFromOneWeekAgo}"
           .end (err, res) ->
             throw err if err
             for post in (JSON.parse res.text).data
               postTimestampInMilliseconds = new Date(post.created_time).getTime()
-              postTimestampInSeconds = Math.round(postTimestampInMilliseconds/1000)
+              postTimestampInSeconds = postTimestampInMilliseconds
               postTimestampInSeconds.should.be.greaterThan timestampFromOneWeekAgo
             done()
 
