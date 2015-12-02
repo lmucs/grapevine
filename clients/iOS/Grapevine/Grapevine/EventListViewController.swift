@@ -53,8 +53,19 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
-        cell.eventNameLabel.text = self.events[indexPath.row].title
-        cell.eventLocationLabel.text = String(self.events[indexPath.row].location)
+        if self.events[indexPath.row].title != nil {
+            cell.eventNameLabel.text = self.events[indexPath.row].title
+        }
+        else {
+            cell.eventNameLabel.text = "Untitled Event"
+        }
+        if let loc = self.events[indexPath.row].location {
+            cell.eventLocationLabel.text = loc
+        }
+        else {
+            cell.eventLocationLabel.hidden = true
+        }
+        
         
         
         func setDateBoxes(dateTime: CVDate){

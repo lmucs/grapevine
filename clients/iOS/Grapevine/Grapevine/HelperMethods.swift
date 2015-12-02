@@ -102,7 +102,7 @@ func buildEventTimeRange(myEvent: Event) -> String {
         let end = String(myEvent.endTime.hour) + ":" +  myEvent.endTime.minuteToString()
         return start + "-" + end
     }
-    if (myEvent.startTime.hour == 12 && myEvent.startTime.minute == 0){
+    if (myEvent.startTime.hour == 0 && myEvent.startTime.minute == 0){
         return "All-Day"
     }
     return "Starts at " + start

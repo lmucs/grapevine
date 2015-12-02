@@ -36,7 +36,7 @@ class Event: NSObject, Mappable {
     func dateMap(dict: [String: AnyObject]){
         // Events will always have a start time and therefore a date
         
-        let dateFromJson = NSDate(timeIntervalSince1970: NSTimeInterval(dict["start_time"] as! String)!)
+        let dateFromJson = NSDate(timeIntervalSince1970: NSTimeInterval(Int(dict["start_time"] as! String)!)/1000)
         self.startTime = EventTime()
         self.startTime.setAll(dateFromJson)
         
@@ -46,9 +46,14 @@ class Event: NSObject, Mappable {
         }
         
         if (dict["end_time"] != nil) {
-            self.endTime = EventTime()
-            self.endTime.setAll(NSDate(timeIntervalSince1970: NSTimeInterval(dict["end_time"] as! String)!))
-            self.hasEndTime = true
+            if let end = dict["end_time"] as? Int {
+                self.endTime = EventTime()
+                self.endTime.setAll(NSDate(timeIntervalSince1970: NSTimeInterval(String(end/1000))!))
+                self.hasEndTime = true
+            }
+            else {
+                self.hasEndTime = false
+            }
         }
         else {
             self.hasEndTime = false
