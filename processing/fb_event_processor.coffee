@@ -14,7 +14,7 @@ exports.extractAndSendEvents = (feed) ->
     since = if feed.last_pulled > 0 then feed.last_pulled else ''
     request "#{process.env.SOCIAL_MEDIA_API_HOST}/facebook/posts/#{feed.feed_name}/#{since}", (err, res, body) ->
       throw err if err
-      posts = JSON.parse(body)?.data
+      posts = JSON.parse(body)?.data or []
       # Since FB events can't be filtered by the time they were created (but FB posts can be),
       # we count how many of the newest created posts pulled are events.
       # We can then just pull the appropriate number of events in getFBFeedEvents().
@@ -24,7 +24,7 @@ exports.extractAndSendEvents = (feed) ->
   getFBFeedEvents = (next) ->
     request "#{process.env.SOCIAL_MEDIA_API_HOST}/facebook/events/#{feed.feed_name}/#{numOfNewEventsToPull}", (err, res, body) ->
       throw err if err
-      next JSON.parse(body)?.data
+      next(JSON.parse(body)?.data or [])
 
   extractGrapevineEventsFromPosts = (next) ->
     (posts) ->
