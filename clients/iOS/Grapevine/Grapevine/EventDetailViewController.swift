@@ -16,6 +16,7 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var eventDateLabel: UILabel!
     @IBOutlet weak var eventTimeLabel: UILabel!
     @IBOutlet weak var eventTitleLabel: UILabel!
+    @IBOutlet weak var eventPostLabel: UILabel!
 
 
     override func viewDidLoad() {
@@ -26,9 +27,10 @@ class EventDetailViewController: UIViewController {
             self.eventTitleLabel.numberOfLines = 0
             self.eventDateLabel.text = buildEventDateString(date)
             self.eventTimeLabel.text = buildEventTimeRange(event)
-            self.eventLinkButton.setTitle(self.event.url, forState: .Normal)
+            self.eventLinkButton.setTitle("View Original Post", forState: .Normal)
             self.eventLinkButton.titleLabel?.numberOfLines = 0
-            //self.eventLinkLabel.numberOfLines = 0
+            self.eventPostLabel.text = self.event.post
+            self.eventPostLabel.numberOfLines = 0
 
         }
 
@@ -41,7 +43,7 @@ class EventDetailViewController: UIViewController {
     }
     
     @IBAction func openLink(sender: AnyObject) {
-        var link = eventLinkButton.titleLabel!.text!
+        var link = event.url!
         let urlStartHttp: String = "http://"
         let urlStartHttps: String = "https://"
         if !(link.hasPrefix(urlStartHttp) || link.hasPrefix(urlStartHttps)) {
