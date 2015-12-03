@@ -19,7 +19,7 @@ users =
   getAllFeeds: (req, res) ->
     pgClient.query
       text: 'SELECT network_name, feed_name
-             FROM feeds, user_follows_feed
+             FROM feeds NATURAL JOIN user_follows_feed
              WHERE user_follows_feed.user_id = $1'
       values: [req.params.userID]
     , (err, result) ->
