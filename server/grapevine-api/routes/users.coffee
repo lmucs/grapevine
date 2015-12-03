@@ -16,6 +16,16 @@ users =
         )
       require('./tokens').create req, res
 
+  getAllFeeds: (req, res) ->
+    pgClient.query
+      text: 'SELECT network_name, feed_name
+             FROM feeds, user_follows_feed
+             WHERE user_follows_feed.user_id = $1'
+      values: [req.params.userID]
+    , (err, result) ->
+      return res.status(400).json err if err
+      res.status(200).json result.rows
+
   getAllEvents: (req, res) ->
     pgClient.query
       text: 'SELECT *
