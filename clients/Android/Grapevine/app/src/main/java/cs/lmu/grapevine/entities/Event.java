@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Represents a database Event entity.
  */
-public class Event implements Serializable {
+public class Event implements Serializable, Comparable<Event>  {
     private String title;
     @SerializedName("event_id")
     private int eventId;
@@ -160,5 +160,20 @@ public class Event implements Serializable {
     @Override
     public int hashCode() {
         return eventId;
+    }
+
+    @Override
+    public int compareTo(Event another) {
+        if (another == null) {
+            throw new IllegalArgumentException();
+        }
+
+        if (this.getStartTimeTimestamp() < another.getStartTimeTimestamp()){
+            return -1;
+        } else if (another.getStartTimeTimestamp() < this.getStartTimeTimestamp()) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
