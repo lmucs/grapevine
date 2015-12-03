@@ -21,8 +21,10 @@ users =
       text: 'SELECT *
              FROM events, user_follows_feed
              WHERE events.feed_id = user_follows_feed.feed_id
-             AND user_follows_feed.user_id = $1',
-      values: [req.params.userID]
+             AND user_follows_feed.user_id = $1
+             AND events.start_time > $2
+             OR events.end_time > $2',
+      values: [req.params.userID, (new Date).getTime()]
     , (err, result) ->
       return res.status(400).json err if err
       res.status(200).json result.rows
@@ -33,8 +35,10 @@ users =
              FROM events, user_follows_feed
              WHERE events.feed_id = user_follows_feed.feed_id
              AND user_follows_feed.user_id = $1
-             AND time_processed > $2',
-      values: [req.params.userID, req.params.after]
+             AND time_processed > $2
+             AND events.start_time > $3
+             OR events.end_time > $3',
+      values: [req.params.userID, req.params.after, (new Date).getTime()]
     , (err, result) ->
       return res.status(400).json err if err
       res.status(200).json result.rows
