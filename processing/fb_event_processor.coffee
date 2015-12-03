@@ -54,7 +54,7 @@ exports.extractAndSendEvents = (feed) ->
             location: getLocationInfo FBevent
             isAllDay: FBevent.end_time?
             startTime: startTime
-            endTime: if FBevent.end_time then new Date(FBevent.end_time).getTime() else null
+            endTime: if FBevent.end_time then new Date(FBevent.end_time).getTime() else 0
             post: FBevent.description
             url: "https://www.facebook.com/events/#{FBevent.id}"
             feedID: feed.feed_id
