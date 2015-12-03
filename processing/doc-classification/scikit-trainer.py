@@ -54,7 +54,9 @@ NBclassifier = Pipeline([
     ('clf', OneVsRestClassifier(MultinomialNB()))])
 NBclassifier.fit(posts[:10], binary_labels[:10])
 predicted = NBclassifier.predict(posts[10:])
+score = NBclassifier.score(posts[10:], binary_labels[10:])
 
 for post in posts[10:]:
    print post 
 print predicted
+print score
