@@ -18,6 +18,7 @@ test_data_array = list( csv.reader( open("testdata.csv") ) )
 headers = test_data_array.pop(0)
 label_headers = headers[1:]
 
+random.shuffle(test_data_array)
 posts = []
 binary_labels = []
 
@@ -54,5 +55,6 @@ NBclassifier = Pipeline([
 NBclassifier.fit(posts[:10], binary_labels[:10])
 predicted = NBclassifier.predict(posts[10:])
 
-print posts[10:]
+for post in posts[10:]:
+   print post 
 print predicted
