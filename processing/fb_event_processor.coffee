@@ -39,6 +39,7 @@ exports.extractAndSendEvents = (feed) ->
               [user, post] = id.split("_")
               "https://www.facebook.com/#{user}/posts/#{post}")(post.id)
             grapevineEvent.feedID = feed.feed_id
+            grapevineEvent.author = feed.feed_name
             grapevineEvent.tags = [] # TODO
             grapevineEvents.push grapevineEvent
       next grapevineEvents
@@ -57,6 +58,7 @@ exports.extractAndSendEvents = (feed) ->
             endTime: if FBevent.end_time then new Date(FBevent.end_time).getTime() else 0
             post: FBevent.description
             url: "https://www.facebook.com/events/#{FBevent.id}"
+            author: feed.feed_name
             feedID: feed.feed_id
             title: FBevent.name
             tags: [] #TODO: CLASSIFIER WORK HERE
