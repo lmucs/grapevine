@@ -32,9 +32,9 @@ users =
              FROM events, user_follows_feed
              WHERE events.feed_id = user_follows_feed.feed_id
              AND user_follows_feed.user_id = $1
-             AND events.start_time > $2
+             AND (events.start_time > $2
              OR (events.end_time IS NOT NULL AND events.end_time > $2)
-             OR (events.start_time = $3 AND events.is_all_day)',
+             OR (events.start_time = $3 AND events.is_all_day))',
       values: [req.params.userID, (new Date).getTime(), (new Date).setHours(0, 0, 0, 0)]
     , (err, result) ->
       return res.status(400).json err if err
