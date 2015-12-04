@@ -1,7 +1,6 @@
 package cs.lmu.grapevine.entities;
 
 import com.google.gson.annotations.SerializedName;
-
 import java.io.Serializable;
 
 /**
@@ -13,18 +12,48 @@ public class Event implements Serializable, Comparable<Event>  {
     private int eventId;
     @SerializedName("time_processed")
     private long timeProcessed;
-    private String location;
+    private String[] location;
     @SerializedName("start_time")
     private long startTimeTimestamp;
     @SerializedName("end_time")
     private long endTimeTimestamp;
-    private boolean repeatsWeekly;
     private String[] tags;
     private String url;
     @SerializedName("post")
     private String postContent;
     @SerializedName("feed_id")
-    private int feedId;
+    private long feedId;
+    @SerializedName("processed_info")
+    private String processedInfo;
+    @SerializedName("is_all_day")
+    private boolean isAllDay;
+    @SerializedName("end_time_is_known")
+    private boolean endTimeIsKnown;
+    private String author;
+
+    public boolean endTimeIsKnown() {
+        return endTimeIsKnown;
+    }
+
+    public void setEndTimeIsKnown(boolean endTimeIsKnown) {
+        this.endTimeIsKnown = endTimeIsKnown;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public boolean isAllDay() {
+        return isAllDay;
+    }
+
+    public void setIsAllDay(boolean isAllDay) {
+        this.isAllDay = isAllDay;
+    }
 
     public String getProcessedInfo() {
         return processedInfo;
@@ -42,16 +71,13 @@ public class Event implements Serializable, Comparable<Event>  {
         this.postContent = postContent;
     }
 
-    @SerializedName("processed_info")
-    private String processedInfo;
-
     public static int MILLISECONDS_PER_SECOND = 1000;
 
-    public int getFeedId() {
+    public long getFeedId() {
         return feedId;
     }
 
-    public void setFeedId(int feedId) {
+    public void setFeedId(long feedId) {
         this.feedId = feedId;
     }
 
@@ -91,11 +117,11 @@ public class Event implements Serializable, Comparable<Event>  {
         this.title = title;
     }
 
-    public String getLocation() {
+    public String[] getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(String[] location) {
         this.location = location;
     }
 
@@ -115,14 +141,6 @@ public class Event implements Serializable, Comparable<Event>  {
         this.endTimeTimestamp = endTimeTimestamp;
     }
 
-    public boolean isRepeatsWeekly() {
-        return repeatsWeekly;
-    }
-
-    public void setRepeatsWeekly(boolean repeatsWeekly) {
-        this.repeatsWeekly = repeatsWeekly;
-    }
-
     public String[] getTags() {
         return tags;
     }
@@ -137,14 +155,6 @@ public class Event implements Serializable, Comparable<Event>  {
 
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public String getPost() {
-        return postContent;
-    }
-
-    public void setPost(String post) {
-        this.postContent = post;
     }
 
     @Override
