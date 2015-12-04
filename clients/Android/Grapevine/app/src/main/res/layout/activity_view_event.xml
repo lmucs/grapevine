@@ -10,9 +10,11 @@
     <TextView  android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/single_event_title"
+        android:text="An Event"
         android:textSize="@dimen/event_title_size"/>
     <TextView  android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="2015-21-02"
         android:id="@+id/single_event_date"/>
     <TextView  android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,8 +23,15 @@
         android:layout_height="wrap_content"
         android:id="@+id/single_event_url"
         android:autoLink="web"/>
+    <!--TODO: MAke this scrollable-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/single_event_original_post"
+        android:text="@string/lorem_ipsum"/>
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/link_to_event"
         android:text="View on Facebook"/>
 </LinearLayout>

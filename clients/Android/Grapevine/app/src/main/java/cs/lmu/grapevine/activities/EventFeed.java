@@ -1,12 +1,14 @@
 package cs.lmu.grapevine.activities;
 
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import java.util.ArrayList;
 import cs.lmu.grapevine.R;
 import cs.lmu.grapevine.entities.Event;
@@ -17,6 +19,7 @@ import cs.lmu.grapevine.requests.RefreshEventFeedRequest;
 public class EventFeed extends AppCompatActivity {
     public static ArrayList<Event> usersEvents;
     public static ArrayAdapter usersEventsAdapter;
+    private static MenuItem miActionProgressItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,11 @@ public class EventFeed extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_event_feed, menu);
+
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+        // Extract the action-view from the menu item
+        ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
+        showRequestProgressSpinner();
         return true;
     }
 
@@ -68,7 +76,16 @@ public class EventFeed extends AppCompatActivity {
     }
 
     public void refreshFeed() {
+        showRequestProgressSpinner();
         RefreshEventFeedRequest getNewEvents = new RefreshEventFeedRequest(this);
         Login.httpRequestQueue.add(getNewEvents);
+    }
+
+    private void showRequestProgressSpinner() {
+        miActionProgressItem.setVisible(true);
+    }
+
+    public static void hideRequestProgressSpinner() {
+        miActionProgressItem.setVisible(false);
     }
 }
