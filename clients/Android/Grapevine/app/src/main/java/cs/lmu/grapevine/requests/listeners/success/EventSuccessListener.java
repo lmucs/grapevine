@@ -9,10 +9,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 import cs.lmu.grapevine.activities.EventFeed;
 import cs.lmu.grapevine.entities.Event;
 import cs.lmu.grapevine.adapters.EventFeedArrayAdapter;
@@ -53,7 +51,7 @@ public class EventSuccessListener implements Response.Listener<JSONArray> {
         ListView eventFeed = (ListView) parentActivity.findViewById(R.id.event_feed);
         eventFeed.setAdapter(eventAdapter);
         EventFeed.usersEventsAdapter = eventAdapter;
-
+        EventFeed.hideRequestProgressSpinner();
     }
 
     private void printEmptyListMessage() {
