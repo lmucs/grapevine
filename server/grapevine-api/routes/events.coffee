@@ -16,8 +16,8 @@ events =
         (eventToAdd.isAllDay or false),
         (eventToAdd.endTimeIsKnown or false)
         (eventToAdd.timeProcessed or (new Date).getTime()),
-        (eventToAdd.startTime or 0),
-        (eventToAdd.endTime or 0),
+        (eventToAdd.startTime or null),
+        (eventToAdd.endTime or null),
         (eventToAdd.chronosOutput or null),
         (eventToAdd.url or null),
         (eventToAdd.post or null),

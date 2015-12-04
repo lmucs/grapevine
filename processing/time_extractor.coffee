@@ -13,6 +13,6 @@ exports.extractTimeAttributes = (text, timeCreated) ->
     isAllDay:       not chronosDateInfo.start.knownValues.hour?
     endTimeIsKnown: chronosDateInfo.end?
     startTime:      chronosDateInfo.start.date().getTime()
-    endTime:        chronosDateInfo.end?.date().getTime() or 0
+    endTime:        chronosDateInfo.end?.date().getTime()
   else
     null
