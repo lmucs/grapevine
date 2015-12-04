@@ -7,4 +7,13 @@
     <dimen name="radio_button_size">25sp</dimen>
     <dimen name="calendar_feed_date_container_size">16sp</dimen>
     <dimen name="event_feed_title_size">18sp</dimen>
+    <dimen name="event_feed_month_size">12dp</dimen>
+    <dimen name="calendar_size">60dp</dimen>
+    <dimen name="calendar_page_day_offset">10dp</dimen>
+    <dimen name="calendar_page_day_container">40dp</dimen>
+    <dimen name="calendar_page_day_text">30sp</dimen>
+    <dimen name="progress_spinner_size">20dp</dimen>
+    <dimen name="login_button_margin_top">16dp</dimen>
+    <dimen name="login_button_width">0dp</dimen>
+    <dimen name="login_logo">150dp</dimen>
 </resources>

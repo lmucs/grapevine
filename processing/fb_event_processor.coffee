@@ -59,6 +59,7 @@ exports.extractAndSendEvents = (feed) ->
             endTime: if FBevent.end_time then new Date(FBevent.end_time).getTime() else null
             post: FBevent.description
             url: "https://www.facebook.com/events/#{FBevent.id}"
+            author: feed.feed_name
             feedID: feed.feed_id
             title: FBevent.name
             tags: [] #TODO: CLASSIFIER WORK HERE
