@@ -27,7 +27,6 @@ users =
       res.status(200).json result.rows
 
   getAllEvents: (req, res) ->
-    startTimeOfToday = (new Date).setHours 0, 0, 0, 0
     pgClient.query
       text: 'SELECT *
              FROM events, user_follows_feed
@@ -36,7 +35,7 @@ users =
              AND events.start_time > $2
              OR (events.end_time IS NOT NULL AND events.end_time > $2)
              OR (events.start_time = $3 AND events.is_all_day)',
-      values: [req.params.userID, (new Date).getTime(), startTimeOfToday]
+      values: [req.params.userID, (new Date).getTime(), (new Date).setHours(0, 0, 0, 0)]
     , (err, result) ->
       return res.status(400).json err if err
       res.status(200).json result.rows
