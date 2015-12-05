@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import cs.lmu.grapevine.R;
 import cs.lmu.grapevine.entities.SocialMediaFeed;
 import cs.lmu.grapevine.requests.FollowFeedRequest;
+import cs.lmu.grapevine.requests.RetrieveFeedsUserFollowingRequest;
 
 public class ManageFeeds extends AppCompatActivity {
     private EditText   feedNameEditText;
@@ -32,12 +33,13 @@ public class ManageFeeds extends AppCompatActivity {
 
         grabReferencesToEditTextAndButton();
         addListenerToTextView();
+        getFeedsUserFollows();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_follow_feed, menu);
+        getMenuInflater().inflate(R.menu.menu_manage_feeds, menu);
         return true;
     }
 
@@ -70,7 +72,7 @@ public class ManageFeeds extends AppCompatActivity {
                     "{\"feedName\":\""
                             + feedName
                             + "\",\"networkName\":\""
-                            + sourceName
+                            + sourceName.toLowerCase()
                             + "\"}";
 
             FollowFeedRequest followGroupRequest = new FollowFeedRequest(this, requestBodyString);
@@ -114,6 +116,11 @@ public class ManageFeeds extends AppCompatActivity {
         feedNameEditText = (EditText)findViewById(R.id.feed_name);
         addFeedButton = (Button)findViewById(R.id.add_feed_button);
         feedSources = (RadioGroup)findViewById(R.id.social_media_options);
+    }
+
+    private void getFeedsUserFollows() {
+        RetrieveFeedsUserFollowingRequest getFeeds = new RetrieveFeedsUserFollowingRequest(this);
+        Login.httpRequestQueue.add(getFeeds);
     }
 
 }

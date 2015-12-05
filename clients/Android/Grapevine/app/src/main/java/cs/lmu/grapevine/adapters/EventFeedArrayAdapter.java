@@ -49,19 +49,32 @@ public class EventFeedArrayAdapter extends ArrayAdapter<Event> implements Filter
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.event_list_view, parent, false);
         }
-        TextView eventNameView = (TextView) convertView.findViewById(R.id.event_title);
+        TextView eventTitleView = (TextView) convertView.findViewById(R.id.event_title);
+        if (event.getTitle() == null) {
+            eventTitleView.setText(R.string.untitled_event_title);
+        } else {
+            eventTitleView.setText(event.getTitle());
+        }
 
-        eventNameView.setText(event.getTitle());
-
-        Date eventStartTime = new Date(event.getStartTimeTimestamp() * Event.MILLISECONDS_PER_SECOND);
+        Date eventStartTime = new Date(event.getStartTimeTimestamp());
+        Date eventEndTime   = new Date(event.getEndTimeTimestamp());
         SimpleDateFormat dateMonth = new SimpleDateFormat("LLL") ;
         SimpleDateFormat dateDay = new SimpleDateFormat("d");
+        SimpleDateFormat timeOfEvent = new SimpleDateFormat("h:mm a");
+
+        String eventTimeString =
+                timeOfEvent.format(eventStartTime);
+        if (event.endTimeIsKnown()) {
+            eventTimeString += "-"
+            +timeOfEvent.format(eventEndTime);
+        }
 
         String monthString = dateMonth.format(eventStartTime);
         String dayString = dateDay.format(eventStartTime);
 
         ((TextView)convertView.findViewById(R.id.event_month)).setText(monthString);
         ((TextView)convertView.findViewById(R.id.event_day)).setText(dayString);
+        ((TextView)convertView.findViewById(R.id.event_time)).setText(eventTimeString);
 
         return convertView;
     }
@@ -77,7 +90,7 @@ public class EventFeedArrayAdapter extends ArrayAdapter<Event> implements Filter
                 ArrayList<Event> filteredEvents = new ArrayList<>();
 
                 for (Event event : originalEvents){
-                    java.util.Date dateOfEvent = new java.util.Date(event.getStartTimeTimestamp() * Event.MILLISECONDS_PER_SECOND);
+                    java.util.Date dateOfEvent = new java.util.Date(event.getStartTimeTimestamp());
                     SimpleDateFormat stringDateFormat = new SimpleDateFormat("D");
                     String dateString = stringDateFormat.format(dateOfEvent);
                     if (dateString.equals(eventDayString)) {
@@ -99,4 +112,5 @@ public class EventFeedArrayAdapter extends ArrayAdapter<Event> implements Filter
             }
         };
     }
+
 }
