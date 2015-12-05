@@ -13,7 +13,7 @@ import SwiftyJSON
 
 class FeedManagementViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    var myFeeds: [String]!
+    var myFeeds: [String]?
     var userToken: Token!
     
     @IBOutlet weak var tableView: UITableView!
@@ -43,12 +43,8 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         if section == 0 {
             return 1
         }
-        else {
-            if myFeeds != nil {
-                return myFeeds.count
-            }
-            return 0
-        }
+        return myFeeds?.count ?? 0
+        
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
