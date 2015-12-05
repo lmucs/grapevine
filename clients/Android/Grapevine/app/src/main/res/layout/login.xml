@@ -79,7 +79,7 @@
                 android:textColor="@color/red"/>
             <ProgressBar
                 android:id="@+id/login_progress"
-                style="@android:style/Widget.ProgressBar.Small"
+                style="?android:attr/progressBarStyleLarge"
                 android:layout_width="@dimen/progress_spinner_size"
                 android:layout_height="@dimen/progress_spinner_size"
                 android:layout_gravity="center"
