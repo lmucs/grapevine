@@ -8,4 +8,11 @@
     <item android:id="@+id/action_add_group" android:title="@string/title_activity_manage_feeds" android:icon="@drawable/ic_comment_white_48dp"
         android:orderInCategory="100" app:showAsAction="always"/>
     <item android:id="@+id/action_refresh_feed" android:title="@string/refresh" android:orderInCategory="150" app:showAsAction="never"/>
+    <item
+        android:id="@+id/miActionProgress"
+        android:title="Loading..."
+        android:visible="false"
+        android:orderInCategory="1"
+        app:showAsAction="always"
+        app:actionLayout="@layout/action_view_progress" />
 </menu>
