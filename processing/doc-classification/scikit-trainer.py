@@ -56,7 +56,22 @@ NBclassifier.fit(posts[:10], binary_labels[:10])
 predicted = NBclassifier.predict(posts[10:])
 score = NBclassifier.score(posts[10:], binary_labels[10:])
 
+SVCclassifier = Pipeline([
+    ('vectorizer', TfidfVectorizer()),
+    ('clf', OneVsRestClassifier(LinearSVC()))])
+SVCclassifier.fit(posts[:10], binary_labels[:10])
+
 for post in posts[10:]:
-   print post 
+   print post
+
+print "NB Classifier"
+predicted = NBclassifier.predict_proba(posts[10:])
+score = NBclassifier.score(posts[10:], binary_labels[10:])
+print predicted
+print score
+
+print "SVC Classifier"
+predicted = SVCclassifier.(posts[10:])
+score = SVCclassifier.score(posts[10:], binary_labels[10:])
 print predicted
 print score
