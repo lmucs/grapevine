@@ -12,18 +12,23 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+
 import cs.lmu.grapevine.R;
+import cs.lmu.grapevine.entities.SocialMediaFeed;
 import cs.lmu.grapevine.requests.FollowFeedRequest;
 
-public class FollowFeed extends AppCompatActivity {
+public class ManageFeeds extends AppCompatActivity {
     private EditText   feedNameEditText;
     private RadioGroup feedSources;
     private Button     addFeedButton;
+    public static ArrayList<SocialMediaFeed> feedsFollowed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.follow_feed);
+        setContentView(R.layout.manage_feeds);
 
         grabReferencesToEditTextAndButton();
         addListenerToTextView();
