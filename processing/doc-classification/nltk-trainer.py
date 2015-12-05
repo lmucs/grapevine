@@ -8,7 +8,7 @@ from nltk.corpus import stopwords
 stop_words = set(stopwords.words('english'))
 stop_words.update( set(line.strip() for line in open('customstopwords.txt')) )
 
-test_data_array = list( csv.reader( open("testdata.csv") ) )
+test_data_array = list( csv.reader( open("LMUTwitterFacebookCorpus.csv") ) )
 headers = test_data_array.pop(0)
 label_headers = headers[1:]
 
@@ -21,8 +21,15 @@ for row in test_data_array:
    test_data.append( dict(zip(headers, processed_bool_row)))
 
 def processString(string) :
-   words = nltk.word_tokenize(string)
-   words = [word.lower() for word in words]
+   words = []
+   split_string = string.split(' ')
+   for string in split_string:
+      if string.startswith(("http","&amp")):
+         continue
+      string = string.decode("unicode_escape")
+      string = nltk.word_tokenize(string)
+      string = [s.lower() for s in string]
+      words.extend(string)
    for word in words:
       if word in stop_words:
          words = filter(lambda a: a!= word, words)
@@ -34,7 +41,7 @@ for classified_post in test_data:
 
    words = processString( classified_post["post"] )
    all_words.extend(words)
-   print (words)
+   #print (words)
 
    for label in label_headers:
       if classified_post[label]:
@@ -54,8 +61,8 @@ def find_features(post):
 features_set = [(find_features(post), label) for (post, label) in classified_set]
 random.shuffle(features_set)
 
-training_set = features_set[:13]
-testing_set = features_set[13:]
+training_set = features_set[:1700]
+testing_set = features_set[1700:]
 
 
 classifier = nltk.NaiveBayesClassifier.train(training_set)
