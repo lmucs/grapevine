@@ -1,5 +1,5 @@
 node_modules/
-*.js
+.js
 .env
 .DS_Store
 clients/Android/Grapevine/volley/build/
