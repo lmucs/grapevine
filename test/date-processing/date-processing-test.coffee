@@ -73,7 +73,7 @@ describe 'Chrono Parse ', ->
       expect(endTime).to.eql new Date 2015, 8, 5, 14
 
     it 'it can go detect if an event goes from one day to another', ->
-      testString = 'Today from 11pm-2am we will be eating ice cream.'
+      testString = 'from 11pm-2am we will be eating ice cream.'
       parsedDate = chrono.parse(testString, refDate)
       startTime  = parsedDate[0].start.date()
       endTime    = parsedDate[0].end.date()
