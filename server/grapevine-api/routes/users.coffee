@@ -20,7 +20,8 @@ users =
     pgClient.query
       text: 'SELECT network_name, feed_name
              FROM feeds NATURAL JOIN user_follows_feed
-             WHERE user_follows_feed.user_id = $1'
+             WHERE user_follows_feed.user_id = $1
+             AND feed_name!=\'twitter_list\''
       values: [req.params.userID]
     , (err, result) ->
       return res.status(400).json err if err
@@ -94,7 +95,7 @@ users =
     feeds.get req.params.feedName, req.params.networkName, (err, result) ->
       return res.status(400).json err if err
       feed = result.rows[0]
-      if feed
+      if feed and req.params.feedName isnt 'twitter_list'
         userFeeds.deleteAssociation req.params.userID, feed.feed_id, (err) ->
           return res.status(400).json err if err
           res.status(200).json
