@@ -11,6 +11,9 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.util.Calendar;
+import java.util.Locale;
+
 import cs.lmu.grapevine.entities.Event;
 import cs.lmu.grapevine.R;
 
@@ -44,6 +47,10 @@ public class EventFeedArrayAdapter extends ArrayAdapter<Event> implements Filter
     public View getView(int position, View convertView, ViewGroup parent) {
         Event event = filteredItems.get(position);
 
+        if (event.getEventId() == 2252) {
+            String here = "here";
+        }
+
         //courtesy of https://github.com/codepath/android_guides/wiki/Using-an-ArrayAdapter-with-ListView
         // Check if an existing view is being reused, otherwise inflate the view
         if (convertView == null) {
@@ -56,25 +63,93 @@ public class EventFeedArrayAdapter extends ArrayAdapter<Event> implements Filter
             eventTitleView.setText(event.getTitle());
         }
 
+        TextView eventMonth = ((TextView)convertView.findViewById(R.id.event_month));
+        TextView eventDay   = ((TextView)convertView.findViewById(R.id.event_day));
+        TextView eventTime  = ((TextView)convertView.findViewById(R.id.event_time));
+        TextView multiDay   = ((TextView)convertView.findViewById(R.id.multi_day));
+
+        long nowTimestamp = Calendar.getInstance().getTimeInMillis();
+        Date today = new Date(nowTimestamp);
+
         Date eventStartTime = new Date(event.getStartTimeTimestamp());
         Date eventEndTime   = new Date(event.getEndTimeTimestamp());
-        SimpleDateFormat dateMonth = new SimpleDateFormat("LLL") ;
-        SimpleDateFormat dateDay = new SimpleDateFormat("d");
-        SimpleDateFormat timeOfEvent = new SimpleDateFormat("h:mm a");
 
-        String eventTimeString =
-                timeOfEvent.format(eventStartTime);
-        if (event.endTimeIsKnown()) {
-            eventTimeString += "-"
-            +timeOfEvent.format(eventEndTime);
+        SimpleDateFormat dateMonth = new SimpleDateFormat("LLL", Locale.ENGLISH) ;
+        SimpleDateFormat dateDay = new SimpleDateFormat("d",Locale.ENGLISH);
+        SimpleDateFormat timeOfEvent = new SimpleDateFormat("h:mm a",Locale.ENGLISH);
+        SimpleDateFormat yearString = new SimpleDateFormat("yy",Locale.ENGLISH);
+        SimpleDateFormat fullDate = new SimpleDateFormat("M/d/yyyy",Locale.ENGLISH);
+
+        String startMonth = dateMonth.format(eventStartTime);
+        String startDay = dateDay.format(eventStartTime);
+        String startYear = yearString.format(eventStartTime);
+
+        String endMonth = dateMonth.format(eventEndTime);
+        String endDay = dateDay.format(eventEndTime);
+        String endYear = yearString.format(eventEndTime);
+
+        String todayMonth = dateMonth.format(today);
+        String todayDay = dateDay.format(today);
+        String todayYear = yearString.format(today);
+
+        boolean eventStartsAndEndsSameDay = (startMonth.equals(endMonth))
+                                          &&(startDay.equals(endDay))
+                                          &&(startYear.equals(endYear));
+
+        boolean todayStartDayAndEventNotStarted = (todayDay.equals(endDay))
+                                                &&(todayMonth.equals(endMonth))
+                                                &&(todayYear.equals(endYear))
+                                                &&(nowTimestamp < event.getStartTimeTimestamp());
+
+        boolean todayEndDay = (todayDay.equals(endDay))
+                            &&(todayMonth.equals(endMonth))
+                            &&(todayYear.equals(endYear));
+
+        if (!(event.endTimeIsKnown())) {
+            String eventTimeString = timeOfEvent.format(eventStartTime);
+
+            eventMonth.setText(startMonth);
+            eventDay.setText(startDay);
+            eventTime.setText(eventTimeString);
+
+        } else if (eventStartsAndEndsSameDay) {
+            String eventTimeString =
+                    timeOfEvent.format(eventStartTime)
+                  + " - "
+                  + timeOfEvent.format(eventEndTime);
+
+            eventMonth.setText(startMonth);
+            eventDay.setText(startDay);
+            eventTime.setText(eventTimeString);
+
+            multiDay.setVisibility(View.INVISIBLE);
+        } else if (todayStartDayAndEventNotStarted) {
+            String eventTimeString = "today at " + timeOfEvent.format(eventStartTime);
+            eventMonth.setText(todayMonth);
+            eventDay.setText(todayDay);
+            eventTime.setText(eventTimeString);
+            multiDay.setVisibility(View.VISIBLE);
+        } else if (todayEndDay) {
+            String eventTimeString = "ends today at " + timeOfEvent.format(eventEndTime);
+            eventMonth.setText(endMonth);
+            eventDay.setText(endDay);
+            eventTime.setText(eventTimeString);
+            multiDay.setVisibility(View.VISIBLE);
+        } else if(eventStartTime.after(today)) {
+            String eventTimeString = timeOfEvent.format(eventStartTime);
+
+            eventMonth.setText(startMonth);
+            eventDay.setText(startDay);
+            eventTime.setText(eventTimeString);
+            multiDay.setVisibility(View.VISIBLE);
+        } else {
+            //else - on event date and event already started, or on a day in between start and end dates.
+            eventMonth.setText(todayMonth);
+            eventDay.setText(todayDay);
+            eventTime.setText("ends on "
+                            + fullDate.format(eventEndTime));
+            multiDay.setVisibility(View.VISIBLE);
         }
-
-        String monthString = dateMonth.format(eventStartTime);
-        String dayString = dateDay.format(eventStartTime);
-
-        ((TextView)convertView.findViewById(R.id.event_month)).setText(monthString);
-        ((TextView)convertView.findViewById(R.id.event_day)).setText(dayString);
-        ((TextView)convertView.findViewById(R.id.event_time)).setText(eventTimeString);
 
         return convertView;
     }
@@ -112,5 +187,4 @@ public class EventFeedArrayAdapter extends ArrayAdapter<Event> implements Filter
             }
         };
     }
-
 }

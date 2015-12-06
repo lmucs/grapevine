@@ -52,6 +52,12 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/event_time"
                 android:text="event time"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/multi_day"
+                android:text="multi-day"
+                android:textColor="@color/multi_day" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
