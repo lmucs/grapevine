@@ -14,7 +14,6 @@ import java.util.Calendar;
 import java.util.Date;
 import cs.lmu.grapevine.R;
 import cs.lmu.grapevine.adapters.EventFeedArrayAdapter;
-import cs.lmu.grapevine.entities.Event;
 import cs.lmu.grapevine.listeners.CalendarListener;
 import cs.lmu.grapevine.listeners.EventListClickListener;
 
@@ -68,13 +67,13 @@ public class CalendarView extends AppCompatActivity {
     }
 
     private void launchAddGroup() {
-        Intent addGroup = new Intent(this, FollowFeed.class);
+        Intent addGroup = new Intent(this, ManageFeeds.class);
         startActivity(addGroup);
     }
 
     private void populateCalenderWithEvents(CaldroidFragment calendar) {
         for (int i = 0; i < EventFeed.usersEvents.size(); i++) {
-            Date eventDate = new Date(EventFeed.usersEvents.get(i).getStartTimeTimestamp()* Event.MILLISECONDS_PER_SECOND);
+            Date eventDate = new Date(EventFeed.usersEvents.get(i).getStartTimeTimestamp());
             calendar.setBackgroundResourceForDate(R.color.event_highlight, eventDate);
         }
 
