@@ -71,7 +71,7 @@ public class EventFeed extends AppCompatActivity {
     }
 
     public void launchAddGroup() {
-        Intent addGroup = new Intent(this, FollowFeed.class);
+        Intent addGroup = new Intent(this, ManageFeeds.class);
         startActivity(addGroup);
     }
 

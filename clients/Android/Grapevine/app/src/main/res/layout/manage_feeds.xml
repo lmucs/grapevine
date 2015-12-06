@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_feed"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textSize="@dimen/section_title"/>
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,7 +60,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/following"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:textSize="@dimen/section_title"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"/>
     <ListView
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
