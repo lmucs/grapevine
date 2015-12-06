@@ -1,5 +1,5 @@
 expect = require('chai').expect
-chrono = require 'chrono-node'
+chrono = require '/Users/jloustau/Desktop/jloustau/lmu/cmsi401/grapevine/chrono'
 refDate = new Date 2015, 8, 5
 
 describe 'Chrono Parse ', ->
