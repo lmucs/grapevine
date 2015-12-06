@@ -26,9 +26,14 @@
     <string name="twitter">Twitter</string>
     <string name="event_error">There was an error fetching your events from the server.</string>
     <string name="add_feed">Add feed</string>
-    <string name="following">Following</string>
+    <string name="following">Currently Following</string>
     <string name="follow_feed_error">There was an error following this feed.</string>
     <string name="refresh_error_toast">There was an error retrieving new events</string>
     <string name="refresh_success_toast">Successfully refreshed event feed</string>
     <string name="refresh">Refresh</string>
+    <string name="untitled_event_title">Untitled event</string>
+    <string name="lorem_ipsum">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</string>
+    <string name="no_post_content_message">We were unable to display the original post here :(</string>
+    <string name="unfollow_feed">Unfollow</string>
+    <string name="cancel">Cancel</string>
 </resources>

@@ -12,9 +12,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
 import cs.lmu.grapevine.R;
 import cs.lmu.grapevine.entities.SocialMediaFeed;
 import cs.lmu.grapevine.requests.FollowFeedRequest;
@@ -122,5 +120,4 @@ public class ManageFeeds extends AppCompatActivity {
         RetrieveFeedsUserFollowingRequest getFeeds = new RetrieveFeedsUserFollowingRequest(this);
         Login.httpRequestQueue.add(getFeeds);
     }
-
 }

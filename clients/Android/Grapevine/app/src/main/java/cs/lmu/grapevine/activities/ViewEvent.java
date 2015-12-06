@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.TextView;
 import java.sql.Date;
 import cs.lmu.grapevine.entities.Event;
@@ -49,20 +50,30 @@ public class ViewEvent extends AppCompatActivity {
         TextView eventDateView     = (TextView) findViewById(R.id.single_event_date);
         TextView eventLocationView = (TextView) findViewById(R.id.single_event_location);
         TextView eventUrlView      = (TextView) findViewById(R.id.single_event_url);
+        Button   linkToEvent       = (Button)   findViewById(R.id.link_to_event);
+        TextView originalPostView  = (TextView) findViewById(R.id.single_event_original_post);
                 
-        if(!eventToDisplay.getTitle().equals(null)) {
+        if(!(eventToDisplay.getTitle() == null)) {
             eventTitleView.setText(eventToDisplay.getTitle());
+        } else {
+            eventTitleView.setText(R.string.untitled_event_title);
         }
+
+        //TODO - INSERT LOCATION
+        
+
+        if (!(eventToDisplay.getPostContent() == null)) {
+            originalPostView.setText(eventToDisplay.getPostContent());
+        } else {
+            originalPostView.setText(R.string.no_post_content_message);
+        }
+
         //any event that doesn't have a date shouldn't make it into the database
-        Date eventStartTime = new Date(eventToDisplay.getStartTimeTimestamp() * Event.MILLISECONDS_PER_SECOND);
+        Date eventStartTime = new Date(eventToDisplay.getStartTimeTimestamp());
         eventDateView.setText(eventStartTime.toString());
 
-        if (!eventToDisplay.getLocation().equals(null)) {
-            eventLocationView.setText(eventToDisplay.getLocation());
-        }
-        if(!eventToDisplay.getUrl().equals(null)) {
+        if(!(eventToDisplay.getUrl() == null)) {
             eventUrlView.setText(eventToDisplay.getUrl());
         }
-
     }
 }
