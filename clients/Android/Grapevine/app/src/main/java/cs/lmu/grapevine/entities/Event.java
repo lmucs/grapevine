@@ -186,4 +186,8 @@ public class Event implements Serializable, Comparable<Event>  {
             return 0;
         }
     }
+
+    public String toString() {
+        return Integer.toString(eventId);
+    }
 }
