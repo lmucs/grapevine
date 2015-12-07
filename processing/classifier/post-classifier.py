@@ -55,11 +55,7 @@ def process(string):
       if bool(re.search(r'(\d|http|\&amp|www)', string)):
             continue
       string = string.decode("unicode_escape")
-      try:
-        string = nltk.word_tokenize(string)
-      except Exception as e:
-        print e.__doc__
-        print e.message
+      string = nltk.word_tokenize(string)
       string = [s.lower() for s in string]
       words.extend(string)
    return ' '.join(words)
