@@ -61,9 +61,9 @@ def process(string):
 @requires_auth
 def decipherTags():
     data = json.loads(request.data)
-    print data
     post = data['post']
     post = process(post)
+    print post
     tags = classifier.predict([post]).flatten()
     print tags
     tags = [label for (tag,label) in zip(tags, labels) if tag == 1]
