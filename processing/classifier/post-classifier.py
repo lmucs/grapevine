@@ -52,7 +52,7 @@ def process(string):
       if bool(re.search(r'(\d|http|\&amp|www)', string)):
             continue
       string = string.decode("unicode_escape")
-      string = nltk.word_tokenize(string)
+      #string = nltk.word_tokenize(string)
       string = [s.lower() for s in string]
       words.extend(string)
    return ' '.join(words)
@@ -62,6 +62,7 @@ def process(string):
 def decipherTags():
     data = json.loads(request.data)
     post = data['post']
+    print post
     post = process(post)
     print post
     tags = classifier.predict([post]).flatten()
