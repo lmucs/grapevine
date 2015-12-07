@@ -16,7 +16,7 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var eventDateLabel: UILabel!
     @IBOutlet weak var eventTimeLabel: UILabel!
     @IBOutlet weak var eventTitleLabel: UILabel!
-    @IBOutlet weak var eventPostLabel: UILabel!
+    @IBOutlet weak var eventPostView: UITextView!
 
 
     override func viewDidLoad() {
@@ -29,9 +29,7 @@ class EventDetailViewController: UIViewController {
             self.eventTimeLabel.text = buildEventTimeRange(event)
             self.eventLinkButton.setTitle("View Original Post", forState: .Normal)
             self.eventLinkButton.titleLabel?.numberOfLines = 0
-            self.eventPostLabel.text = self.event.post
-            self.eventPostLabel.numberOfLines = 0
-
+            self.eventPostView.text = self.event.post
         }
 
         // Do any additional setup after loading the view.

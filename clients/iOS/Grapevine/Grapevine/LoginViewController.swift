@@ -90,7 +90,7 @@ class LoginViewController: UIViewController {
                             self.userToken = responseToken
                             print("UserID is \(self.userToken.userID)")
                             self.appUser.userID = self.userToken.userID
-                            //print(self.appUser.userID)
+                            
                             self.performSegueWithIdentifier("loginSegue", sender: self)
                         }
                         else {
