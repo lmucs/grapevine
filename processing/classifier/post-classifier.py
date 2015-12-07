@@ -19,7 +19,7 @@ app = Flask(__name__)
 VALID_USERNAME = os.environ["USERNAME"]
 VALID_PASSWORD = os.environ["PASSWORD"]
 
-nltk.data.path.append('./nltk-data')
+nltk.data.path.append('nltk-data')
 
 f = open('post-classifier.pickle', 'rb')
 classifier = pickle.load(f)
