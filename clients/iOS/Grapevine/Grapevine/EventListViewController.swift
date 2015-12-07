@@ -172,7 +172,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             .responseJSON { response in
                 debugPrint(response)
                 if response.1 != nil {
-                    
                     if response.1?.statusCode == 200 {
                         let results = response.2.value! as! NSArray
                         //debugPrint(results)

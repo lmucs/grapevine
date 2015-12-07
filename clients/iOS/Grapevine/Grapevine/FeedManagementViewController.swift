@@ -13,7 +13,7 @@ import SwiftyJSON
 
 class FeedManagementViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    var myFeeds: [String]?
+    var myFeeds: [Feed]?
     var userToken: Token!
     
     @IBOutlet weak var tableView: UITableView!
@@ -22,6 +22,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        if self.myFeeds != nil {
+            self.myFeeds = self.myFeeds!
+        }
         // Do any additional setup after loading the view.
     }
 
@@ -66,7 +69,15 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             return cell
         }
         tableView.rowHeight = 44
-        let cell = tableView.dequeueReusableCellWithIdentifier("feedCell", forIndexPath: indexPath) as! EventTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("feedCell", forIndexPath: indexPath) as! FeedTableViewCell
+        cell.feedNameLabel.text = self.myFeeds![indexPath.row].feedName
+        if self.myFeeds![indexPath.row].networkName == "Facebook" {
+            //cell.feedNetwork
+        }
+        else {
+            //
+        }
+        
         cell.button.addTarget(self, action: "removeFeed:", forControlEvents: UIControlEvents.TouchUpInside)
         return cell
         
@@ -146,7 +157,35 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func getFeeds(){
+        let getFeedUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID) + "/feeds")
         
+        let requestHeader: [String: String] = [
+            "x-access-token": String(self.userToken.token!),
+            "Content-Length": String(0)
+        ]
+        
+        Alamofire.request(.POST, getFeedUrl!, encoding: .JSON, headers: requestHeader)
+                .responseJSON { response in
+                    debugPrint(response)
+                    if response.1 != nil {
+                        if response.1?.statusCode == 200 {
+                            print("here")
+                            
+                        }
+                        else {
+                            print("didn't get a 200")
+                            
+                            // handle errors based on response code
+                        }
+                    }
+                    else {
+                        print("no response")
+                        
+                    }
+                    
+                    
+            }
+
     }
 
     
