@@ -646,28 +646,20 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="addFeedCell" rowHeight="80" id="GcL-Ev-IOA" customClass="EventTableViewCell" customModule="Grapevine" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="92" width="600" height="80"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="addFeedCell" rowHeight="120" id="GcL-Ev-IOA" customClass="EventTableViewCell" customModule="Grapevine" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="92" width="600" height="120"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GcL-Ev-IOA" id="8Ns-gm-Zrr">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="79"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="119"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Feed Name to Add" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Bg-NC-3cq">
-                                                    <rect key="frame" x="8" y="7" width="516" height="30"/>
+                                                    <rect key="frame" x="8" y="7" width="584" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DgK-LN-uip">
-                                                    <rect key="frame" x="532" y="25" width="60" height="30"/>
-                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="60" id="mfZ-1G-QIe"/>
-                                                    </constraints>
-                                                    <state key="normal" title="Add!"/>
-                                                </button>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="09o-8W-SVD">
-                                                    <rect key="frame" x="227" y="45" width="147" height="29"/>
+                                                    <rect key="frame" x="227" y="43" width="147" height="29"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="147" id="fe2-Ek-fUA"/>
                                                     </constraints>
@@ -676,15 +668,23 @@
                                                         <segment title="Twitter"/>
                                                     </segments>
                                                 </segmentedControl>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DgK-LN-uip">
+                                                    <rect key="frame" x="270" y="79" width="60" height="30"/>
+                                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="60" id="GbX-w6-JeP"/>
+                                                    </constraints>
+                                                    <state key="normal" title="Add!"/>
+                                                </button>
                                             </subviews>
                                             <constraints>
+                                                <constraint firstItem="3Bg-NC-3cq" firstAttribute="top" secondItem="8Ns-gm-Zrr" secondAttribute="topMargin" constant="-1" id="2D4-a8-eRq"/>
+                                                <constraint firstItem="09o-8W-SVD" firstAttribute="top" secondItem="3Bg-NC-3cq" secondAttribute="bottom" constant="6" id="2yR-yR-uR1"/>
+                                                <constraint firstItem="DgK-LN-uip" firstAttribute="centerX" secondItem="8Ns-gm-Zrr" secondAttribute="centerX" id="3MH-8n-Syi"/>
                                                 <constraint firstItem="09o-8W-SVD" firstAttribute="centerX" secondItem="8Ns-gm-Zrr" secondAttribute="centerX" id="XLl-eJ-cWd"/>
-                                                <constraint firstItem="3Bg-NC-3cq" firstAttribute="leading" secondItem="8Ns-gm-Zrr" secondAttribute="leadingMargin" id="XoR-nH-Qrh"/>
-                                                <constraint firstItem="DgK-LN-uip" firstAttribute="leading" secondItem="3Bg-NC-3cq" secondAttribute="trailing" constant="8" id="Xtv-qI-50C"/>
-                                                <constraint firstItem="DgK-LN-uip" firstAttribute="centerY" secondItem="8Ns-gm-Zrr" secondAttribute="centerY" id="cak-ma-21N"/>
-                                                <constraint firstItem="DgK-LN-uip" firstAttribute="trailing" secondItem="8Ns-gm-Zrr" secondAttribute="trailingMargin" id="cpH-0x-YgD"/>
-                                                <constraint firstItem="3Bg-NC-3cq" firstAttribute="top" secondItem="8Ns-gm-Zrr" secondAttribute="topMargin" constant="-1" id="mbp-Ak-X4U"/>
-                                                <constraint firstItem="09o-8W-SVD" firstAttribute="top" secondItem="3Bg-NC-3cq" secondAttribute="bottom" constant="8" id="r48-wi-MI8"/>
+                                                <constraint firstItem="3Bg-NC-3cq" firstAttribute="leading" secondItem="8Ns-gm-Zrr" secondAttribute="leadingMargin" id="Ze5-8b-Y0F"/>
+                                                <constraint firstItem="3Bg-NC-3cq" firstAttribute="trailing" secondItem="8Ns-gm-Zrr" secondAttribute="trailingMargin" id="dxT-HX-rGk"/>
+                                                <constraint firstItem="DgK-LN-uip" firstAttribute="top" secondItem="09o-8W-SVD" secondAttribute="bottom" constant="8" id="nb5-9y-hIM"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -694,7 +694,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="feedCell" rowHeight="80" id="1zd-sj-o9r" customClass="EventTableViewCell" customModule="Grapevine" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="172" width="600" height="80"/>
+                                        <rect key="frame" x="0.0" y="212" width="600" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1zd-sj-o9r" id="Tbe-yI-d8N">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="79"/>
