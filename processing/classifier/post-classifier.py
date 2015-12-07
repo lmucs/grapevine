@@ -21,6 +21,7 @@ VALID_USERNAME = os.environ["USERNAME"]
 VALID_PASSWORD = os.environ["PASSWORD"]
 
 f = open('post-classifier.pickle', 'rb')
+print "opening classifier"
 classifier = pickle.load(f)
 f.close()
 
