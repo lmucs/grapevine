@@ -21,6 +21,7 @@ class Event: NSObject, Mappable {
     var startTime: EventTime!
     var endTime: EventTime!
     var hasEndTime: Bool = false
+    var isAllDay: Bool = false
     var tags: [String]!
     var url: String!
     var location: String!
@@ -71,7 +72,7 @@ class Event: NSObject, Mappable {
         self.url <- map["url"]
         self.location <- map["location"]
         self.post <- map["post"]
-        
+        self.isAllDay <- map["is_all_day"]
     }
     
     

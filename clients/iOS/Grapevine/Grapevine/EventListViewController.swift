@@ -161,7 +161,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func getEventsSince(date: NSDate){
-        let getEventsSinceUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events/" + String(self.lastUpdated.timeIntervalSince1970))
+        let getEventsSinceUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events/" + String(self.lastUpdated.timeIntervalSince1970 * 1000))
         print(getEventsSinceUrl)
         let requestHeader: [String: String] = [
             "Content-Type": "application/json",
