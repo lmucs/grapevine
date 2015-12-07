@@ -5,7 +5,6 @@ import re
 import json
 import os
 from nltk import word_tokenize
-from nltk.corpus import stopwords
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 from sklearn.naive_bayes import MultinomialNB
@@ -54,7 +53,11 @@ def process(string):
       if bool(re.search(r'(\d|http|\&amp|www)', string)):
             continue
       string = string.decode("unicode_escape")
-      string = nltk.word_tokenize(string)
+      try:
+        string = nltk.word_tokenize(string)
+      except Exception as e:
+        print e.__doc__
+        print e.message
       string = [s.lower() for s in string]
       words.extend(string)
    return ' '.join(words)
