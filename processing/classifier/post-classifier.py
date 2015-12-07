@@ -3,6 +3,7 @@ import nltk
 import pickle
 import re
 import json
+import os
 from nltk import word_tokenize
 from nltk.corpus import stopwords
 from sklearn.pipeline import Pipeline
@@ -16,6 +17,9 @@ from functools import wraps
 
 app = Flask(__name__)
 
+VALID_USERNAME = os.environ["USERNAME"]
+VALID_PASSWORD = os.environ["PASSWORD"]
+
 f = open('post-classifier.pickle', 'rb')
 classifier = pickle.load(f)
 f.close()
@@ -24,7 +28,7 @@ labels = ["food","sports","entertainment","cultural","deadline","spirituality",
          "community service","academic","career development"]
 
 def check_auth(username, password):
-    return username == 'cameron' and password == 'billingham'
+    return username == VALID_USERNAME and password == VALID_PASSWORD
 
 def authenticate():
     return Response(
@@ -60,7 +64,7 @@ def decipherTags():
     post = data['post']
     post = process(post)
     tags = classifier.predict([post]).flatten()
-    tags = [label for (tag,label) in zip(tags,labels) if tag == 1]
+    tags = [label for (tag,label) in zip(tags, labels) if tag == 1]
     return jsonify(tags = tags)
 
 if __name__ == "__main__":
