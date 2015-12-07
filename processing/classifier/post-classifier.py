@@ -21,8 +21,6 @@ app = Flask(__name__)
 VALID_USERNAME = os.environ["USERNAME"]
 VALID_PASSWORD = os.environ["PASSWORD"]
 
-
-
 f = open('post-classifier.pickle', 'rb')
 classifier = pickle.load(f)
 f.close()
