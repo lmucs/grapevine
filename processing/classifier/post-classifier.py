@@ -4,7 +4,6 @@ import pickle
 import re
 import json
 import os
-from nltk import word_tokenize
 from sklearn.pipeline import Pipeline
 from sklearn.svm import LinearSVC
 from sklearn.naive_bayes import MultinomialNB
@@ -14,12 +13,15 @@ from flask import Flask, request, Response
 from flask import jsonify
 from functools import wraps
 
+nltk.data.path.append('./nltk_data/')
+from nltk import word_tokenize
+
 app = Flask(__name__)
 
 VALID_USERNAME = os.environ["USERNAME"]
 VALID_PASSWORD = os.environ["PASSWORD"]
 
-nltk.data.path.append('./nltk-data/')
+
 
 f = open('post-classifier.pickle', 'rb')
 classifier = pickle.load(f)
