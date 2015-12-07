@@ -35,7 +35,7 @@ def process(string):
    words = []
    split_string = string.split()
    for string in split_string:
-      if bool(re.search(r'\d', string)) or "http" in string or "&amp" in string or "www" in string:
+      if bool(re.search(r'(\d|http|\&amp|www)', string)):
             continue
       string = string.decode("unicode_escape")
       string = nltk.word_tokenize(string)
