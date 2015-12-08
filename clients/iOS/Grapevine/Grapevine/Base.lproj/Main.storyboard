@@ -562,7 +562,7 @@
                                             <outlet property="eventLocationLabel" destination="Z2q-FW-Lrf" id="2t7-vm-6gS"/>
                                             <outlet property="eventNameLabel" destination="QQI-ap-q29" id="5DB-pY-7ly"/>
                                             <outlet property="eventTimeLabel" destination="lZt-m3-cEB" id="4br-QY-KNv"/>
-                                            <segue destination="AkW-fN-skM" kind="showDetail" id="QrZ-Yx-yTX"/>
+                                            <segue destination="AkW-fN-skM" kind="showDetail" identifier="eventDetailFromCalendar" id="QrZ-Yx-yTX"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
