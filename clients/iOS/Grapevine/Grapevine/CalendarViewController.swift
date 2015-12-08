@@ -133,10 +133,6 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         self.title = monthIntToMonthString(cvDate) + " " + String(cvDate.year)
     }
     
-    func populateCalendar(date: NSDate){
-        
-    }
-    
     func filterEvents(date: Date){
         print("begin filtering")
         self.filteredEvents = []
@@ -249,9 +245,21 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("calendarEventCell", forIndexPath: indexPath) as! EventTableViewCell
-        cell.eventNameLabel.text = self.filteredEvents[indexPath.row].title
+        if self.filteredEvents[indexPath.row].title != nil {
+            cell.eventNameLabel.text = self.events[indexPath.row].title
+        }
+        else {
+            cell.eventNameLabel.text = "Untitled Event"
+        }
+        if let loc = self.events[indexPath.row].location {
+            cell.eventLocationLabel.text = loc
+        }
+        else {
+            cell.eventLocationLabel.hidden = true
+        }
+        
         cell.eventTimeLabel.text = buildEventTimeRange(self.filteredEvents[indexPath.row])
-        cell.eventLocationLabel.text = self.filteredEvents[indexPath.row].location
+        
         return cell
         
     }
