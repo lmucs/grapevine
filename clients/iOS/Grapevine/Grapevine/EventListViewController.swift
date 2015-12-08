@@ -217,8 +217,8 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             let nav = segue.destinationViewController as! UINavigationController
             let feedView = nav.topViewController as! FeedManagementViewController
             feedView.userToken = self.userToken
-            if feedView.myFeeds == nil {
-                print("will call for feeds when endpoint exists")
+            if feedView.myFeeds.count == 0 {
+                feedView.getFeeds()
             }
         }
         

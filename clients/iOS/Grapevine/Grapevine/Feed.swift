@@ -22,6 +22,8 @@ class Feed: NSObject, Mappable {
     func mapping(map: Map) {
         self.networkName <- map["network_name"]
         self.feedName <- map["feed_name"]
+        self.networkName <- map["networkName"]
+        self.feedName <- map["feedName"]
     }
     
 }

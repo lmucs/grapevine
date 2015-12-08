@@ -657,6 +657,9 @@
                                                     <rect key="frame" x="8" y="7" width="584" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits"/>
+                                                    <connections>
+                                                        <action selector="newFeedNameFieldChanged:" destination="qY9-2n-X4v" eventType="editingDidEnd" id="mIO-6J-kfp"/>
+                                                    </connections>
                                                 </textField>
                                                 <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" translatesAutoresizingMaskIntoConstraints="NO" id="09o-8W-SVD">
                                                     <rect key="frame" x="227" y="43" width="147" height="29"/>
@@ -693,44 +696,38 @@
                                             <outlet property="textField" destination="3Bg-NC-3cq" id="d14-6Q-hOA"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="feedCell" rowHeight="80" id="1zd-sj-o9r" customClass="EventTableViewCell" customModule="Grapevine" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="feedCell" rowHeight="80" id="1zd-sj-o9r" customClass="FeedTableViewCell" customModule="Grapevine" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="212" width="600" height="80"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1zd-sj-o9r" id="Tbe-yI-d8N">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="79"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="y8N-V4-6ab">
+                                                    <rect key="frame" x="8" y="6" width="68" height="68"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="68" id="trU-L0-O5S"/>
+                                                        <constraint firstAttribute="width" constant="68" id="uZq-Ei-zt7"/>
+                                                    </constraints>
+                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Feed Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="whq-VM-ibC">
-                                                    <rect key="frame" x="8" y="29" width="76" height="21"/>
+                                                    <rect key="frame" x="84" y="29" width="508" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="y8N-V4-6ab">
-                                                    <rect key="frame" x="92" y="6" width="68" height="68"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="68" id="eId-70-H3h"/>
-                                                        <constraint firstAttribute="height" constant="68" id="kOu-KU-aAl"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ad-5a-DLU">
-                                                    <rect key="frame" x="566" y="27" width="26" height="26"/>
-                                                    <state key="normal" image="glyphicons-193-circle-remove">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                </button>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="4ad-5a-DLU" firstAttribute="trailing" secondItem="Tbe-yI-d8N" secondAttribute="trailingMargin" id="ZZc-El-r2j"/>
-                                                <constraint firstItem="whq-VM-ibC" firstAttribute="leading" secondItem="Tbe-yI-d8N" secondAttribute="leadingMargin" id="ZrK-Ng-XXX"/>
-                                                <constraint firstItem="whq-VM-ibC" firstAttribute="centerY" secondItem="Tbe-yI-d8N" secondAttribute="centerY" id="cEB-NS-tAA"/>
-                                                <constraint firstItem="y8N-V4-6ab" firstAttribute="leading" secondItem="whq-VM-ibC" secondAttribute="trailing" constant="8" id="gBE-sm-qqF"/>
-                                                <constraint firstItem="y8N-V4-6ab" firstAttribute="centerY" secondItem="Tbe-yI-d8N" secondAttribute="centerY" id="jJT-CX-71O"/>
-                                                <constraint firstItem="4ad-5a-DLU" firstAttribute="centerY" secondItem="Tbe-yI-d8N" secondAttribute="centerY" id="ljy-C3-6fj"/>
+                                                <constraint firstItem="whq-VM-ibC" firstAttribute="centerY" secondItem="Tbe-yI-d8N" secondAttribute="centerY" id="9Eg-2w-6gC"/>
+                                                <constraint firstItem="y8N-V4-6ab" firstAttribute="leading" secondItem="Tbe-yI-d8N" secondAttribute="leadingMargin" id="9Wa-ES-GHR"/>
+                                                <constraint firstItem="whq-VM-ibC" firstAttribute="leading" secondItem="y8N-V4-6ab" secondAttribute="trailing" constant="8" id="LfP-m3-cb3"/>
+                                                <constraint firstItem="y8N-V4-6ab" firstAttribute="centerY" secondItem="Tbe-yI-d8N" secondAttribute="centerY" id="gtG-pU-2Gz"/>
+                                                <constraint firstItem="whq-VM-ibC" firstAttribute="trailing" secondItem="Tbe-yI-d8N" secondAttribute="trailingMargin" id="qQB-Ml-GQD"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="button" destination="4ad-5a-DLU" id="Pg0-Hh-Dmf"/>
+                                            <outlet property="feedNameLabel" destination="whq-VM-ibC" id="Z0G-WA-xeb"/>
+                                            <outlet property="feedNetwork" destination="y8N-V4-6ab" id="RWa-JF-nF8"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -816,7 +813,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="glyphicons-193-circle-remove" width="26" height="26"/>
         <image name="glyphicons-46-calendar" width="23" height="24"/>
         <image name="grapevineNew" width="521" height="522"/>
         <image name="purple-round-1" width="548" height="560"/>
