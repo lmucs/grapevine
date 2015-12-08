@@ -9,7 +9,7 @@
 import Foundation
 import CVCalendar
 
-let apiBaseUrl = "http://grapevine.herokuapp.com"
+let apiBaseUrl = "https://grapevine.herokuapp.com"
 
 // User feedback on text fields
 
