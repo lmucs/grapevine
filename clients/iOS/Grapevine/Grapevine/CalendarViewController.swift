@@ -26,6 +26,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         self.tableView.dataSource = self
         self.tableView.delegate = self
         self.title = (monthIntToMonthString(self.calendarView.presentedDate) + " " + String(self.calendarView.presentedDate.year))
+        self.filterEvents(Date(date: NSDate()))
     }
     
     override func didReceiveMemoryWarning() {
@@ -95,16 +96,21 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     }
     
     func dotMarker(shouldShowOnDayView dayView: DayView) -> Bool {
-        return true
+        for event in self.events {
+            if sameDate(event.startTime.dateCV, date2: dayView.date) {
+                return true
+            }
+        }
+        return false
     }
     
     func dotMarker(colorOnDayView dayView: DayView) -> [UIColor] {
-        return [UIColor.redColor()]
+        return [UIColor.yellowColor()]
     }
     
     
     func dotMarker(sizeOnDayView dayView: DayView) -> CGFloat {
-        return 9
+        return 14
     }
     
     func didShowNextMonthView(date: NSDate){
@@ -127,31 +133,35 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         self.title = monthIntToMonthString(cvDate) + " " + String(cvDate.year)
     }
     
-    func presentedDateUpdated(date: Date){
-        print("date updated")
+    func populateCalendar(date: NSDate){
         
-        func filterEvents(){
-            print("begin filtering")
-            self.filteredEvents = []
-            for event in events {
-                if event.startTime != nil {
-                    if sameDate(event.startTime.dateCV, date2: date){
-                        filteredEvents.append(event)
-                    }
+    }
+    
+    func filterEvents(date: Date){
+        print("begin filtering")
+        self.filteredEvents = []
+        for event in events {
+            if event.startTime != nil {
+                if sameDate(event.startTime.dateCV, date2: date){
+                    filteredEvents.append(event)
                 }
-                else {
-                    if event.date != nil {
-                        if sameDate(event.date, date2: date){
-                            filteredEvents.append(event)
-                            //need to sort by time
-                        }
+            }
+            else {
+                if event.date != nil {
+                    if sameDate(event.date, date2: date){
+                        filteredEvents.append(event)
+                        //need to sort by time
                     }
                 }
             }
-            self.tableView.reloadData()
         }
+        self.tableView.reloadData()
+    }
+    
+    func presentedDateUpdated(date: Date){
+        print("date updated")
         
-        filterEvents()
+        filterEvents(date)
     }
     
     /*
