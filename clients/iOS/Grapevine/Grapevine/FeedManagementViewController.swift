@@ -17,6 +17,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     var myFeeds: [Feed] = [Feed]()
     var userToken: Token!
     
+    
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
@@ -62,7 +63,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             //return search cell
             let cell = tableView.dequeueReusableCellWithIdentifier("addFeedCell", forIndexPath: indexPath) as! EventTableViewCell
             tableView.rowHeight = 120
-            cell.button.enabled = false;
+            cell.button.enabled = false
             cell.button.addTarget(self, action: "addFeed:", forControlEvents: UIControlEvents.TouchUpInside)
             cell.segControl.addTarget(self, action: "selectNetwork:", forControlEvents: UIControlEvents.ValueChanged)
             cell.selectionStyle = UITableViewCellSelectionStyle.None
@@ -135,6 +136,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! EventTableViewCell
         let feedName = cell.textField.text
         let addFeedUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID) + "/feeds")
+        
         let feedInfo: [String: AnyObject] = [
             "feedName": String(feedName!),
             "networkName": String(facebookOrTwitter(cell.segControl))
@@ -154,13 +156,16 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                             let newFeed = Mapper<Feed>().map(feedInfo as! [String: String])
                             print(newFeed!.feedName)
                             
-                            self.myFeeds.append(newFeed!)
+                            self.myFeeds.insert(newFeed!, atIndex: 0)
+                            cell.textField.text = ""
+                            cell.segControl.selectedSegmentIndex = -1
                             self.tableView.reloadData()
                             
                         }
                         else {
-                            print("didn't get a 200")
+                            
                             setErrorColor(cell.textField)
+                            cell.segControl.selectedSegmentIndex = -1
                             sender.enabled = true
                             // handle errors based on response code
                         }
@@ -196,8 +201,11 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                     if response.1?.statusCode == 200 {
                         print("deleted")
                         self.myFeeds.removeAtIndex(indexPath.row)
-                        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-                        //self.tableView.reloadData()
+                        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+                        
+                        let set: NSIndexSet = NSIndexSet(indexesInRange: NSMakeRange(0,2))
+                        //self.tableView.reloadSections(set, withRowAnimation: UITableViewRowAnimation.Automatic)
+                        
                     }
                 }
         }
