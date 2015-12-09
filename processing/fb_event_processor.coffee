@@ -5,6 +5,7 @@ util                = require './processor_util'
 pushGrapevineEvents = util.pushGrapevineEvents
 isFutureEvent       = util.isFutureEvent
 updateLastPulled    = util.updateLastPulled
+classify            = util.classify
 
 exports.extractAndSendEvents = (feed) ->
 
@@ -62,12 +63,11 @@ exports.extractAndSendEvents = (feed) ->
             author: feed.feed_name
             feedID: feed.feed_id
             title: FBevent.name
-            tags: [] #TODO: CLASSIFIER WORK HERE
       next grapevineEvents
 
   async.series [
-    (callback) -> getFBFeedPosts extractGrapevineEventsFromPosts pushGrapevineEvents callback
-    (callback) -> getFBFeedEvents extractGrapevineEventsFromFBEvents pushGrapevineEvents callback
+    (callback) -> getFBFeedPosts extractGrapevineEventsFromPosts classify checkDuplicate pushGrapevineEvents callback
+    (callback) -> getFBFeedEvents extractGrapevineEventsFromFBEvents classify checkDuplicate pushGrapevineEvents callback
   ], (err) ->
     throw err if err
     updateLastPulled {feed}, (err) ->
