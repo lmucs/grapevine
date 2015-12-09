@@ -88,6 +88,12 @@ func monthIntToShortMonthString(month: Int) -> String {
     }
 }
 
+func monthIntToLowerCaseShortMonthString(month: Int) -> String {
+    var lowercase = monthIntToShortMonthString(month).lowercaseString
+    lowercase.replaceRange(Range(start: lowercase.startIndex, end: lowercase.startIndex.successor()), with: String(lowercase[lowercase.startIndex]).capitalizedString)
+    return lowercase
+}
+
 
 func sameDate(date1: CVDate, date2: CVDate) -> Bool {
     if ((date1.month == date2.month) && (date2.day == date1.day) && (date1.year == date2.year)) {
@@ -122,7 +128,7 @@ func buildEventDateString(date: CVDate) -> String {
 }
 
 func buildEventShortDateString(date: CVDate) -> String {
-    let month = monthIntToShortMonthString(date.month)
+    let month = monthIntToLowerCaseShortMonthString(date.month)
     let day = String(date.day)
     let year = String(date.year)
     return month + " " + day + ", " + year
@@ -131,9 +137,9 @@ func buildEventShortDateString(date: CVDate) -> String {
 func buildMultiDayRange(event: Event) -> String {
     let startDateStr = String(buildEventShortDateString(event.startTime.dateCV))
     let endDateStr = String(buildEventShortDateString(event.endTime.dateCV))
-    let startingTime = String(event.startTime.hour) + ":" + event.startTime.minuteToString()
-    let endingTime = String(event.endTime.hour) + ":" + event.endTime.minuteToString()
-    let timeStr = startDateStr + " " + startingTime + " - " + endDateStr + " " + endingTime
+    //let startingTime = String(event.startTime.hour) + ":" + event.startTime.minuteToString()
+    //let endingTime = String(event.endTime.hour) + ":" + event.endTime.minuteToString()
+    let timeStr = startDateStr + " - " + endDateStr
     return timeStr
 }
 
