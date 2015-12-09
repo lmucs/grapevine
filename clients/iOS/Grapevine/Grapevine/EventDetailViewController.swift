@@ -15,7 +15,7 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var eventLinkButton : UIButton!
     @IBOutlet weak var eventDateLabel: UILabel!
     @IBOutlet weak var eventTimeLabel: UILabel!
-    @IBOutlet weak var eventTitleLabel: UILabel!
+    @IBOutlet weak var eventTitleLabel: UIUnderlinedLabel!
     @IBOutlet weak var eventPostView: UITextView!
 
 
@@ -30,6 +30,7 @@ class EventDetailViewController: UIViewController {
             self.eventLinkButton.setTitle("View Original Post", forState: .Normal)
             self.eventLinkButton.titleLabel?.numberOfLines = 0
             self.eventPostView.text = self.event.post
+            print(event.author)
         }
 
         // Do any additional setup after loading the view.

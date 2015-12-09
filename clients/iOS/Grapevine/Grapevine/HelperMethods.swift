@@ -96,13 +96,18 @@ func sameDate(date1: CVDate, date2: CVDate) -> Bool {
     return false
 }
 
+
+
 func buildEventTimeRange(myEvent: Event) -> String {
     let start = String(myEvent.startTime.hour) + ":" +  myEvent.startTime.minuteToString()
     if myEvent.hasEndTime {
+        if myEvent.isMultiDay {
+            return buildMultiDayRange(myEvent)
+        }
         let end = String(myEvent.endTime.hour) + ":" +  myEvent.endTime.minuteToString()
         return start + "-" + end
     }
-    if (myEvent.startTime.hour == 0 && myEvent.startTime.minute == 0){
+    if myEvent.isAllDay{
         return "All-Day"
     }
     return "Starts at " + start
@@ -114,6 +119,22 @@ func buildEventDateString(date: CVDate) -> String {
     let day = String(date.day)
     let year = String(date.year)
     return month + " " + day + ", " + year
+}
+
+func buildEventShortDateString(date: CVDate) -> String {
+    let month = monthIntToShortMonthString(date.month)
+    let day = String(date.day)
+    let year = String(date.year)
+    return month + " " + day + ", " + year
+}
+
+func buildMultiDayRange(event: Event) -> String {
+    let startDateStr = String(buildEventShortDateString(event.startTime.dateCV))
+    let endDateStr = String(buildEventShortDateString(event.endTime.dateCV))
+    let startingTime = String(event.startTime.hour) + ":" + event.startTime.minuteToString()
+    let endingTime = String(event.endTime.hour) + ":" + event.endTime.minuteToString()
+    let timeStr = startDateStr + " " + startingTime + " - " + endDateStr + " " + endingTime
+    return timeStr
 }
 
 

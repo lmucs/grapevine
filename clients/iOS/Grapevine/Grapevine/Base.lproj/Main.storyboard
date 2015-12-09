@@ -298,7 +298,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EventNameLabel" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sse-7D-nHj">
-                                                    <rect key="frame" x="86" y="10" width="473" height="23"/>
+                                                    <rect key="frame" x="86" y="10" width="390" height="23"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="19"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -339,10 +339,17 @@
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Mulit-Day" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YCr-CL-Znv">
+                                                    <rect key="frame" x="484" y="8" width="75" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" red="0.074926919994153199" green="0.60211675576969692" blue="0.26475162123414336" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="vbE-xU-ez9" firstAttribute="top" secondItem="asY-z3-22h" secondAttribute="topMargin" constant="18" id="6iB-8D-Ip9"/>
-                                                <constraint firstItem="sse-7D-nHj" firstAttribute="trailing" secondItem="asY-z3-22h" secondAttribute="trailingMargin" id="ATD-h2-8vU"/>
+                                                <constraint firstItem="YCr-CL-Znv" firstAttribute="trailing" secondItem="asY-z3-22h" secondAttribute="trailingMargin" id="72o-o8-uVx"/>
+                                                <constraint firstItem="sse-7D-nHj" firstAttribute="trailing" secondItem="asY-z3-22h" secondAttribute="trailingMargin" constant="-83" id="ATD-h2-8vU"/>
                                                 <constraint firstItem="WZx-zX-7h1" firstAttribute="top" secondItem="Dd7-EJ-R1I" secondAttribute="bottom" constant="5" id="CbA-GS-E6H"/>
                                                 <constraint firstItem="BgL-cp-fLz" firstAttribute="leading" secondItem="asY-z3-22h" secondAttribute="leadingMargin" constant="14" id="Drd-kO-e6B"/>
                                                 <constraint firstItem="Dd7-EJ-R1I" firstAttribute="top" secondItem="sse-7D-nHj" secondAttribute="bottom" constant="3" id="GjW-09-HzB"/>
@@ -350,6 +357,7 @@
                                                 <constraint firstItem="Dd7-EJ-R1I" firstAttribute="trailing" secondItem="asY-z3-22h" secondAttribute="trailingMargin" id="PTz-kd-pxf"/>
                                                 <constraint firstItem="Dd7-EJ-R1I" firstAttribute="leading" secondItem="mGZ-fN-DGc" secondAttribute="trailing" constant="8" id="SZL-wy-0Op"/>
                                                 <constraint firstItem="mGZ-fN-DGc" firstAttribute="top" secondItem="asY-z3-22h" secondAttribute="topMargin" id="TVu-QU-qmV"/>
+                                                <constraint firstItem="YCr-CL-Znv" firstAttribute="leading" secondItem="sse-7D-nHj" secondAttribute="trailing" constant="8" id="U0I-au-VIX"/>
                                                 <constraint firstItem="sse-7D-nHj" firstAttribute="leading" secondItem="mGZ-fN-DGc" secondAttribute="trailing" constant="8" id="Xtf-Zo-Q4v"/>
                                                 <constraint firstItem="sse-7D-nHj" firstAttribute="leading" secondItem="BgL-cp-fLz" secondAttribute="trailing" constant="22" id="YQV-Cc-jp5"/>
                                                 <constraint firstItem="WZx-zX-7h1" firstAttribute="leading" secondItem="vbE-xU-ez9" secondAttribute="trailing" constant="22" id="Z55-gp-Q2r"/>
@@ -358,6 +366,7 @@
                                                 <constraint firstItem="mGZ-fN-DGc" firstAttribute="leading" secondItem="asY-z3-22h" secondAttribute="leadingMargin" id="isQ-XH-QBP"/>
                                                 <constraint firstItem="BgL-cp-fLz" firstAttribute="top" secondItem="asY-z3-22h" secondAttribute="topMargin" id="osO-27-kJH"/>
                                                 <constraint firstItem="WZx-zX-7h1" firstAttribute="leading" secondItem="mGZ-fN-DGc" secondAttribute="trailing" constant="8" id="ozx-va-vGN"/>
+                                                <constraint firstItem="YCr-CL-Znv" firstAttribute="top" secondItem="asY-z3-22h" secondAttribute="topMargin" id="sa7-kV-CuC"/>
                                                 <constraint firstItem="mGZ-fN-DGc" firstAttribute="centerY" secondItem="asY-z3-22h" secondAttribute="centerY" id="x4I-DE-OWI"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -365,6 +374,7 @@
                                             <outlet property="eventDayLabel" destination="vbE-xU-ez9" id="l0z-HA-1Hw"/>
                                             <outlet property="eventLocationLabel" destination="WZx-zX-7h1" id="RCJ-tx-slR"/>
                                             <outlet property="eventMonthLabel" destination="BgL-cp-fLz" id="wBR-UO-mRw"/>
+                                            <outlet property="eventMultiDayLabel" destination="YCr-CL-Znv" id="Xmv-rd-S5E"/>
                                             <outlet property="eventNameLabel" destination="sse-7D-nHj" id="Aq1-hC-A92"/>
                                             <outlet property="eventTimeLabel" destination="Dd7-EJ-R1I" id="tl8-SW-VqX"/>
                                             <segue destination="AkW-fN-skM" kind="showDetail" identifier="goToEventDetailSegue" id="m2J-bx-KXE"/>
@@ -418,9 +428,9 @@
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Event Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F6E-n7-hZK">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Event Title" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="F6E-n7-hZK" customClass="UIUnderlinedLabel" customModule="Grapevine" customModuleProvider="target">
                                 <rect key="frame" x="20" y="72" width="560" height="43"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -480,7 +490,7 @@
                         <outlet property="eventLinkButton" destination="POA-Ce-o7B" id="6Vr-DU-9hc"/>
                         <outlet property="eventPostView" destination="K4g-NC-uOp" id="JBM-Fy-spJ"/>
                         <outlet property="eventTimeLabel" destination="9IH-uy-83z" id="tMr-fC-wlG"/>
-                        <outlet property="eventTitleLabel" destination="F6E-n7-hZK" id="Y9u-BP-TVf"/>
+                        <outlet property="eventTitleLabel" destination="F6E-n7-hZK" id="QSN-Uw-Ay3"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4bQ-Cp-Vmd" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -819,6 +829,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="mco-2s-tLG"/>
-        <segue reference="QrZ-Yx-yTX"/>
+        <segue reference="m2J-bx-KXE"/>
     </inferredMetricsTieBreakers>
 </document>
