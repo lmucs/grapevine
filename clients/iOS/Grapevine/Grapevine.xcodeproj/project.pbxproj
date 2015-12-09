@@ -24,6 +24,7 @@
 		F1C5FBED1BFBA54D002DBBA4 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C5FBEC1BFBA54D002DBBA4 /* EventDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		F1EBFECE1C16412100F4AF0E /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EBFECD1C16412100F4AF0E /* Feed.swift */; settings = {ASSET_TAGS = (); }; };
 		F1EBFED01C1642C800F4AF0E /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EBFECF1C1642C800F4AF0E /* FeedTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		F1EBFED21C18BA9A00F4AF0E /* UIUnderlinedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1EBFED11C18BA9A00F4AF0E /* UIUnderlinedLabel.swift */; settings = {ASSET_TAGS = (); }; };
 		F1ECD65B1BA88895001FFD58 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ECD65A1BA88895001FFD58 /* LoginViewController.swift */; };
 		F1ECD65D1BA894CB001FFD58 /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ECD65C1BA894CB001FFD58 /* CreateAccountViewController.swift */; };
 		F1ECD65F1BA89FE6001FFD58 /* EventListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1ECD65E1BA89FE6001FFD58 /* EventListViewController.swift */; };
@@ -64,6 +65,7 @@
 		F1C5FBEC1BFBA54D002DBBA4 /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
 		F1EBFECD1C16412100F4AF0E /* Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		F1EBFECF1C1642C800F4AF0E /* FeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
+		F1EBFED11C18BA9A00F4AF0E /* UIUnderlinedLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIUnderlinedLabel.swift; sourceTree = "<group>"; };
 		F1ECD65A1BA88895001FFD58 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		F1ECD65C1BA894CB001FFD58 /* CreateAccountViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
 		F1ECD65E1BA89FE6001FFD58 /* EventListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventListViewController.swift; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				F1EBFECF1C1642C800F4AF0E /* FeedTableViewCell.swift */,
 				F1EBFECD1C16412100F4AF0E /* Feed.swift */,
 				F1C5FBEC1BFBA54D002DBBA4 /* EventDetailViewController.swift */,
+				F1EBFED11C18BA9A00F4AF0E /* UIUnderlinedLabel.swift */,
 				F14B2A351BD2DD9B00C1E17E /* CalendarViewController.swift */,
 				F1A3F6491BD9A6E700988291 /* HelperMethods.swift */,
 				F1ECD6621BA8A1E0001FFD58 /* EventTableViewCell.swift */,
@@ -347,6 +350,7 @@
 				F14B2A361BD2DD9B00C1E17E /* CalendarViewController.swift in Sources */,
 				F17935681BBAFD3B001F8791 /* Event.swift in Sources */,
 				F121A1531B9F56E2008E3F7A /* Grapevine.xcdatamodeld in Sources */,
+				F1EBFED21C18BA9A00F4AF0E /* UIUnderlinedLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

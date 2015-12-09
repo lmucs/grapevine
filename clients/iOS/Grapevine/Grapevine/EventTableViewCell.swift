@@ -13,6 +13,7 @@ class EventTableViewCell: UITableViewCell {
     @IBOutlet weak var eventNameLabel: UILabel!
     @IBOutlet weak var eventTimeLabel: UILabel!
     @IBOutlet weak var eventLocationLabel: UILabel!
+    @IBOutlet weak var eventMultiDayLabel: UILabel!
     @IBOutlet weak var eventMonthLabel: UILabel!
     @IBOutlet weak var eventMonthView: UIView!
     @IBOutlet weak var eventDayLabel: UILabel!

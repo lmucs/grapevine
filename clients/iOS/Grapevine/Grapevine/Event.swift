@@ -27,6 +27,7 @@ class Event: NSObject, Mappable {
     var url: String!
     var location: String!
     var post: String!
+    var author: String!
     
     // Required to implement ObjectMapper
     required init?(_ map: Map){
@@ -42,15 +43,20 @@ class Event: NSObject, Mappable {
         self.startTime = EventTime()
         self.startTime.setAll(dateFromJson)
         
+        if (self.startTime.hour == 0 && self.startTime.minute == 0){
+            self.isAllDay = true
+        }
+        
         if (dict["date"] != nil){
             self.dateNS = NSDate(timeIntervalSince1970: NSTimeInterval(dict["date"] as! String)!)
             self.date = CVDate(date: self.dateNS)
         }
         
         if (dict["end_time"] != nil) {
-            if let end = dict["end_time"] as? Int {
+            if let end = dict["end_time"] as? String {
+                print("got an end time \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n SWAGGGG \n \n \n \n \n \n \n \n")
                 self.endTime = EventTime()
-                self.endTime.setAll(NSDate(timeIntervalSince1970: NSTimeInterval(String(end/1000))!))
+                self.endTime.setAll(NSDate(timeIntervalSince1970: NSTimeInterval(String(Int(end)!/1000))!))
                 self.hasEndTime = true
                 if !sameDate(self.endTime.dateCV, date2: self.startTime.dateCV){
                     self.isMultiDay = true
@@ -77,6 +83,7 @@ class Event: NSObject, Mappable {
         self.location <- map["location"]
         self.post <- map["post"]
         self.isAllDay <- map["is_all_day"]
+        self.author <- map["author"]
     }
     
     
