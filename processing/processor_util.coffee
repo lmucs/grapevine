@@ -1,5 +1,7 @@
 request = require 'request'
 async   = require 'async'
+cosine  = require 'cosine'
+natural = require 'natural'
 
 exports.getLoginToken = (callback) ->
   request
@@ -44,32 +46,44 @@ exports.updateLastPulled = ({feed, lastPulled}, callback) ->
       return callback err if err
       callback null
 
-classifyTags = (post) ->
+classifyTags = (text) ->
   request
     url: "#{process.env.GRAPEVINE_CLASSIFY_HOST}/tags"
     method: 'POST'
     headers: 'content-type': 'application/json'
-    body: JSON.stringify {username: process.env.CLASUSERNAME, password: process.env.CLASPASSWORD}
+    auth: 'user': process.env.CLASUSERNAME
+          'password': process.env.CLASPASSWORD
+    body: JSON.stringify {post: text}
   , (err, response, body) ->
     if err
+      console.log(err)
       tags = []
     else
       tags = (JSON.parse body).tags
 
 #TO DO
-# extractTitle = (post, chronoText) ->
-#   title = 
+exports.extractTitle = (post, chronoText) ->
+  post = post.replace /\(.*\)/g, ""       #remove parentheticals
+  sents = post.match /[^\.!\?]+[\.!\?]+/g
+  console.log sents
+  for sent in sents
+    if sent.indexOf chronoText, 0 != 1
+      
+
+exports.removeDuplicates = (events) ->
+  #TO DO
+  events
 
 exports.classify = (next) ->
-  (event) ->
-    async.map grapevineEvents 
+  (events) ->
+    async.map events 
       , (event, callback) ->
-        grapevineEvent.tags = classifyTags(event.post)
+        event.tags = classifyTags(event.post)
         # if !event.title?
         #   chronoOutput = JSON.parse event.chronoOutput
         #   event.title = extractTitle(event.post,chronoOutput.text)
         return callback err if err
-        callback null grapevineEvent
-      , (err, grapevineEvents) ->
+        callback null, event
+      , (err, events) ->
         console.log err if err
-        next grapevineEvents
+        next events
