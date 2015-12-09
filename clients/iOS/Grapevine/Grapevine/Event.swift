@@ -22,6 +22,7 @@ class Event: NSObject, Mappable {
     var endTime: EventTime!
     var hasEndTime: Bool = false
     var isAllDay: Bool = false
+    var isMultiDay: Bool = false
     var tags: [String]!
     var url: String!
     var location: String!
@@ -51,6 +52,9 @@ class Event: NSObject, Mappable {
                 self.endTime = EventTime()
                 self.endTime.setAll(NSDate(timeIntervalSince1970: NSTimeInterval(String(end/1000))!))
                 self.hasEndTime = true
+                if !sameDate(self.endTime.dateCV, date2: self.startTime.dateCV){
+                    self.isMultiDay = true
+                }
             }
             else {
                 self.hasEndTime = false

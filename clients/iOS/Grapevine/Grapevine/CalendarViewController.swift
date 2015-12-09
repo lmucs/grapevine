@@ -14,6 +14,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     var events: [Event]!
     var filteredEvents: [Event]!
     var inMonthView: Bool = true
+    var currentCalDate: Date!
     
     @IBOutlet weak var menuView: CVCalendarMenuView!
     @IBOutlet weak var calendarView: CVCalendarView!
@@ -25,6 +26,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         self.calendarView.delegate = self
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        //self.navigationController?.navigationBar.barTintColor = UIColor.lightGrayColor()
         self.title = (monthIntToMonthString(self.calendarView.presentedDate) + " " + String(self.calendarView.presentedDate.year))
         self.filterEvents(Date(date: NSDate()))
     }
@@ -105,7 +107,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     }
     
     func dotMarker(colorOnDayView dayView: DayView) -> [UIColor] {
-        return [UIColor.yellowColor()]
+        return [UIColor.blueColor()]
     }
     
     
@@ -136,6 +138,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     func filterEvents(date: Date){
         print("begin filtering")
         self.filteredEvents = []
+        self.currentCalDate = date
         for event in events {
             if event.startTime != nil {
                 if sameDate(event.startTime.dateCV, date2: date){
@@ -234,6 +237,14 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         return 1
     }
     
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let month = monthIntToMonthString(self.currentCalDate)
+        let day = String(self.currentCalDate.day)
+        let year = String(self.currentCalDate.year)
+        return month + " " + day + ", " + year
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
         if self.filteredEvents != nil {
@@ -246,12 +257,12 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("calendarEventCell", forIndexPath: indexPath) as! EventTableViewCell
         if self.filteredEvents[indexPath.row].title != nil {
-            cell.eventNameLabel.text = self.events[indexPath.row].title
+            cell.eventNameLabel.text = self.filteredEvents[indexPath.row].title
         }
         else {
             cell.eventNameLabel.text = "Untitled Event"
         }
-        if let loc = self.events[indexPath.row].location {
+        if let loc = self.filteredEvents[indexPath.row].location {
             cell.eventLocationLabel.text = loc
         }
         else {
@@ -301,7 +312,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     */
 
     func eventAtIndexPath(path: NSIndexPath) -> Event {
-        return self.events[path.row]
+        return self.filteredEvents[path.row]
     }
     
     @IBAction func backToCalendarViewController(segue:UIStoryboardSegue){
