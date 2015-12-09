@@ -5,6 +5,7 @@ pushGrapevineEvents = util.pushGrapevineEvents
 isFutureEvent       = util.isFutureEvent
 updateLastPulled    = util.updateLastPulled
 classify            = util.classify
+checkDuplicate      = util.checkDuplicate
 
 exports.extractAndSendEvents = (feed) ->
 
@@ -41,6 +42,6 @@ exports.extractAndSendEvents = (feed) ->
                  sent events to Grapevine,
                  and updated time when list was last pulled from"
 
-  getTweets extractGrapevineEventsFromTweets classify pushGrapevineEvents (err) ->
+  getTweets extractGrapevineEventsFromTweets classify checkDuplicate pushGrapevineEvents (err) ->
     return updateLastPulled {feed, lastPulled}, done if lastPulled
     done null
