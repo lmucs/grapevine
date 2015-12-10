@@ -19,6 +19,8 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var eventTitleLabel: UIUnderlinedLabel!
     @IBOutlet weak var eventPostView: UITextView!
     @IBOutlet weak var eventAuthorLabel: UILabel!
+    
+    @IBOutlet weak var rightBarButton: UIBarButtonItem!
 
 
     override func viewDidLoad() {
@@ -59,14 +61,21 @@ class EventDetailViewController: UIViewController {
     }
     
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        if segue.identifier == "backToListSegue" {
+            
+        }
+        if segue.identifier == "backToCalendar" {
+            print("cali")
+        }
+        
     }
-    */
+
 
 }

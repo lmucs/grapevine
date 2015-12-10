@@ -206,15 +206,14 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             let nav = segue.destinationViewController as! UINavigationController
             let calendarView = nav.topViewController as! CalendarViewController
             calendarView.events = self.events
-            
         }
         
         if segue.identifier == "goToEventDetailSegue" {
             let path = self.tableView.indexPathForSelectedRow!
             let nav = segue.destinationViewController as! UINavigationController
             let detailView = nav.topViewController as! EventDetailViewController
+            detailView.rightBarButton.enabled = false
             detailView.event = eventAtIndexPath(path)
-            
         }
         
         if segue.identifier == "goToFeedManagement" {

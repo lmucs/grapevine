@@ -502,12 +502,12 @@
                     <navigationItem key="navigationItem" id="bs8-4m-9GQ">
                         <barButtonItem key="leftBarButtonItem" title="List" id="Csh-Sk-2U6">
                             <connections>
-                                <segue destination="gO1-1i-VP1" kind="unwind" unwindAction="backToEventListViewController:" id="TrG-Q1-Cwf"/>
+                                <segue destination="gO1-1i-VP1" kind="unwind" identifier="backToListSegue" unwindAction="backToEventListViewController:" id="TrG-Q1-Cwf"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Calendar" id="2lo-6u-ZlY">
                             <connections>
-                                <segue destination="gO1-1i-VP1" kind="unwind" unwindAction="backToCalendarViewController:" id="0yG-Ku-YIT"/>
+                                <segue destination="gO1-1i-VP1" kind="unwind" identifier="backToCalendar" unwindAction="backToCalendarViewController:" id="mKe-rX-JQ7"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -519,6 +519,7 @@
                         <outlet property="eventPostView" destination="K4g-NC-uOp" id="JBM-Fy-spJ"/>
                         <outlet property="eventTimeLabel" destination="9IH-uy-83z" id="tMr-fC-wlG"/>
                         <outlet property="eventTitleLabel" destination="F6E-n7-hZK" id="QSN-Uw-Ay3"/>
+                        <outlet property="rightBarButton" destination="2lo-6u-ZlY" id="St6-Nt-EPG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4bQ-Cp-Vmd" userLabel="First Responder" sceneMemberID="firstResponder"/>
