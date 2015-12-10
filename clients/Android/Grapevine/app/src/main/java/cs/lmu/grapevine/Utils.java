@@ -8,7 +8,7 @@ import android.graphics.BitmapFactory;
  * Methods to prevent OutOfMemoryException when loading large images into layout.
  * Courtesy of http://developer.android.com/training/displaying-bitmaps/load-bitmap.html
  */
-public class ImageSizer {
+public class Utils {
 
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
