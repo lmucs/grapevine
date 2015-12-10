@@ -13,6 +13,7 @@ import cs.lmu.grapevine.R;
 import cs.lmu.grapevine.activities.ManageFeeds;
 import cs.lmu.grapevine.adapters.SocialMediaListAdapter;
 import cs.lmu.grapevine.entities.SocialMediaFeed;
+import cs.lmu.grapevine.listeners.SocialMediaFeedClickListener;
 
 /**
  * Created by jeff on 12/4/15.
@@ -44,5 +45,7 @@ public class RetrieveUserFeedsSuccessListener implements Response.Listener<JSONA
         SocialMediaListAdapter adapter = new SocialMediaListAdapter(parentActivity,feedsFollowed);
         ListView socialMediaFeedList = (ListView)parentActivity.findViewById(R.id.currently_following);
         socialMediaFeedList.setAdapter(adapter);
+        ManageFeeds.feedsAdapter = adapter;
+        socialMediaFeedList.setOnItemLongClickListener(new SocialMediaFeedClickListener(parentActivity));
     }
 }

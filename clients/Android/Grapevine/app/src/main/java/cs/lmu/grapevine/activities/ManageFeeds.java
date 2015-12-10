@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -23,6 +24,7 @@ public class ManageFeeds extends AppCompatActivity {
     private RadioGroup feedSources;
     private Button     addFeedButton;
     public static ArrayList<SocialMediaFeed> feedsFollowed;
+    public static ArrayAdapter feedsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

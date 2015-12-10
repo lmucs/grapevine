@@ -8,9 +8,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Collections;
 import cs.lmu.grapevine.R;
 import cs.lmu.grapevine.entities.SocialMediaFeed;
-import cs.lmu.grapevine.ImageSizer;
+import cs.lmu.grapevine.Utils;
 
 /**
  * Created by jeff on 12/4/15.
@@ -57,12 +58,25 @@ public class SocialMediaListAdapter extends ArrayAdapter<SocialMediaFeed> {
             ImageView brandIcon = (ImageView)convertView.findViewById(R.id.brand_icon);
 
             if (networkName.equals("twitter")){
-                brandIcon.setImageBitmap(ImageSizer.decodeSampledBitmapFromResource(parentActivity.getResources(), R.drawable.twitter_brand_logo, 100, 100));
+                brandIcon.setImageBitmap(
+                        Utils.decodeSampledBitmapFromResource(parentActivity.getResources(),
+                                                              R.drawable.twitter_brand_logo,
+                                                              100,
+                                                              100
+                        )
+                );
             } else {
-                brandIcon.setImageBitmap(ImageSizer.decodeSampledBitmapFromResource(parentActivity.getResources(), R.drawable.facebook_brand_logo, 100, 100));
+                brandIcon.setImageBitmap(Utils.decodeSampledBitmapFromResource(parentActivity.getResources(), R.drawable.facebook_brand_logo, 100, 100));
             }
         }
 
         return convertView;
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        Collections.sort(usersFeeds);
+
+        super.notifyDataSetChanged();
     }
 }
