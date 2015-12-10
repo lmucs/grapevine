@@ -109,5 +109,12 @@ func buildEventTimeRange(myEvent: Event) -> String {
     
 }
 
+func buildEventDateString(date: CVDate) -> String {
+    let month = monthIntToMonthString(date)
+    let day = String(date.day)
+    let year = String(date.year)
+    return month + " " + day + ", " + year
+}
+
 
 

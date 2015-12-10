@@ -13,6 +13,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     
     var events: [Event]!
     var filteredEvents: [Event]!
+    var inMonthView: Bool = true
     
     @IBOutlet weak var menuView: CVCalendarMenuView!
     @IBOutlet weak var calendarView: CVCalendarView!
@@ -40,30 +41,25 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     }
     
     
-    
-    @IBAction func todayPressed(){
-        
-    }
-    
-    @IBAction func weekMonthPressed(sender: UIBarButtonItem){
-        let monthStr = "Month"
-        let weekStr = "Week"
-        if sender.title == weekStr {
-            calendarView.calendarMode = .WeekView
-            sender.title = monthStr
+    @IBAction func changeView(sender: UIBarButtonItem){
+        if self.inMonthView {
+            self.toWeekView()
+            sender.title = "Month"
         }
         else {
-            calendarView.calendarMode = .MonthView
-            sender.title = weekStr
+            self.toMonthView()
+            sender.title = "Week"
         }
     }
     
-    @IBAction func toWeekView(sender: AnyObject) {
+    func toWeekView() {
         calendarView.changeMode(.WeekView)
+        self.inMonthView = false
     }
     
-    @IBAction func toMonthView(sender: AnyObject) {
+    func toMonthView() {
         calendarView.changeMode(.MonthView)
+        self.inMonthView = true
     }
     
     // Mark: - CVCalendarView Delegate Functions
@@ -121,6 +117,16 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         self.title =  monthIntToMonthString(cvDate) + " " + String(cvDate.year)
     }
     
+    func didShowNextWeekView(date: NSDate){
+        let cvDate = CVDate(date: date)
+        self.title = monthIntToMonthString(cvDate) + " " + String(cvDate.year)
+    }
+    
+    func didShowPreviousWeekView(date: NSDate){
+        let cvDate = CVDate(date: date)
+        self.title = monthIntToMonthString(cvDate) + " " + String(cvDate.year)
+    }
+    
     func presentedDateUpdated(date: Date){
         print("date updated")
         
@@ -148,6 +154,12 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         filterEvents()
     }
     
+    /*
+    func topMarker(shouldDisplayOnDayView dayView: DayView) -> Bool {
+    
+    }
+    */
+    
     
     /*
     * Functions available to be implemented if needed
@@ -156,11 +168,6 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     
     }
     
-    
-    
-    func topMarker(shouldDisplayOnDayView dayView: DayView) -> Bool {
-    
-    }
     
     func dotMarker(moveOffsetOnDayView dayView: DayView) -> CGFloat {
     
@@ -233,7 +240,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("calendarEventCell", forIndexPath: indexPath) as! EventTableViewCell
         cell.eventNameLabel.text = self.filteredEvents[indexPath.row].title
-        cell.eventTimeLabel.text = String(self.filteredEvents[indexPath.row].startTime)
+        cell.eventTimeLabel.text = buildEventTimeRange(self.filteredEvents[indexPath.row])
         cell.eventLocationLabel.text = self.filteredEvents[indexPath.row].location
         return cell
         
