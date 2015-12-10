@@ -52,7 +52,7 @@ def process(string):
    for string in split_string:
       if bool(re.search(r'(\d|http|\&amp|www)', string)):
             continue
-      string = string.decode("unicode_escape")
+      string = unicode(string)
       string = nltk.word_tokenize(string)
       string = [s.lower() for s in string]
       words.extend(string)
@@ -61,12 +61,17 @@ def process(string):
 @app.route("/tags", methods=['POST'])
 @requires_auth
 def decipherTags():
+  try:
     data = json.loads(request.data)
     post = data['post']
     post = process(post)
     tags = classifier.predict([post]).flatten()
     tags = [label for (tag,label) in zip(tags, labels) if tag == 1]
-    return jsonify(tags = tags)
+  except Exception as e:
+    print "There was a classifier error"
+    print e
+    tags = []
+  return jsonify(tags = tags)
 
 if __name__ == "__main__":
     app.debug = True
