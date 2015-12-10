@@ -6,7 +6,6 @@ pushGrapevineEvents = util.pushGrapevineEvents
 isFutureEvent       = util.isFutureEvent
 updateLastPulled    = util.updateLastPulled
 classify            = util.classify
-checkDuplicate      = util.checkDuplicate
 
 exports.extractAndSendEvents = (feed) ->
 
