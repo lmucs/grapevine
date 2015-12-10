@@ -26,4 +26,14 @@ class Feed: NSObject, Mappable {
         self.feedName <- map["feedName"]
     }
     
+    func buildFeedLinkString() -> String {
+        if self.networkName == "facebook" {
+            return "https://www.facebook.com/" + self.feedName
+        }
+        if self.networkName == "twitter" {
+            return "https://www.twitter.com/" + self.feedName
+        }
+        
+        return ""
+    }
 }
