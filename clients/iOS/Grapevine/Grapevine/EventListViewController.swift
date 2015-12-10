@@ -60,12 +60,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         else {
             cell.eventNameLabel.text = event.author
         }
-        if let loc = event.location {
-            cell.eventLocationLabel.text = loc
-        }
-        else {
-            cell.eventLocationLabel.hidden = true
-        }
+        
         if !event.isMultiDay {
             cell.eventMultiDayLabel.hidden = true
         }
