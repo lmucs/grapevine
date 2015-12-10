@@ -37,7 +37,6 @@ class EventDetailViewController: UIViewController {
             self.eventLinkButton.titleLabel?.numberOfLines = 0
             self.eventPostView.text = self.event.post
             self.eventAuthorLabel.text = self.event.author
-            print(event.author)
         }
 
         // Do any additional setup after loading the view.

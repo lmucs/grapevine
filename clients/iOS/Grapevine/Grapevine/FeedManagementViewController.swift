@@ -203,7 +203,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                         self.myFeeds.removeAtIndex(indexPath.row)
                         self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
                         
-                        let set: NSIndexSet = NSIndexSet(indexesInRange: NSMakeRange(0,2))
+                        //let set: NSIndexSet = NSIndexSet(indexesInRange: NSMakeRange(0,2))
                         //self.tableView.reloadSections(set, withRowAnimation: UITableViewRowAnimation.Automatic)
                         
                     }

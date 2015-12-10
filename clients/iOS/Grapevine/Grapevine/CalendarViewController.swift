@@ -256,20 +256,15 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("calendarEventCell", forIndexPath: indexPath) as! EventTableViewCell
-        if self.filteredEvents[indexPath.row].title != nil {
-            cell.eventNameLabel.text = self.filteredEvents[indexPath.row].title
+        let event = self.filteredEvents[indexPath.row]
+        if event.title != nil {
+            cell.eventNameLabel.text = event.title
         }
         else {
-            cell.eventNameLabel.text = "Untitled Event"
-        }
-        if let loc = self.filteredEvents[indexPath.row].location {
-            cell.eventLocationLabel.text = loc
-        }
-        else {
-            cell.eventLocationLabel.hidden = true
+            cell.eventNameLabel.text = event.author
         }
         
-        cell.eventTimeLabel.text = buildEventTimeRange(self.filteredEvents[indexPath.row])
+        cell.eventTimeLabel.text = buildEventTimeRange(event)
         
         return cell
         

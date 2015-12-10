@@ -102,15 +102,31 @@ func sameDate(date1: CVDate, date2: CVDate) -> Bool {
     return false
 }
 
-
+// Yeah i know this is messy as hell will fix later
+func buildTimeString(time: EventTime, militaryTime: Bool) -> String {
+    if !militaryTime {
+        if time.hour < 12 {
+            if time.hour == 0 {
+                return String(time.hour + 12) + ":" + time.minuteToString() + "am"
+            }
+            return String(time.hour) + ":" + time.minuteToString() + "am"
+        }
+        if time.hour == 12 {
+            return String(time.hour) + ":" + time.minuteToString() + "pm"
+        }
+        return String(time.hour % 12) + ":" + time.minuteToString() + "pm"
+        
+    }
+    return String(time.hour) + ":" +  time.minuteToString()
+}
 
 func buildEventTimeRange(myEvent: Event) -> String {
-    let start = String(myEvent.startTime.hour) + ":" +  myEvent.startTime.minuteToString()
+    let start = buildTimeString(myEvent.startTime, militaryTime: false)
     if myEvent.hasEndTime {
         if myEvent.isMultiDay {
             return buildMultiDayRange(myEvent)
         }
-        let end = String(myEvent.endTime.hour) + ":" +  myEvent.endTime.minuteToString()
+        let end = buildTimeString(myEvent.endTime, militaryTime: false)
         return start + "-" + end
     }
     if myEvent.isAllDay{
@@ -137,8 +153,6 @@ func buildEventShortDateString(date: CVDate) -> String {
 func buildMultiDayRange(event: Event) -> String {
     let startDateStr = String(buildEventShortDateString(event.startTime.dateCV))
     let endDateStr = String(buildEventShortDateString(event.endTime.dateCV))
-    //let startingTime = String(event.startTime.hour) + ":" + event.startTime.minuteToString()
-    //let endingTime = String(event.endTime.hour) + ":" + event.endTime.minuteToString()
     let timeStr = startDateStr + " - " + endDateStr
     return timeStr
 }

@@ -54,7 +54,6 @@ class Event: NSObject, Mappable {
         
         if (dict["end_time"] != nil) {
             if let end = dict["end_time"] as? String {
-                print("got an end time \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n SWAGGGG \n \n \n \n \n \n \n \n")
                 self.endTime = EventTime()
                 self.endTime.setAll(NSDate(timeIntervalSince1970: NSTimeInterval(String(Int(end)!/1000))!))
                 self.hasEndTime = true
