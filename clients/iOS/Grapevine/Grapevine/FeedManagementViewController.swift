@@ -79,9 +79,13 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             cell.feedNetwork.image = UIImage(named: "twitter_brand_logo")
         }
         
-        //cell.button.addTarget(self, action: "removeFeed:", forControlEvents: UIControlEvents.TouchUpInside)
+        //cell.addTarget(self, action: "clickFeed:", forControlEvents: UIControlEvents.TouchUpInside)
         return cell
         
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        clickFeed(indexPath)
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -92,8 +96,17 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         if (editingStyle == UITableViewCellEditingStyle.Delete) {
             // handle delete (by removing the data from your array and updating the tableview)
             unfollowFeed(indexPath)
-            
         }
+    }
+    
+    func feedAtIndexPath(path: NSIndexPath) -> Feed {
+        return self.myFeeds[path.row]
+    }
+    
+    func clickFeed(path: NSIndexPath){
+        let feed = feedAtIndexPath(path)
+        let linkStr = feed.buildFeedLinkString()
+        UIApplication.sharedApplication().openURL(NSURL(string: linkStr)!)
     }
     
     @IBAction func selectNetwork(sender:UISegmentedControl){
@@ -174,8 +187,6 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                         print("no response")
                         sender.enabled = true
                     }
-                    
-                    
             }
         }
         else {
@@ -234,8 +245,6 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                                 self.myFeeds.append(responseFeed!)
                             }
                             self.tableView.reloadData()
-
-                            
                         }
                         else {
                             print("didn't get a 200")
@@ -245,12 +254,8 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                     }
                     else {
                         print("no response")
-                        
                     }
-                    
-                    
             }
-
     }
 
     

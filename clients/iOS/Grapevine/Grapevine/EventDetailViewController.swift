@@ -56,7 +56,6 @@ class EventDetailViewController: UIViewController {
         if !(link.hasPrefix(urlStartHttp) || link.hasPrefix(urlStartHttps)) {
             link = urlStartHttp + link
         }
-        print(link)
         UIApplication.sharedApplication().openURL(NSURL(string: link)!)
     }
     
