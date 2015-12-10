@@ -52,7 +52,7 @@ def process(string):
    for string in split_string:
       if bool(re.search(r'(\d|http|\&amp|www)', string)):
             continue
-      string = string.decode("unicode_escape")
+      string = unicode(string)
       string = nltk.word_tokenize(string)
       string = [s.lower() for s in string]
       words.extend(string)
