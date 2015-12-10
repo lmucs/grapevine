@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="14F1505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
@@ -250,7 +250,7 @@
             </objects>
             <point key="canvasLocation" x="305" y="1155"/>
         </scene>
-        <!--Events Coming Soon-->
+        <!--Grapevine-->
         <scene sceneID="Q3W-3w-bqJ">
             <objects>
                 <viewController id="d4C-Ke-usC" customClass="EventListViewController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
@@ -384,7 +384,7 @@
                             <constraint firstItem="Hqc-hy-Lg4" firstAttribute="top" secondItem="YzN-nx-1VJ" secondAttribute="bottom" id="tVI-s1-Ysy"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Events Coming Soon" id="8aY-or-hzN"/>
+                    <navigationItem key="navigationItem" title="Grapevine" id="8aY-or-hzN"/>
                     <connections>
                         <outlet property="tableView" destination="YzN-nx-1VJ" id="YGL-g7-kqc"/>
                     </connections>
@@ -565,39 +565,38 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="89"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QQI-ap-q29">
-                                                    <rect key="frame" x="28" y="8" width="544" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Time" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lZt-m3-cEB">
-                                                    <rect key="frame" x="28" y="37" width="544" height="17"/>
+                                                    <rect key="frame" x="50" y="52" width="542" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Location" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Z2q-FW-Lrf">
-                                                    <rect key="frame" x="28" y="62" width="544" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swag-grape" translatesAutoresizingMaskIntoConstraints="NO" id="yq7-j3-L1c">
+                                                    <rect key="frame" x="8" y="8" width="34" height="61"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="61" id="QN2-9G-kKU"/>
+                                                        <constraint firstAttribute="width" constant="34" id="tZ3-5U-erM"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QQI-ap-q29">
+                                                    <rect key="frame" x="50" y="23" width="542" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="lZt-m3-cEB" firstAttribute="top" secondItem="QQI-ap-q29" secondAttribute="bottom" constant="8" id="8JI-P5-f3j"/>
-                                                <constraint firstItem="lZt-m3-cEB" firstAttribute="leading" secondItem="Ka5-Jz-voa" secondAttribute="leadingMargin" constant="20" id="BgH-tz-bVm"/>
-                                                <constraint firstItem="Z2q-FW-Lrf" firstAttribute="top" secondItem="lZt-m3-cEB" secondAttribute="bottom" constant="8" id="W3i-71-1YA"/>
-                                                <constraint firstItem="Z2q-FW-Lrf" firstAttribute="leading" secondItem="Ka5-Jz-voa" secondAttribute="leadingMargin" constant="20" id="d2j-VD-482"/>
-                                                <constraint firstItem="Z2q-FW-Lrf" firstAttribute="trailing" secondItem="Ka5-Jz-voa" secondAttribute="trailingMargin" constant="-20" id="dw9-TB-280"/>
-                                                <constraint firstItem="QQI-ap-q29" firstAttribute="trailing" secondItem="Ka5-Jz-voa" secondAttribute="trailingMargin" constant="-20" id="ldL-Fc-tXl"/>
-                                                <constraint firstItem="lZt-m3-cEB" firstAttribute="trailing" secondItem="Ka5-Jz-voa" secondAttribute="trailingMargin" constant="-20" id="rwv-FH-6Ag"/>
-                                                <constraint firstItem="QQI-ap-q29" firstAttribute="top" secondItem="Ka5-Jz-voa" secondAttribute="topMargin" id="sFR-xa-1E1"/>
-                                                <constraint firstItem="QQI-ap-q29" firstAttribute="leading" secondItem="Ka5-Jz-voa" secondAttribute="leadingMargin" constant="20" id="twp-e8-LXl"/>
+                                                <constraint firstItem="QQI-ap-q29" firstAttribute="trailing" secondItem="Ka5-Jz-voa" secondAttribute="trailingMargin" id="1dY-0I-0YL"/>
+                                                <constraint firstItem="yq7-j3-L1c" firstAttribute="leading" secondItem="Ka5-Jz-voa" secondAttribute="leadingMargin" id="D41-uz-Vjv"/>
+                                                <constraint firstItem="QQI-ap-q29" firstAttribute="leading" secondItem="yq7-j3-L1c" secondAttribute="trailing" constant="8" id="E24-OP-DPg"/>
+                                                <constraint firstItem="yq7-j3-L1c" firstAttribute="top" secondItem="Ka5-Jz-voa" secondAttribute="topMargin" id="FcZ-LG-63F"/>
+                                                <constraint firstItem="lZt-m3-cEB" firstAttribute="top" secondItem="QQI-ap-q29" secondAttribute="bottom" constant="8" id="PBi-Ca-aB5"/>
+                                                <constraint firstItem="lZt-m3-cEB" firstAttribute="leading" secondItem="yq7-j3-L1c" secondAttribute="trailing" constant="8" id="Wde-XG-4OU"/>
+                                                <constraint firstItem="QQI-ap-q29" firstAttribute="top" secondItem="Ka5-Jz-voa" secondAttribute="topMargin" constant="15" id="Yuy-pi-emx"/>
+                                                <constraint firstItem="lZt-m3-cEB" firstAttribute="trailing" secondItem="Ka5-Jz-voa" secondAttribute="trailingMargin" id="ifi-7i-aXC"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="eventLocationLabel" destination="Z2q-FW-Lrf" id="2t7-vm-6gS"/>
                                             <outlet property="eventNameLabel" destination="QQI-ap-q29" id="5DB-pY-7ly"/>
                                             <outlet property="eventTimeLabel" destination="lZt-m3-cEB" id="4br-QY-KNv"/>
                                             <segue destination="AkW-fN-skM" kind="showDetail" identifier="eventDetailFromCalendar" id="QrZ-Yx-yTX"/>
@@ -854,9 +853,10 @@
         <image name="glyphicons-46-calendar" width="23" height="24"/>
         <image name="grapevineNew" width="521" height="522"/>
         <image name="purple-round-1" width="548" height="560"/>
+        <image name="swag-grape" width="157" height="290"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="mco-2s-tLG"/>
-        <segue reference="m2J-bx-KXE"/>
+        <segue reference="QrZ-Yx-yTX"/>
     </inferredMetricsTieBreakers>
 </document>

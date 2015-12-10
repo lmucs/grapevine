@@ -25,7 +25,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        print(events.count)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -43,6 +42,10 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
         return 1
+    }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "My Upcoming Events"
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -176,7 +179,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                 if response.1 != nil {
                     if response.1?.statusCode == 200 {
                         let results = response.2.value! as! NSArray
-                        //debugPrint(results)
                         for item in results {
                             debugPrint(item)
                             let responseEvent = Mapper<Event>().map(item)
