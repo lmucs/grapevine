@@ -1,7 +1,5 @@
 request = require 'request'
 async   = require 'async'
-cosine  = require 'cosine'
-natural = require 'natural'
 
 exports.getLoginToken = (callback) ->
   request
@@ -61,27 +59,11 @@ classifyTags = (text) ->
     else
       tags = (JSON.parse body).tags
 
-#TO DO
-exports.extractTitle = (post, chronoText) ->
-  post = post.replace /\(.*\)/g, ""       #remove parentheticals
-  sents = post.match /[^\.!\?]+[\.!\?]+/g
-  console.log sents
-  for sent in sents
-    if sent.indexOf chronoText, 0 != 1
-      
-
-exports.removeDuplicates = (events) ->
-  #TO DO
-  events
-
 exports.classify = (next) ->
   (events) ->
     async.map events 
       , (event, callback) ->
         event.tags = classifyTags(event.post)
-        # if !event.title?
-        #   chronoOutput = JSON.parse event.chronoOutput
-        #   event.title = extractTitle(event.post,chronoOutput.text)
         return callback err if err
         callback null, event
       , (err, events) ->

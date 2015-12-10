@@ -42,6 +42,6 @@ exports.extractAndSendEvents = (feed) ->
                  sent events to Grapevine,
                  and updated time when list was last pulled from"
 
-  getTweets extractGrapevineEventsFromTweets classify checkDuplicate pushGrapevineEvents (err) ->
+  getTweets extractGrapevineEventsFromTweets classify pushGrapevineEvents (err) ->
     return updateLastPulled {feed, lastPulled}, done if lastPulled
     done null
