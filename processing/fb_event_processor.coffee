@@ -67,8 +67,8 @@ exports.extractAndSendEvents = (feed) ->
       next grapevineEvents
 
   async.series [
-    (callback) -> getFBFeedPosts extractGrapevineEventsFromPosts classify checkDuplicate pushGrapevineEvents callback
-    (callback) -> getFBFeedEvents extractGrapevineEventsFromFBEvents classify checkDuplicate pushGrapevineEvents callback
+    (callback) -> getFBFeedPosts extractGrapevineEventsFromPosts classify pushGrapevineEvents callback
+    (callback) -> getFBFeedEvents extractGrapevineEventsFromFBEvents classify pushGrapevineEvents callback
   ], (err) ->
     throw err if err
     updateLastPulled {feed}, (err) ->
