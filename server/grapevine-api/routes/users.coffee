@@ -16,13 +16,27 @@ users =
         )
       require('./tokens').create req, res
 
+  getAllFeeds: (req, res) ->
+    pgClient.query
+      text: 'SELECT network_name, feed_name
+             FROM feeds NATURAL JOIN user_follows_feed
+             WHERE user_follows_feed.user_id = $1
+             AND feed_name!=\'twitter_list\''
+      values: [req.params.userID]
+    , (err, result) ->
+      return res.status(400).json err if err
+      res.status(200).json result.rows
+
   getAllEvents: (req, res) ->
     pgClient.query
       text: 'SELECT *
              FROM events, user_follows_feed
              WHERE events.feed_id = user_follows_feed.feed_id
-             AND user_follows_feed.user_id = $1',
-      values: [req.params.userID]
+             AND user_follows_feed.user_id = $1
+             AND (events.start_time > $2
+             OR (events.end_time IS NOT NULL AND events.end_time > $2)
+             OR (events.start_time = $3 AND events.is_all_day))',
+      values: [req.params.userID, (new Date).getTime(), (new Date).setHours(0, 0, 0, 0)]
     , (err, result) ->
       return res.status(400).json err if err
       res.status(200).json result.rows
@@ -33,8 +47,11 @@ users =
              FROM events, user_follows_feed
              WHERE events.feed_id = user_follows_feed.feed_id
              AND user_follows_feed.user_id = $1
-             AND time_processed > $2',
-      values: [req.params.userID, req.params.after]
+             AND time_processed > $4
+             AND (events.start_time > $2
+             OR (events.end_time IS NOT NULL AND events.end_time > $2)
+             OR (events.start_time = $3 AND events.is_all_day))',
+      values: [req.params.userID, (new Date).getTime(), (new Date).setHours(0, 0, 0, 0), req.params.after]
     , (err, result) ->
       return res.status(400).json err if err
       res.status(200).json result.rows
@@ -78,7 +95,7 @@ users =
     feeds.get req.params.feedName, req.params.networkName, (err, result) ->
       return res.status(400).json err if err
       feed = result.rows[0]
-      if feed
+      if feed and req.params.feedName isnt 'twitter_list'
         userFeeds.deleteAssociation req.params.userID, feed.feed_id, (err) ->
           return res.status(400).json err if err
           res.status(200).json

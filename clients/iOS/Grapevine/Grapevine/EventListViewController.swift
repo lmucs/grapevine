@@ -62,7 +62,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             cell.eventDayLabel.text = String(self.events[indexPath.row].startTime.dateCV.day)
         }
         
-        cell.eventTimeLabel.text = buildEventTimeRange(events[indexPath.row])
+        cell.eventTimeLabel.text = buildEventTimeRange(self.events[indexPath.row])
         setDateBoxes(self.events[indexPath.row].startTime.dateCV)
         return cell
 
@@ -70,6 +70,12 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     @IBAction func backToEventListViewController(segue:UIStoryboardSegue){
         
+    }
+    
+    @IBAction func updateEvents(sender: UIBarButtonItem){
+        sender.enabled = false
+        getEventsSince(self.lastUpdated)
+        sender.enabled = true
     }
 
 
@@ -127,7 +133,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                 if response.1 != nil {
                     if response.1?.statusCode == 200 {
                         let results = response.2.value! as! NSArray
-                        //debugPrint(results)
                         for item in results {
                             debugPrint(item)
                             let responseEvent = Mapper<Event>().map(item)
@@ -135,7 +140,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                             self.events.append(responseEvent!)
                         }
             
-                        // May need to add a time sort here
+                        self.events.sortInPlace({ $0.startTime.dateNS.compare($1.startTime.dateNS) == NSComparisonResult.OrderedAscending })
                         self.tableView.reloadData()
                         self.lastUpdated = NSDate()
                     }
@@ -146,6 +151,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func getEventsSince(date: NSDate){
         let getEventsSinceUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events/" + String(self.lastUpdated.timeIntervalSince1970))
+        print(getEventsSinceUrl)
         let requestHeader: [String: String] = [
             "Content-Type": "application/json",
             "x-access-token": String(self.userToken.token!)
@@ -153,6 +159,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         print("calling for events now swag")
         Alamofire.request(.GET, getEventsSinceUrl!, encoding: .JSON, headers: requestHeader)
             .responseJSON { response in
+                debugPrint(response)
                 if response.1 != nil {
                     
                     if response.1?.statusCode == 200 {
@@ -165,7 +172,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                             self.events.append(responseEvent!)
                         }
                         
-                        // May need to add a time sort here
+                        self.events.sortInPlace({ $0.startTime.dateNS.compare($1.startTime.dateNS) == NSComparisonResult.OrderedAscending })
                         self.tableView.reloadData()
                         self.lastUpdated = NSDate()
                     }
