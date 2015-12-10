@@ -13,23 +13,30 @@ class EventDetailViewController: UIViewController {
     var event: Event!
     
     @IBOutlet weak var eventLinkButton : UIButton!
-    @IBOutlet weak var eventDateLabel: UILabel!
+    @IBOutlet weak var eventMonthLabel: UILabel!
+    @IBOutlet weak var eventDayLabel: UILabel!
     @IBOutlet weak var eventTimeLabel: UILabel!
     @IBOutlet weak var eventTitleLabel: UIUnderlinedLabel!
     @IBOutlet weak var eventPostView: UITextView!
+    @IBOutlet weak var eventAuthorLabel: UILabel!
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
         if self.event != nil {
             let date = event.startTime.dateCV
+            self.eventPostView.layer.borderWidth = 2.0
+            self.eventPostView.layer.borderColor = UIColor.purpleColor().CGColor
+            self.eventPostView.layer.cornerRadius = 8
             self.eventTitleLabel.text = self.event.title
             self.eventTitleLabel.numberOfLines = 0
-            self.eventDateLabel.text = buildEventDateString(date)
+            self.eventMonthLabel.text = monthIntToShortMonthString(date.month)
+            self.eventDayLabel.text = String(date.day)
             self.eventTimeLabel.text = buildEventTimeRange(event)
             self.eventLinkButton.setTitle("View Original Post", forState: .Normal)
             self.eventLinkButton.titleLabel?.numberOfLines = 0
             self.eventPostView.text = self.event.post
+            self.eventAuthorLabel.text = self.event.author
             print(event.author)
         }
 
