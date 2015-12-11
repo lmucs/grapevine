@@ -38,7 +38,6 @@ class LoginViewController: UIViewController {
         self.loginFailedLabel.hidden = true
         self.loginButton.backgroundColor = grapevineButtonColor
         self.loginButton.layer.cornerRadius = grapevineButtonCornerRadius
-        self.loginButton.enabled = false
         
     }
 
