@@ -7,8 +7,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Response;
+import com.google.gson.Gson;
 import org.json.JSONObject;
 import cs.lmu.grapevine.R;
+import cs.lmu.grapevine.activities.ManageFeeds;
+import cs.lmu.grapevine.entities.SocialMediaFeed;
 
 /**
  * Created by
@@ -16,16 +19,22 @@ import cs.lmu.grapevine.R;
  */
 public class FollowFeedSuccessListener implements Response.Listener<JSONObject> {
     private Activity parentActivity;
+    private SocialMediaFeed newFeed;
 
     @Override
     public void onResponse(JSONObject response) {
         stopProgressSpinner();
+        addViewToList();
         toastSuccessMessage();
-        parentActivity.finish();
     }
 
-    public FollowFeedSuccessListener(Activity parentActivity) {
+    public FollowFeedSuccessListener(Activity parentActivity, String eventJsonString ) {
         this.parentActivity = parentActivity;
+        Gson gson = new Gson();
+        eventJsonString =  eventJsonString.replace("networkName", "network_name")
+                                          .replace("feedName","feed_name");
+
+        newFeed = gson.fromJson(eventJsonString,SocialMediaFeed.class);
     }
 
     public void stopProgressSpinner(){
@@ -39,8 +48,15 @@ public class FollowFeedSuccessListener implements Response.Listener<JSONObject> 
         String sourceName = (String)((RadioButton)parentActivity.findViewById(feedRadioButtonId)).getText();
 
         int duration = Toast.LENGTH_SHORT;
-        String successString = "feed " + feedName.getText().toString() + " followed";
+        String successString = sourceName
+                               +  " feed "
+                               + feedName.getText().toString()
+                               +  " followed";
         Toast toast = Toast.makeText(parentActivity, successString, duration);
         toast.show();
+    }
+
+    public void addViewToList() {
+        ManageFeeds.feedsAdapter.add(newFeed);
     }
 }

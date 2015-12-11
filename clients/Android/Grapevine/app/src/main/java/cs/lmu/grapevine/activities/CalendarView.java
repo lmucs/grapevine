@@ -13,8 +13,8 @@ import com.roomorama.caldroid.CaldroidFragment;
 import java.util.Calendar;
 import java.util.Date;
 import cs.lmu.grapevine.R;
+import cs.lmu.grapevine.adapters.CalendarAdapter;
 import cs.lmu.grapevine.adapters.EventFeedArrayAdapter;
-import cs.lmu.grapevine.entities.Event;
 import cs.lmu.grapevine.listeners.CalendarListener;
 import cs.lmu.grapevine.listeners.EventListClickListener;
 
@@ -57,10 +57,7 @@ public class CalendarView extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.action_add_group) {
+        if (id == R.id.action_add_group) {
             launchAddGroup();
         }
 
@@ -68,13 +65,13 @@ public class CalendarView extends AppCompatActivity {
     }
 
     private void launchAddGroup() {
-        Intent addGroup = new Intent(this, FollowFeed.class);
+        Intent addGroup = new Intent(this, ManageFeeds.class);
         startActivity(addGroup);
     }
 
     private void populateCalenderWithEvents(CaldroidFragment calendar) {
         for (int i = 0; i < EventFeed.usersEvents.size(); i++) {
-            Date eventDate = new Date(EventFeed.usersEvents.get(i).getStartTimeTimestamp()* Event.MILLISECONDS_PER_SECOND);
+            Date eventDate = new Date(EventFeed.usersEvents.get(i).getStartTimeTimestamp());
             calendar.setBackgroundResourceForDate(R.color.event_highlight, eventDate);
         }
 
@@ -100,7 +97,7 @@ public class CalendarView extends AppCompatActivity {
 
     private void insertEventsIntoFeed() {
         ListView eventFeed = (ListView) findViewById(R.id.calendar_feed);
-        EventFeedArrayAdapter adapter = new EventFeedArrayAdapter(this,EventFeed.usersEvents);
+        CalendarAdapter adapter = new CalendarAdapter(this,EventFeed.usersEvents);
         eventFeed.setAdapter(adapter);
         eventFeed.setOnItemClickListener(new EventListClickListener(this));
     }

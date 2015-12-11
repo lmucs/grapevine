@@ -6,5 +6,6 @@
     <color name="event_highlight">#45B773</color>
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
-
+    <color name="multi_day">#8FD384</color>
+    <color name="light_grey">#999999</color>
 </resources>

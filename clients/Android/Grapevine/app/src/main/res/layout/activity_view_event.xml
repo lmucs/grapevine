@@ -6,23 +6,94 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="cs.lmu.grapevine.activities.ViewEvent"
     android:orientation="vertical">
-
-    <TextView  android:layout_width="match_parent"
+    <TextView  android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/single_event_title"
-        android:textSize="@dimen/event_title_size"/>
-    <TextView  android:layout_width="match_parent"
+        android:textStyle="bold"
+        android:text="An Event"
+        android:textSize="@dimen/event_title_size"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+            <ImageView
+                android:layout_width="@dimen/calendar_size_large"
+                android:layout_height="@dimen/calendar_size_large"
+                android:src="@drawable/blank_calendar"
+                android:layout_marginRight="10sp"
+                android:id="@+id/imageView"
+                android:layout_marginLeft="10dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_alignRight="@+id/imageView"
+                android:layout_alignEnd="@+id/imageView">
+                <TextView
+                    android:layout_width="@dimen/calendar_size_large"
+                    android:layout_height="wrap_content"
+                    android:text="Nov"
+                    android:textSize="@dimen/event_feed_month_size_large"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:id="@+id/event_month"/>
+                <TextView
+                    android:layout_width="@dimen/calendar_page_day_container_large"
+                    android:layout_height="@dimen/calendar_page_day_container_large"
+                    android:layout_marginLeft="@dimen/calendar_page_day_offset_large"
+
+                    android:text="9"
+                    android:textSize="@dimen/calendar_page_day_text_large"
+                    android:gravity="center"
+                    android:id="@+id/event_day"/>
+            </LinearLayout>
+        </RelativeLayout>
+    <TextView  android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/single_event_date"/>
+        android:text="2015-21-02"
+        android:id="@+id/single_event_date"
+        android:layout_gravity="center"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/time"
+        android:text="1:00pm - 3:00pm"
+        android:layout_gravity="center"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/multi_day"
+        android:text="@string/multi_day"
+        android:textColor="@color/multi_day"
+        android:visibility="invisible"
+        android:layout_gravity="center"/>
     <TextView  android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/single_event_location"/>
-    <TextView  android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/single_event_url"
-        android:autoLink="web"/>
-    <Button
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".9">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/single_event_original_post"
+            android:text="@string/lorem_ipsum"/>
+    </ScrollView>
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View on Facebook"/>
-</LinearLayout>
+        android:id="@+id/feed_name"
+        android:text="feedname"
+        android:textColor="@color/light_grey"
+        android:layout_gravity="center"
+        />
+    <TextView  android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/view_original_post"
+        android:id="@+id/single_event_url"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin"/>
+    </LinearLayout>
