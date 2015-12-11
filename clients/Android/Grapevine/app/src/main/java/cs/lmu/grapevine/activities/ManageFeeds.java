@@ -50,20 +50,16 @@ public class ManageFeeds extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
     public void addGroupIfValid(View view) {
+        clearErrorMessage();
         RadioGroup socialMediaGroup = (RadioGroup) findViewById(R.id.social_media_options);
         TextView groupNameTextView = (TextView) findViewById(R.id.feed_name);
 
         int feedRadioButtonId = socialMediaGroup.getCheckedRadioButtonId();
-        String feedName = groupNameTextView.getText().toString();
+        String feedName = groupNameTextView.getText().toString().trim();
 
         String sourceName = (String)((RadioButton)findViewById(feedRadioButtonId)).getText();
 
@@ -91,6 +87,7 @@ public class ManageFeeds extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 checkInputsAndToggleButton();
+                clearErrorMessage();
             }
 
             @Override
@@ -102,6 +99,11 @@ public class ManageFeeds extends AppCompatActivity {
 
     public void toggleButtonIfInputsValid(View view){
         checkInputsAndToggleButton();
+    }
+
+    public void clearErrorMessage() {
+        TextView errorMessage = (TextView)findViewById(R.id.feed_error_message);
+        errorMessage.setText("");
     }
 
     public void checkInputsAndToggleButton(){
