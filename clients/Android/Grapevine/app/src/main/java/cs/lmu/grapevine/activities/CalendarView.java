@@ -13,6 +13,7 @@ import com.roomorama.caldroid.CaldroidFragment;
 import java.util.Calendar;
 import java.util.Date;
 import cs.lmu.grapevine.R;
+import cs.lmu.grapevine.adapters.CalendarAdapter;
 import cs.lmu.grapevine.adapters.EventFeedArrayAdapter;
 import cs.lmu.grapevine.listeners.CalendarListener;
 import cs.lmu.grapevine.listeners.EventListClickListener;
@@ -56,10 +57,7 @@ public class CalendarView extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.action_add_group) {
+        if (id == R.id.action_add_group) {
             launchAddGroup();
         }
 
@@ -99,7 +97,7 @@ public class CalendarView extends AppCompatActivity {
 
     private void insertEventsIntoFeed() {
         ListView eventFeed = (ListView) findViewById(R.id.calendar_feed);
-        EventFeedArrayAdapter adapter = new EventFeedArrayAdapter(this,EventFeed.usersEvents);
+        CalendarAdapter adapter = new CalendarAdapter(this,EventFeed.usersEvents);
         eventFeed.setAdapter(adapter);
         eventFeed.setOnItemClickListener(new EventListClickListener(this));
     }
