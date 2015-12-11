@@ -24,8 +24,6 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-    
-        // Do any additional setup after loading the view.
     }
 
     override func didReceiveMemoryWarning() {
@@ -66,9 +64,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == 0 {
-            //return search cell
             let cell = tableView.dequeueReusableCellWithIdentifier("addFeedCell", forIndexPath: indexPath) as! EventTableViewCell
-            //tableView.rowHeight = 120
             setupGrapevineButton(cell.button)
             disableGrapevineButton(cell.button)
             cell.button.addTarget(self, action: "addFeed:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -76,8 +72,6 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             cell.selectionStyle = UITableViewCellSelectionStyle.None
             return cell
         }
-        //else {
-        //tableView.rowHeight = 80
         let cell = tableView.dequeueReusableCellWithIdentifier("feedCell", forIndexPath: indexPath) as! FeedTableViewCell
         cell.feedNameLabel.text = self.myFeeds[indexPath.row].feedName
         if self.myFeeds[indexPath.row].networkName == "facebook" {
@@ -86,10 +80,8 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         else {
             cell.feedNetwork.image = UIImage(named: "twitter_brand_logo")
         }
-        
-        //cell.addTarget(self, action: "clickFeed:", forControlEvents: UIControlEvents.TouchUpInside)
         return cell
-        //}
+        
         
     }
     
@@ -227,10 +219,6 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                         print("deleted")
                         self.myFeeds.removeAtIndex(row)
                         self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
-                        
-                        //let set: NSIndexSet = NSIndexSet(indexesInRange: NSMakeRange(0,2))
-                        //self.tableView.reloadSections(set, withRowAnimation: UITableViewRowAnimation.Automatic)
-                        
                     }
                 }
         }
@@ -258,12 +246,11 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                                 print(responseFeed!.feedName)
                                 self.myFeeds.append(responseFeed!)
                             }
+                            self.myFeeds.sortInPlace({ $0.feedName < $1.feedName })
                             self.tableView.reloadData()
                         }
                         else {
                             print("didn't get a 200")
-                            
-                            // handle errors based on response code
                         }
                     }
                     else {
