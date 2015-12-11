@@ -30,6 +30,9 @@ class CreateAccountViewController: UIViewController {
         super.viewDidLoad()
         self.feedbackLabel.hidden = true
         self.activityIndicator.hidden = true
+        self.createAccountButton.enabled = false
+        self.createAccountButton.backgroundColor = grapevineButtonColor
+        self.createAccountButton.layer.cornerRadius = grapevineButtonCornerRadius
         // Do any additional setup after loading the view.
     }
 
