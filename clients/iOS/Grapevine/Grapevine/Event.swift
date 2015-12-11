@@ -21,10 +21,13 @@ class Event: NSObject, Mappable {
     var startTime: EventTime!
     var endTime: EventTime!
     var hasEndTime: Bool = false
+    var isAllDay: Bool = false
+    var isMultiDay: Bool = false
     var tags: [String]!
     var url: String!
     var location: String!
     var post: String!
+    var author: String!
     
     // Required to implement ObjectMapper
     required init?(_ map: Map){
@@ -36,9 +39,13 @@ class Event: NSObject, Mappable {
     func dateMap(dict: [String: AnyObject]){
         // Events will always have a start time and therefore a date
         
-        let dateFromJson = NSDate(timeIntervalSince1970: NSTimeInterval(dict["start_time"] as! String)!)
+        let dateFromJson = NSDate(timeIntervalSince1970: NSTimeInterval(Int(dict["start_time"] as! String)!)/1000)
         self.startTime = EventTime()
         self.startTime.setAll(dateFromJson)
+        
+        if (self.startTime.hour == 0 && self.startTime.minute == 0){
+            self.isAllDay = true
+        }
         
         if (dict["date"] != nil){
             self.dateNS = NSDate(timeIntervalSince1970: NSTimeInterval(dict["date"] as! String)!)
@@ -46,9 +53,17 @@ class Event: NSObject, Mappable {
         }
         
         if (dict["end_time"] != nil) {
-            self.endTime = EventTime()
-            self.endTime.setAll(NSDate(timeIntervalSince1970: NSTimeInterval(dict["end_time"] as! String)!))
-            self.hasEndTime = true
+            if let end = dict["end_time"] as? String {
+                self.endTime = EventTime()
+                self.endTime.setAll(NSDate(timeIntervalSince1970: NSTimeInterval(String(Int(end)!/1000))!))
+                self.hasEndTime = true
+                if !sameDate(self.endTime.dateCV, date2: self.startTime.dateCV){
+                    self.isMultiDay = true
+                }
+            }
+            else {
+                self.hasEndTime = false
+            }
         }
         else {
             self.hasEndTime = false
@@ -66,7 +81,8 @@ class Event: NSObject, Mappable {
         self.url <- map["url"]
         self.location <- map["location"]
         self.post <- map["post"]
-        
+        self.isAllDay <- map["is_all_day"]
+        self.author <- map["author"]
     }
     
     

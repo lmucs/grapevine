@@ -14,6 +14,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     var events: [Event]!
     var filteredEvents: [Event]!
     var inMonthView: Bool = true
+    var currentCalDate: Date!
     
     @IBOutlet weak var menuView: CVCalendarMenuView!
     @IBOutlet weak var calendarView: CVCalendarView!
@@ -25,7 +26,9 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         self.calendarView.delegate = self
         self.tableView.dataSource = self
         self.tableView.delegate = self
+        //self.navigationController?.navigationBar.barTintColor = UIColor.lightGrayColor()
         self.title = (monthIntToMonthString(self.calendarView.presentedDate) + " " + String(self.calendarView.presentedDate.year))
+        self.filterEvents(Date(date: NSDate()))
     }
     
     override func didReceiveMemoryWarning() {
@@ -95,74 +98,70 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     }
     
     func dotMarker(shouldShowOnDayView dayView: DayView) -> Bool {
-        return true
+        for event in self.events {
+            if sameDate(event.startTime.dateCV, date2: dayView.date) {
+                return true
+            }
+        }
+        return false
     }
     
     func dotMarker(colorOnDayView dayView: DayView) -> [UIColor] {
-        return [UIColor.redColor()]
+        return [UIColor.blueColor()]
     }
     
     
     func dotMarker(sizeOnDayView dayView: DayView) -> CGFloat {
-        return 9
+        return 14
     }
     
+    func filterEvents(date: Date){
+        self.filteredEvents = []
+        self.currentCalDate = date
+        for event in events {
+            if event.startTime != nil {
+                if sameDate(event.startTime.dateCV, date2: date){
+                    filteredEvents.append(event)
+                }
+            }
+            else {
+                if event.date != nil {
+                    if sameDate(event.date, date2: date){
+                        filteredEvents.append(event)
+                        //need to sort by time
+                    }
+                }
+            }
+        }
+        self.tableView.reloadData()
+    }
+    
+    func presentedDateUpdated(date: Date){
+        if date.month != self.currentCalDate.month {
+            self.title = monthIntToMonthString(date) + " " + String(date.year)
+        }
+        
+        filterEvents(date)
+    }
+
+    /*
+    * Functions available to be implemented if needed
+
+    func topMarker(shouldDisplayOnDayView dayView: DayView) -> Bool {
+    
+    }
+
     func didShowNextMonthView(date: NSDate){
+        print("month print")
         let cvDate = CVDate(date: date)
         self.title = monthIntToMonthString(cvDate) + " " + String(cvDate.year)
     }
     
     func didShowPreviousMonthView(date: NSDate){
+        print("month print")
         let cvDate = CVDate(date: date)
         self.title =  monthIntToMonthString(cvDate) + " " + String(cvDate.year)
     }
-    
-    func didShowNextWeekView(date: NSDate){
-        let cvDate = CVDate(date: date)
-        self.title = monthIntToMonthString(cvDate) + " " + String(cvDate.year)
-    }
-    
-    func didShowPreviousWeekView(date: NSDate){
-        let cvDate = CVDate(date: date)
-        self.title = monthIntToMonthString(cvDate) + " " + String(cvDate.year)
-    }
-    
-    func presentedDateUpdated(date: Date){
-        print("date updated")
-        
-        func filterEvents(){
-            print("begin filtering")
-            self.filteredEvents = []
-            for event in events {
-                if event.startTime != nil {
-                    if sameDate(event.startTime.dateCV, date2: date){
-                        filteredEvents.append(event)
-                    }
-                }
-                else {
-                    if event.date != nil {
-                        if sameDate(event.date, date2: date){
-                            filteredEvents.append(event)
-                            //need to sort by time
-                        }
-                    }
-                }
-            }
-            self.tableView.reloadData()
-        }
-        
-        filterEvents()
-    }
-    
-    /*
-    func topMarker(shouldDisplayOnDayView dayView: DayView) -> Bool {
-    
-    }
-    */
-    
-    
-    /*
-    * Functions available to be implemented if needed
     
     func shouldShowWeekdaysOut() -> Bool {
     
@@ -228,6 +227,14 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         return 1
     }
     
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let month = monthIntToMonthString(self.currentCalDate)
+        let day = String(self.currentCalDate.day)
+        let year = String(self.currentCalDate.year)
+        return month + " " + day + ", " + year
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
         if self.filteredEvents != nil {
@@ -239,9 +246,16 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("calendarEventCell", forIndexPath: indexPath) as! EventTableViewCell
-        cell.eventNameLabel.text = self.filteredEvents[indexPath.row].title
-        cell.eventTimeLabel.text = buildEventTimeRange(self.filteredEvents[indexPath.row])
-        cell.eventLocationLabel.text = self.filteredEvents[indexPath.row].location
+        let event = self.filteredEvents[indexPath.row]
+        if event.title != nil {
+            cell.eventNameLabel.text = event.title
+        }
+        else {
+            cell.eventNameLabel.text = event.author
+        }
+        
+        cell.eventTimeLabel.text = buildEventTimeRange(event)
+        
         return cell
         
     }
@@ -283,7 +297,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     */
 
     func eventAtIndexPath(path: NSIndexPath) -> Event {
-        return self.events[path.row]
+        return self.filteredEvents[path.row]
     }
     
     @IBAction func backToCalendarViewController(segue:UIStoryboardSegue){

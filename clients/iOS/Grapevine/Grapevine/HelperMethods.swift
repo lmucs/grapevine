@@ -9,7 +9,7 @@
 import Foundation
 import CVCalendar
 
-let apiBaseUrl = "http://grapevine.herokuapp.com"
+let apiBaseUrl = "https://grapevine.herokuapp.com"
 
 // User feedback on text fields
 
@@ -88,6 +88,12 @@ func monthIntToShortMonthString(month: Int) -> String {
     }
 }
 
+func monthIntToLowerCaseShortMonthString(month: Int) -> String {
+    var lowercase = monthIntToShortMonthString(month).lowercaseString
+    lowercase.replaceRange(Range(start: lowercase.startIndex, end: lowercase.startIndex.successor()), with: String(lowercase[lowercase.startIndex]).capitalizedString)
+    return lowercase
+}
+
 
 func sameDate(date1: CVDate, date2: CVDate) -> Bool {
     if ((date1.month == date2.month) && (date2.day == date1.day) && (date1.year == date2.year)) {
@@ -96,13 +102,34 @@ func sameDate(date1: CVDate, date2: CVDate) -> Bool {
     return false
 }
 
+// Yeah i know this is messy as hell will fix later
+func buildTimeString(time: EventTime, militaryTime: Bool) -> String {
+    if !militaryTime {
+        if time.hour < 12 {
+            if time.hour == 0 {
+                return String(time.hour + 12) + ":" + time.minuteToString() + "am"
+            }
+            return String(time.hour) + ":" + time.minuteToString() + "am"
+        }
+        if time.hour == 12 {
+            return String(time.hour) + ":" + time.minuteToString() + "pm"
+        }
+        return String(time.hour % 12) + ":" + time.minuteToString() + "pm"
+        
+    }
+    return String(time.hour) + ":" +  time.minuteToString()
+}
+
 func buildEventTimeRange(myEvent: Event) -> String {
-    let start = String(myEvent.startTime.hour) + ":" +  myEvent.startTime.minuteToString()
+    let start = buildTimeString(myEvent.startTime, militaryTime: false)
     if myEvent.hasEndTime {
-        let end = String(myEvent.endTime.hour) + ":" +  myEvent.endTime.minuteToString()
+        if myEvent.isMultiDay {
+            return buildMultiDayRange(myEvent)
+        }
+        let end = buildTimeString(myEvent.endTime, militaryTime: false)
         return start + "-" + end
     }
-    if (myEvent.startTime.hour == 12 && myEvent.startTime.minute == 0){
+    if myEvent.isAllDay{
         return "All-Day"
     }
     return "Starts at " + start
@@ -114,6 +141,20 @@ func buildEventDateString(date: CVDate) -> String {
     let day = String(date.day)
     let year = String(date.year)
     return month + " " + day + ", " + year
+}
+
+func buildEventShortDateString(date: CVDate) -> String {
+    let month = monthIntToLowerCaseShortMonthString(date.month)
+    let day = String(date.day)
+    let year = String(date.year)
+    return month + " " + day + ", " + year
+}
+
+func buildMultiDayRange(event: Event) -> String {
+    let startDateStr = String(buildEventShortDateString(event.startTime.dateCV))
+    let endDateStr = String(buildEventShortDateString(event.endTime.dateCV))
+    let timeStr = startDateStr + " - " + endDateStr
+    return timeStr
 }
 
 
