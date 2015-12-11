@@ -402,6 +402,53 @@
                                             <segue destination="AkW-fN-skM" kind="showDetail" identifier="goToEventDetailSegue" id="m2J-bx-KXE"/>
                                         </connections>
                                     </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noEventsCell" rowHeight="90" id="ZN4-lu-aEj" customClass="NoEventsTableViewCell" customModule="Grapevine" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="118" width="600" height="90"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZN4-lu-aEj" id="RxV-bZ-Amy">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="89"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swag-grape" translatesAutoresizingMaskIntoConstraints="NO" id="y14-gY-kEm">
+                                                    <rect key="frame" x="8" y="14" width="36" height="62"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="36" id="3dQ-rZ-7NQ"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swag-grape" translatesAutoresizingMaskIntoConstraints="NO" id="rsC-2W-JCP">
+                                                    <rect key="frame" x="556" y="14" width="36" height="62"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="36" id="RhS-xQ-jeA"/>
+                                                    </constraints>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no events! Add some feeds to get some!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FAE-Hs-5D5">
+                                                    <rect key="frame" x="52" y="34" width="496" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="y14-gY-kEm" firstAttribute="top" secondItem="RxV-bZ-Amy" secondAttribute="topMargin" constant="6" id="27Q-ip-u9O"/>
+                                                <constraint firstItem="FAE-Hs-5D5" firstAttribute="leading" secondItem="y14-gY-kEm" secondAttribute="trailing" constant="8" id="3Ui-Ax-MsQ"/>
+                                                <constraint firstItem="rsC-2W-JCP" firstAttribute="centerY" secondItem="RxV-bZ-Amy" secondAttribute="centerY" id="B1n-Y1-kum"/>
+                                                <constraint firstItem="rsC-2W-JCP" firstAttribute="top" secondItem="RxV-bZ-Amy" secondAttribute="topMargin" constant="6" id="DrK-WD-Uig"/>
+                                                <constraint firstItem="rsC-2W-JCP" firstAttribute="leading" secondItem="FAE-Hs-5D5" secondAttribute="trailing" constant="8" id="EYR-c1-zxg"/>
+                                                <constraint firstItem="FAE-Hs-5D5" firstAttribute="centerY" secondItem="RxV-bZ-Amy" secondAttribute="centerY" id="NcS-CW-ThX"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="rsC-2W-JCP" secondAttribute="bottom" constant="5" id="Nxn-fJ-sTV"/>
+                                                <constraint firstItem="rsC-2W-JCP" firstAttribute="trailing" secondItem="RxV-bZ-Amy" secondAttribute="trailingMargin" id="PKf-IW-MF7"/>
+                                                <constraint firstItem="y14-gY-kEm" firstAttribute="centerY" secondItem="RxV-bZ-Amy" secondAttribute="centerY" id="gv7-j6-lsE"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="y14-gY-kEm" secondAttribute="bottom" constant="5" id="lKS-ui-0U6"/>
+                                                <constraint firstItem="FAE-Hs-5D5" firstAttribute="centerX" secondItem="RxV-bZ-Amy" secondAttribute="centerX" id="pvo-Yw-KKO"/>
+                                                <constraint firstItem="y14-gY-kEm" firstAttribute="leading" secondItem="RxV-bZ-Amy" secondAttribute="leadingMargin" id="yEW-vY-Mf1"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="label" destination="FAE-Hs-5D5" id="Ccj-fY-tBE"/>
+                                            <outlet property="leftImage" destination="y14-gY-kEm" id="HS1-N4-y0B"/>
+                                            <outlet property="rightImage" destination="rsC-2W-JCP" id="SRP-p2-fyL"/>
+                                        </connections>
+                                    </tableViewCell>
                                 </prototypes>
                             </tableView>
                         </subviews>
