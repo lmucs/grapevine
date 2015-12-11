@@ -1,4 +1,5 @@
 request = require 'request'
+async   = require 'async'
 
 exports.getLoginToken = (callback) ->
   request
@@ -12,7 +13,6 @@ exports.getLoginToken = (callback) ->
 
 exports.pushGrapevineEvents = (callback) ->
   (grapevineEvents) ->
-    console.log "PUSH grapevineEvents #{JSON.stringify grapevineEvents}"
     exports.getLoginToken (err, token) ->
       request
         url: "#{process.env.GRAPEVINE_API_HOST}/admin/v1/events"
@@ -42,3 +42,28 @@ exports.updateLastPulled = ({feed, lastPulled}, callback) ->
     , (err, response, body) ->
       return callback err if err
       callback null
+
+classifyTags = (text, callback) ->
+  request
+    url: "#{process.env.GRAPEVINE_CLASSIFY_HOST}/tags"
+    method: 'POST'
+    headers: 'content-type': 'application/json'
+    auth:
+      'user': process.env.CLASUSERNAME
+      'password': process.env.CLASPASSWORD
+    body: JSON.stringify {post: text}
+  , (err, response, body) ->
+    if err
+      callback []
+    else
+      callback (JSON.parse body).tags
+
+exports.classify = (next) ->
+  (events) ->
+    async.map events
+      , (event, callback) ->
+        classifyTags event.post, (tags) ->
+          event.tags = tags
+          callback null, event
+    , (err, events) ->
+      next events
