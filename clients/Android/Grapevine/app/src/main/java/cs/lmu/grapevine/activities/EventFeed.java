@@ -51,10 +51,7 @@ public class EventFeed extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.action_launch_calendar) {
+        if (id == R.id.action_launch_calendar) {
             viewCalendar();
         } else if (id == R.id.action_add_group) {
             launchAddGroup();
