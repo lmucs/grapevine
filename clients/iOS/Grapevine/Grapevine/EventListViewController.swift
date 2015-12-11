@@ -50,11 +50,19 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
+        if self.events.count == 0 {
+            return 1
+        }
         return events.count
     }
 
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        if events.count == 0 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("noEventsCell", forIndexPath: indexPath) as! NoEventsTableViewCell
+            cell.label.numberOfLines = 0
+            return cell
+        }
         let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
         let event = self.events[indexPath.row]
         if event.title != nil {
@@ -137,7 +145,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     // MARK: - Network functions
     
     func getAllUserEvents(){
-        
         let getEventsUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events")
         let requestHeader: [String: String] = [
             "Content-Type": "application/json",
@@ -162,10 +169,10 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                     }
                 }
             }
-
     }
     
     func getEventsSince(date: NSDate){
+        self.tableView.reloadData()
         let getEventsSinceUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events/" + String(Int(self.lastUpdated.timeIntervalSince1970 * 1000)))
         print(getEventsSinceUrl)
         let requestHeader: [String: String] = [
@@ -192,7 +199,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                     }
                 }
             }
-        
     }
 
     
