@@ -47,7 +47,13 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             return 1
         }
         return myFeeds.count
-        
+    }
+    
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.section == 0 {
+            return 120
+        }
+        return 80
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -62,14 +68,16 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         if indexPath.section == 0 {
             //return search cell
             let cell = tableView.dequeueReusableCellWithIdentifier("addFeedCell", forIndexPath: indexPath) as! EventTableViewCell
-            tableView.rowHeight = 120
-            cell.button.enabled = false
+            //tableView.rowHeight = 120
+            setupGrapevineButton(cell.button)
+            disableGrapevineButton(cell.button)
             cell.button.addTarget(self, action: "addFeed:", forControlEvents: UIControlEvents.TouchUpInside)
             cell.segControl.addTarget(self, action: "selectNetwork:", forControlEvents: UIControlEvents.ValueChanged)
             cell.selectionStyle = UITableViewCellSelectionStyle.None
             return cell
         }
-        tableView.rowHeight = 80
+        //else {
+        //tableView.rowHeight = 80
         let cell = tableView.dequeueReusableCellWithIdentifier("feedCell", forIndexPath: indexPath) as! FeedTableViewCell
         cell.feedNameLabel.text = self.myFeeds[indexPath.row].feedName
         if self.myFeeds[indexPath.row].networkName == "facebook" {
@@ -81,21 +89,28 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         
         //cell.addTarget(self, action: "clickFeed:", forControlEvents: UIControlEvents.TouchUpInside)
         return cell
+        //}
         
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        clickFeed(indexPath)
+        if indexPath.section > 0 {
+            clickFeed(indexPath)
+        }
     }
     
     func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        return true
+        if indexPath.section > 0 {
+            return true
+        }
+        return false
     }
+    
     
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.Delete) {
             // handle delete (by removing the data from your array and updating the tableview)
-            unfollowFeed(indexPath)
+            unfollowFeed(indexPath.row)
         }
     }
     
@@ -113,7 +128,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         let indexPath = NSIndexPath(forRow:0, inSection:0)
         let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! EventTableViewCell
         if cell.textField.text != "" {
-            cell.button.enabled = true
+            enableGrapevineButton(cell.button)
         }
         
     }
@@ -122,10 +137,10 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         let indexPath = NSIndexPath(forRow:0, inSection:0)
         let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! EventTableViewCell
         if (cell.textField.text != "" && cell.segControl.selectedSegmentIndex > -1){
-            cell.button.enabled = true
+            enableGrapevineButton(cell.button)
         }
         if (cell.textField.text == ""){
-            cell.button.enabled = false
+            disableGrapevineButton(cell.button)
         }
     }
     
@@ -143,7 +158,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     
     
     @IBAction func addFeed(sender: UIButton){
-        sender.enabled = false
+        disableGrapevineButton(sender)
         
         let indexPath = NSIndexPath(forRow:0, inSection:0)
         let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! EventTableViewCell
@@ -176,16 +191,14 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                             
                         }
                         else {
-                            
                             setErrorColor(cell.textField)
-                            cell.segControl.selectedSegmentIndex = -1
-                            sender.enabled = true
+                            enableGrapevineButton(sender)
                             // handle errors based on response code
                         }
                     }
                     else {
                         print("no response")
-                        sender.enabled = true
+                        enableGrapevineButton(sender)
                     }
             }
         }
@@ -196,8 +209,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     
-    func unfollowFeed(indexPath: NSIndexPath){
-        let feedToUnfollow = myFeeds[indexPath.row]
+    func unfollowFeed(row: Int){
+        let feedToUnfollow = myFeeds[row]
+        let indexPath = NSIndexPath(forItem: row, inSection: 1)
         let removeFeedUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID) + "/feeds/" + feedToUnfollow.networkName + "/" + feedToUnfollow.feedName)
         let requestHeader: [String: String] = [
             "Content-Type": "application/json",
@@ -211,7 +225,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                 if response.1 != nil {
                     if response.1?.statusCode == 200 {
                         print("deleted")
-                        self.myFeeds.removeAtIndex(indexPath.row)
+                        self.myFeeds.removeAtIndex(row)
                         self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
                         
                         //let set: NSIndexSet = NSIndexSet(indexesInRange: NSMakeRange(0,2))

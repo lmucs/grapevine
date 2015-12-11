@@ -36,9 +36,7 @@ class LoginViewController: UIViewController {
          // Do any additional setup after loading the view.
         self.activityIndicator.hidden = true
         self.loginFailedLabel.hidden = true
-        self.loginButton.backgroundColor = grapevineButtonColor
-        self.loginButton.layer.cornerRadius = grapevineButtonCornerRadius
-        
+        setupGrapevineButton(self.loginButton)
     }
 
     override func didReceiveMemoryWarning() {
