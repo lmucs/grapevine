@@ -29,5 +29,5 @@ run = ->
 
       for list in parsedBody.twitter
         TwitterEventProcessor.extractAndSendEvents list
-run()
-# setInterval run, 1000 * intervalInSeconds
+
+setInterval run, 1000 * intervalInSeconds
