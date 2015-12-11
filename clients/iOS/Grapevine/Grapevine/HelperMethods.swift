@@ -71,7 +71,7 @@ func monthIntToMonthString(date: CVDate) -> String {
     case 11:
         return "November"
     case 12:
-        return "Decemeber"
+        return "December"
     default:
         return "Not a month"
     }
