@@ -115,28 +115,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         return 14
     }
     
-    func didShowNextMonthView(date: NSDate){
-        let cvDate = CVDate(date: date)
-        self.title = monthIntToMonthString(cvDate) + " " + String(cvDate.year)
-    }
-    
-    func didShowPreviousMonthView(date: NSDate){
-        let cvDate = CVDate(date: date)
-        self.title =  monthIntToMonthString(cvDate) + " " + String(cvDate.year)
-    }
-    
-    func didShowNextWeekView(date: NSDate){
-        let cvDate = CVDate(date: date)
-        self.title = monthIntToMonthString(cvDate) + " " + String(cvDate.year)
-    }
-    
-    func didShowPreviousWeekView(date: NSDate){
-        let cvDate = CVDate(date: date)
-        self.title = monthIntToMonthString(cvDate) + " " + String(cvDate.year)
-    }
-    
     func filterEvents(date: Date){
-        print("begin filtering")
         self.filteredEvents = []
         self.currentCalDate = date
         for event in events {
@@ -158,20 +137,31 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     }
     
     func presentedDateUpdated(date: Date){
-        print("date updated")
+        if date.month != self.currentCalDate.month {
+            self.title = monthIntToMonthString(date) + " " + String(date.year)
+        }
         
         filterEvents(date)
     }
-    
+
     /*
+    * Functions available to be implemented if needed
+
     func topMarker(shouldDisplayOnDayView dayView: DayView) -> Bool {
     
     }
-    */
+
+    func didShowNextMonthView(date: NSDate){
+        print("month print")
+        let cvDate = CVDate(date: date)
+        self.title = monthIntToMonthString(cvDate) + " " + String(cvDate.year)
+    }
     
-    
-    /*
-    * Functions available to be implemented if needed
+    func didShowPreviousMonthView(date: NSDate){
+        print("month print")
+        let cvDate = CVDate(date: date)
+        self.title =  monthIntToMonthString(cvDate) + " " + String(cvDate.year)
+    }
     
     func shouldShowWeekdaysOut() -> Bool {
     
