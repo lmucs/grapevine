@@ -3,6 +3,9 @@ package cs.lmu.grapevine;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.Spannable;
+import android.text.TextPaint;
+import android.text.style.URLSpan;
 
 /**
  * Methods to prevent OutOfMemoryException when loading large images into layout.
@@ -48,4 +51,16 @@ public class Utils {
         options.inJustDecodeBounds = false;
         return BitmapFactory.decodeResource(res, resId, options);
     }
+
+    public static class URLSpanNoUnderline extends URLSpan {
+        public URLSpanNoUnderline(String p_Url) {
+            super(p_Url);
+        }
+
+        public void updateDrawState(TextPaint p_DrawState) {
+            super.updateDrawState(p_DrawState);
+            p_DrawState.setUnderlineText(false);
+        }
+    }
+
 }
