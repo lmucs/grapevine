@@ -6,36 +6,42 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="@dimen/calendar_size"
-                android:layout_height="@dimen/calendar_size"
-                android:src="@drawable/blank_calendar"
-                android:layout_marginRight="10sp"/>
-            <LinearLayout
+            android:layout_height="wrap_content"
+            android:id="@+id/image_container">
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
+                android:id="@+id/calendar_page">
+                <ImageView
                     android:layout_width="@dimen/calendar_size"
+                    android:layout_height="@dimen/calendar_size"
+                    android:src="@drawable/blank_calendar"
+                    android:layout_marginRight="10sp"/>
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nov"
-                    android:textSize="@dimen/event_feed_month_size"
-                    android:gravity="center"
-                    android:textColor="@color/white"
-                    android:id="@+id/event_month"/>
-                <TextView
-                    android:layout_width="@dimen/calendar_page_day_container"
-                    android:layout_height="@dimen/calendar_page_day_container"
-                    android:layout_marginLeft="@dimen/calendar_page_day_offset"
-                    android:text="18"
-                    android:textSize="@dimen/calendar_page_day_text"
-                    android:gravity="center"
-                    android:id="@+id/event_day"/>
-            </LinearLayout>
-        </RelativeLayout>
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="@dimen/calendar_size"
+                        android:layout_height="wrap_content"
+                        android:text="Nov"
+                        android:textSize="@dimen/event_feed_month_size"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:id="@+id/event_month"/>
+                    <TextView
+                        android:layout_width="@dimen/calendar_page_day_container"
+                        android:layout_height="@dimen/calendar_page_day_container"
+                        android:layout_marginLeft="@dimen/calendar_page_day_offset"
+                        android:text="18"
+                        android:textSize="@dimen/calendar_page_day_text"
+                        android:gravity="center"
+                        android:id="@+id/event_day"/>
+                </LinearLayout>
+            </RelativeLayout>
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,7 +62,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/multi_day"
-                android:text="multi-day"
+                android:text="@string/multi_day"
                 android:textColor="@color/multi_day" />
         </LinearLayout>
     </LinearLayout>

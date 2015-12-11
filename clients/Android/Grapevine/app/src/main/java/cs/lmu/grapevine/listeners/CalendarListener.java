@@ -38,7 +38,7 @@ public class CalendarListener extends CaldroidListener {
     public void filterEventsOn(Date date) {
        ListView eventFeed = (ListView)parentActivity.findViewById(R.id.calendar_feed);
         EventFeedArrayAdapter eventFeedAdapter = (EventFeedArrayAdapter)eventFeed.getAdapter();
-        SimpleDateFormat dateStringFormat = new SimpleDateFormat("D");
+        SimpleDateFormat dateStringFormat = new SimpleDateFormat("M/d/yyyy");
         String eventDay = dateStringFormat.format(date);
         Filter eventFilter = eventFeedAdapter.getFilter();
         eventFilter.filter(eventDay);

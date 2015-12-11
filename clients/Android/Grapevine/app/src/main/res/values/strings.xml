@@ -36,4 +36,8 @@
     <string name="no_post_content_message">We were unable to display the original post here :(</string>
     <string name="unfollow_feed">Unfollow</string>
     <string name="cancel">Cancel</string>
+    <string name="unfollow_error">Whoops. There was a problem trying to unfollow the feed.</string>
+    <string name="multi_day">multi-day</string>
+    <string name="view_original_post">View original post
+    </string>
 </resources>
