@@ -19,6 +19,7 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var eventTitleLabel: UIUnderlinedLabel!
     @IBOutlet weak var eventPostView: UITextView!
     @IBOutlet weak var eventAuthorLabel: UILabel!
+    @IBOutlet weak var eventTagsLabel: UILabel!
     
     @IBOutlet weak var rightBarButton: UIBarButtonItem!
 
@@ -39,6 +40,16 @@ class EventDetailViewController: UIViewController {
             self.eventLinkButton.titleLabel?.numberOfLines = 0
             self.eventPostView.text = self.event.post
             self.eventAuthorLabel.text = self.event.author
+            if self.event.tags.count > 0 {
+                var tagsStr: String = ""
+                for tag in self.event.tags {
+                    tagsStr = tag + ", " + tagsStr
+                }
+                self.eventTagsLabel.text = tagsStr
+            }
+            else {
+                self.eventTagsLabel.hidden = true
+            }
         }
 
         // Do any additional setup after loading the view.

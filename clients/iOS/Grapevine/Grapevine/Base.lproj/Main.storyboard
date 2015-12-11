@@ -442,14 +442,14 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="POA-Ce-o7B">
-                                <rect key="frame" x="234" y="326" width="132" height="30"/>
+                                <rect key="frame" x="234" y="562" width="132" height="30"/>
                                 <state key="normal" title="Go To Original Post"/>
                                 <connections>
                                     <action selector="openLink:" destination="Ke9-FM-ock" eventType="touchUpInside" id="YFU-dU-uAl"/>
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Post Content" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="K4g-NC-uOp">
-                                <rect key="frame" x="20" y="364" width="560" height="228"/>
+                                <rect key="frame" x="20" y="360" width="560" height="194"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <dataDetectorType key="dataDetectorTypes" phoneNumber="YES" link="YES"/>
@@ -469,34 +469,41 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Event Tags" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ivl-Wg-Uuh">
+                                <rect key="frame" x="258" y="331" width="84" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="9IH-uy-83z" firstAttribute="top" secondItem="GXo-JE-VuT" secondAttribute="bottom" constant="8" id="3lN-rV-H3n"/>
+                            <constraint firstItem="Ir4-S0-dyy" firstAttribute="top" secondItem="POA-Ce-o7B" secondAttribute="bottom" constant="8" id="5Og-W2-gS7"/>
                             <constraint firstItem="v3f-ft-ZMa" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="6ND-EM-dz2"/>
                             <constraint firstItem="F6E-n7-hZK" firstAttribute="trailing" secondItem="hC4-4m-beB" secondAttribute="trailingMargin" id="6PO-Ez-mnx"/>
                             <constraint firstItem="v3f-ft-ZMa" firstAttribute="top" secondItem="mfj-c2-iWH" secondAttribute="bottom" constant="8" id="9tq-Om-jJO"/>
                             <constraint firstItem="GXo-JE-VuT" firstAttribute="top" secondItem="jvf-IN-LMS" secondAttribute="bottom" constant="8" id="DKW-0d-Yv7"/>
-                            <constraint firstItem="K4g-NC-uOp" firstAttribute="top" secondItem="POA-Ce-o7B" secondAttribute="bottom" constant="8" id="GN2-Hh-4k2"/>
                             <constraint firstItem="9IH-uy-83z" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="HLf-Hc-UNa"/>
+                            <constraint firstItem="POA-Ce-o7B" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="HlO-BA-ygZ"/>
                             <constraint firstItem="F6E-n7-hZK" firstAttribute="leading" secondItem="hC4-4m-beB" secondAttribute="leadingMargin" id="Ien-lC-3Xf"/>
                             <constraint firstItem="F6E-n7-hZK" firstAttribute="top" secondItem="fDq-1Y-fP8" secondAttribute="bottom" constant="8" id="KlE-c4-tbf"/>
                             <constraint firstItem="9IH-uy-83z" firstAttribute="trailing" secondItem="hC4-4m-beB" secondAttribute="trailingMargin" id="KmT-g1-bY6"/>
-                            <constraint firstItem="K4g-NC-uOp" firstAttribute="leading" secondItem="hC4-4m-beB" secondAttribute="leadingMargin" id="N7t-qG-6bO"/>
+                            <constraint firstItem="K4g-NC-uOp" firstAttribute="top" secondItem="Ivl-Wg-Uuh" secondAttribute="bottom" constant="8" id="L4c-Hd-t3B"/>
                             <constraint firstItem="jvf-IN-LMS" firstAttribute="leading" secondItem="hC4-4m-beB" secondAttribute="leadingMargin" id="NAC-Im-1dH"/>
-                            <constraint firstItem="K4g-NC-uOp" firstAttribute="trailing" secondItem="hC4-4m-beB" secondAttribute="trailingMargin" id="QEd-uq-Ukh"/>
-                            <constraint firstItem="POA-Ce-o7B" firstAttribute="top" secondItem="9IH-uy-83z" secondAttribute="bottom" constant="3" id="TlU-HR-too"/>
                             <constraint firstItem="jvf-IN-LMS" firstAttribute="top" secondItem="F6E-n7-hZK" secondAttribute="bottom" constant="6" id="Xgo-A0-uhf"/>
+                            <constraint firstItem="K4g-NC-uOp" firstAttribute="trailing" secondItem="hC4-4m-beB" secondAttribute="trailingMargin" id="Xia-QY-T34"/>
+                            <constraint firstItem="Ivl-Wg-Uuh" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="XpI-MF-NfB"/>
                             <constraint firstItem="9IH-uy-83z" firstAttribute="leading" secondItem="hC4-4m-beB" secondAttribute="leadingMargin" id="XtM-28-VNU"/>
                             <constraint firstItem="jvf-IN-LMS" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="ZlR-VX-x6K"/>
-                            <constraint firstItem="K4g-NC-uOp" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="cLz-Gc-2ci"/>
+                            <constraint firstItem="K4g-NC-uOp" firstAttribute="leading" secondItem="hC4-4m-beB" secondAttribute="leadingMargin" id="a0I-Nh-r38"/>
                             <constraint firstItem="mfj-c2-iWH" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="ekl-nd-mcc"/>
                             <constraint firstItem="jvf-IN-LMS" firstAttribute="trailing" secondItem="hC4-4m-beB" secondAttribute="trailingMargin" id="fNs-6K-GcF"/>
                             <constraint firstItem="mfj-c2-iWH" firstAttribute="top" secondItem="jvf-IN-LMS" secondAttribute="bottom" constant="16" id="hhw-vY-B6c"/>
-                            <constraint firstItem="POA-Ce-o7B" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="iLl-ry-3tK"/>
+                            <constraint firstItem="Ivl-Wg-Uuh" firstAttribute="top" secondItem="9IH-uy-83z" secondAttribute="bottom" constant="8" id="jJr-el-4aG"/>
                             <constraint firstItem="F6E-n7-hZK" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="mGM-os-Gv1"/>
                             <constraint firstItem="GXo-JE-VuT" firstAttribute="centerX" secondItem="hC4-4m-beB" secondAttribute="centerX" id="uMi-6n-KCc"/>
-                            <constraint firstItem="Ir4-S0-dyy" firstAttribute="top" secondItem="K4g-NC-uOp" secondAttribute="bottom" constant="8" id="xhU-u0-Kcb"/>
+                            <constraint firstItem="POA-Ce-o7B" firstAttribute="top" secondItem="K4g-NC-uOp" secondAttribute="bottom" constant="8" id="xVX-rh-4Of"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="bs8-4m-9GQ">
@@ -517,6 +524,7 @@
                         <outlet property="eventLinkButton" destination="POA-Ce-o7B" id="6Vr-DU-9hc"/>
                         <outlet property="eventMonthLabel" destination="mfj-c2-iWH" id="U4w-91-ObW"/>
                         <outlet property="eventPostView" destination="K4g-NC-uOp" id="JBM-Fy-spJ"/>
+                        <outlet property="eventTagsLabel" destination="Ivl-Wg-Uuh" id="2vM-Cp-BYy"/>
                         <outlet property="eventTimeLabel" destination="9IH-uy-83z" id="tMr-fC-wlG"/>
                         <outlet property="eventTitleLabel" destination="F6E-n7-hZK" id="QSN-Uw-Ay3"/>
                         <outlet property="rightBarButton" destination="2lo-6u-ZlY" id="St6-Nt-EPG"/>
@@ -858,6 +866,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="mco-2s-tLG"/>
-        <segue reference="QrZ-Yx-yTX"/>
+        <segue reference="m2J-bx-KXE"/>
     </inferredMetricsTieBreakers>
 </document>
