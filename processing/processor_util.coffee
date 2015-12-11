@@ -2,6 +2,8 @@ request = require 'request'
 async   = require 'async'
 
 exports.getLoginToken = (callback) ->
+  console.log process.env.USERNAME
+  console.log process.env.PASSWORD
   request
     url: "#{process.env.GRAPEVINE_API_HOST}/api/v1/tokens"
     method: 'POST'
@@ -44,28 +46,29 @@ exports.updateLastPulled = ({feed, lastPulled}, callback) ->
       return callback err if err
       callback null
 
-classifyTags = (text) ->
+classifyTags = (text, callback) ->
   request
     url: "#{process.env.GRAPEVINE_CLASSIFY_HOST}/tags"
     method: 'POST'
     headers: 'content-type': 'application/json'
-    auth: 'user': process.env.CLASUSERNAME
-          'password': process.env.CLASPASSWORD
+    auth:
+      'user': process.env.CLASUSERNAME
+      'password': process.env.CLASPASSWORD
     body: JSON.stringify {post: text}
   , (err, response, body) ->
     if err
       console.log(err)
-      tags = []
+      callback []
     else
-      tags = (JSON.parse body).tags
+      callback (JSON.parse body).tags
 
 exports.classify = (next) ->
   (events) ->
-    async.map events 
+    async.map events
       , (event, callback) ->
-        event.tags = classifyTags(event.post)
-        return callback err if err
-        callback null, event
-      , (err, events) ->
-        console.log err if err
-        next events
+        classifyTags event.post, (tags) ->
+          event.tags = tags
+          callback null, event
+    , (err, events) ->
+      console.log err if err
+      next events
