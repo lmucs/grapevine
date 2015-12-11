@@ -11,19 +11,33 @@ import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.util.Calendar;
+import java.util.Locale;
 import cs.lmu.grapevine.entities.Event;
 import cs.lmu.grapevine.R;
+import org.apache.commons.lang3.time.DateUtils;
 
 /**
  * Renders the views for the event feed from an ArrayList of events.
  */
 public class EventFeedArrayAdapter extends ArrayAdapter<Event> implements Filterable {
-    private ArrayList<Event> originalEvents;
-    private ArrayList<Event> filteredItems;
+    protected ArrayList<Event> originalEvents;
+    protected ArrayList<Event> filteredItems;
+    protected TextView eventMonth;
+    protected TextView eventDay;
+    protected TextView eventTime;
+    protected TextView multiDay;
+    protected TextView eventTitle;
+    protected Date today;
+
+    SimpleDateFormat dateMonth   = new SimpleDateFormat("LLL", Locale.ENGLISH) ;
+    SimpleDateFormat dateDay     = new SimpleDateFormat("d",Locale.ENGLISH);
+    SimpleDateFormat timeOfEvent = new SimpleDateFormat("h:mm a",Locale.ENGLISH);
+    SimpleDateFormat fullDate    = new SimpleDateFormat("M/d/yyyy",Locale.ENGLISH);
     
     public EventFeedArrayAdapter(Context context, ArrayList<Event> events) {
         super(context, 0, events);
-        this.originalEvents = new ArrayList<Event>(events);
+        this.originalEvents = new ArrayList<>(events);
         filteredItems = new ArrayList<>(events);
     }
 
@@ -41,29 +55,18 @@ public class EventFeedArrayAdapter extends ArrayAdapter<Event> implements Filter
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View eventFeedView, ViewGroup parent) {
+        getTimeNow();
         Event event = filteredItems.get(position);
 
-        //courtesy of https://github.com/codepath/android_guides/wiki/Using-an-ArrayAdapter-with-ListView
-        // Check if an existing view is being reused, otherwise inflate the view
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.event_list_view, parent, false);
+        if (eventFeedView == null) {
+            eventFeedView = LayoutInflater.from(getContext()).inflate(R.layout.event_list_view, parent, false);
         }
-        TextView eventNameView = (TextView) convertView.findViewById(R.id.event_title);
 
-        eventNameView.setText(event.getTitle());
+        getUIElements(eventFeedView);
+        setEventFields(event);
 
-        Date eventStartTime = new Date(event.getStartTimeTimestamp() * Event.MILLISECONDS_PER_SECOND);
-        SimpleDateFormat dateMonth = new SimpleDateFormat("LLL") ;
-        SimpleDateFormat dateDay = new SimpleDateFormat("d");
-
-        String monthString = dateMonth.format(eventStartTime);
-        String dayString = dateDay.format(eventStartTime);
-
-        ((TextView)convertView.findViewById(R.id.event_month)).setText(monthString);
-        ((TextView)convertView.findViewById(R.id.event_day)).setText(dayString);
-
-        return convertView;
+        return eventFeedView;
     }
 
     @Override
@@ -72,15 +75,20 @@ public class EventFeedArrayAdapter extends ArrayAdapter<Event> implements Filter
         return new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence eventDayString) {
+                String[] parsePatterns = new String[]{"M/d/yyyy"};
 
                 FilterResults results = new FilterResults();
                 ArrayList<Event> filteredEvents = new ArrayList<>();
+                java.util.Date selectedDate = null;
+
+                try{
+                    selectedDate = DateUtils.parseDate((String)eventDayString,parsePatterns);
+                } catch (Exception e) {
+
+                }
 
                 for (Event event : originalEvents){
-                    java.util.Date dateOfEvent = new java.util.Date(event.getStartTimeTimestamp() * Event.MILLISECONDS_PER_SECOND);
-                    SimpleDateFormat stringDateFormat = new SimpleDateFormat("D");
-                    String dateString = stringDateFormat.format(dateOfEvent);
-                    if (dateString.equals(eventDayString)) {
+                    if (event.isOn(selectedDate)) {
                         filteredEvents.add(event);
                     }
                 }
@@ -95,8 +103,90 @@ public class EventFeedArrayAdapter extends ArrayAdapter<Event> implements Filter
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 filteredItems = (ArrayList<Event>)results.values;
                 notifyDataSetChanged();
-
             }
         };
+    }
+
+    protected void setEventFields(Event event) {
+        showMultiDayIfMultiDay(event);
+        setTitle(event);
+
+        String startMonth = dateMonth.format(event.getStartDate());
+        String startDay   = dateDay.format(event.getStartDate());
+
+        String endMonth = dateMonth.format(event.getEndDate());
+        String endDay   = dateDay.format(event.getEndDate());
+
+        String todayMonth = dateMonth.format(today);
+        String todayDay   = dateDay.format(today);
+
+
+        if (!(event.endTimeIsKnown())) {
+            String eventTime = timeOfEvent.format(event.getStartDate());
+            setCalendarPageAndEventTime(startMonth, startDay, eventTime);
+        } else if (event.startsAndEndsSameDay()) {
+            String eventTime = timeOfEvent.format(event.getStartDate())
+                    + " - "
+                    + timeOfEvent.format(event.getEndDate());
+            setCalendarPageAndEventTime(startMonth, startDay, eventTime);
+        } else if (event.startsLaterToday()) {
+            String eventTime  = "today at " + timeOfEvent.format(event.getStartDate());
+            setCalendarPageAndEventTime(todayMonth, todayDay, eventTime);
+        } else if (event.endsLaterToday()) {
+            String eventTime = "ends today at " + timeOfEvent.format(event.getEndDate());
+            setCalendarPageAndEventTime(endMonth, endDay, eventTime);
+        } else if(event.getStartDate().after(today)) {
+            String eventTime = timeOfEvent.format(event.getStartDate());
+            setCalendarPageAndEventTime(startMonth, startDay, eventTime);
+        } else {
+            String eventTime = "ends on "
+                    + fullDate.format(event.getEndDate());
+
+            setCalendarPageAndEventTime(todayMonth, todayDay, eventTime);
+        }
+    }
+    protected void setCalendarPageAndEventTime(String eventMonth, String eventDay, String eventTime) {
+
+        if (!(this.eventMonth == null)) {
+            this.eventMonth.setText(eventMonth);
+        }
+
+        if (!(this.eventDay == null)) {
+            this.eventDay.setText(eventDay);
+        }
+
+        if (!(this.eventTime == null)) {
+            this.eventTime.setText(eventTime);
+        }
+
+    }
+
+    protected void showMultiDayIfMultiDay(Event event) {
+       if (event.isMultiDay()){
+            multiDay.setVisibility((View.VISIBLE));
+       } else {
+           multiDay.setVisibility(View.INVISIBLE);
+       }
+    }
+
+    protected void getUIElements(View eventFeedView) {
+        eventMonth = ((TextView)eventFeedView.findViewById(R.id.event_month));
+        eventDay   = ((TextView)eventFeedView.findViewById(R.id.event_day));
+        eventTime  = ((TextView)eventFeedView.findViewById(R.id.event_time));
+        multiDay   = ((TextView)eventFeedView.findViewById(R.id.multi_day));
+        eventTitle = (TextView) eventFeedView.findViewById(R.id.event_title);
+    }
+
+    protected void getTimeNow() {
+        long nowTimestamp = Calendar.getInstance().getTimeInMillis();
+        today = new Date(nowTimestamp);
+    }
+
+    protected void setTitle(Event event) {
+        if (event.getTitle() == null) {
+            eventTitle.setText(R.string.untitled_event_title);
+        } else {
+            eventTitle.setText(event.getTitle());
+        }
     }
 }

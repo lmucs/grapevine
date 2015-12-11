@@ -4,16 +4,29 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="create_account_password_margin">20dp</dimen>
     <dimen name="event_title_size">27sp</dimen>
-    <dimen name="radio_button_size">25sp</dimen>
+    <dimen name="radio_button_size">20sp</dimen>
     <dimen name="calendar_feed_date_container_size">16sp</dimen>
     <dimen name="event_feed_title_size">18sp</dimen>
     <dimen name="event_feed_month_size">12dp</dimen>
-    <dimen name="calendar_size">60dp</dimen>
-    <dimen name="calendar_page_day_offset">10dp</dimen>
-    <dimen name="calendar_page_day_container">40dp</dimen>
-    <dimen name="calendar_page_day_text">30sp</dimen>
-    <dimen name="progress_spinner_size">20dp</dimen>
+    <dimen name="progress_spinner_size">40dp</dimen>
     <dimen name="login_button_margin_top">16dp</dimen>
     <dimen name="login_button_width">0dp</dimen>
     <dimen name="login_logo">150dp</dimen>
+    <dimen name="feed_list_name_size">23sp</dimen>
+    <dimen name="social_media_icon_size">50dp</dimen>
+    <dimen name="section_title">25sp</dimen>
+
+    <dimen name="calendar_size">60dp</dimen>
+    <dimen name="calendar_page_day_offset">9dp</dimen>
+    <dimen name="calendar_page_day_container">40dp</dimen>
+    <dimen name="calendar_page_day_text">30sp</dimen>
+
+    <dimen name="calendar_size_large">120dp</dimen>
+    <dimen name="date_offset">3dp</dimen>
+    <dimen name="calendar_page_day_offset_large">15dp</dimen>
+    <dimen name="calendar_page_day_container_large">84dp</dimen>
+    <dimen name="calendar_page_day_text_large">70sp</dimen>
+    <dimen name="event_feed_month_size_large">24sp</dimen>
+
+    <dimen name="smaller_title">22sp</dimen>
 </resources>

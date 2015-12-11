@@ -26,7 +26,7 @@ public class FollowFeedRequest extends JsonObjectRequest {
         super(Method.POST,
               followFeedUrl,
               RequestHelper.serializeRequestBody(bodyString),
-              new FollowFeedSuccessListener(parentActivity),
+              new FollowFeedSuccessListener(parentActivity,bodyString),
               new FollowFeedErrorListener(parentActivity)
         );
         this.parentActivity = parentActivity;

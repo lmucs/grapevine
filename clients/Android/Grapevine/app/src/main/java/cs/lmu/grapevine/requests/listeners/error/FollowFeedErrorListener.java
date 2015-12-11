@@ -29,7 +29,7 @@ public class FollowFeedErrorListener implements Response.ErrorListener {
     }
 
     public void setErrorMessage() {
-        TextView followFeedError = (TextView)parentActivity.findViewById(R.id.follow_feed_error);
+        TextView followFeedError = (TextView)parentActivity.findViewById(R.id.feed_error_message);
         followFeedError.setText(R.string.follow_feed_error);
     }
 }

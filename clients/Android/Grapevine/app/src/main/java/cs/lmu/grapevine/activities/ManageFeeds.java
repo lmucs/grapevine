@@ -7,32 +7,39 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import java.util.ArrayList;
 import cs.lmu.grapevine.R;
+import cs.lmu.grapevine.entities.SocialMediaFeed;
 import cs.lmu.grapevine.requests.FollowFeedRequest;
+import cs.lmu.grapevine.requests.RetrieveFeedsUserFollowingRequest;
 
-public class FollowFeed extends AppCompatActivity {
+public class ManageFeeds extends AppCompatActivity {
     private EditText   feedNameEditText;
     private RadioGroup feedSources;
     private Button     addFeedButton;
+    public static ArrayList<SocialMediaFeed> feedsFollowed;
+    public static ArrayAdapter feedsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.follow_feed);
+        setContentView(R.layout.manage_feeds);
 
         grabReferencesToEditTextAndButton();
         addListenerToTextView();
+        getFeedsUserFollows();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_follow_feed, menu);
+        getMenuInflater().inflate(R.menu.menu_manage_feeds, menu);
         return true;
     }
 
@@ -43,20 +50,16 @@ public class FollowFeed extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
     public void addGroupIfValid(View view) {
+        clearErrorMessage();
         RadioGroup socialMediaGroup = (RadioGroup) findViewById(R.id.social_media_options);
         TextView groupNameTextView = (TextView) findViewById(R.id.feed_name);
 
         int feedRadioButtonId = socialMediaGroup.getCheckedRadioButtonId();
-        String feedName = groupNameTextView.getText().toString();
+        String feedName = groupNameTextView.getText().toString().trim();
 
         String sourceName = (String)((RadioButton)findViewById(feedRadioButtonId)).getText();
 
@@ -65,7 +68,7 @@ public class FollowFeed extends AppCompatActivity {
                     "{\"feedName\":\""
                             + feedName
                             + "\",\"networkName\":\""
-                            + sourceName
+                            + sourceName.toLowerCase()
                             + "\"}";
 
             FollowFeedRequest followGroupRequest = new FollowFeedRequest(this, requestBodyString);
@@ -84,6 +87,7 @@ public class FollowFeed extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 checkInputsAndToggleButton();
+                clearErrorMessage();
             }
 
             @Override
@@ -95,6 +99,11 @@ public class FollowFeed extends AppCompatActivity {
 
     public void toggleButtonIfInputsValid(View view){
         checkInputsAndToggleButton();
+    }
+
+    public void clearErrorMessage() {
+        TextView errorMessage = (TextView)findViewById(R.id.feed_error_message);
+        errorMessage.setText("");
     }
 
     public void checkInputsAndToggleButton(){
@@ -111,4 +120,8 @@ public class FollowFeed extends AppCompatActivity {
         feedSources = (RadioGroup)findViewById(R.id.social_media_options);
     }
 
+    private void getFeedsUserFollows() {
+        RetrieveFeedsUserFollowingRequest getFeeds = new RetrieveFeedsUserFollowingRequest(this);
+        Login.httpRequestQueue.add(getFeeds);
+    }
 }

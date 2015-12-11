@@ -2,29 +2,64 @@ package cs.lmu.grapevine.entities;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.apache.commons.lang3.time.DateUtils;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Represents a database Event entity.
  */
 public class Event implements Serializable, Comparable<Event>  {
+    public static final int END_TIME_UNKNOWN = 0;
+
     private String title;
     @SerializedName("event_id")
     private int eventId;
     @SerializedName("time_processed")
     private long timeProcessed;
-    private String location;
+    private String[] location;
     @SerializedName("start_time")
     private long startTimeTimestamp;
     @SerializedName("end_time")
     private long endTimeTimestamp;
-    private boolean repeatsWeekly;
     private String[] tags;
     private String url;
     @SerializedName("post")
     private String postContent;
     @SerializedName("feed_id")
-    private int feedId;
+    private long feedId;
+    @SerializedName("processed_info")
+    private String processedInfo;
+    @SerializedName("is_all_day")
+    private boolean isAllDay;
+    @SerializedName("end_time_is_known")
+    private boolean endTimeIsKnown;
+    private String author;
+
+    public boolean endTimeIsKnown() {
+        return endTimeIsKnown;
+    }
+
+    public void setEndTimeIsKnown(boolean endTimeIsKnown) {
+        this.endTimeIsKnown = endTimeIsKnown;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public boolean isAllDay() {
+        return isAllDay;
+    }
+
+    public void setIsAllDay(boolean isAllDay) {
+        this.isAllDay = isAllDay;
+    }
 
     public String getProcessedInfo() {
         return processedInfo;
@@ -42,16 +77,11 @@ public class Event implements Serializable, Comparable<Event>  {
         this.postContent = postContent;
     }
 
-    @SerializedName("processed_info")
-    private String processedInfo;
-
-    public static int MILLISECONDS_PER_SECOND = 1000;
-
-    public int getFeedId() {
+    public long getFeedId() {
         return feedId;
     }
 
-    public void setFeedId(int feedId) {
+    public void setFeedId(long feedId) {
         this.feedId = feedId;
     }
 
@@ -91,11 +121,11 @@ public class Event implements Serializable, Comparable<Event>  {
         this.title = title;
     }
 
-    public String getLocation() {
+    public String[] getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(String[] location) {
         this.location = location;
     }
 
@@ -115,14 +145,6 @@ public class Event implements Serializable, Comparable<Event>  {
         this.endTimeTimestamp = endTimeTimestamp;
     }
 
-    public boolean isRepeatsWeekly() {
-        return repeatsWeekly;
-    }
-
-    public void setRepeatsWeekly(boolean repeatsWeekly) {
-        this.repeatsWeekly = repeatsWeekly;
-    }
-
     public String[] getTags() {
         return tags;
     }
@@ -139,12 +161,57 @@ public class Event implements Serializable, Comparable<Event>  {
         this.url = url;
     }
 
-    public String getPost() {
-        return postContent;
+    public boolean isMultiDay() {
+        return !(getEndTimeTimestamp()==0) && !(DateUtils.isSameDay(getStartDate(), getEndDate()));
     }
 
-    public void setPost(String post) {
-        this.postContent = post;
+    public boolean isToday() {
+        Date today     = new Date(Calendar.getInstance().getTimeInMillis());
+        return isOn(today);
+    }
+
+    public boolean isOn(Date date) {
+
+        Date endDate   = new Date(endTimeTimestamp);
+        Date startDate = new Date(startTimeTimestamp);
+
+        return DateUtils.isSameDay(date, startDate)
+                || (DateUtils.isSameDay(date, endDate))
+                || (isMultiDay() && startDate.before(date) && endDate.after(date));
+    }
+
+    public boolean startsLaterToday() {
+        Date today = new Date(Calendar.getInstance().getTimeInMillis());
+        Date startDate = new Date(startTimeTimestamp);
+
+        return DateUtils.isSameDay(today, startDate) && startDate.after(today);
+    }
+
+    public boolean endsLaterToday() {
+        Date today = new Date(Calendar.getInstance().getTimeInMillis());
+        Date endDate = new Date(endTimeTimestamp);
+
+        return DateUtils.isSameDay(today,endDate) && endDate.after(today);
+    }
+
+    public boolean startsAndEndsSameDay() {
+        boolean sameDay = true;
+
+        if (endTimeTimestamp == 0) {
+            sameDay = false;
+        } else {
+            sameDay = DateUtils.isSameDay(getStartDate(), getEndDate());
+        }
+
+        return sameDay;
+    }
+
+    public Date getStartDate() {
+        return new Date(startTimeTimestamp);
+    }
+
+    public Date getEndDate() {
+        return new Date(endTimeTimestamp);
     }
 
     @Override
@@ -175,5 +242,9 @@ public class Event implements Serializable, Comparable<Event>  {
         } else {
             return 0;
         }
+    }
+
+    public String toString() {
+        return Integer.toString(eventId);
     }
 }

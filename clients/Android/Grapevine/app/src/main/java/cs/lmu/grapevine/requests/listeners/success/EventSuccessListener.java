@@ -9,10 +9,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
 import cs.lmu.grapevine.activities.EventFeed;
 import cs.lmu.grapevine.entities.Event;
 import cs.lmu.grapevine.adapters.EventFeedArrayAdapter;
@@ -23,7 +21,7 @@ import cs.lmu.grapevine.R;
  */
 public class EventSuccessListener implements Response.Listener<JSONArray> {
     private Activity parentActivity;
-    private Gson     gson = new GsonBuilder().setDateFormat("MM/dd/yyyy").create();
+
 
     public EventSuccessListener(Activity parentActivity) {
         this.parentActivity = parentActivity;
@@ -31,15 +29,16 @@ public class EventSuccessListener implements Response.Listener<JSONArray> {
 
     @Override
     public void onResponse(JSONArray response) {
-        ListView eventFeed = (ListView)parentActivity.findViewById(R.id.event_feed);
-        InflateEventFeed(deserializeJson(response));
-    }
-
-    private ArrayList<Event> deserializeJson(JSONArray userEventsJSON) {
-        ArrayList<Event> usersEvents = gson.fromJson(userEventsJSON.toString(), new TypeToken<List<Event>>() {
-        }.getType());
+        ArrayList<Event> usersEvents = deserializeJson(response);
         EventFeed.usersEvents = usersEvents;
         Collections.sort(EventFeed.usersEvents);
+        InflateEventFeed(usersEvents);
+    }
+
+    public static ArrayList<Event> deserializeJson(JSONArray userEventsJSON) {
+        Gson gson = new GsonBuilder().setDateFormat("MM/dd/yyyy").create();
+        ArrayList<Event> usersEvents = gson.fromJson(userEventsJSON.toString(), new TypeToken<List<Event>>() {
+        }.getType());
 
         return usersEvents;
     }
@@ -51,7 +50,8 @@ public class EventSuccessListener implements Response.Listener<JSONArray> {
         EventFeedArrayAdapter eventAdapter = new EventFeedArrayAdapter(parentActivity, eventList);
         ListView eventFeed = (ListView) parentActivity.findViewById(R.id.event_feed);
         eventFeed.setAdapter(eventAdapter);
-
+        EventFeed.usersEventsAdapter = eventAdapter;
+        EventFeed.hideRequestProgressSpinner();
     }
 
     private void printEmptyListMessage() {
