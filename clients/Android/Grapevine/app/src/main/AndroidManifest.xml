@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cs.lmu.grapevine" >
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -44,14 +43,17 @@
         <activity
             android:name=".activities.ViewEvent"
             android:label="@string/title_activity_view_event"
-            android:parentActivityName=".activities.EventFeed" >
+            android:parentActivityName=".activities.EventFeed"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activities.EventFeed" />
         </activity>
         <activity
-            android:name=".activities.FollowFeed"
-            android:label="@string/title_activity_manage_feeds" >
+            android:name=".activities.ManageFeeds"
+            android:label="@string/title_activity_manage_feeds"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 
