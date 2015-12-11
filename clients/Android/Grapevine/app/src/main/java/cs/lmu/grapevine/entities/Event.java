@@ -1,12 +1,18 @@
 package cs.lmu.grapevine.entities;
 
 import com.google.gson.annotations.SerializedName;
+
+import org.apache.commons.lang3.time.DateUtils;
 import java.io.Serializable;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Represents a database Event entity.
  */
 public class Event implements Serializable, Comparable<Event>  {
+    public static final int END_TIME_UNKNOWN = 0;
+
     private String title;
     @SerializedName("event_id")
     private int eventId;
@@ -70,8 +76,6 @@ public class Event implements Serializable, Comparable<Event>  {
     public void setPostContent(String postContent) {
         this.postContent = postContent;
     }
-
-    public static int MILLISECONDS_PER_SECOND = 1000;
 
     public long getFeedId() {
         return feedId;
@@ -155,6 +159,59 @@ public class Event implements Serializable, Comparable<Event>  {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public boolean isMultiDay() {
+        return !(getEndTimeTimestamp()==0) && !(DateUtils.isSameDay(getStartDate(), getEndDate()));
+    }
+
+    public boolean isToday() {
+        Date today     = new Date(Calendar.getInstance().getTimeInMillis());
+        return isOn(today);
+    }
+
+    public boolean isOn(Date date) {
+
+        Date endDate   = new Date(endTimeTimestamp);
+        Date startDate = new Date(startTimeTimestamp);
+
+        return DateUtils.isSameDay(date, startDate)
+                || (DateUtils.isSameDay(date, endDate))
+                || (isMultiDay() && startDate.before(date) && endDate.after(date));
+    }
+
+    public boolean startsLaterToday() {
+        Date today = new Date(Calendar.getInstance().getTimeInMillis());
+        Date startDate = new Date(startTimeTimestamp);
+
+        return DateUtils.isSameDay(today, startDate) && startDate.after(today);
+    }
+
+    public boolean endsLaterToday() {
+        Date today = new Date(Calendar.getInstance().getTimeInMillis());
+        Date endDate = new Date(endTimeTimestamp);
+
+        return DateUtils.isSameDay(today,endDate) && endDate.after(today);
+    }
+
+    public boolean startsAndEndsSameDay() {
+        boolean sameDay = true;
+
+        if (endTimeTimestamp == 0) {
+            sameDay = false;
+        } else {
+            sameDay = DateUtils.isSameDay(getStartDate(), getEndDate());
+        }
+
+        return sameDay;
+    }
+
+    public Date getStartDate() {
+        return new Date(startTimeTimestamp);
+    }
+
+    public Date getEndDate() {
+        return new Date(endTimeTimestamp);
     }
 
     @Override
