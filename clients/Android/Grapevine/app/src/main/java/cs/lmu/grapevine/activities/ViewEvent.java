@@ -3,20 +3,45 @@ package cs.lmu.grapevine.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.view.View;
 import android.widget.TextView;
-import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+import cs.lmu.grapevine.Utils;
 import cs.lmu.grapevine.entities.Event;
 import cs.lmu.grapevine.R;
 
 public class ViewEvent extends AppCompatActivity {
+    private TextView eventTitleView;
+    private TextView eventDateView;
+    private TextView eventLocationView;
+    private TextView eventUrlView;
+    private TextView originalPostView;
+    private TextView timeView;
+    private TextView multiDayView;
+    private TextView eventMonth;
+    private TextView eventDay;
+    private TextView feedName;
+
+    private SimpleDateFormat timeOfEvent = new SimpleDateFormat("h:mm a", Locale.ENGLISH);
+    private SimpleDateFormat fullDate = new SimpleDateFormat("MM/d/yy",Locale.ENGLISH);
+    private SimpleDateFormat monthAbbreviated = new SimpleDateFormat(("LLL"),Locale.ENGLISH);
+    private SimpleDateFormat dayInMonth = new SimpleDateFormat("d",Locale.ENGLISH);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_event);
+        getUiElements();
 
         Intent intent = getIntent();
         Event eventToView = (Event)intent.getSerializableExtra("event");
@@ -37,43 +62,95 @@ public class ViewEvent extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
     public void displayEvent(Event eventToDisplay) {
-        TextView eventTitleView    = (TextView) findViewById(R.id.single_event_title);
-        TextView eventDateView     = (TextView) findViewById(R.id.single_event_date);
-        TextView eventLocationView = (TextView) findViewById(R.id.single_event_location);
-        TextView eventUrlView      = (TextView) findViewById(R.id.single_event_url);
-        Button   linkToEvent       = (Button)   findViewById(R.id.link_to_event);
-        TextView originalPostView  = (TextView) findViewById(R.id.single_event_original_post);
-                
-        if(!(eventToDisplay.getTitle() == null)) {
+        Date now = new Date(Calendar.getInstance().getTimeInMillis());
+
+        if (!(eventToDisplay.getTitle() == null)) {
+            if (eventToDisplay.getTitle().length() > 30) {
+                eventTitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
+            }
             eventTitleView.setText(eventToDisplay.getTitle());
         } else {
             eventTitleView.setText(R.string.untitled_event_title);
         }
 
+        eventDay.setText(dayInMonth.format(eventToDisplay.getStartDate()));
+        eventMonth.setText(monthAbbreviated.format(eventToDisplay.getStartDate()));
         //TODO - INSERT LOCATION
-        
 
-        if (!(eventToDisplay.getPostContent() == null)) {
+        if (!(eventToDisplay.getPostContent() == null)
+         && !(eventToDisplay.getPostContent().equals(""))) {
             originalPostView.setText(eventToDisplay.getPostContent());
         } else {
             originalPostView.setText(R.string.no_post_content_message);
         }
 
-        //any event that doesn't have a date shouldn't make it into the database
-        Date eventStartTime = new Date(eventToDisplay.getStartTimeTimestamp());
-        eventDateView.setText(eventStartTime.toString());
-
-        if(!(eventToDisplay.getUrl() == null)) {
-            eventUrlView.setText(eventToDisplay.getUrl());
+        if (eventToDisplay.startsLaterToday()) {
+            if (eventToDisplay.getStartTimeTimestamp() != 0) {
+                timeView.setText(
+                        "today from "
+                      + timeOfEvent.format(eventToDisplay.getStartDate())
+                      + " - "
+                      + timeOfEvent.format(eventToDisplay.getEndDate())
+                );
+            } else {
+                timeView.setText("today at " + timeOfEvent.format(eventToDisplay.getStartDate()));
+                eventDateView.setVisibility(View.INVISIBLE);
+            }
+        } else if (eventToDisplay.endsLaterToday()) {
+            timeView.setText("ends today at " + timeOfEvent.format(eventToDisplay.getEndDate()));
+        } else {
+            timeView.setText(fullDate.format(eventToDisplay.getStartDate()));
         }
+
+        if (eventToDisplay.isMultiDay()) {
+            multiDayView.setVisibility(View.VISIBLE);
+            eventDateView.setVisibility(View.INVISIBLE);
+
+            timeView.setText(fullDate.format(eventToDisplay.getStartDate()) + " - " + fullDate.format(eventToDisplay.getEndDate()));
+
+            if (eventToDisplay.isToday()) {
+                eventMonth.setText(monthAbbreviated.format(new Date(Calendar.getInstance().getTimeInMillis())));
+                eventDay.setText(dayInMonth.format(new Date(Calendar.getInstance().getTimeInMillis())));
+            }
+        }
+
+        if (!(eventToDisplay.getUrl() == null)) {
+            String htmlUrlString = "<a href=\"" + eventToDisplay.getUrl() + "\">" + getString(R.string.view_original_post) + "</a > ";
+            eventUrlView.setText(Html.fromHtml(htmlUrlString));
+            eventUrlView.setMovementMethod(LinkMovementMethod.getInstance());
+            removeUnderlines((Spannable) eventUrlView.getText());
+        }
+
+        feedName.setText(eventToDisplay.getAuthor());
+
+    }
+
+    public static void removeUnderlines(Spannable p_Text) {
+        URLSpan[] spans = p_Text.getSpans(0, p_Text.length(), URLSpan.class);
+
+        for(URLSpan span:spans) {
+            int start = p_Text.getSpanStart(span);
+            int end = p_Text.getSpanEnd(span);
+            p_Text.removeSpan(span);
+            span = new Utils.URLSpanNoUnderline(span.getURL());
+            p_Text.setSpan(span, start, end, 0);
+        }
+    }
+
+    private void getUiElements() {
+        eventTitleView    = (TextView)findViewById(R.id.single_event_title);
+        eventDateView     = (TextView) findViewById(R.id.single_event_date);
+        eventLocationView = (TextView) findViewById(R.id.single_event_location);
+        eventUrlView      = (TextView) findViewById(R.id.single_event_url);
+        originalPostView  = (TextView) findViewById(R.id.single_event_original_post);
+        timeView          = (TextView) findViewById(R.id.time);
+        multiDayView      = (TextView) findViewById(R.id.multi_day);
+        eventMonth        = (TextView) findViewById(R.id.event_month);
+        eventDay          = (TextView) findViewById(R.id.event_day);
+        feedName          = (TextView) findViewById(R.id.feed_name);
     }
 }
