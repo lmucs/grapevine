@@ -26,6 +26,11 @@ class EventDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let logo = UIImage(named: "grapevine-logo-full-words-small.png")
+        let imageView = UIImageView(image:logo)
+        imageView.contentMode = .ScaleAspectFit
+        self.navigationItem.titleView = imageView
+        
         if self.event != nil {
             let date = event.startTime.dateCV
             self.eventPostView.layer.borderWidth = 2.0
