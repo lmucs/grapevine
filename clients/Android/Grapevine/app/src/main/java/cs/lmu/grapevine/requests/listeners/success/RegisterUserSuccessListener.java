@@ -25,14 +25,13 @@ public class RegisterUserSuccessListener implements Response.Listener<JSONObject
             Login.authenticationToken = response.getString("token");
             Login.userId              = Integer.parseInt(response.getString("userID"));
 
+            toastSuccessMessage();
             Intent feedEvents = new Intent(parentActivity.getApplicationContext(), EventFeed.class);
             parentActivity.startActivity(feedEvents);
         }
         catch (JSONException e) {
             Log.d("exception", "The JSON received did not have a key for authentication token.");
         }
-
-        toastSuccessMessage();
     }
 
     public void toastSuccessMessage() {
