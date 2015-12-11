@@ -12,6 +12,7 @@ intervalInSeconds = 60*5
 
 run = ->
   getLoginToken (err, token) ->
+    console.log token
     throw err if err
     request
       url: "#{process.env.GRAPEVINE_API_HOST}/admin/v1/feeds"
@@ -21,11 +22,12 @@ run = ->
         'x-access-token': token
     , (err, response, body) ->
       parsedBody = JSON.parse body
+      console.log parsedBody
 
       for feed in parsedBody.facebook
         FBEventProcessor.extractAndSendEvents feed
 
       for list in parsedBody.twitter
         TwitterEventProcessor.extractAndSendEvents list
-
-setInterval run, 1000 * intervalInSeconds
+run()
+# setInterval run, 1000 * intervalInSeconds
