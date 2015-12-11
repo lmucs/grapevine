@@ -4,6 +4,7 @@ util                = require './processor_util'
 pushGrapevineEvents = util.pushGrapevineEvents
 isFutureEvent       = util.isFutureEvent
 updateLastPulled    = util.updateLastPulled
+classify            = util.classify
 
 exports.extractAndSendEvents = (feed) ->
 
@@ -31,7 +32,6 @@ exports.extractAndSendEvents = (feed) ->
             grapevineEvent.feedID = tweet.user?.id
             grapevineEvent.author = tweet.user?.name
             grapevineEvent.url = "https://twitter.com/#{tweet.user?.name}/status/#{tweet.id_str}"
-            grapevineEvent.tags = [] #TODO
             grapevineEvents.push grapevineEvent
       next grapevineEvents
 
@@ -41,6 +41,6 @@ exports.extractAndSendEvents = (feed) ->
                  sent events to Grapevine,
                  and updated time when list was last pulled from"
 
-  getTweets extractGrapevineEventsFromTweets pushGrapevineEvents (err) ->
+  getTweets extractGrapevineEventsFromTweets classify pushGrapevineEvents (err) ->
     return updateLastPulled {feed, lastPulled}, done if lastPulled
     done null
