@@ -29,6 +29,21 @@ func setSuccessColor(textField: UITextField) {
     textField.layer.borderWidth = 1.5
 }
 
+func setupGrapevineButton(button: UIButton){
+    button.backgroundColor = grapevineButtonColor
+    button.layer.cornerRadius = grapevineButtonCornerRadius
+}
+
+func disableGrapevineButton(button: UIButton){
+    button.enabled = false
+    button.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
+}
+
+func enableGrapevineButton(button: UIButton){
+    button.enabled = true
+    button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+}
+
 // Date String Functions
 
 func monthIntToMonthString(date: CVDate) -> String {

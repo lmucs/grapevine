@@ -37,10 +37,8 @@ class CreateAccountViewController: UIViewController {
         super.viewDidLoad()
         self.feedbackLabel.hidden = true
         self.activityIndicator.hidden = true
-        self.createAccountButton.enabled = false
-        self.createAccountButton.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
-        self.createAccountButton.backgroundColor = grapevineButtonColor
-        self.createAccountButton.layer.cornerRadius = grapevineButtonCornerRadius
+        setupGrapevineButton(self.createAccountButton)
+        disableGrapevineButton(self.createAccountButton)
         loadGoodToCreate()
         // Do any additional setup after loading the view.
     }
@@ -59,18 +57,13 @@ class CreateAccountViewController: UIViewController {
         self.goodToCreate[email] = false
     }
     
-    func enableCreateButton(){
-        self.createAccountButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
-        self.createAccountButton.enabled = true
-    }
-    
     func checkFields(){
         for (_, boolean) in goodToCreate {
             if boolean == false {
                 return
             }
         }
-        enableCreateButton()
+        enableGrapevineButton(self.createAccountButton)
         
     }
     
