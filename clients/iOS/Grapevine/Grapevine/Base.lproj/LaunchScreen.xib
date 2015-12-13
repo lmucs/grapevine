@@ -20,7 +20,7 @@
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swag-grape" translatesAutoresizingMaskIntoConstraints="NO" id="bun-gc-k3H">
                     <rect key="frame" x="162" y="95" width="157" height="290"/>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grapevine-logo-full-words" translatesAutoresizingMaskIntoConstraints="NO" id="mVw-Zz-mqF">
+                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grapevine-logo-full-words-outline2swag" translatesAutoresizingMaskIntoConstraints="NO" id="mVw-Zz-mqF">
                     <rect key="frame" x="20" y="23" width="441" height="79"/>
                 </imageView>
             </subviews>
@@ -43,7 +43,7 @@
         </view>
     </objects>
     <resources>
-        <image name="grapevine-logo-full-words" width="1154" height="285"/>
+        <image name="grapevine-logo-full-words-outline2swag" width="1174" height="304"/>
         <image name="swag-grape" width="157" height="290"/>
     </resources>
 </document>
