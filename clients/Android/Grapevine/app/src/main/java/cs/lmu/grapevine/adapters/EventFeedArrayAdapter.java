@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Locale;
 import cs.lmu.grapevine.entities.Event;
 import cs.lmu.grapevine.R;
@@ -38,7 +39,7 @@ public class EventFeedArrayAdapter extends ArrayAdapter<Event> implements Filter
     public EventFeedArrayAdapter(Context context, ArrayList<Event> events) {
         super(context, 0, events);
         this.originalEvents = new ArrayList<>(events);
-        filteredItems = new ArrayList<>(events);
+        filteredItems = events;
     }
 
     @Override
@@ -188,5 +189,12 @@ public class EventFeedArrayAdapter extends ArrayAdapter<Event> implements Filter
         } else {
             eventTitle.setText(event.getTitle());
         }
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        Collections.sort(filteredItems);
+
+        super.notifyDataSetChanged();
     }
 }
