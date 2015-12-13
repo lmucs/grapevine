@@ -121,28 +121,33 @@ public class EventFeedArrayAdapter extends ArrayAdapter<Event> implements Filter
         String todayMonth = dateMonth.format(today);
         String todayDay   = dateDay.format(today);
 
-
-        if (!(event.endTimeIsKnown())) {
-            String eventTime = timeOfEvent.format(event.getStartDate());
+        String eventTime;
+        if (event.startsLaterToday()) {
+            if (event.endTimeIsKnown()) {
+                eventTime = "today from "
+                                + timeOfEvent.format(event.getStartDate())
+                                + " - "
+                                + timeOfEvent.format(event.getEndDate());
+            } else {
+                eventTime = "today at " + timeOfEvent.format(event.getStartDate());
+            }
+            setCalendarPageAndEventTime(todayMonth, todayDay, eventTime);
+        } else if(!(event.endTimeIsKnown())) {
+            eventTime = timeOfEvent.format(event.getStartDate());
             setCalendarPageAndEventTime(startMonth, startDay, eventTime);
         } else if (event.startsAndEndsSameDay()) {
-            String eventTime = timeOfEvent.format(event.getStartDate())
+            eventTime = timeOfEvent.format(event.getStartDate())
                     + " - "
                     + timeOfEvent.format(event.getEndDate());
             setCalendarPageAndEventTime(startMonth, startDay, eventTime);
-        } else if (event.startsLaterToday()) {
-            String eventTime  = "today at " + timeOfEvent.format(event.getStartDate());
-            setCalendarPageAndEventTime(todayMonth, todayDay, eventTime);
         } else if (event.endsLaterToday()) {
-            String eventTime = "ends today at " + timeOfEvent.format(event.getEndDate());
+            eventTime = "ends today at " + timeOfEvent.format(event.getEndDate());
             setCalendarPageAndEventTime(endMonth, endDay, eventTime);
         } else if(event.getStartDate().after(today)) {
-            String eventTime = timeOfEvent.format(event.getStartDate());
+            eventTime = timeOfEvent.format(event.getStartDate());
             setCalendarPageAndEventTime(startMonth, startDay, eventTime);
         } else {
-            String eventTime = "ends on "
-                    + fullDate.format(event.getEndDate());
-
+            eventTime = "ends on " + fullDate.format(event.getEndDate());
             setCalendarPageAndEventTime(todayMonth, todayDay, eventTime);
         }
     }
