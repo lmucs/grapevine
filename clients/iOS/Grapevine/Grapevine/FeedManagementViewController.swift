@@ -10,11 +10,13 @@ import UIKit
 import Alamofire
 import AlamofireObjectMapper
 import SwiftyJSON
+import ObjectMapper
 
 class FeedManagementViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
-    var myFeeds: [String]?
+    var myFeeds: [Feed] = [Feed]()
     var userToken: Token!
+    
     
     @IBOutlet weak var tableView: UITableView!
 
@@ -22,6 +24,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+    
         // Do any additional setup after loading the view.
     }
 
@@ -43,7 +46,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         if section == 0 {
             return 1
         }
-        return myFeeds?.count ?? 0
+        return myFeeds.count
         
     }
     
@@ -59,34 +62,80 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         if indexPath.section == 0 {
             //return search cell
             let cell = tableView.dequeueReusableCellWithIdentifier("addFeedCell", forIndexPath: indexPath) as! EventTableViewCell
-            tableView.rowHeight = 90
-            cell.button.enabled = false;
+            tableView.rowHeight = 120
+            cell.button.enabled = false
             cell.button.addTarget(self, action: "addFeed:", forControlEvents: UIControlEvents.TouchUpInside)
             cell.segControl.addTarget(self, action: "selectNetwork:", forControlEvents: UIControlEvents.ValueChanged)
+            cell.selectionStyle = UITableViewCellSelectionStyle.None
             return cell
         }
-        tableView.rowHeight = 44
-        let cell = tableView.dequeueReusableCellWithIdentifier("feedCell", forIndexPath: indexPath) as! EventTableViewCell
-        cell.button.addTarget(self, action: "removeFeed:", forControlEvents: UIControlEvents.TouchUpInside)
+        tableView.rowHeight = 80
+        let cell = tableView.dequeueReusableCellWithIdentifier("feedCell", forIndexPath: indexPath) as! FeedTableViewCell
+        cell.feedNameLabel.text = self.myFeeds[indexPath.row].feedName
+        if self.myFeeds[indexPath.row].networkName == "facebook" {
+            cell.feedNetwork.image = UIImage(named: "facebook_brand_logo")
+        }
+        else {
+            cell.feedNetwork.image = UIImage(named: "twitter_brand_logo")
+        }
+        
+        //cell.addTarget(self, action: "clickFeed:", forControlEvents: UIControlEvents.TouchUpInside)
         return cell
         
     }
     
-    @IBAction func selectNetwork(sender:UISegmentedControl) {
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        clickFeed(indexPath)
+    }
+    
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+        return true
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.Delete) {
+            // handle delete (by removing the data from your array and updating the tableview)
+            unfollowFeed(indexPath)
+        }
+    }
+    
+    func feedAtIndexPath(path: NSIndexPath) -> Feed {
+        return self.myFeeds[path.row]
+    }
+    
+    func clickFeed(path: NSIndexPath){
+        let feed = feedAtIndexPath(path)
+        let linkStr = feed.buildFeedLinkString()
+        UIApplication.sharedApplication().openURL(NSURL(string: linkStr)!)
+    }
+    
+    @IBAction func selectNetwork(sender:UISegmentedControl){
         let indexPath = NSIndexPath(forRow:0, inSection:0)
         let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! EventTableViewCell
-        cell.button.enabled = true
-        print(facebookOrTwitter(sender))
+        if cell.textField.text != "" {
+            cell.button.enabled = true
+        }
         
+    }
+    
+    @IBAction func newFeedNameFieldChanged(sender: UITextField){
+        let indexPath = NSIndexPath(forRow:0, inSection:0)
+        let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! EventTableViewCell
+        if (cell.textField.text != "" && cell.segControl.selectedSegmentIndex > -1){
+            cell.button.enabled = true
+        }
+        if (cell.textField.text == ""){
+            cell.button.enabled = false
+        }
     }
     
     
     func facebookOrTwitter(segControl: UISegmentedControl) -> String {
         switch segControl.selectedSegmentIndex {
             case 0:
-                return "Facebook"
+                return "facebook"
             case 1:
-                return "Twitter"
+                return "twitter"
             default:
                 return "";
         }
@@ -100,8 +149,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! EventTableViewCell
         let feedName = cell.textField.text
         let addFeedUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID) + "/feeds")
+        
         let feedInfo: [String: AnyObject] = [
-            "feedName": String(feedName),
+            "feedName": String(feedName!),
             "networkName": String(facebookOrTwitter(cell.segControl))
         ]
         let requestHeader: [String: String] = [
@@ -113,14 +163,22 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             Alamofire.request(.POST, addFeedUrl!, parameters: feedInfo, encoding: .JSON, headers: requestHeader)
                 .responseJSON { response in
                     if response.1 != nil {
-                        if response.1?.statusCode == 200 {
+                        debugPrint(response)
+                        if response.1?.statusCode == 201 {
                             print("here")
-                            self.getFeeds()
+                            let newFeed = Mapper<Feed>().map(feedInfo as! [String: String])
+                            print(newFeed!.feedName)
+                            
+                            self.myFeeds.insert(newFeed!, atIndex: 0)
+                            cell.textField.text = ""
+                            cell.segControl.selectedSegmentIndex = -1
+                            self.tableView.reloadData()
                             
                         }
                         else {
-                            print("didn't get a 200")
+                            
                             setErrorColor(cell.textField)
+                            cell.segControl.selectedSegmentIndex = -1
                             sender.enabled = true
                             // handle errors based on response code
                         }
@@ -129,24 +187,75 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                         print("no response")
                         sender.enabled = true
                     }
-                    
-                    
             }
         }
         else {
             print("JSON serialization failed, we should never be here")
         }
-
+ 
+    }
+    
+    
+    func unfollowFeed(indexPath: NSIndexPath){
+        let feedToUnfollow = myFeeds[indexPath.row]
+        let removeFeedUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID) + "/feeds/" + feedToUnfollow.networkName + "/" + feedToUnfollow.feedName)
+        let requestHeader: [String: String] = [
+            "Content-Type": "application/json",
+            "x-access-token": String(self.userToken.token!)
+            
+        ]
         
+        Alamofire.request(.DELETE, removeFeedUrl!, encoding: .JSON, headers: requestHeader)
+            .responseJSON { response in
+                debugPrint(response)
+                if response.1 != nil {
+                    if response.1?.statusCode == 200 {
+                        print("deleted")
+                        self.myFeeds.removeAtIndex(indexPath.row)
+                        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+                        
+                        //let set: NSIndexSet = NSIndexSet(indexesInRange: NSMakeRange(0,2))
+                        //self.tableView.reloadSections(set, withRowAnimation: UITableViewRowAnimation.Automatic)
+                        
+                    }
+                }
+        }
         
     }
     
-    @IBAction func unfollowFeed(sender: UIButton){
-        print("unfollow support coming soon")
-    }
     
     func getFeeds(){
+        self.myFeeds = [Feed]()
+        let getFeedUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID) + "/feeds")
+        let requestHeader: [String: String] = [
+            "x-access-token": String(self.userToken.token!)
+        ]
         
+        Alamofire.request(.GET, getFeedUrl!, encoding: .JSON, headers: requestHeader)
+                .responseJSON { response in
+                    debugPrint(response)
+                    if response.1 != nil {
+                        if response.1?.statusCode == 200 {
+                            print("here")
+                            let results = response.2.value! as! NSArray
+                            for item in results {
+                                debugPrint(item)
+                                let responseFeed = Mapper<Feed>().map(item)
+                                print(responseFeed!.feedName)
+                                self.myFeeds.append(responseFeed!)
+                            }
+                            self.tableView.reloadData()
+                        }
+                        else {
+                            print("didn't get a 200")
+                            
+                            // handle errors based on response code
+                        }
+                    }
+                    else {
+                        print("no response")
+                    }
+            }
     }
 
     

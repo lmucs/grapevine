@@ -25,7 +25,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        print(events.count)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -44,6 +43,10 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         // Return the number of sections.
         return 1
     }
+    
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "My Upcoming Events"
+    }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
@@ -53,8 +56,21 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
-        cell.eventNameLabel.text = self.events[indexPath.row].title
-        cell.eventLocationLabel.text = String(self.events[indexPath.row].location)
+        let event = self.events[indexPath.row]
+        if event.title != nil {
+            cell.eventNameLabel.text = event.title
+        }
+        else {
+            cell.eventNameLabel.text = event.author
+        }
+        
+        if !event.isMultiDay {
+            cell.eventMultiDayLabel.hidden = true
+        }
+        else {
+            cell.eventMultiDayLabel.hidden = false
+        }
+        
         
         
         func setDateBoxes(dateTime: CVDate){
@@ -150,21 +166,19 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func getEventsSince(date: NSDate){
-        let getEventsSinceUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events/" + String(self.lastUpdated.timeIntervalSince1970))
+        let getEventsSinceUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events/" + String(Int(self.lastUpdated.timeIntervalSince1970 * 1000)))
         print(getEventsSinceUrl)
         let requestHeader: [String: String] = [
             "Content-Type": "application/json",
             "x-access-token": String(self.userToken.token!)
         ]
-        print("calling for events now swag")
+        print("calling for new events now swag")
         Alamofire.request(.GET, getEventsSinceUrl!, encoding: .JSON, headers: requestHeader)
             .responseJSON { response in
                 debugPrint(response)
                 if response.1 != nil {
-                    
                     if response.1?.statusCode == 200 {
                         let results = response.2.value! as! NSArray
-                        //debugPrint(results)
                         for item in results {
                             debugPrint(item)
                             let responseEvent = Mapper<Event>().map(item)
@@ -192,23 +206,22 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             let nav = segue.destinationViewController as! UINavigationController
             let calendarView = nav.topViewController as! CalendarViewController
             calendarView.events = self.events
-            
         }
         
         if segue.identifier == "goToEventDetailSegue" {
             let path = self.tableView.indexPathForSelectedRow!
             let nav = segue.destinationViewController as! UINavigationController
             let detailView = nav.topViewController as! EventDetailViewController
+            detailView.rightBarButton.enabled = false
             detailView.event = eventAtIndexPath(path)
-            
         }
         
         if segue.identifier == "goToFeedManagement" {
             let nav = segue.destinationViewController as! UINavigationController
             let feedView = nav.topViewController as! FeedManagementViewController
             feedView.userToken = self.userToken
-            if feedView.myFeeds == nil {
-                print("will call for feeds when endpoint exists")
+            if feedView.myFeeds.count == 0 {
+                feedView.getFeeds()
             }
         }
         
