@@ -14,6 +14,9 @@ let apiBaseUrl = "https://grapevine.herokuapp.com"
 let grapevineButtonColor = UIColor(red:0.54, green:0.07, blue:0.53, alpha:1.0)
 let grapevineButtonCornerRadius: CGFloat = 10
 
+let textLogo = UIImage(named: "grapevine-logo-full-words-outline2swag.png")
+let textLogoSmall = UIImage(named: "grapevine-logo-full-words-outline2swag40h")
+
 
 // User feedback on text fields
 

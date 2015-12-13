@@ -26,10 +26,10 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         tableView.delegate = self
         tableView.dataSource = self
         
-        let logo = UIImage(named: "grapevine-logo-full-words-small.png")
-        let imageView = UIImageView(image:logo)
+        let imageView = UIImageView(image:textLogoSmall)
         imageView.contentMode = .ScaleAspectFit
         self.navigationItem.titleView = imageView
+        self.navigationController?.navigationBar.backgroundColor = UIColor(red:0.81, green:0.66, blue:0.81, alpha:1.0)
         
     }
 
@@ -210,21 +210,21 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         if segue.identifier == "goToCalendar" {
-            let nav = segue.destinationViewController as! UINavigationController
+            let nav = segue.destinationViewController as! GrapevineNavigationController
             let calendarView = nav.topViewController as! CalendarViewController
             calendarView.events = self.events
         }
         
         if segue.identifier == "goToEventDetailSegue" {
             let path = self.tableView.indexPathForSelectedRow!
-            let nav = segue.destinationViewController as! UINavigationController
+            let nav = segue.destinationViewController as! GrapevineNavigationController
             let detailView = nav.topViewController as! EventDetailViewController
             detailView.rightBarButton.enabled = false
             detailView.event = eventAtIndexPath(path)
         }
         
         if segue.identifier == "goToFeedManagement" {
-            let nav = segue.destinationViewController as! UINavigationController
+            let nav = segue.destinationViewController as! GrapevineNavigationController
             let feedView = nav.topViewController as! FeedManagementViewController
             feedView.userToken = self.userToken
             if feedView.myFeeds.count == 0 {
