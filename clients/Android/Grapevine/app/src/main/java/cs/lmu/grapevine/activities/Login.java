@@ -36,7 +36,7 @@ public class Login extends Activity implements LoaderManager.LoaderCallbacks<Cur
     public static AutoCompleteTextView mEmailView;
     private       EditText             mPasswordView;
     public static RequestQueue         httpRequestQueue;
-    public static long                 timestampOfLogin;
+    public static long                 lastRefresh;
 
 
     @Override
@@ -67,7 +67,7 @@ public class Login extends Activity implements LoaderManager.LoaderCallbacks<Cur
 
         httpRequestQueue = Volley.newRequestQueue(this);
         authenticationToken = null;
-        timestampOfLogin = new Date().getTime();
+        lastRefresh = new Date().getTime();
     }
 
     /**

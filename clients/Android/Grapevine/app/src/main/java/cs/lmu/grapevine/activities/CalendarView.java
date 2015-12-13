@@ -1,5 +1,6 @@
 package cs.lmu.grapevine.activities;
 
+import android.app.Fragment;
 import android.content.Intent;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +20,7 @@ import cs.lmu.grapevine.listeners.CalendarListener;
 import cs.lmu.grapevine.listeners.EventListClickListener;
 
 public class CalendarView extends AppCompatActivity {
+    public static CaldroidFragment calendar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class CalendarView extends AppCompatActivity {
         t.add(R.id.calendar_fragment_container, caldroidFragment);
         t.commit();
         CalendarListener calendarListener = new CalendarListener(this);
+        calendar = caldroidFragment;
         caldroidFragment.setCaldroidListener(calendarListener);
 
         populateCalenderWithEvents(caldroidFragment);
