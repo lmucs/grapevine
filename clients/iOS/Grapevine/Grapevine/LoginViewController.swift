@@ -127,7 +127,7 @@ class LoginViewController: UIViewController {
         // Pass the selected object to the new view controller.
         
         if segue.identifier == "loginSegue" {
-            let nav = segue.destinationViewController as! UINavigationController
+            let nav = segue.destinationViewController as! GrapevineNavigationController
             let eventsView = nav.topViewController as! EventListViewController
             print("Token Object again is \(self.userToken.token)")
             eventsView.userToken = self.userToken
