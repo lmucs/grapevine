@@ -1,6 +1,5 @@
 package cs.lmu.grapevine.activities;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,6 +26,7 @@ public class ViewEvent extends AppCompatActivity {
     private TextView eventLocationView;
     private TextView eventUrlView;
     private TextView originalPostView;
+    private TextView singleEventDay;
     private TextView timeView;
     private TextView multiDayView;
     private TextView eventMonth;
@@ -67,7 +67,6 @@ public class ViewEvent extends AppCompatActivity {
     }
 
     public void displayEvent(Event eventToDisplay) {
-        Date now = new Date(Calendar.getInstance().getTimeInMillis());
 
         if (!(eventToDisplay.getTitle() == null)) {
             if (eventToDisplay.getTitle().length() > 30) {
@@ -90,28 +89,36 @@ public class ViewEvent extends AppCompatActivity {
         }
 
         if (eventToDisplay.startsLaterToday()) {
-            if (eventToDisplay.getStartTimeTimestamp() != 0) {
+            if (eventToDisplay.endTimeIsKnown()) {
                 timeView.setText(
-                        "today from "
-                      + timeOfEvent.format(eventToDisplay.getStartDate())
+                      timeOfEvent.format(eventToDisplay.getStartDate())
                       + " - "
                       + timeOfEvent.format(eventToDisplay.getEndDate())
                 );
             } else {
-                timeView.setText("today at " + timeOfEvent.format(eventToDisplay.getStartDate()));
-                eventDateView.setVisibility(View.INVISIBLE);
+                timeView.setText(timeOfEvent.format(eventToDisplay.getStartDate()));
             }
+            eventDateView.setText("today");
         } else if (eventToDisplay.endsLaterToday()) {
             timeView.setText("ends today at " + timeOfEvent.format(eventToDisplay.getEndDate()));
         } else {
-            timeView.setText(fullDate.format(eventToDisplay.getStartDate()));
+            eventDateView.setText(fullDate.format(eventToDisplay.getStartDate()));
+            if (eventToDisplay.getStartTimeTimestamp() != 0) {
+                timeView.setText(
+                        timeOfEvent.format(eventToDisplay.getStartDate())
+                                + " - "
+                                + timeOfEvent.format(eventToDisplay.getEndDate())
+                );
+            } else {
+                timeView.setText(timeOfEvent.format(eventToDisplay.getStartDate()));
+            }
         }
 
         if (eventToDisplay.isMultiDay()) {
             multiDayView.setVisibility(View.VISIBLE);
-            eventDateView.setVisibility(View.INVISIBLE);
+            timeView.setVisibility(View.GONE);
 
-            timeView.setText(fullDate.format(eventToDisplay.getStartDate()) + " - " + fullDate.format(eventToDisplay.getEndDate()));
+            eventDateView.setText(fullDate.format(eventToDisplay.getStartDate()) + " - " + fullDate.format(eventToDisplay.getEndDate()));
 
             if (eventToDisplay.isToday()) {
                 eventMonth.setText(monthAbbreviated.format(new Date(Calendar.getInstance().getTimeInMillis())));
@@ -153,5 +160,6 @@ public class ViewEvent extends AppCompatActivity {
         eventMonth        = (TextView) findViewById(R.id.event_month);
         eventDay          = (TextView) findViewById(R.id.event_day);
         feedName          = (TextView) findViewById(R.id.feed_name);
+        singleEventDay    = (TextView) findViewById(R.id.single_event_date);
     }
 }

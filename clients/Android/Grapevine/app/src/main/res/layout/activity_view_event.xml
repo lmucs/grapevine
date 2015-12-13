@@ -88,9 +88,8 @@
         android:id="@+id/feed_name"
         android:text="feedname"
         android:textColor="@color/light_grey"
-        android:layout_gravity="center"
-        />
-    <TextView  android:layout_width="wrap_content"
+        android:layout_gravity="center"/>
+    <TextView android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/view_original_post"
         android:id="@+id/single_event_url"
