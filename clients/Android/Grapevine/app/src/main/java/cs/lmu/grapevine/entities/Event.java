@@ -194,6 +194,12 @@ public class Event implements Serializable, Comparable<Event>  {
         return DateUtils.isSameDay(today,endDate) && endDate.after(today);
     }
 
+    public boolean isFinished() {
+        Date now = new Date(Calendar.getInstance().getTimeInMillis());
+        return  (endTimeTimestamp == 0 && getStartDate().before(now))
+             || (endTimeTimestamp != 0 && now.after(getEndDate()));
+    }
+
     public boolean startsAndEndsSameDay() {
         boolean sameDay = true;
 

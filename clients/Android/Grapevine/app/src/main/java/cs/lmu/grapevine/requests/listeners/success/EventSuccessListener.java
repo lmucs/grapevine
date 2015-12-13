@@ -10,8 +10,10 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import cs.lmu.grapevine.activities.EventFeed;
+import cs.lmu.grapevine.activities.Login;
 import cs.lmu.grapevine.entities.Event;
 import cs.lmu.grapevine.adapters.EventFeedArrayAdapter;
 import cs.lmu.grapevine.R;
@@ -33,6 +35,7 @@ public class EventSuccessListener implements Response.Listener<JSONArray> {
         EventFeed.usersEvents = usersEvents;
         Collections.sort(EventFeed.usersEvents);
         InflateEventFeed(usersEvents);
+        Login.lastRefresh = new Date().getTime();
     }
 
     public static ArrayList<Event> deserializeJson(JSONArray userEventsJSON) {
