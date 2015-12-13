@@ -39,6 +39,8 @@ users =
       values: [req.params.userID, (new Date).getTime(), (new Date).setHours(0, 0, 0, 0)]
     , (err, result) ->
       return res.status(400).json err if err
+      for row in result.rows
+        row.location = {'name': row.location[0], 'country': row.location[1], 'state': row.location[2], 'street': row.location[3]}
       res.status(200).json result.rows
 
   getLatestEvents: (req, res) ->
