@@ -61,6 +61,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if events.count == 0 {
             let cell = tableView.dequeueReusableCellWithIdentifier("noEventsCell", forIndexPath: indexPath) as! NoEventsTableViewCell
+            cell.label.text = "Welcome \(self.userToken.firstName) \(self.userToken.lastName)! You have no events! Add some feeds to get some!"
             cell.label.numberOfLines = 0
             return cell
         }

@@ -13,6 +13,9 @@ class Token: NSObject, Mappable {
     
     var token: String!
     var userID: Int!
+    var username: String!
+    var firstName: String!
+    var lastName: String!
     
     required init?(_ map: Map){
         
@@ -21,6 +24,9 @@ class Token: NSObject, Mappable {
     func mapping(map: Map) {
         self.token <- map["token"]
         self.userID <- map["userID"]
+        self.username <- map["username"]
+        self.firstName <- map["firstName"]
+        self.lastName <- map["lastName"]
         
     }
     

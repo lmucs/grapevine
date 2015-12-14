@@ -130,6 +130,7 @@ class LoginViewController: UIViewController {
             let nav = segue.destinationViewController as! GrapevineNavigationController
             let eventsView = nav.topViewController as! EventListViewController
             print("Token Object again is \(self.userToken.token)")
+            print("Name is  + \(self.userToken.firstName)")
             eventsView.userToken = self.userToken
             eventsView.getAllUserEvents()
 
