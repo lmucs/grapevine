@@ -16,7 +16,7 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var eventMonthLabel: UILabel!
     @IBOutlet weak var eventDayLabel: UILabel!
     @IBOutlet weak var eventTimeLabel: UILabel!
-    @IBOutlet weak var eventTitleLabel: UIUnderlinedLabel!
+    @IBOutlet weak var eventTitleLabel: UILabel!
     @IBOutlet weak var eventPostView: UITextView!
     @IBOutlet weak var eventAuthorLabel: UILabel!
     @IBOutlet weak var eventTagsLabel: UILabel!
@@ -96,7 +96,7 @@ class EventDetailViewController: UIViewController {
             
         }
         if segue.identifier == "backToCalendar" {
-            print("cali")
+            
         }
         
     }
