@@ -32,7 +32,7 @@ In the meantime feel free to download our latest stable release and test out gra
 ### Grapevine API
 
 Grapevine API is available at <http://docs.grapevineapi.apiary.io/#>  
-You can also test our server locally by downloading the latest stable release. Our server is implemented using Node.js so it's quite easy to install. Just run the followign from the root directory.
+You can also test our server locally by downloading the latest stable release. Our server is implemented using Node.js so it's quite easy to install. Just run the following from the root directory.
 ```
 npm install
 npm start
