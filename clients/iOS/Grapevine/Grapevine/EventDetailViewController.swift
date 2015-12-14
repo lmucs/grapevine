@@ -42,7 +42,7 @@ class EventDetailViewController: UIViewController {
             self.eventTimeLabel.text = buildEventTimeRange(event)
             self.eventLinkButton.setTitle("View Original Post", forState: .Normal)
             self.eventLinkButton.titleLabel?.numberOfLines = 0
-            self.eventPostView.text = self.event.post + "\n \n"
+            self.eventPostView.text = self.event.post + "\n \n" + self.event.locationToString()
             self.eventAuthorLabel.text = self.event.author
             if self.event.tags.count > 0 {
                 var tagsStr: String = ""
