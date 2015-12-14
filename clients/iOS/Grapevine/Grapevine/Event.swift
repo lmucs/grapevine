@@ -72,10 +72,18 @@ class Event: NSObject, Mappable {
     
     func locationToString() -> String {
         var locationStr = ""
-        locationStr = self.location["name"]! + "\n"
-        locationStr = locationStr + self.location["street"]! + "\n"
-        locationStr = locationStr + self.location["state"]! + "\n"
-        locationStr = locationStr + self.location["country"]! + "\n"
+        if self.location["name"] != nil {
+            locationStr = self.location["name"]! + "\n"
+        }
+        if self.location["street"] != nil {
+            locationStr = locationStr + self.location["street"]! + "\n"
+        }
+        if self.location["state"] != nil {
+            locationStr = locationStr + self.location["state"]! + "\n"
+        }
+        if self.location["state"] != nil {
+            locationStr = locationStr + self.location["country"]! + "\n"
+        }
         return locationStr
     }
     
