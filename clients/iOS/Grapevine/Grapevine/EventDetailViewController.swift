@@ -42,17 +42,27 @@ class EventDetailViewController: UIViewController {
             self.eventTimeLabel.text = buildEventTimeRange(event)
             self.eventLinkButton.setTitle("View Original Post", forState: .Normal)
             self.eventLinkButton.titleLabel?.numberOfLines = 0
-            self.eventPostView.text = self.event.post
+            self.eventPostView.text = self.event.post + "\n \n" + self.event.location
             self.eventAuthorLabel.text = self.event.author
             if self.event.tags.count > 0 {
                 var tagsStr: String = ""
                 for tag in self.event.tags {
                     tagsStr = tag + ", " + tagsStr
                 }
+                // removes last comma, space
+                tagsStr = String(tagsStr.characters.dropLast())
+                tagsStr = String(tagsStr.characters.dropLast())
                 self.eventTagsLabel.text = tagsStr
             }
             else {
                 self.eventTagsLabel.hidden = true
+            }
+            
+            if self.event.location != nil {
+                print(self.event.location)
+            }
+            else {
+                print("no location")
             }
         }
 
