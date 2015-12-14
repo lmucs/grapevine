@@ -29,4 +29,11 @@
     <dimen name="event_feed_month_size_large">24sp</dimen>
 
     <dimen name="smaller_title">22sp</dimen>
+
+    <dimen name="grape_height">48dp</dimen>
+    <dimen name="grape_width">24dp</dimen>
+    <dimen name="grape_margin">10dp</dimen>
+    <dimen name="grape_margin_top">7dp</dimen>
+    <dimen name="create_account_title">20sp</dimen>
+    <dimen name="create_account_text_size">16sp</dimen>
 </resources>
