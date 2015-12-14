@@ -26,7 +26,7 @@
     <string name="twitter">Twitter</string>
     <string name="event_error">There was an error fetching your events from the server.</string>
     <string name="add_feed">Add feed</string>
-    <string name="following">Currently Following</string>
+    <string name="following">My feeds</string>
     <string name="follow_feed_error">There was an error following this feed.</string>
     <string name="refresh_error_toast">There was an error retrieving new events</string>
     <string name="refresh_success_toast">Successfully refreshed event feed</string>
@@ -38,6 +38,7 @@
     <string name="cancel">Cancel</string>
     <string name="unfollow_error">Whoops. There was a problem trying to unfollow the feed.</string>
     <string name="multi_day">multi-day</string>
-    <string name="view_original_post">View original post
-    </string>
+    <string name="view_original_post">View original post</string>
+    <string name="no_feeds_message">You don\'t currently follow any feeds. Add some above to start getting events!</string>
+    <string name="create_account">Create Account</string>
 </resources>
