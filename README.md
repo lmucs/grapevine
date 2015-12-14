@@ -21,11 +21,28 @@ TODO - Insert calendar views of the same event for Android, iOS, and web.
 Events have information such as start time and end time, tags, who posted the event, and a link to the original post.
 
 
+## Installation
+### Client Applications
+We are currently in the process of deploying our Android and iOS applications to Google's play store and Apple's app store.
+In the meantime feel free to download our latest stable release and test out grapevine in the Android and iOS development kits.
 
+* [Android Setup Instructions](https://github.com/lmucs/grapevine/wiki/Dev-Setup#android)
+* [iOS Setup Instructions](https://github.com/lmucs/grapevine/wiki/Dev-Setup#ios)
 
-TODO - server info, App Store / Google Play info
+### Grapevine API
 
-TODO - getting your own installation, npm install ....
+Grapevine API is available at <http://docs.grapevineapi.apiary.io/#>  
+You can also test our server locally by downloading the latest stable release. Our server is implemented using Node.js so it's quite easy to install. Just run the followign from the root directory.
+```
+npm install
+npm start
+```
+Our social-media and grapevine servers should now be running on localhost.  
+
+If you'd like to run our tests you can run them with:
+```
+npm test
+```
 
 ## About
 
