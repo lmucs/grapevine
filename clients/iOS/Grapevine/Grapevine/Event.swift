@@ -70,8 +70,21 @@ class Event: NSObject, Mappable {
         }
     }
     
-    func buildLocationString(){
-        
+    func locationToString() -> String {
+        var locationStr = ""
+        if self.location["name"] != nil {
+            locationStr = self.location["name"]! + "\n"
+        }
+        if self.location["street"] != nil {
+            locationStr = locationStr + self.location["street"]! + "\n"
+        }
+        if self.location["state"] != nil {
+            locationStr = locationStr + self.location["state"]! + "\n"
+        }
+        if self.location["state"] != nil {
+            locationStr = locationStr + self.location["country"]! + "\n"
+        }
+        return locationStr
     }
     
     
