@@ -18,6 +18,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     var userToken: Token!
     var events: [Event] = []
     var lastUpdated: NSDate!
+    var isLoading: Bool = false
     
     @IBOutlet weak var tableView: UITableView!
 
@@ -51,6 +52,9 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
+        if self.isLoading {
+            return self.events.count + 1
+        }
         if self.events.count == 0 {
             return 1
         }
@@ -59,38 +63,60 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
 
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        if events.count == 0 {
+        
+        func setupEventCell() -> UITableViewCell {
+            let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
+            let event = self.events[indexPath.row]
+            if event.title != nil {
+                cell.eventNameLabel.text = event.title
+            }
+            else {
+                cell.eventNameLabel.text = event.author
+            }
+            
+            if !event.isMultiDay {
+                cell.eventMultiDayLabel.hidden = true
+            }
+            else {
+                cell.eventMultiDayLabel.hidden = false
+            }
+            
+            func setDateBoxes(dateTime: CVDate){
+                cell.eventMonthLabel.text = monthIntToShortMonthString(self.events[indexPath.row].startTime.dateCV.month)
+                cell.eventDayLabel.text = String(self.events[indexPath.row].startTime.dateCV.day)
+            }
+            
+            cell.eventTimeLabel.text = buildEventTimeRange(self.events[indexPath.row])
+            setDateBoxes(self.events[indexPath.row].startTime.dateCV)
+            return cell
+        }
+        
+        func setupOtherCell(cellText: String, animateIndicator: Bool) -> UITableViewCell {
             let cell = tableView.dequeueReusableCellWithIdentifier("noEventsCell", forIndexPath: indexPath) as! NoEventsTableViewCell
-            cell.label.text = "Welcome \(self.userToken.firstName) \(self.userToken.lastName)! You have no events! Add some feeds to get some!"
+            cell.label.text = cellText
+            if animateIndicator {
+                cell.activityIndicator.startAnimating()
+            }
+            else {
+                cell.activityIndicator.hidden = true
+            }
             cell.label.numberOfLines = 0
             return cell
         }
-        let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
-        let event = self.events[indexPath.row]
-        if event.title != nil {
-            cell.eventNameLabel.text = event.title
-        }
-        else {
-            cell.eventNameLabel.text = event.author
-        }
         
-        if !event.isMultiDay {
-            cell.eventMultiDayLabel.hidden = true
-        }
-        else {
-            cell.eventMultiDayLabel.hidden = false
+        if self.isLoading {
+            if indexPath.row == 0 {
+                let cellText: String = "Loading your events now, \(self.userToken.firstName) \(self.userToken.lastName)!"
+                return setupOtherCell(cellText, animateIndicator: true)
+            }
+            return setupEventCell()
         }
         
-        
-        
-        func setDateBoxes(dateTime: CVDate){
-            cell.eventMonthLabel.text = monthIntToShortMonthString(self.events[indexPath.row].startTime.dateCV.month)
-            cell.eventDayLabel.text = String(self.events[indexPath.row].startTime.dateCV.day)
+        if events.count == 0 {
+            let cellText: String = "You have no events, \(self.userToken.firstName) \(self.userToken.lastName)! Add some feeds to get some!"
+            return setupOtherCell(cellText, animateIndicator: false)
         }
-        
-        cell.eventTimeLabel.text = buildEventTimeRange(self.events[indexPath.row])
-        setDateBoxes(self.events[indexPath.row].startTime.dateCV)
-        return cell
+        return setupEventCell()
 
     }
     
@@ -152,7 +178,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             "Content-Type": "application/json",
             "x-access-token": String(self.userToken.token!)
         ]
-        print("calling for events now swag")
+        self.isLoading = true
         Alamofire.request(.GET, getEventsUrl!, encoding: .JSON, headers: requestHeader)
             .responseJSON { response in
                 if response.1 != nil {
@@ -166,22 +192,29 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                         }
             
                         self.events.sortInPlace({ $0.startTime.dateNS.compare($1.startTime.dateNS) == NSComparisonResult.OrderedAscending })
+                        self.isLoading = false
                         self.tableView.reloadData()
                         self.lastUpdated = NSDate()
                     }
+                    else {
+                        self.isLoading = false
+                    }
+                }
+                else {
+                    self.isLoading = false
                 }
             }
     }
     
     func getEventsSince(date: NSDate){
-        self.tableView.reloadData()
         let getEventsSinceUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events/" + String(Int(self.lastUpdated.timeIntervalSince1970 * 1000)))
         print(getEventsSinceUrl)
         let requestHeader: [String: String] = [
             "Content-Type": "application/json",
             "x-access-token": String(self.userToken.token!)
         ]
-        print("calling for new events now swag")
+        self.isLoading = true
+        self.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
         Alamofire.request(.GET, getEventsSinceUrl!, encoding: .JSON, headers: requestHeader)
             .responseJSON { response in
                 debugPrint(response)
@@ -196,9 +229,18 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                         }
                         
                         self.events.sortInPlace({ $0.startTime.dateNS.compare($1.startTime.dateNS) == NSComparisonResult.OrderedAscending })
+                        self.isLoading = false
                         self.tableView.reloadData()
                         self.lastUpdated = NSDate()
                     }
+                    else {
+                        self.isLoading = false
+                        self.tableView.reloadData()
+                    }
+                }
+                else {
+                    self.isLoading = false
+                    self.tableView.reloadData()
                 }
             }
     }
