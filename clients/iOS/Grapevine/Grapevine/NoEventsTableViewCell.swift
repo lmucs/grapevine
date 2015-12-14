@@ -13,6 +13,7 @@ class NoEventsTableViewCell: UITableViewCell {
     @IBOutlet weak var leftImage: UIImageView!
     @IBOutlet weak var rightImage: UIImageView!
     @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
     override func awakeFromNib() {
         super.awakeFromNib()
