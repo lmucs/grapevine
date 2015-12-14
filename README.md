@@ -2,7 +2,7 @@
 # Grapevine
 
 
-Grapevine is a application that automatically populates a user's calendar with events from Twitter and Facebook. A user can add a list of facebook users and twitter users to follow. Grapevine will listen to these feeds and extract events from feeds.
+Grapevine is an application that automatically populates a user's calendar with events from Twitter and Facebook. Events are extracted by an intelligent agent that listens to feeds that the user follows.
 
 ## Extracting Events
 Users provide Grapevine with a list of feeds on Facebook and Twitter that they wish to follow. We pull any new posts and tweets from Facebook and Twitter and identify meaningful events.
