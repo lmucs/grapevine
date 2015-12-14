@@ -5,9 +5,14 @@
 Grapevine is a application that automatically populates a user's calendar with events from Twitter and Facebook. A user can add a list of facebook users and twitter users to follow. Grapevine will listen to these feeds and extract events from feeds.
 
 ## Extracting Events
-Users provide Grapevine with a list of feeds on Facebook and Twitter that they wish to follow. We pull any new posts and tweets from Facebook and Twitter and identify meaningful events. If there is a date in the post, then it is an event.
+Users provide Grapevine with a list of feeds on Facebook and Twitter that they wish to follow. We pull any new posts and tweets from Facebook and Twitter and identify meaningful events.
 
-[]
+<img src="https://github.com/lmucs/grapevine/blob/master/images/frozen-fb-post-cropped.png">
+
+ If there is a date in the post, then it is an event.
+ 
+ <img src="https://github.com/lmucs/grapevine/blob/master/images/frozen-fb-post-faded-cropped.png">
+
 
 If it finds any events, it stores them and pushes the events to the user. These events are put on the user's Grapevine calendar.
 
