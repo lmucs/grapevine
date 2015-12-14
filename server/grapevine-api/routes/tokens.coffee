@@ -9,7 +9,7 @@ tokens =
       return res.status(400).json err if err
       return res.status(401).json 'message': 'invalid credentials' unless user
       token = generateToken user
-      res.status(201).json {token, userID: user.user_id}
+      res.status(201).json {token, userID: user.user_id, username: user.username, firstName: user.first_name, lastName: user.last_name}
 
 
 getUser = (username, password, callback) ->
