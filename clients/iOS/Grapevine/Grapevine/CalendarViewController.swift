@@ -26,8 +26,13 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         self.calendarView.delegate = self
         self.tableView.dataSource = self
         self.tableView.delegate = self
-        //self.navigationController?.navigationBar.barTintColor = UIColor.lightGrayColor()
         self.title = (monthIntToMonthString(self.calendarView.presentedDate) + " " + String(self.calendarView.presentedDate.year))
+        self.calendarView.layer.borderColor = UIColor(red:0.27, green:0.72, blue:0.45, alpha:1.0).CGColor
+        self.calendarView.layer.borderWidth = 2
+        //self.menuView.layer.borderWidth = 1
+        //self.menuView.layer.borderColor = UIColor.blackColor().CGColor
+        //self.calendarView.layer.cornerRadius = 8
+        //self.menuView.layer.cornerRadius = 8
         self.filterEvents(Date(date: NSDate()))
     }
     

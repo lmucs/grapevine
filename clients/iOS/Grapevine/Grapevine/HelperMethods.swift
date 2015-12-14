@@ -11,6 +11,13 @@ import CVCalendar
 
 let apiBaseUrl = "https://grapevine.herokuapp.com"
 
+let grapevineButtonColor = UIColor(red:0.54, green:0.07, blue:0.53, alpha:1.0)
+let grapevineButtonCornerRadius: CGFloat = 10
+
+let textLogo = UIImage(named: "grapevine-logo-full-words-outline2swag.png")
+let textLogoSmall = UIImage(named: "grapevine-logo-full-words-outline2swag40h")
+
+
 // User feedback on text fields
 
 func setErrorColor(textField: UITextField) {
@@ -25,6 +32,22 @@ func setSuccessColor(textField: UITextField) {
     textField.layer.borderWidth = 1.5
 }
 
+func setupGrapevineButton(button: UIButton){
+    button.backgroundColor = grapevineButtonColor
+    button.layer.cornerRadius = grapevineButtonCornerRadius
+}
+
+func disableGrapevineButton(button: UIButton){
+    button.enabled = false
+    button.setTitleColor(UIColor.lightGrayColor(), forState: .Normal)
+}
+
+func enableGrapevineButton(button: UIButton){
+    button.enabled = true
+    button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+}
+
+// Date String Functions
 
 func monthIntToMonthString(date: CVDate) -> String {
     switch date.month {
@@ -51,7 +74,7 @@ func monthIntToMonthString(date: CVDate) -> String {
     case 11:
         return "November"
     case 12:
-        return "Decemeber"
+        return "December"
     default:
         return "Not a month"
     }
