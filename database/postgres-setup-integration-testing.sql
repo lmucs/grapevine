@@ -28,6 +28,9 @@ CREATE TABLE IF NOT EXISTS events(
       user_id SERIAL PRIMARY KEY,
       username text UNIQUE,
       password text,
+      first_name text,
+      last_name text,
+      email text,
       role text);
 
     CREATE TABLE IF NOT EXISTS user_follows_feed(

@@ -6,7 +6,7 @@ users =
   create: (req, res) ->
     unless req.body.username and req.body.password
       return res.status(400).json 'message': 'username and password required'
-    insertUser req.body.username, req.body.password, (err) ->
+    insertUser req.body, (err) ->
       if err
         return res.status(400).json (
           if err.code is '23505'
@@ -39,6 +39,8 @@ users =
       values: [req.params.userID, (new Date).getTime(), (new Date).setHours(0, 0, 0, 0)]
     , (err, result) ->
       return res.status(400).json err if err
+      for row in result.rows
+        row.location = {'name': row.location[0], 'country': row.location[1], 'state': row.location[2], 'street': row.location[3]}
       res.status(200).json result.rows
 
   getLatestEvents: (req, res) ->
@@ -104,11 +106,11 @@ users =
       else
         res.status(404).json 'message': "#{req.params.feedName} does not exist"
 
-insertUser = (username, password, callback) ->
+insertUser = (userInfo, callback) ->
   pgClient.query
-    text: 'INSERT INTO users (username, password, role)
-           VALUES ($1, crypt($2, gen_salt(\'md5\')), $3)',
-    values: [username, password, 'user']
+    text: 'INSERT INTO users (username, password, role, first_name, last_name, email)
+           VALUES ($1, crypt($2, gen_salt(\'md5\')), $3, $4, $5, $6)',
+    values: [userInfo.username, userInfo.password, 'user', userInfo.firstName, userInfo.lastName, userInfo.email]
   , callback
 
 module.exports = users
