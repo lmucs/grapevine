@@ -25,7 +25,7 @@ class Event: NSObject, Mappable {
     var isMultiDay: Bool = false
     var tags: [String]!
     var url: String!
-    var location: String!
+    var location: [String: String]!
     var post: String!
     var author: String!
     
@@ -68,6 +68,10 @@ class Event: NSObject, Mappable {
         else {
             self.hasEndTime = false
         }
+    }
+    
+    func buildLocationString(){
+        
     }
     
     

@@ -25,11 +25,12 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        let imageView = UIImageView(image:textLogoSmall)
+        imageView.contentMode = .ScaleAspectFit
+        self.navigationItem.titleView = imageView
+        self.navigationController?.navigationBar.backgroundColor = UIColor(red:0.81, green:0.66, blue:0.81, alpha:1.0)
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -50,11 +51,20 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
+        if self.events.count == 0 {
+            return 1
+        }
         return events.count
     }
 
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        if events.count == 0 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("noEventsCell", forIndexPath: indexPath) as! NoEventsTableViewCell
+            cell.label.text = "Welcome \(self.userToken.firstName) \(self.userToken.lastName)! You have no events! Add some feeds to get some!"
+            cell.label.numberOfLines = 0
+            return cell
+        }
         let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
         let event = self.events[indexPath.row]
         if event.title != nil {
@@ -137,7 +147,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     // MARK: - Network functions
     
     func getAllUserEvents(){
-        
         let getEventsUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events")
         let requestHeader: [String: String] = [
             "Content-Type": "application/json",
@@ -162,10 +171,10 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                     }
                 }
             }
-
     }
     
     func getEventsSince(date: NSDate){
+        self.tableView.reloadData()
         let getEventsSinceUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events/" + String(Int(self.lastUpdated.timeIntervalSince1970 * 1000)))
         print(getEventsSinceUrl)
         let requestHeader: [String: String] = [
@@ -192,7 +201,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
                     }
                 }
             }
-        
     }
 
     
@@ -203,21 +211,21 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         if segue.identifier == "goToCalendar" {
-            let nav = segue.destinationViewController as! UINavigationController
+            let nav = segue.destinationViewController as! GrapevineNavigationController
             let calendarView = nav.topViewController as! CalendarViewController
             calendarView.events = self.events
         }
         
         if segue.identifier == "goToEventDetailSegue" {
             let path = self.tableView.indexPathForSelectedRow!
-            let nav = segue.destinationViewController as! UINavigationController
+            let nav = segue.destinationViewController as! GrapevineNavigationController
             let detailView = nav.topViewController as! EventDetailViewController
             detailView.rightBarButton.enabled = false
             detailView.event = eventAtIndexPath(path)
         }
         
         if segue.identifier == "goToFeedManagement" {
-            let nav = segue.destinationViewController as! UINavigationController
+            let nav = segue.destinationViewController as! GrapevineNavigationController
             let feedView = nav.topViewController as! FeedManagementViewController
             feedView.userToken = self.userToken
             if feedView.myFeeds.count == 0 {
