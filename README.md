@@ -5,15 +5,18 @@
 Grapevine is a application that automatically populates a user's calendar with events from Twitter and Facebook. A user can add a list of facebook users and twitter users to follow. Grapevine will listen to these feeds and extract events from feeds.
 
 ## Extracting Events
-Consider the case where Grapevine is listening to @LoyolaMarymount. Grapevine will request tweets from Twitter from @LoyolaMarymount.
+Users provide Grapevine with a list of feeds on Facebook and Twitter that they wish to follow. We pull any new posts and tweets from Facebook and Twitter and identify meaningful events. If there is a date in the post, then it is an event.
 
-TODO- Insert list view or pictures tweets here
+[]
 
-Grapevine will then go over the text and see if any of the posts have any events. If it finds any events, it sends stores them and pushes the events to the user. These events are put on the user's Grapevine calendar.
+If it finds any events, it stores them and pushes the events to the user. These events are put on the user's Grapevine calendar.
 
 TODO - Insert calendar views of the same event for Android, iOS, and web.
 
-Events have information such as start time, who posted the event, and a link to the original post.
+Events have information such as start time and end time, tags, who posted the event, and a link to the original post.
+
+
+
 
 TODO - server info, App Store / Google Play info
 
@@ -21,7 +24,7 @@ TODO - getting your own installation, npm install ....
 
 ## About
 
-It was created as part of the CMSI 401 class at Loyola Marymount University during the fall 2015 semester. Check out the [wiki](https://github.com/lmucs/grapevine/wiki) and the (TODO final presentation).
+It was created as part of the CMSI 401 class at Loyola Marymount University during the fall 2015 semester. Check out the [wiki](https://github.com/lmucs/grapevine/wiki) and the [final presentation](http://rtoal.github.io/cmsi401-fall2015-presentation/#/18).
 
 **The Team**
 
