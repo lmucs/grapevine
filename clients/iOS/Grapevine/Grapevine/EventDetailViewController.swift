@@ -16,7 +16,7 @@ class EventDetailViewController: UIViewController {
     @IBOutlet weak var eventMonthLabel: UILabel!
     @IBOutlet weak var eventDayLabel: UILabel!
     @IBOutlet weak var eventTimeLabel: UILabel!
-    @IBOutlet weak var eventTitleLabel: UIUnderlinedLabel!
+    @IBOutlet weak var eventTitleLabel: UILabel!
     @IBOutlet weak var eventPostView: UITextView!
     @IBOutlet weak var eventAuthorLabel: UILabel!
     @IBOutlet weak var eventTagsLabel: UILabel!
@@ -42,12 +42,12 @@ class EventDetailViewController: UIViewController {
             self.eventTimeLabel.text = buildEventTimeRange(event)
             self.eventLinkButton.setTitle("View Original Post", forState: .Normal)
             self.eventLinkButton.titleLabel?.numberOfLines = 0
-            self.eventPostView.text = self.event.post + "\n \n"
+            self.eventPostView.text = self.event.post + "\n \n" + self.event.locationToString()
             self.eventAuthorLabel.text = self.event.author
             if self.event.tags.count > 0 {
                 var tagsStr: String = ""
                 for tag in self.event.tags {
-                    tagsStr = tag + ", " + tagsStr
+                    tagsStr = "#" + tag + ", " + tagsStr
                 }
                 // removes last comma, space
                 tagsStr = String(tagsStr.characters.dropLast())
@@ -96,7 +96,7 @@ class EventDetailViewController: UIViewController {
             
         }
         if segue.identifier == "backToCalendar" {
-            print("cali")
+            
         }
         
     }
