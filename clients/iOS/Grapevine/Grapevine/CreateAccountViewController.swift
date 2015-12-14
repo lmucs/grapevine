@@ -216,7 +216,10 @@ class CreateAccountViewController: UIViewController {
         
         let newAccountInfo: [String: AnyObject] = [
             "username": String(self.usernameTextField.text!),
-            "password": String(self.passwordTextField.text!)
+            "password": String(self.passwordTextField.text!),
+            "firstName": String(self.firstNameTextField.text!),
+            "lastName": String(self.lastNameTextField.text!),
+            "email": String(self.emailAddressTextField.text!)
         ]
         
         if NSJSONSerialization.isValidJSONObject(newAccountInfo){
