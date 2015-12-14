@@ -47,7 +47,7 @@ class EventDetailViewController: UIViewController {
             if self.event.tags.count > 0 {
                 var tagsStr: String = ""
                 for tag in self.event.tags {
-                    tagsStr = tag + ", " + tagsStr
+                    tagsStr = "#" + tag + ", " + tagsStr
                 }
                 // removes last comma, space
                 tagsStr = String(tagsStr.characters.dropLast())
