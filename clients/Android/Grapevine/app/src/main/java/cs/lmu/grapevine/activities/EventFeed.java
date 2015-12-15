@@ -1,14 +1,20 @@
 package cs.lmu.grapevine.activities;
 
+
+
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import java.util.ArrayList;
 import cs.lmu.grapevine.R;
 import cs.lmu.grapevine.entities.Event;
@@ -25,8 +31,10 @@ public class EventFeed extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_feed);
+        setLoadingMessage();
         ListView eventFeed = (ListView)findViewById(R.id.event_feed);
         eventFeed.setOnItemClickListener(new EventListClickListener(this));
+        setLogoOnActionBar();
 
         EventFeedRequest getUserEvents = new EventFeedRequest(this);
         Login.httpRequestQueue.add(getUserEvents);
@@ -39,8 +47,7 @@ public class EventFeed extends AppCompatActivity {
 
         miActionProgressItem = menu.findItem(R.id.miActionProgress);
         // Extract the action-view from the menu item
-        ProgressBar v =  (ProgressBar) MenuItemCompat.getActionView(miActionProgressItem);
-        showRequestProgressSpinner();
+        ProgressBar v =  (ProgressBar) findViewById(R.id.miActionProgress);
         return true;
     }
 
@@ -73,16 +80,24 @@ public class EventFeed extends AppCompatActivity {
     }
 
     public void refreshFeed() {
-        showRequestProgressSpinner();
         RefreshEventFeedRequest getNewEvents = new RefreshEventFeedRequest(this);
         Login.httpRequestQueue.add(getNewEvents);
     }
 
-    private void showRequestProgressSpinner() {
-        miActionProgressItem.setVisible(true);
+    private void setLoadingMessage() {
+        TextView welcomeMessage = (TextView)findViewById(R.id.welcome_message);
+        welcomeMessage.setText("Loading your events now, "
+                + Login.userFirstName
+                + " "
+                + Login.userLastName
+                + "!");
     }
 
-    public static void hideRequestProgressSpinner() {
-        miActionProgressItem.setVisible(false);
+    private void setLogoOnActionBar() {
+        final ActionBar actionBar = getSupportActionBar();
+        LinearLayout actionBarView = (LinearLayout) getLayoutInflater().inflate(R.layout.action_bar,null,false);
+        actionBar.setCustomView(actionBarView);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
     }
 }
