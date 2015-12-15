@@ -20,7 +20,7 @@
     <string name="register_user_general_error">Whoops. There was a problem registering account. Please try again later.</string>
     <string name="event_list_empty">It looks like there are no events in your grapevine. Try adding some groups and we\'ll tell you what they\'ve planned :)</string>
     <string name="add_group">Add</string>
-    <string name="title_activity_manage_feeds">Manage Feeds</string>
+    <string name="title_activity_manage_feeds">Feed Management</string>
     <string name="add_group_hint">Feed name</string>
     <string name="facebook">Facebook</string>
     <string name="twitter">Twitter</string>
@@ -41,4 +41,5 @@
     <string name="view_original_post">View original post</string>
     <string name="no_feeds_message">You don\'t currently follow any feeds. Add some above to start getting events!</string>
     <string name="create_account">Create Account</string>
+    <string name="my_upcoming_events">My Upcoming Events</string>
 </resources>

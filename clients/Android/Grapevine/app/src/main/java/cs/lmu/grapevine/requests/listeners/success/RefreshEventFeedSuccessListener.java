@@ -32,7 +32,6 @@ public class RefreshEventFeedSuccessListener implements Response.Listener {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(parentActivity, parentActivity.getString(R.string.refresh_success_toast), duration);
         toast.show();
-        EventFeed.hideRequestProgressSpinner();
     }
 
     private void addNewEventsToFeedFrom(JSONArray response) {

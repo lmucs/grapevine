@@ -37,7 +37,8 @@ public class Login extends Activity {
     private       EditText             mPasswordView;
     public static RequestQueue         httpRequestQueue;
     public static long                 lastRefresh;
-
+    public static String               userFirstName;
+    public static String               userLastName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,15 +90,13 @@ public class Login extends Activity {
 
         boolean cancel = false;
         View focusView = null;
-/*
-        // Check for a valid password, if the user entered one.
+
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
-/*
-        // Check for a valid email address.
+
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
@@ -107,7 +106,7 @@ public class Login extends Activity {
             focusView = mEmailView;
             cancel = true;
         }
-*/
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -129,12 +128,12 @@ public class Login extends Activity {
     }
 
     private boolean isEmailValid(String email) {
-        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        return email.length() > 0;
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return password.length() > 1;
     }
 
     public void launchCreateAccountActivity(View view) {

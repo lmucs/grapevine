@@ -2,19 +2,23 @@ package cs.lmu.grapevine.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 import cs.lmu.grapevine.Utils;
 import cs.lmu.grapevine.entities.Event;
@@ -23,7 +27,6 @@ import cs.lmu.grapevine.R;
 public class ViewEvent extends AppCompatActivity {
     private TextView eventTitleView;
     private TextView eventDateView;
-    private TextView eventLocationView;
     private TextView eventUrlView;
     private TextView originalPostView;
     private TextView singleEventDay;
@@ -43,6 +46,7 @@ public class ViewEvent extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_event);
         getUiElements();
+        setTitle();
 
         Intent intent = getIntent();
         Event eventToView = (Event)intent.getSerializableExtra("event");
@@ -79,7 +83,6 @@ public class ViewEvent extends AppCompatActivity {
 
         eventDay.setText(dayInMonth.format(eventToDisplay.getStartDate()));
         eventMonth.setText(monthAbbreviated.format(eventToDisplay.getStartDate()));
-        //TODO - INSERT LOCATION
 
         if (!(eventToDisplay.getPostContent() == null)
          && !(eventToDisplay.getPostContent().equals(""))) {
@@ -99,10 +102,12 @@ public class ViewEvent extends AppCompatActivity {
                 timeView.setText(timeOfEvent.format(eventToDisplay.getStartDate()));
             }
             eventDateView.setText("today");
+        } else if(!(eventToDisplay.endTimeIsKnown())) {
+            timeView.setText(timeOfEvent.format(eventToDisplay.getStartDate()));
         } else if (eventToDisplay.endsLaterToday()) {
             timeView.setText("ends today at " + timeOfEvent.format(eventToDisplay.getEndDate()));
         } else {
-            eventDateView.setText(fullDate.format(eventToDisplay.getStartDate()));
+           eventDateView.setVisibility(View.INVISIBLE);
             if (eventToDisplay.getStartTimeTimestamp() != 0) {
                 timeView.setText(
                         timeOfEvent.format(eventToDisplay.getStartDate())
@@ -133,8 +138,40 @@ public class ViewEvent extends AppCompatActivity {
             removeUnderlines((Spannable) eventUrlView.getText());
         }
 
-        feedName.setText(eventToDisplay.getAuthor());
+        String location = "";
+        HashMap<String, String> eventLocation = eventToDisplay.getLocation();
+        if ((eventLocation != null)) {
+            if (eventLocation.get("name") != null) {
+                location += eventLocation.get("name");
+            }
+        } else {
 
+            if (eventLocation.get("street") != null){
+                location += eventLocation.get("street");
+            }
+
+            if (eventLocation.get("state") != null) {
+                location += eventLocation.get("state");
+            }
+
+            if (eventLocation.get("country") != null) {
+                location += eventLocation.get("country");
+            }
+
+        }
+        originalPostView.append(location);
+
+        LinearLayout tags = (LinearLayout)findViewById(R.id.tags);
+        if (eventToDisplay.getTags().length != 0) {
+            for (String tag : eventToDisplay.getTags()) {
+                TextView tagView = new TextView(this);
+                tagView.setText("#" + tag);
+                tags.addView(tagView);
+                tagView.setGravity(Gravity.CENTER);
+            }
+        }
+
+        feedName.setText(eventToDisplay.getAuthor());
     }
 
     public static void removeUnderlines(Spannable p_Text) {
@@ -152,7 +189,6 @@ public class ViewEvent extends AppCompatActivity {
     private void getUiElements() {
         eventTitleView    = (TextView)findViewById(R.id.single_event_title);
         eventDateView     = (TextView) findViewById(R.id.single_event_date);
-        eventLocationView = (TextView) findViewById(R.id.single_event_location);
         eventUrlView      = (TextView) findViewById(R.id.single_event_url);
         originalPostView  = (TextView) findViewById(R.id.single_event_original_post);
         timeView          = (TextView) findViewById(R.id.time);
@@ -162,4 +198,12 @@ public class ViewEvent extends AppCompatActivity {
         feedName          = (TextView) findViewById(R.id.feed_name);
         singleEventDay    = (TextView) findViewById(R.id.single_event_date);
     }
+
+    private void setTitle() {
+        final ActionBar actionBar = getSupportActionBar();
+        actionBar.setCustomView(R.layout.action_bar);
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+    }
+
 }
