@@ -1,6 +1,8 @@
 package cs.lmu.grapevine.requests.listeners.success;
 
 import android.app.Activity;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.android.volley.Response;
@@ -36,6 +38,7 @@ public class EventSuccessListener implements Response.Listener<JSONArray> {
         Collections.sort(EventFeed.usersEvents);
         InflateEventFeed(usersEvents);
         Login.lastRefresh = new Date().getTime();
+        clearLoadingMessage();
     }
 
     public static ArrayList<Event> deserializeJson(JSONArray userEventsJSON) {
@@ -54,11 +57,17 @@ public class EventSuccessListener implements Response.Listener<JSONArray> {
         ListView eventFeed = (ListView) parentActivity.findViewById(R.id.event_feed);
         eventFeed.setAdapter(eventAdapter);
         EventFeed.usersEventsAdapter = eventAdapter;
-        EventFeed.hideRequestProgressSpinner();
     }
 
     private void printEmptyListMessage() {
         TextView emptyMessageContainer = (TextView) parentActivity.findViewById(R.id.empty_message);
-        emptyMessageContainer.setText(R.string.event_list_empty);
+        emptyMessageContainer.setVisibility(View.VISIBLE);
+    }
+
+    private void clearLoadingMessage() {
+        LinearLayout welcomeMessage = (LinearLayout)parentActivity.findViewById(R.id.loading);
+        welcomeMessage.setVisibility(View.GONE);
+        parentActivity.findViewById(R.id.upcoming).setVisibility(View.VISIBLE);
+        parentActivity.findViewById(R.id.miActionProgress).setVisibility(View.GONE);
     }
 }

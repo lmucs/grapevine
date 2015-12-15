@@ -12,5 +12,6 @@
     <color name="action_bar_background">#D6B5D6</color>
     <color name="status_bar">#C08EC0</color>
     <color name="create_account">#2C88F8</color>
+    <color name="upcoming_gray">#BFBFBF</color>
 
 </resources>

@@ -151,6 +151,7 @@ public class EventFeedArrayAdapter extends ArrayAdapter<Event> implements Filter
             setCalendarPageAndEventTime(todayMonth, todayDay, eventTime);
         }
     }
+
     protected void setCalendarPageAndEventTime(String eventMonth, String eventDay, String eventTime) {
 
         if (!(this.eventMonth == null)) {

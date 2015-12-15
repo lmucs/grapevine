@@ -24,6 +24,8 @@ public class LoginSuccessListener implements Response.Listener<JSONObject> {
         try{
             Login.authenticationToken = response.getString("token");
             Login.userId              = Integer.parseInt(response.getString("userID"));
+            Login.userFirstName       = response.getString("firstName");
+            Login.userLastName        = response.getString("lastName");
 
             Intent feedEvents = new Intent(parentActivity.getApplicationContext(), EventFeed.class);
             parentActivity.startActivity(feedEvents);

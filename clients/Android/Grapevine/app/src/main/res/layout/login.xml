@@ -31,7 +31,7 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:text="foo"/>
+                android:text="champ"/>
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
