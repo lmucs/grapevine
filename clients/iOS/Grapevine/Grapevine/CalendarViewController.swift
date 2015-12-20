@@ -15,6 +15,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     var filteredEvents: [Event]!
     var inMonthView: Bool = true
     var currentCalDate: Date!
+    var tabBarView: GrapevineTabViewController!
     
     @IBOutlet weak var menuView: CVCalendarMenuView!
     @IBOutlet weak var calendarView: CVCalendarView!
@@ -29,11 +30,18 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         self.title = (monthIntToMonthString(self.calendarView.presentedDate) + " " + String(self.calendarView.presentedDate.year))
         self.calendarView.layer.borderColor = UIColor(red:0.27, green:0.72, blue:0.45, alpha:1.0).CGColor
         self.calendarView.layer.borderWidth = 2
-        //self.menuView.layer.borderWidth = 1
-        //self.menuView.layer.borderColor = UIColor.blackColor().CGColor
-        //self.calendarView.layer.cornerRadius = 8
-        //self.menuView.layer.cornerRadius = 8
+        
+        if let parent = self.navigationController as? GrapevineNavigationController {
+            if let grandparent = parent.tabBarController as? GrapevineTabViewController {
+                self.tabBarView = grandparent
+            }
+        }
+        else {
+            // we should not get here
+        }
+        
         self.filterEvents(Date(date: NSDate()))
+    
     }
     
     override func didReceiveMemoryWarning() {
@@ -262,7 +270,28 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         cell.eventTimeLabel.text = buildEventTimeRange(event)
         
         return cell
-        
+    }
+    
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.Delete) {
+            // handle delete (by removing the data from your array and updating the tableview)
+            removeEvent(indexPath.row)
+        }
+    }
+    
+    func removeEvent(row: Int) {
+        let indexPath = NSIndexPath(forItem: row, inSection: 0)
+        let eventToRemove = self.filteredEvents[row]
+        self.filteredEvents.removeAtIndex(row)
+        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        for var index = 0; index < self.events.count; ++index {
+            if self.events[index].eventId == eventToRemove.eventId {
+                self.events.removeAtIndex(index)
+                break
+            }
+        }
+        self.tabBarView.myEvents = self.events
+        self.tabBarView.eventListView.events = self.events
     }
     
     

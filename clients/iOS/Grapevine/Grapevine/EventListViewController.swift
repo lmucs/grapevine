@@ -137,6 +137,21 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
 
     }
     
+    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.Delete) {
+            // handle delete (by removing the data from your array and updating the tableview)
+            removeEvent(indexPath.row)
+        }
+    }
+    
+    func removeEvent(row: Int) {
+        let indexPath = NSIndexPath(forItem: row, inSection: 0)
+        self.events.removeAtIndex(row)
+        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        self.tabBarView.myEvents = self.events
+        self.tabBarView.calendarView.events = self.events
+    }
+    
     @IBAction func backToEventListViewController(segue:UIStoryboardSegue){
         
     }
