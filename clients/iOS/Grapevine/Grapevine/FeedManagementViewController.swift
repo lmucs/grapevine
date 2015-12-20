@@ -24,6 +24,8 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
+        getFeeds()
     }
 
     override func didReceiveMemoryWarning() {
@@ -246,7 +248,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                                 print(responseFeed!.feedName)
                                 self.myFeeds.append(responseFeed!)
                             }
-                            self.myFeeds.sortInPlace({ $0.feedName < $1.feedName })
+                            self.myFeeds.sortInPlace({ $0.feedName.lowercaseString < $1.feedName.lowercaseString })
                             self.tableView.reloadData()
                         }
                         else {
