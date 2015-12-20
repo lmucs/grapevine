@@ -220,7 +220,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                     if response.1?.statusCode == 200 {
                         print("deleted")
                         self.myFeeds.removeAtIndex(row)
-                        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Fade)
+                        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
                     }
                 }
         }
