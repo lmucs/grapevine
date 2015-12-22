@@ -6,10 +6,10 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Login View Controller-->
+        <!--LoginViewController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -444,7 +444,13 @@
                             <constraint firstItem="IsK-tK-bOB" firstAttribute="top" secondItem="YzN-nx-1VJ" secondAttribute="bottom" id="uRC-vg-zOQ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Grapevine" id="8aY-or-hzN"/>
+                    <navigationItem key="navigationItem" title="Grapevine" id="8aY-or-hzN">
+                        <barButtonItem key="rightBarButtonItem" image="glyphicons-137-cogwheel" id="4Mf-zs-z0v">
+                            <connections>
+                                <segue destination="6dR-yE-XTp" kind="presentation" identifier="goToSettingsSegue" id="P13-di-8f7"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="YzN-nx-1VJ" id="YGL-g7-kqc"/>
                     </connections>
@@ -851,6 +857,47 @@
             </objects>
             <point key="canvasLocation" x="2780" y="1155"/>
         </scene>
+        <!--Settings-->
+        <scene sceneID="fEd-0x-aYV">
+            <objects>
+                <viewController id="ZLW-Jy-7nr" customClass="SettingsViewController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="p6T-Lv-abX"/>
+                        <viewControllerLayoutGuide type="bottom" id="QNi-ID-Y6z"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pXV-CR-A6N">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ef7-wI-dhh">
+                                <rect key="frame" x="108" y="285" width="384" height="30"/>
+                                <color key="backgroundColor" red="0.79215686269999996" green="0.34509803919999998" blue="0.61568627450000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                <state key="normal" title="Logout">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="logout" destination="ZLW-Jy-7nr" eventType="touchUpInside" id="Dde-Dc-5Qe"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="ef7-wI-dhh" firstAttribute="centerY" secondItem="pXV-CR-A6N" secondAttribute="centerY" id="Be5-Yi-MXu"/>
+                            <constraint firstItem="ef7-wI-dhh" firstAttribute="leading" secondItem="pXV-CR-A6N" secondAttribute="leadingMargin" constant="88" id="G9X-g6-46d"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ef7-wI-dhh" secondAttribute="trailing" constant="88" id="anr-VU-tXZ"/>
+                            <constraint firstItem="ef7-wI-dhh" firstAttribute="centerX" secondItem="pXV-CR-A6N" secondAttribute="centerX" id="j3G-4M-XNY"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Settings" id="ZWj-5b-fSS"/>
+                    <connections>
+                        <outlet property="logoutButton" destination="ef7-wI-dhh" id="TS1-4a-U1t"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="qqj-bZ-Hva" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4395" y="-789"/>
+        </scene>
         <!--Grapevine Navigation Controller-->
         <scene sceneID="0mP-Ea-cJk">
             <objects>
@@ -873,7 +920,7 @@
         <scene sceneID="xFG-xU-ERF">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="p6z-Ss-da5" customClass="GrapevineNavigationController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="My Events" image="glyphicons-275-beer" id="0ib-he-v3w"/>
+                    <tabBarItem key="tabBarItem" title="My Events" image="glyphicons-50-star" id="0ib-he-v3w"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="7ru-5A-gSY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -927,11 +974,30 @@
             </objects>
             <point key="canvasLocation" x="1220" y="404"/>
         </scene>
+        <!--Grapevine Navigation Controller-->
+        <scene sceneID="d0u-7t-hn0">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="6dR-yE-XTp" customClass="GrapevineNavigationController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6zC-D6-89t">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="ZLW-Jy-7nr" kind="relationship" relationship="rootViewController" id="dra-aP-fQl"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4ba-Ln-RXq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3613" y="-789"/>
+        </scene>
     </scenes>
     <resources>
         <image name="glyphicons-115-list" width="24" height="21"/>
-        <image name="glyphicons-275-beer" width="23" height="24"/>
+        <image name="glyphicons-137-cogwheel" width="24" height="24"/>
         <image name="glyphicons-46-calendar" width="23" height="24"/>
+        <image name="glyphicons-50-star" width="25" height="24"/>
         <image name="grapevine-logo-full-words-outline2swag" width="1174" height="304"/>
         <image name="grapevineNew" width="521" height="522"/>
         <image name="purple-round-1" width="548" height="560"/>
@@ -939,6 +1005,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="mco-2s-tLG"/>
-        <segue reference="QrZ-Yx-yTX"/>
+        <segue reference="m2J-bx-KXE"/>
     </inferredMetricsTieBreakers>
 </document>
