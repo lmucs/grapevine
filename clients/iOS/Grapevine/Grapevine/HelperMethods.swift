@@ -15,6 +15,7 @@ let grapevineButtonColor = UIColor(red:0.54, green:0.07, blue:0.53, alpha:1.0)
 let grapevineButtonCornerRadius: CGFloat = 10
 
 let grapevineBarColor = UIColor(red:0.81, green:0.66, blue:0.81, alpha:1.0)
+let grapevineIndicatorColor = UIColor(red:0.27, green:0.72, blue:0.45, alpha:1.0)
 
 let textLogo = UIImage(named: "grapevine-logo-full-words-outline2swag.png")
 let textLogoSmall = UIImage(named: "grapevine-logo-full-words-outline2swag40h")

@@ -18,7 +18,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     var userToken: Token!
     var events: [Event] = []
     var lastUpdated: NSDate!
-    var isLoading: Bool = false
     var refreshControl = UIRefreshControl()
     
     var tabBarView: GrapevineTabViewController!
@@ -34,7 +33,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         imageView.contentMode = .ScaleAspectFit
         self.navigationItem.titleView = imageView
         
-        self.isLoading = true
         
         if let parent = self.navigationController as? GrapevineNavigationController {
             if let grandparent = parent.tabBarController as? GrapevineTabViewController {
@@ -48,6 +46,8 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl.addTarget(self, action: "updateEvents:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView?.addSubview(refreshControl)
+        self.refreshControl.tintColor = grapevineIndicatorColor
+        self.refreshControl.beginRefreshing()
         
     }
 
@@ -69,7 +69,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
-        if self.isLoading {
+        if self.refreshControl.refreshing {
             return self.events.count + 1
         }
         if self.events.count == 0 {
@@ -121,7 +121,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             return cell
         }
         
-        if self.isLoading {
+        if self.refreshControl.refreshing {
             if indexPath.row == 0 {
                 let cellText: String = "Loading your events now, \(self.userToken.firstName) \(self.userToken.lastName)!"
                 return setupOtherCell(cellText, animateIndicator: true)

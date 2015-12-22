@@ -49,7 +49,6 @@ class GrapevineTabViewController: UITabBarController {
             "Content-Type": "application/json",
             "x-access-token": String(self.userToken.token!)
         ]
-        //self.eventListView.isLoading = true
         Alamofire.request(.GET, getEventsUrl!, encoding: .JSON, headers: requestHeader)
             .responseJSON { response in
                 if response.1 != nil {
@@ -63,16 +62,16 @@ class GrapevineTabViewController: UITabBarController {
                         }
                         self.myEvents.sortInPlace({ $0.startTime.dateNS.compare($1.startTime.dateNS) == NSComparisonResult.OrderedAscending })
                         self.updateChildViewsData()
-                        self.eventListView.isLoading = false
+                        self.eventListView.refreshControl.endRefreshing()
                         self.eventListView.tableView.reloadData()
                         self.eventListView.lastUpdated = NSDate()
                     }
                     else {
-                        self.eventListView.isLoading = false
+                        self.eventListView.refreshControl.endRefreshing()
                     }
                 }
                 else {
-                    self.eventListView.isLoading = false
+                    self.eventListView.refreshControl.endRefreshing()
                 }
         }
     }
@@ -84,7 +83,7 @@ class GrapevineTabViewController: UITabBarController {
             "Content-Type": "application/json",
             "x-access-token": String(self.userToken.token!)
         ]
-        self.eventListView.isLoading = true
+        self.eventListView.refreshControl.beginRefreshing()
         self.eventListView.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
         Alamofire.request(.GET, getEventsSinceUrl!, encoding: .JSON, headers: requestHeader)
             .responseJSON { response in
@@ -100,22 +99,17 @@ class GrapevineTabViewController: UITabBarController {
                         }
                         
                         self.myEvents.sortInPlace({ $0.startTime.dateNS.compare($1.startTime.dateNS) == NSComparisonResult.OrderedAscending })
-                        self.eventListView.isLoading = false
                         self.updateChildViewsData()
-                        if self.eventListView.refreshControl.refreshing {
-                            self.eventListView.refreshControl.endRefreshing()
-                        }
+                        self.eventListView.refreshControl.endRefreshing()
                         self.eventListView.tableView.reloadData()
                         self.eventListView.lastUpdated = NSDate()
                     }
                     else {
-                        self.eventListView.isLoading = false
-                        self.eventListView.tableView.reloadData()
+                        self.eventListView.refreshControl.endRefreshing()
                     }
                 }
                 else {
-                    self.eventListView.isLoading = false
-                    self.eventListView.tableView.reloadData()
+                    self.eventListView.refreshControl.endRefreshing()
                 }
         }
     }
