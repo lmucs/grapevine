@@ -16,6 +16,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     var inMonthView: Bool = true
     var currentCalDate: Date!
     var tabBarView: GrapevineTabViewController!
+    var navBarView: GrapevineNavigationController!
     
     @IBOutlet weak var menuView: CVCalendarMenuView!
     @IBOutlet weak var calendarView: CVCalendarView!
@@ -27,11 +28,10 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         self.calendarView.delegate = self
         self.tableView.dataSource = self
         self.tableView.delegate = self
-        self.title = (monthIntToMonthString(self.calendarView.presentedDate) + " " + String(self.calendarView.presentedDate.year))
         self.calendarView.layer.borderColor = UIColor(red:0.27, green:0.72, blue:0.45, alpha:1.0).CGColor
         self.calendarView.layer.borderWidth = 2
-        
         if let parent = self.navigationController as? GrapevineNavigationController {
+            self.navBarView = parent
             if let grandparent = parent.tabBarController as? GrapevineTabViewController {
                 self.tabBarView = grandparent
             }
@@ -39,6 +39,9 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         else {
             // we should not get here
         }
+        self.title = "Calendar"
+        self.navigationItem.title = (monthIntToMonthString(self.calendarView.presentedDate) + " " + String(self.calendarView.presentedDate.year))
+        
         
         self.filterEvents(Date(date: NSDate()))
     
@@ -141,7 +144,6 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
                 if event.date != nil {
                     if sameDate(event.date, date2: date){
                         filteredEvents.append(event)
-                        //need to sort by time
                     }
                 }
             }
@@ -151,7 +153,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     
     func presentedDateUpdated(date: Date){
         if date.month != self.currentCalDate.month {
-            self.title = monthIntToMonthString(date) + " " + String(date.year)
+            self.navigationItem.title = monthIntToMonthString(date) + " " + String(date.year)
         }
         
         filterEvents(date)
