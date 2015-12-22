@@ -18,6 +18,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     var userToken: Token!
     var events: [Event] = []
     var lastUpdated: NSDate!
+    var refreshView: UIView!
     var refreshControl = UIRefreshControl()
     
     var tabBarView: GrapevineTabViewController!
@@ -46,7 +47,8 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl.addTarget(self, action: "updateEvents:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView?.addSubview(refreshControl)
-        self.refreshControl.tintColor = grapevineIndicatorColor
+        loadCustomRefreshContents()
+        //self.refreshControl.tintColor = grapevineIndicatorColor
         self.refreshControl.beginRefreshing()
         
     }
@@ -54,6 +56,13 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func loadCustomRefreshContents() {
+        let refreshContents = NSBundle.mainBundle().loadNibNamed("RefreshView", owner: self, options: nil)
+        self.refreshView = refreshContents[0] as! UIView
+        self.refreshView.frame = refreshControl.bounds
+        self.refreshControl.addSubview(refreshView)
     }
 
     // MARK: - Table view data source
@@ -108,6 +117,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             return cell
         }
         
+        
         func setupOtherCell(cellText: String, animateIndicator: Bool) -> UITableViewCell {
             let cell = tableView.dequeueReusableCellWithIdentifier("noEventsCell", forIndexPath: indexPath) as! NoEventsTableViewCell
             cell.label.text = cellText
@@ -116,21 +126,25 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             }
             else {
                 cell.activityIndicator.hidden = true
+                cell.leftImage.hidden = true
+                cell.rightImage.hidden = true
             }
             cell.label.numberOfLines = 0
             return cell
         }
         
-        if self.refreshControl.refreshing {
+        
+        if self.refreshControl.refreshing && self.events.count == 0  {
             if indexPath.row == 0 {
                 let cellText: String = "Loading your events now, \(self.userToken.firstName) \(self.userToken.lastName)!"
-                return setupOtherCell(cellText, animateIndicator: true)
+                return setupOtherCell(cellText, animateIndicator: false)
             }
             return setupEventCell()
         }
+
         
         if events.count == 0 {
-            let cellText: String = "You have no events, Sad Panda! Add some feeds to get some!" //\(self.userToken.firstName) \(self.userToken.lastName)
+            let cellText: String = "You have no events, \(self.userToken.firstName) \(self.userToken.lastName)! Add some feeds to get some!"
             return setupOtherCell(cellText, animateIndicator: false)
         }
         return setupEventCell()
