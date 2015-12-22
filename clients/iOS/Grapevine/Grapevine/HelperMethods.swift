@@ -128,6 +128,36 @@ func sameDate(date1: CVDate, date2: CVDate) -> Bool {
     return false
 }
 
+func date1LessThanDate2(date1: CVDate, date2: CVDate) -> Bool {
+    if (date1.year < date2.year){
+        return true
+    }
+    if (date1.year == date2.year){
+        if (date1.month < date2.month){
+            return true
+        }
+        if (date1.month == date2.month){
+            if (date1.day < date2.day) {
+                return true
+            }
+        }
+    }
+    return false
+}
+
+func isInDateRange(startDate: CVDate, endDate: CVDate, testDate: CVDate) -> Bool {
+    if sameDate(startDate, date2: testDate){
+        return true
+    }
+    if sameDate(endDate, date2: testDate){
+        return true
+    }
+    if date1LessThanDate2(startDate, date2: testDate) && date1LessThanDate2(testDate, date2: endDate) {
+        return true
+    }
+    return false
+}
+
 // Yeah i know this is messy as hell will fix later
 func buildTimeString(time: EventTime, militaryTime: Bool) -> String {
     if !militaryTime {
