@@ -23,7 +23,9 @@ class SettingsViewController: UIViewController {
     }
     
     @IBAction func logoutPressed(sender: UIButton!){
-        self.navigationController!.pushViewController(storyboard!.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController, animated: true)
+        sender.enabled = false
+        let loginViewController = self.storyboard!.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+        UIApplication.sharedApplication().keyWindow?.rootViewController = loginViewController
     }
     
     /*

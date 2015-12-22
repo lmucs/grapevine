@@ -9,7 +9,7 @@
         <!--LoginViewController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" title="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -877,7 +877,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="logout" destination="ZLW-Jy-7nr" eventType="touchUpInside" id="Dde-Dc-5Qe"/>
+                                    <action selector="logoutPressed:" destination="ZLW-Jy-7nr" eventType="touchUpInside" id="5WV-Ja-gHO"/>
                                 </connections>
                             </button>
                         </subviews>
