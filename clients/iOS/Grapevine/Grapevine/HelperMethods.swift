@@ -182,7 +182,7 @@ func buildEventTimeRange(myEvent: Event) -> String {
         if myEvent.isMultiDay {
             return buildMultiDayRange(myEvent)
         }
-        let end = buildTimeString(myEvent.endTime, militaryTime: false)
+        let end = buildTimeString(myEvent.endTime!, militaryTime: false)
         return start + "-" + end
     }
     if myEvent.isAllDay{
@@ -208,7 +208,7 @@ func buildEventShortDateString(date: CVDate) -> String {
 
 func buildMultiDayRange(event: Event) -> String {
     let startDateStr = String(buildEventShortDateString(event.startTime.dateCV))
-    let endDateStr = String(buildEventShortDateString(event.endTime.dateCV))
+    let endDateStr = String(buildEventShortDateString(event.endTime!.dateCV))
     let timeStr = startDateStr + " - " + endDateStr
     return timeStr
 }

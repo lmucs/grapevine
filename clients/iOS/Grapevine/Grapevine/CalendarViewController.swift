@@ -116,7 +116,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     func dotMarker(shouldShowOnDayView dayView: DayView) -> Bool {
         for event in self.events {
             if event.endTime != nil {
-                return isInDateRange(event.startTime.dateCV, endDate: event.endTime.dateCV, testDate: dayView.date)
+                return isInDateRange(event.startTime.dateCV, endDate: event.endTime!.dateCV, testDate: dayView.date)
             }
             if sameDate(event.startTime.dateCV, date2: dayView.date) {
                 return true
@@ -139,7 +139,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         self.currentCalDate = date
         for event in events {
             if event.endTime != nil {
-                if isInDateRange(event.startTime.dateCV, endDate: event.endTime.dateCV, testDate: date){
+                if isInDateRange(event.startTime.dateCV, endDate: event.endTime!.dateCV, testDate: date){
                     filteredEvents.append(event)
                 }
             }
