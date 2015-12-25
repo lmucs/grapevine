@@ -24,6 +24,7 @@ class SettingsViewController: UIViewController {
     
     @IBAction func logoutPressed(sender: UIButton!){
         sender.enabled = false
+        // would also need to invalid token eventually
         let loginViewController = self.storyboard!.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
         UIApplication.sharedApplication().keyWindow?.rootViewController = loginViewController
     }
