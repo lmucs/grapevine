@@ -1,0 +1,12 @@
+/* 
+  Localizable.strings
+  Grapevine
+
+  Created by Matthew Flickner on 12/25/15.
+  Copyright © 2015 Grapevine. All rights reserved.
+*/
+
+
+"Login" = "Login";
+"Username" = "Username";
+"Password" = "Password";

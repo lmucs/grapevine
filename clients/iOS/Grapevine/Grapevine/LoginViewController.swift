@@ -36,6 +36,10 @@ class LoginViewController: UIViewController {
          // Do any additional setup after loading the view.
         self.activityIndicator.hidden = true
         self.loginFailedLabel.hidden = true
+        
+        self.usernameTextField.placeholder = NSLocalizedString("Username", comment: "")
+        self.passwordTextField.placeholder = NSLocalizedString("Password", comment: "")
+        
         setupGrapevineButton(self.loginButton)
     }
 
