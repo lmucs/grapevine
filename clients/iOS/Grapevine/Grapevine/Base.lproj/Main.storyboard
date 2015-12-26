@@ -890,12 +890,19 @@
                             <constraint firstItem="ef7-wI-dhh" firstAttribute="centerX" secondItem="pXV-CR-A6N" secondAttribute="centerX" id="j3G-4M-XNY"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Settings" id="ZWj-5b-fSS"/>
+                    <navigationItem key="navigationItem" title="Settings" id="ZWj-5b-fSS">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="aWu-WT-FIB">
+                            <connections>
+                                <segue destination="VEd-9o-Gpj" kind="unwind" unwindAction="backToEventListViewController:" id="eFL-o8-Awe"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="logoutButton" destination="ef7-wI-dhh" id="TS1-4a-U1t"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qqj-bZ-Hva" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="VEd-9o-Gpj" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4395" y="-789"/>
         </scene>
@@ -1006,6 +1013,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="mco-2s-tLG"/>
-        <segue reference="m2J-bx-KXE"/>
+        <segue reference="QrZ-Yx-yTX"/>
     </inferredMetricsTieBreakers>
 </document>
