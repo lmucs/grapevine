@@ -39,8 +39,10 @@ class LoginViewController: UIViewController {
         
         self.usernameTextField.placeholder = NSLocalizedString("Username", comment: "")
         self.passwordTextField.placeholder = NSLocalizedString("Password", comment: "")
-        
+    
         setupGrapevineButton(self.loginButton)
+        self.loginButton.setTitle(NSLocalizedString("Login", comment: ""), forState: .Normal)
+        self.createAccountButton.setTitle(NSLocalizedString("Create Account", comment: ""), forState: .Normal)
     }
 
     override func didReceiveMemoryWarning() {
