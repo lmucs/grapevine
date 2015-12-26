@@ -41,12 +41,18 @@ class CreateAccountViewController: UIViewController {
         disableGrapevineButton(self.createAccountButton)
         setVisualStrings()
         loadGoodToCreate()
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
         
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func dismissKeyboard(){
+        view.endEditing(true)
     }
     
     func setVisualStrings(){

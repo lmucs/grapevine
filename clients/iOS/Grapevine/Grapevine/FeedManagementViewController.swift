@@ -24,8 +24,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        
         getFeeds()
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,6 +34,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         // Dispose of any resources that can be recreated.
     }
     
+    func dismissKeyboard(){
+        view.endEditing(true)
+    }
     
     // Mark: - Table View Delegate Functions
     
@@ -58,9 +62,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Add Feed"
+            return NSLocalizedString("Add Feed", comment: "")
         }
-        return "My Feeds"
+        return NSLocalizedString("My Feeds", comment: "")
     }
     
     
@@ -69,6 +73,8 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             let cell = tableView.dequeueReusableCellWithIdentifier("addFeedCell", forIndexPath: indexPath) as! EventTableViewCell
             setupGrapevineButton(cell.button)
             disableGrapevineButton(cell.button)
+            cell.textField.placeholder = NSLocalizedString("Enter Feed Name", comment: "")
+            cell.button.setTitle(NSLocalizedString("Add!", comment: ""), forState: .Normal)
             cell.button.addTarget(self, action: "addFeed:", forControlEvents: UIControlEvents.TouchUpInside)
             cell.segControl.addTarget(self, action: "selectNetwork:", forControlEvents: UIControlEvents.ValueChanged)
             cell.selectionStyle = UITableViewCellSelectionStyle.None
