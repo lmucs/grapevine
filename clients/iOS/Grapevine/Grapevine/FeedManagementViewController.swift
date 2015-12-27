@@ -50,12 +50,18 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         if section == 0 {
             return 1
         }
+        if myFeeds.count == 0 {
+            return 1
+        }
         return myFeeds.count
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return 120
+        }
+        if self.myFeeds.count == 0 {
+            return 200
         }
         return 80
     }
@@ -78,6 +84,10 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             cell.button.addTarget(self, action: "addFeed:", forControlEvents: UIControlEvents.TouchUpInside)
             cell.segControl.addTarget(self, action: "selectNetwork:", forControlEvents: UIControlEvents.ValueChanged)
             cell.selectionStyle = UITableViewCellSelectionStyle.None
+            return cell
+        }
+        if myFeeds.count == 0 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("howToAddCell", forIndexPath: indexPath) as! FeedTableViewCell
             return cell
         }
         let cell = tableView.dequeueReusableCellWithIdentifier("feedCell", forIndexPath: indexPath) as! FeedTableViewCell
