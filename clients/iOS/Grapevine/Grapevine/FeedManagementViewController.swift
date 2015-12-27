@@ -16,7 +16,8 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     
     var myFeeds: [Feed] = [Feed]()
     var userToken: Token!
-    
+    var refreshView: UIView!
+    var refreshControl = UIRefreshControl()
     
     @IBOutlet weak var tableView: UITableView!
 
@@ -24,14 +25,27 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
-        getFeeds()
+        
+        
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
+        
+        self.tableView?.addSubview(refreshControl)
+        loadCustomRefreshContents()
+        
+        getFeeds()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func loadCustomRefreshContents() {
+        let refreshContents = NSBundle.mainBundle().loadNibNamed("RefreshView", owner: self, options: nil)
+        self.refreshView = refreshContents[0] as! UIView
+        self.refreshView.frame = refreshControl.bounds
+        self.refreshControl.addSubview(refreshView)
     }
     
     func dismissKeyboard(){
@@ -50,18 +64,22 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         if section == 0 {
             return 1
         }
-        if myFeeds.count == 0 {
+        if self.myFeeds.count == 0 && self.refreshControl.refreshing {
+            return 0
+        }
+        if self.myFeeds.count == 0 {
             return 1
         }
-        return myFeeds.count
+        return self.myFeeds.count
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return 120
         }
+        
         if self.myFeeds.count == 0 {
-            return 200
+            return 250
         }
         return 80
     }
@@ -226,7 +244,6 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         let requestHeader: [String: String] = [
             "Content-Type": "application/json",
             "x-access-token": String(self.userToken.token!)
-            
         ]
         
         Alamofire.request(.DELETE, removeFeedUrl!, encoding: .JSON, headers: requestHeader)
@@ -236,7 +253,12 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                     if response.1?.statusCode == 200 {
                         print("deleted")
                         self.myFeeds.removeAtIndex(row)
-                        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                        if self.myFeeds.count != 0 {
+                            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                        }
+                        else {
+                            self.tableView.reloadData()
+                        }
                     }
                 }
         }
@@ -245,6 +267,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     
     
     func getFeeds(){
+        self.refreshControl.beginRefreshing()
         self.myFeeds = [Feed]()
         let getFeedUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID) + "/feeds")
         let requestHeader: [String: String] = [
@@ -264,15 +287,18 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                                 print(responseFeed!.feedName)
                                 self.myFeeds.append(responseFeed!)
                             }
+                            self.refreshControl.endRefreshing()
                             self.myFeeds.sortInPlace({ $0.feedName.lowercaseString < $1.feedName.lowercaseString })
                             self.tableView.reloadData()
                         }
                         else {
                             print("didn't get a 200")
+                            self.refreshControl.endRefreshing()
                         }
                     }
                     else {
                         print("no response")
+                        self.refreshControl.endRefreshing()
                     }
             }
     }

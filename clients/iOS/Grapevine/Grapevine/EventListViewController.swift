@@ -44,7 +44,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             // we should not get here
         }
         
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl.addTarget(self, action: "updateEvents:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView?.addSubview(refreshControl)
         loadCustomRefreshContents()
