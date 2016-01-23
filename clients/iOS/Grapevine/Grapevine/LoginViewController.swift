@@ -12,6 +12,7 @@ import Alamofire
 import AlamofireObjectMapper
 import ObjectMapper
 import CVCalendar
+import CoreData
 
 class LoginViewController: UIViewController {
 
@@ -29,9 +30,17 @@ class LoginViewController: UIViewController {
     var userToken: Token!
     var appUser: User!
     
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(managedObjectContext)
+        let testToken = NSEntityDescription.insertNewObjectForEntityForName("NSToken", inManagedObjectContext: self.managedObjectContext!) as! NSToken
+        testToken.userID = 1
+        //testToken.username = "djFlicky"
+        testToken.firstName = "Matt"
+        testToken.lastName = "Flickner"
+        
         
          // Do any additional setup after loading the view.
         self.activityIndicator.hidden = true
@@ -40,6 +49,23 @@ class LoginViewController: UIViewController {
         setVisualStrings()
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        let fetchRequest = NSFetchRequest(entityName: "NSToken")
+        
+        do {
+            let fetchResults = try managedObjectContext!.executeFetchRequest(fetchRequest) as? [NSToken]
+            
+            let alert = UIAlertController(title: fetchResults![0].firstName, message: fetchResults![0].lastName, preferredStyle: .Alert)
+                
+            self.presentViewController(alert, animated: true, completion: nil)
+        }
+        catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
     }
 
     override func didReceiveMemoryWarning() {

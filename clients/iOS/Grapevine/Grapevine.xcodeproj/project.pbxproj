@@ -21,6 +21,7 @@
 		F12C19231C292604002EF78C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C19221C292604002EF78C /* SettingsViewController.swift */; };
 		F12ECDA81C1AC1E4007D8619 /* NoEventsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12ECDA71C1AC1E4007D8619 /* NoEventsTableViewCell.swift */; };
 		F12ECDAC1C1CCAB2007D8619 /* GrapevineNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12ECDAB1C1CCAB2007D8619 /* GrapevineNavigationController.swift */; };
+		F1329D6D1C52F337004D479E /* NSToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1329D6C1C52F337004D479E /* NSToken.swift */; };
 		F14B2A361BD2DD9B00C1E17E /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14B2A351BD2DD9B00C1E17E /* CalendarViewController.swift */; };
 		F16C8BC91C04D7A500EE66EC /* FeedManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16C8BC81C04D7A500EE66EC /* FeedManagementViewController.swift */; };
 		F17935681BBAFD3B001F8791 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17935671BBAFD3B001F8791 /* Event.swift */; };
@@ -68,6 +69,7 @@
 		F12C19221C292604002EF78C /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		F12ECDA71C1AC1E4007D8619 /* NoEventsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoEventsTableViewCell.swift; sourceTree = "<group>"; };
 		F12ECDAB1C1CCAB2007D8619 /* GrapevineNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrapevineNavigationController.swift; sourceTree = "<group>"; };
+		F1329D6C1C52F337004D479E /* NSToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSToken.swift; sourceTree = "<group>"; };
 		F14B2A351BD2DD9B00C1E17E /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		F16C8BC81C04D7A500EE66EC /* FeedManagementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedManagementViewController.swift; sourceTree = "<group>"; };
 		F17935671BBAFD3B001F8791 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				F1A37D1C1BBDBEE60094541C /* User.swift */,
 				F1ECD65A1BA88895001FFD58 /* LoginViewController.swift */,
 				F125667B1BC4B49700EDFA36 /* Token.swift */,
+				F1329D6C1C52F337004D479E /* NSToken.swift */,
 				F121A1591B9F56E2008E3F7A /* Images.xcassets */,
 				F12C19201C28D478002EF78C /* RefreshView.xib */,
 				F121A15B1B9F56E2008E3F7A /* LaunchScreen.xib */,
@@ -375,6 +378,7 @@
 				F14B2A361BD2DD9B00C1E17E /* CalendarViewController.swift in Sources */,
 				F17935681BBAFD3B001F8791 /* Event.swift in Sources */,
 				F121A1531B9F56E2008E3F7A /* Grapevine.xcdatamodeld in Sources */,
+				F1329D6D1C52F337004D479E /* NSToken.swift in Sources */,
 				F1EBFED21C18BA9A00F4AF0E /* UIUnderlinedLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
