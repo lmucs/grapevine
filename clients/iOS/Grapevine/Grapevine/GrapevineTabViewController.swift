@@ -14,6 +14,10 @@ class GrapevineTabViewController: UITabBarController {
     
     var userToken: Token!
     var myEvents = [Event]()
+    var filteredEvents = [Event]()
+    
+    var shouldShowMultiDayEvents = true
+    
     var eventListView: EventListViewController!
     var calendarView: CalendarViewController!
     var feedsView: FeedManagementViewController!
@@ -46,8 +50,35 @@ class GrapevineTabViewController: UITabBarController {
     }
     
     func updateChildViewsData(){
-        self.eventListView.events = self.myEvents
-        self.calendarView.events = self.myEvents
+        self.eventListView.events = self.filteredEvents
+        self.eventListView.isShowingMultiDayEvents = self.shouldShowMultiDayEvents
+        if let listTable = self.eventListView.tableView {
+            print("reloading list table")
+            listTable.reloadData()
+        }
+        self.calendarView.events = self.filteredEvents
+        if let calTable = self.calendarView.tableView {
+            print("reloading calendar table")
+            calTable.reloadData()
+        }
+    }
+    
+    func filterEvents(){
+        self.filteredEvents.removeAll()
+        print("filtering")
+        if !shouldShowMultiDayEvents {
+            print("filtering out mulitdays")
+            for event in self.myEvents {
+                if !event.isMultiDay {
+                    self.filteredEvents.append(event)
+                }
+            }
+            print("events \(myEvents.count)")
+            print("filtered events \(filteredEvents.count)")
+        }
+        else {
+            self.filteredEvents = self.myEvents
+        }
     }
     
     func getAllUserEvents(){
@@ -68,9 +99,9 @@ class GrapevineTabViewController: UITabBarController {
                             self.myEvents.append(responseEvent!)
                         }
                         self.myEvents.sortInPlace({ $0.startTime.dateNS.compare($1.startTime.dateNS) == NSComparisonResult.OrderedAscending })
+                        self.filterEvents()
                         self.updateChildViewsData()
                         self.eventListView.refreshControl.endRefreshing()
-                        self.eventListView.tableView.reloadData()
                         self.eventListView.lastUpdated = NSDate()
                     }
                     else {
@@ -104,11 +135,10 @@ class GrapevineTabViewController: UITabBarController {
                             responseEvent?.dateMap(item as! [String : AnyObject])
                             self.myEvents.append(responseEvent!)
                         }
-                        
                         self.myEvents.sortInPlace({ $0.startTime.dateNS.compare($1.startTime.dateNS) == NSComparisonResult.OrderedAscending })
+                        self.filterEvents()
                         self.updateChildViewsData()
                         self.eventListView.refreshControl.endRefreshing()
-                        self.eventListView.tableView.reloadData()
                         self.eventListView.lastUpdated = NSDate()
                     }
                     else {

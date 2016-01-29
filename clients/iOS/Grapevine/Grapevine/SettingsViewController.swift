@@ -11,10 +11,16 @@ import UIKit
 class SettingsViewController: UIViewController {
     
     @IBOutlet weak var logoutButton: UIButton!
+    @IBOutlet weak var showMultiDaySwitch: UISwitch!
+    
+    var shouldShowMultiDayEvents: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGrapevineButton(logoutButton)
+        print(shouldShowMultiDayEvents)
+        print("updating shouldShow")
+        showMultiDaySwitch.on = shouldShowMultiDayEvents
     }
 
     override func didReceiveMemoryWarning() {
@@ -29,14 +35,26 @@ class SettingsViewController: UIViewController {
         UIApplication.sharedApplication().keyWindow?.rootViewController = loginViewController
     }
     
-    /*
+    @IBAction func multiDaySwitchToggled(sender: UISwitch){
+        sender.enabled = false
+        self.shouldShowMultiDayEvents = sender.on
+        sender.enabled = true
+    }
+    
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "backFromSettings" {
+            let eventView = segue.destinationViewController as! EventListViewController
+            let navController = eventView.parentViewController as! GrapevineNavigationController
+            let tabController = navController.parentViewController as! GrapevineTabViewController
+            tabController.shouldShowMultiDayEvents = self.shouldShowMultiDayEvents
+            tabController.filterEvents()
+            tabController.updateChildViewsData()
+        }
     }
-    */
+
 
 }

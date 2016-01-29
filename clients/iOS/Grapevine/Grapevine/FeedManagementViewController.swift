@@ -19,7 +19,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     var indices: [Character] = [Character]()
     var indexedFeeds = [String : [Feed]]()
     var userToken: Token!
-    let alphabet: [String] = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    let alphabet: [String] = ["+","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
     
     var refreshView: UIView!
     var refreshControl = UIRefreshControl()
@@ -32,7 +32,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         tableView.dataSource = self
         
         for letter in alphabet {
-            self.indexedFeeds[letter] = [Feed]()
+            if letter != "+" {
+                self.indexedFeeds[letter] = [Feed]()
+            }
         }
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
@@ -92,7 +94,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         if self.myFeeds.count == 0 {
             return 1
         }
-        return self.indexedFeeds[alphabet[section - 1]]!.count
+        return self.indexedFeeds[alphabet[section]]!.count
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -110,7 +112,11 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         if section == 0 {
             return NSLocalizedString("Add Feed", comment: "")
         }
-        return String(alphabet[section - 1])
+        if section == 1 {
+            return "My Feeds"
+        }
+        return nil
+        //return String(alphabet[section - 1])
     }
     
     
@@ -131,9 +137,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             return cell
         }
         let cell = tableView.dequeueReusableCellWithIdentifier("feedCell", forIndexPath: indexPath) as! FeedTableViewCell
-        cell.feedNameLabel.text = self.indexedFeeds[alphabet[indexPath.section - 1]]![indexPath.row].feedName
+        cell.feedNameLabel.text = self.indexedFeeds[alphabet[indexPath.section]]![indexPath.row].feedName
         //cell.feedNameLabel.text = self.myFeeds[indexPath.row].feedName
-        if self.indexedFeeds[alphabet[indexPath.section - 1]]![indexPath.row].networkName == "facebook" {
+        if self.indexedFeeds[alphabet[indexPath.section]]![indexPath.row].networkName == "facebook" {
             cell.feedNetwork.image = UIImage(named: "facebook_brand_logo")
         }
         else {
