@@ -19,7 +19,7 @@ class SettingsViewController: UIViewController {
     var shouldShowMultiDayEvents: Bool = true
     var shouldShowAllDayEvents: Bool = true
     
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+    //let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
 
     override func viewDidLoad() {
         super.viewDidLoad()

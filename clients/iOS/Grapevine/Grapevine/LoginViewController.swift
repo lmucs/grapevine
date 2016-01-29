@@ -30,8 +30,6 @@ class LoginViewController: UIViewController {
     var userToken: Token?
     var storedToken: NSToken?
     
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         print(managedObjectContext)
@@ -42,21 +40,12 @@ class LoginViewController: UIViewController {
             self.performSegueWithIdentifier("loginSegue", sender: self)
         }
         
-        /*
-        if let moc = self.managedObjectContext {
-            NSToken.createInManagedObjectContext(moc, token: self.userToken!)
-        }
-        */
-        
-         // Do any additional setup after loading the view.
         self.activityIndicator.hidden = true
         self.loginFailedLabel.hidden = true
         setupGrapevineButton(self.loginButton)
         setVisualStrings()
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
-        
-    
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -70,7 +59,7 @@ class LoginViewController: UIViewController {
     }
     
     func storeToken(token: Token){
-        if let moc = self.managedObjectContext {
+        if let moc = managedObjectContext {
             NSToken.createInManagedObjectContext(moc, token: token)
         }
     }
@@ -88,7 +77,7 @@ class LoginViewController: UIViewController {
             }
         }
         catch let error as NSError  {
-            print("Could not save \(error), \(error.userInfo)")
+            print("Could not fetch \(error), \(error.userInfo)")
         }
     }
     
@@ -103,25 +92,15 @@ class LoginViewController: UIViewController {
         view.endEditing(true)
     }
     
-    
-    @IBAction func backToLoginViewController(segue:UIStoryboardSegue) {
-        
+    func loginFailed(){
+        self.activityIndicator.hidden = true
+        self.loginFailedLabel.hidden = false
+        setErrorColor(self.usernameTextField)
+        setErrorColor(self.passwordTextField)
+        self.loginButton.enabled =  true
     }
     
-
-    @IBAction func loginPressed(sender: UIButton){
-        func loginFailed(){
-            self.activityIndicator.hidden = true
-            self.loginFailedLabel.hidden = false
-            setErrorColor(self.usernameTextField)
-            setErrorColor(self.passwordTextField)
-            sender.enabled =  true
-        }
-        
-        sender.enabled = false
-        self.activityIndicator.hidden = false
-        self.activityIndicator.startAnimating()
-        
+    func login(){
         let loginUrl = NSURL(string: apiBaseUrl + "/api/v1/tokens")
         
         let loginCredentials: [String: AnyObject] = [
@@ -151,21 +130,32 @@ class LoginViewController: UIViewController {
                         else {
                             print("didn't get a 201")
                             self.loginFailedLabel.text = "Invalid Credentials"
-                            loginFailed()
+                            self.loginFailed()
                             // handle errors based on response code
                         }
                     }
                     else {
                         print("no response")
                         self.loginFailedLabel.text = "Connection Failed"
-                        loginFailed()
+                        self.loginFailed()
                     }
             }
         }
         else {
             //JSON invalid, throw exception
         }
+    }
+    
 
+    @IBAction func loginPressed(sender: UIButton){
+        sender.enabled = false
+        self.activityIndicator.hidden = false
+        self.activityIndicator.startAnimating()
+        login()
+    }
+    
+    @IBAction func backToLoginViewController(segue:UIStoryboardSegue) {
+        
     }
     
     
