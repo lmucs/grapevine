@@ -13,7 +13,7 @@ import SwiftyJSON
 import CVCalendar
 import ObjectMapper
 
-class EventListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class EventListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate {
     
     var userToken: Token!
     var events: [Event] = []
@@ -23,12 +23,20 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     var tabBarView: GrapevineTabViewController!
     
+    let searchController = UISearchController(searchResultsController: nil)
+    
+    
     @IBOutlet weak var tableView: UITableView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
+        //searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        tableView.tableHeaderView = searchController.searchBar
         
         let imageView = UIImageView(image:textLogoSmall)
         imageView.contentMode = .ScaleAspectFit

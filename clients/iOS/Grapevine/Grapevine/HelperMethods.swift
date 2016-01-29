@@ -9,8 +9,8 @@
 import Foundation
 import CVCalendar
 
-let apiBaseUrl = "https://nara-56688.herokussl.com"
-let apiBaseUrlHttp = "https://grapevine.herokuapp.com"
+let apiBaseUrlHttps = "https://nara-56688.herokussl.com"
+let apiBaseUrl = "https://grapevine.herokuapp.com"
 
 let grapevineButtonColor = UIColor(red:0.54, green:0.07, blue:0.53, alpha:1.0)
 let grapevineButtonCornerRadius: CGFloat = 10
