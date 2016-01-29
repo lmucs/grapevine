@@ -12,7 +12,7 @@ import ObjectMapper
 
 class GrapevineTabViewController: UITabBarController {
     
-    var userToken: Token!
+    var userToken: NSToken!
     var myEvents = [Event]()
     var filteredEvents = [Event]()
     
@@ -34,6 +34,7 @@ class GrapevineTabViewController: UITabBarController {
         self.calendarView = navCalendar.topViewController as! CalendarViewController
         let navFeeds = self.childViewControllers[2] as! GrapevineNavigationController
         self.feedsView = navFeeds.topViewController as! FeedManagementViewController
+        
         self.feedsView.userToken = self.userToken!
         
         let tabItems = self.tabBar.items! as [UITabBarItem]
@@ -182,7 +183,7 @@ class GrapevineTabViewController: UITabBarController {
         if segue.identifier == "goToCalendar" {
             let nav = segue.destinationViewController as! GrapevineNavigationController
             let calendarView = nav.topViewController as! CalendarViewController
-            calendarView.events = self.myEvents
+            calendarView.events = self.filteredEvents
         }
         
         if segue.identifier == "goToFeedManagement" {

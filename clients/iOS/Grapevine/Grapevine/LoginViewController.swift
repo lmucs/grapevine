@@ -179,15 +179,15 @@ class LoginViewController: UIViewController {
         if segue.identifier == "loginSegue" {
             let tab = segue.destinationViewController as! GrapevineTabViewController
             let navEvent = tab.childViewControllers[0] as! GrapevineNavigationController
-            //let navEvent = segue.destinationViewController as! GrapevineNavigationController
             let eventsView = navEvent.topViewController as! EventListViewController
             
             self.fetchToken()
             
-            print(self.storedToken?.firstName)
+            print(self.storedToken!.userID!)
+            print(self.storedToken!.lastName!)
             
-            tab.userToken = self.userToken
-            eventsView.userToken = self.userToken
+            tab.userToken = self.storedToken!
+            eventsView.userToken = self.storedToken!
             tab.getAllUserEvents()
 
         

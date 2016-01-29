@@ -10,12 +10,16 @@ import UIKit
 
 class SettingsViewController: UIViewController {
     
+    var userToken: NSToken?
+    
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var showMultiDaySwitch: UISwitch!
     @IBOutlet weak var showAllDaySwitch: UISwitch!
     
     var shouldShowMultiDayEvents: Bool = true
     var shouldShowAllDayEvents: Bool = true
+    
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +28,7 @@ class SettingsViewController: UIViewController {
         print("updating shouldShow")
         showMultiDaySwitch.on = self.shouldShowMultiDayEvents
         showAllDaySwitch.on = self.shouldShowAllDayEvents
+        print(userToken?.firstName)
     }
 
     override func didReceiveMemoryWarning() {
@@ -34,6 +39,7 @@ class SettingsViewController: UIViewController {
     @IBAction func logoutPressed(sender: UIButton!){
         sender.enabled = false
         // would also need to invalid token eventually
+        managedObjectContext?.deleteObject(self.userToken!)
         let loginViewController = self.storyboard!.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
         UIApplication.sharedApplication().keyWindow?.rootViewController = loginViewController
     }

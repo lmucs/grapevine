@@ -15,7 +15,7 @@ import ObjectMapper
 
 class EventListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate {
     
-    var userToken: Token!
+    var userToken: NSToken!
     var events: [Event] = []
     var lastUpdated: NSDate!
     var refreshView: UIView!
@@ -144,7 +144,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         
         if self.refreshControl.refreshing && self.events.count == 0  {
             if indexPath.row == 0 {
-                let userWelcome: String = self.userToken.firstName + " " + self.userToken.lastName!
+                let userWelcome: String = self.userToken!.firstName! + " " + self.userToken!.lastName!
                 let cellText: String = String(format: NSLocalizedString("Loading Events Now", comment: ""), userWelcome)
                 return setupOtherCell(cellText, animateIndicator: false)
             }
@@ -243,6 +243,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         if segue.identifier == "goToSettings" {
             let nav = segue.destinationViewController as! GrapevineNavigationController
             let settingsView = nav.topViewController as! SettingsViewController
+            settingsView.userToken = self.userToken
             settingsView.shouldShowMultiDayEvents = self.isShowingMultiDayEvents
             settingsView.shouldShowAllDayEvents = self.isShowingAllDayEvents
         }

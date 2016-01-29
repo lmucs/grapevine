@@ -24,6 +24,7 @@ class CreateAccountViewController: UIViewController {
     @IBOutlet weak var feedbackLabel: UILabel!
     
     var userToken: Token!
+    var storedToken: NSToken?
     var appUser: User!
     var goodToCreate = [String : Bool]()
     let firstName = "firstName"
@@ -281,7 +282,7 @@ class CreateAccountViewController: UIViewController {
         if segue.identifier == "createAccountSegue" {
             let nav = segue.destinationViewController as! GrapevineNavigationController
             let eventsView = nav.topViewController as! EventListViewController
-            eventsView.userToken = self.userToken
+            eventsView.userToken = self.storedToken
             //eventsView.getAllUserEvents()
         }
         
