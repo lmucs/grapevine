@@ -27,20 +27,26 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    var userToken: Token!
-    var appUser: User!
+    var userToken: Token?
+    var storedToken: NSToken?
     
     let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
     override func viewDidLoad() {
         super.viewDidLoad()
         print(managedObjectContext)
-        let testToken = NSEntityDescription.insertNewObjectForEntityForName("NSToken", inManagedObjectContext: self.managedObjectContext!) as! NSToken
-        testToken.userID = 1
-        //testToken.username = "djFlicky"
-        testToken.firstName = "Matt"
-        testToken.lastName = "Flickner"
+        fetchToken()
         
+        if storedToken != nil {
+            print(self.storedToken!.firstName)
+            self.performSegueWithIdentifier("loginSegue", sender: self)
+        }
+        
+        /*
+        if let moc = self.managedObjectContext {
+            NSToken.createInManagedObjectContext(moc, token: self.userToken!)
+        }
+        */
         
          // Do any additional setup after loading the view.
         self.activityIndicator.hidden = true
@@ -49,28 +55,41 @@ class LoginViewController: UIViewController {
         setVisualStrings()
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
+        
+    
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
-        let fetchRequest = NSFetchRequest(entityName: "NSToken")
-        
-        do {
-            let fetchResults = try managedObjectContext!.executeFetchRequest(fetchRequest) as? [NSToken]
-            
-            let alert = UIAlertController(title: fetchResults![0].firstName, message: fetchResults![0].lastName, preferredStyle: .Alert)
-                
-            self.presentViewController(alert, animated: true, completion: nil)
-        }
-        catch let error as NSError  {
-            print("Could not save \(error), \(error.userInfo)")
-        }
     }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func storeToken(token: Token){
+        if let moc = self.managedObjectContext {
+            NSToken.createInManagedObjectContext(moc, token: token)
+        }
+    }
+    
+    func fetchToken(){
+        let fetchRequest = NSFetchRequest(entityName: "NSToken")
+        do {
+            let fetchResults = try managedObjectContext!.executeFetchRequest(fetchRequest) as? [NSToken]
+            if fetchResults != nil {
+                print(fetchResults!.count)
+                if fetchResults!.count == 1 {
+                    print(fetchResults![0].firstName)
+                    self.storedToken = fetchResults![0]
+                }
+            }
+        }
+        catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
     }
     
     func setVisualStrings(){
@@ -91,7 +110,6 @@ class LoginViewController: UIViewController {
     
 
     @IBAction func loginPressed(sender: UIButton){
-        
         func loginFailed(){
             self.activityIndicator.hidden = true
             self.loginFailedLabel.hidden = false
@@ -104,15 +122,12 @@ class LoginViewController: UIViewController {
         self.activityIndicator.hidden = false
         self.activityIndicator.startAnimating()
         
-    
         let loginUrl = NSURL(string: apiBaseUrl + "/api/v1/tokens")
         
         let loginCredentials: [String: AnyObject] = [
             "username": String(self.usernameTextField.text!),
             "password": String(self.passwordTextField.text!)
         ]
-        
-        self.appUser = Mapper<User>().map(loginCredentials)
         
         if NSJSONSerialization.isValidJSONObject(loginCredentials){
             Alamofire.request(.POST, loginUrl!, parameters: loginCredentials, encoding: .JSON)
@@ -125,10 +140,11 @@ class LoginViewController: UIViewController {
                             print("here")
                             
                             let responseToken = Mapper<Token>().map(response.2.value)
-                            print("Response token is \(responseToken!.token) \n")
+                            self.storeToken(responseToken!)
                             self.userToken = responseToken
-                            print("UserID is \(self.userToken.userID)")
-                            self.appUser.userID = self.userToken.userID
+                            
+                            print("Response token is \(responseToken!.token) \n")
+                            print("UserID is \(self.userToken!.userID)")
                             
                             self.performSegueWithIdentifier("loginSegue", sender: self)
                         }
@@ -136,19 +152,14 @@ class LoginViewController: UIViewController {
                             print("didn't get a 201")
                             self.loginFailedLabel.text = "Invalid Credentials"
                             loginFailed()
-                            self.appUser = nil
                             // handle errors based on response code
-                            
                         }
                     }
                     else {
                         print("no response")
                         self.loginFailedLabel.text = "Connection Failed"
                         loginFailed()
-                        self.appUser = nil
-                        
                     }
-                    
             }
         }
         else {
@@ -170,6 +181,11 @@ class LoginViewController: UIViewController {
             let navEvent = tab.childViewControllers[0] as! GrapevineNavigationController
             //let navEvent = segue.destinationViewController as! GrapevineNavigationController
             let eventsView = navEvent.topViewController as! EventListViewController
+            
+            self.fetchToken()
+            
+            print(self.storedToken?.firstName)
+            
             tab.userToken = self.userToken
             eventsView.userToken = self.userToken
             tab.getAllUserEvents()

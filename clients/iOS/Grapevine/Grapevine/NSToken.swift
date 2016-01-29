@@ -18,6 +18,14 @@ class NSToken: NSManagedObject {
     @NSManaged var firstName: String!
     @NSManaged var lastName: String!
 
-    
+    class func createInManagedObjectContext(moc: NSManagedObjectContext, token: Token) -> NSToken {
+        let newToken = NSEntityDescription.insertNewObjectForEntityForName("NSToken", inManagedObjectContext: moc) as! NSToken
+        newToken.token = token.token
+        newToken.userID = token.userID as NSNumber
+        newToken.firstName = token.firstName
+        newToken.lastName = token.lastName
+        
+        return newToken
+    }
     
 }
