@@ -26,7 +26,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     let searchController = UISearchController(searchResultsController: nil)
     
     var isShowingMultiDayEvents: Bool = true
-    
+    var isShowingAllDayEvents: Bool = true
     
     @IBOutlet weak var tableView: UITableView!
 
@@ -243,9 +243,8 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         if segue.identifier == "goToSettings" {
             let nav = segue.destinationViewController as! GrapevineNavigationController
             let settingsView = nav.topViewController as! SettingsViewController
-            print("setting bool")
-            print(self.isShowingMultiDayEvents)
             settingsView.shouldShowMultiDayEvents = self.isShowingMultiDayEvents
+            settingsView.shouldShowAllDayEvents = self.isShowingAllDayEvents
         }
         
         

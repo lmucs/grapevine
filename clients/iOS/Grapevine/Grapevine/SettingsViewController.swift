@@ -12,15 +12,18 @@ class SettingsViewController: UIViewController {
     
     @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var showMultiDaySwitch: UISwitch!
+    @IBOutlet weak var showAllDaySwitch: UISwitch!
     
     var shouldShowMultiDayEvents: Bool = true
+    var shouldShowAllDayEvents: Bool = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGrapevineButton(logoutButton)
         print(shouldShowMultiDayEvents)
         print("updating shouldShow")
-        showMultiDaySwitch.on = shouldShowMultiDayEvents
+        showMultiDaySwitch.on = self.shouldShowMultiDayEvents
+        showAllDaySwitch.on = self.shouldShowAllDayEvents
     }
 
     override func didReceiveMemoryWarning() {
@@ -41,6 +44,12 @@ class SettingsViewController: UIViewController {
         sender.enabled = true
     }
     
+    @IBAction func allDaySwitchToggled(sender: UISwitch){
+        sender.enabled = false
+        self.shouldShowAllDayEvents = sender.on
+        sender.enabled = true
+    }
+    
     
     // MARK: - Navigation
 
@@ -51,6 +60,7 @@ class SettingsViewController: UIViewController {
             let navController = eventView.parentViewController as! GrapevineNavigationController
             let tabController = navController.parentViewController as! GrapevineTabViewController
             tabController.shouldShowMultiDayEvents = self.shouldShowMultiDayEvents
+            tabController.shouldShowAllDayEvents = self.shouldShowAllDayEvents
             tabController.filterEvents()
             tabController.updateChildViewsData()
         }

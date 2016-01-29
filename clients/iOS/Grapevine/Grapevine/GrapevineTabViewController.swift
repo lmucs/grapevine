@@ -16,7 +16,8 @@ class GrapevineTabViewController: UITabBarController {
     var myEvents = [Event]()
     var filteredEvents = [Event]()
     
-    var shouldShowMultiDayEvents = true
+    var shouldShowMultiDayEvents: Bool = true
+    var shouldShowAllDayEvents: Bool = true
     
     var eventListView: EventListViewController!
     var calendarView: CalendarViewController!
@@ -52,6 +53,7 @@ class GrapevineTabViewController: UITabBarController {
     func updateChildViewsData(){
         self.eventListView.events = self.filteredEvents
         self.eventListView.isShowingMultiDayEvents = self.shouldShowMultiDayEvents
+        self.eventListView.isShowingAllDayEvents = self.shouldShowAllDayEvents
         if let listTable = self.eventListView.tableView {
             print("reloading list table")
             listTable.reloadData()
@@ -66,19 +68,35 @@ class GrapevineTabViewController: UITabBarController {
     func filterEvents(){
         self.filteredEvents.removeAll()
         print("filtering")
+        
+        if !shouldShowAllDayEvents && !shouldShowMultiDayEvents {
+            for event in self.myEvents {
+                if !event.isAllDay && !event.isMultiDay {
+                    self.filteredEvents.append(event)
+                }
+            }
+            return
+        }
+        
         if !shouldShowMultiDayEvents {
-            print("filtering out mulitdays")
             for event in self.myEvents {
                 if !event.isMultiDay {
                     self.filteredEvents.append(event)
                 }
             }
-            print("events \(myEvents.count)")
-            print("filtered events \(filteredEvents.count)")
+            return
         }
-        else {
-            self.filteredEvents = self.myEvents
+        
+        if !shouldShowAllDayEvents {
+            for event in self.myEvents {
+                if !event.isAllDay {
+                    self.filteredEvents.append(event)
+                }
+            }
+            return
         }
+        
+        self.filteredEvents = self.myEvents
     }
     
     func getAllUserEvents(){
