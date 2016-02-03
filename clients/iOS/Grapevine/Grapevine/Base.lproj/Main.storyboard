@@ -287,7 +287,7 @@
         <!--Grapevine-->
         <scene sceneID="Q3W-3w-bqJ">
             <objects>
-                <viewController id="d4C-Ke-usC" customClass="EventListViewController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="d4C-Ke-usC" customClass="EventListViewController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LtW-yP-1El"/>
                         <viewControllerLayoutGuide type="bottom" id="IsK-tK-bOB"/>
@@ -297,11 +297,11 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YzN-nx-1VJ">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <rect key="frame" x="0.0" y="108" width="600" height="443"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="eventCell" rowHeight="90" id="awM-dn-rfD" customClass="EventTableViewCell" customModule="Grapevine" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="92" width="600" height="90"/>
+                                        <rect key="frame" x="0.0" y="28" width="600" height="90"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="awM-dn-rfD" id="asY-z3-22h">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="89"/>
@@ -380,7 +380,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noEventsCell" rowHeight="90" id="ZN4-lu-aEj" customClass="NoEventsTableViewCell" customModule="Grapevine" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="182" width="600" height="90"/>
+                                        <rect key="frame" x="0.0" y="118" width="600" height="90"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZN4-lu-aEj" id="RxV-bZ-Amy">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="89"/>
@@ -435,14 +435,23 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="Xv8-ZU-NcP">
+                                <rect key="frame" x="0.0" y="64" width="600" height="44"/>
+                                <color key="barTintColor" red="0.80645814299999996" green="0.6618920519" blue="0.80996221400000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="YzN-nx-1VJ" firstAttribute="top" secondItem="eWu-qE-XHM" secondAttribute="topMargin" id="9Wl-C7-U2I"/>
-                            <constraint firstItem="YzN-nx-1VJ" firstAttribute="centerX" secondItem="eWu-qE-XHM" secondAttribute="centerX" id="Nhw-Rg-QjQ"/>
-                            <constraint firstItem="YzN-nx-1VJ" firstAttribute="leading" secondItem="eWu-qE-XHM" secondAttribute="leadingMargin" constant="-20" id="R0w-E4-NCD"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="YzN-nx-1VJ" secondAttribute="trailing" constant="-20" id="eVz-ZL-TWL"/>
-                            <constraint firstItem="IsK-tK-bOB" firstAttribute="top" secondItem="YzN-nx-1VJ" secondAttribute="bottom" id="uRC-vg-zOQ"/>
+                            <constraint firstItem="Xv8-ZU-NcP" firstAttribute="top" secondItem="LtW-yP-1El" secondAttribute="bottom" id="08Q-eh-LTs"/>
+                            <constraint firstItem="YzN-nx-1VJ" firstAttribute="leading" secondItem="eWu-qE-XHM" secondAttribute="leadingMargin" constant="-20" id="0pa-Ct-78g"/>
+                            <constraint firstItem="Xv8-ZU-NcP" firstAttribute="centerX" secondItem="eWu-qE-XHM" secondAttribute="centerX" id="5Je-WR-inU"/>
+                            <constraint firstItem="IsK-tK-bOB" firstAttribute="top" secondItem="YzN-nx-1VJ" secondAttribute="bottom" id="CyI-kb-6Kc"/>
+                            <constraint firstItem="YzN-nx-1VJ" firstAttribute="top" secondItem="Xv8-ZU-NcP" secondAttribute="bottom" id="Enj-Xp-UwI"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Xv8-ZU-NcP" secondAttribute="trailing" constant="-20" id="HLO-P1-4fb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="YzN-nx-1VJ" secondAttribute="trailing" constant="-20" id="rWA-3u-XWL"/>
+                            <constraint firstItem="Xv8-ZU-NcP" firstAttribute="leading" secondItem="eWu-qE-XHM" secondAttribute="leadingMargin" constant="-20" id="shd-w6-JUm"/>
+                            <constraint firstItem="YzN-nx-1VJ" firstAttribute="centerX" secondItem="eWu-qE-XHM" secondAttribute="centerX" id="t6s-bM-wUn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Grapevine" id="8aY-or-hzN">
@@ -453,6 +462,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="searchBar" destination="Xv8-ZU-NcP" id="hBz-kR-eGK"/>
                         <outlet property="tableView" destination="YzN-nx-1VJ" id="YGL-g7-kqc"/>
                     </connections>
                 </viewController>

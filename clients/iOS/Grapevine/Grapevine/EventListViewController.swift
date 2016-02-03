@@ -13,32 +13,30 @@ import SwiftyJSON
 import CVCalendar
 import ObjectMapper
 
-class EventListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UISearchControllerDelegate {
+class EventListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
     
     var userToken: NSToken!
-    var events: [Event] = []
+    var events = [Event]()
+    var searchFilteredEvents = [Event]()
     var lastUpdated: NSDate!
     var refreshView: UIView!
     var refreshControl = UIRefreshControl()
     
     var tabBarView: GrapevineTabViewController!
     
-    let searchController = UISearchController(searchResultsController: nil)
-    
     var isShowingMultiDayEvents: Bool = true
     var isShowingAllDayEvents: Bool = true
+    var searchActive: Bool = false
     
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        searchBar.delegate = self
         
-        //searchController.searchResultsUpdater = self
-        searchController.dimsBackgroundDuringPresentation = false
-        definesPresentationContext = true
-        tableView.tableHeaderView = searchController.searchBar
         
         let imageView = UIImageView(image:textLogoSmall)
         imageView.contentMode = .ScaleAspectFit
@@ -86,13 +84,22 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
+        if self.refreshControl.refreshing && self.searchActive {
+            return self.searchFilteredEvents.count + 1
+        }
         if self.refreshControl.refreshing {
-            return self.events.count + 1
+            return self.events.count
+        }
+        if self.searchActive {
+            if self.events.count == 0 {
+                return 1
+            }
+            return self.searchFilteredEvents.count
         }
         if self.events.count == 0 {
             return 1
         }
-        return events.count
+        return self.events.count
     }
 
     
@@ -100,7 +107,10 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         
         func setupEventCell() -> UITableViewCell {
             let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
-            let event = self.events[indexPath.row]
+            var event = self.events[indexPath.row]
+            if searchActive {
+                event = self.searchFilteredEvents[indexPath.row]
+            }
             if event.title != nil {
                 cell.eventNameLabel.text = event.title
             }
@@ -141,7 +151,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             return cell
         }
         
-        
         if self.refreshControl.refreshing && self.events.count == 0  {
             if indexPath.row == 0 {
                 let userWelcome: String = self.userToken!.firstName! + " " + self.userToken!.lastName!
@@ -152,11 +161,12 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         }
 
         
-        if events.count == 0 {
+        if self.events.count == 0 {
             let userWelcome: String = self.userToken.firstName + " " + self.userToken.lastName!
             let cellText: String = String(format: NSLocalizedString("You have no events", comment: ""), userWelcome)
             return setupOtherCell(cellText, animateIndicator: false)
         }
+        
         return setupEventCell()
 
     }
@@ -170,20 +180,27 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func removeEvent(row: Int) {
         let indexPath = NSIndexPath(forItem: row, inSection: 0)
-        self.events.removeAtIndex(row)
-        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        if searchActive {
+            let eventToRemove = self.searchFilteredEvents[row]
+            self.searchFilteredEvents.removeAtIndex(row)
+            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            for (index, event) in self.events.enumerate(){
+                if event.eventId == eventToRemove.eventId {
+                    print(self.events[index].title)
+                    self.events.removeAtIndex(index)
+                    break
+                }
+            }
+        }
+        else {
+            self.events.removeAtIndex(row)
+            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        }
+        
         self.tabBarView.myEvents = self.events
         self.tabBarView.calendarView.events = self.events
+        //self.tableView.reloadData()
     }
-    
-    @IBAction func backToEventListViewController(segue:UIStoryboardSegue){
-        
-    }
-    
-    @IBAction func updateEvents(sender: AnyObject){
-        tabBarView.getEventsSince(self.lastUpdated)
-    }
-
 
     /*
     // Override to support conditional editing of the table view.
@@ -204,24 +221,68 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         }    
     }
     */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
     
     func eventAtIndexPath(path: NSIndexPath) -> Event {
+        if searchActive {
+            return self.searchFilteredEvents[path.row]
+        }
         return self.events[path.row]
+    }
+    
+    // MARK: - SearchBar
+    
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        if self.refreshControl.refreshing {
+            self.searchActive = false
+        }
+        else {
+            self.searchActive = true
+        }
+    }
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        self.searchActive = false
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        self.searchActive = false
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        self.searchActive = false
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        // Later will implement keeping certain event in if they still match the search string
+        self.searchFilteredEvents.removeAll()
+        if self.events.count == 0 {
+            return
+        }
+        for event in self.events {
+            if (event.title.lowercaseString.rangeOfString(searchText.lowercaseString) != nil ||
+                event.author.lowercaseString.rangeOfString(searchText.lowercaseString) != nil ||
+                event.description.lowercaseString.rangeOfString(searchText.lowercaseString) != nil)
+            {
+                self.searchFilteredEvents.append(event)
+            }
+        }
+        if self.searchFilteredEvents.count == 0 {
+            self.searchActive = false
+        }
+        else {
+            self.searchActive = true
+        }
+        self.tableView.reloadData()
+    }
+    
+    // MARK: - IBActions
+    
+    @IBAction func backToEventListViewController(segue:UIStoryboardSegue){
+        
+    }
+    
+    @IBAction func updateEvents(sender: AnyObject){
+        tabBarView.getEventsSince(self.lastUpdated)
     }
     
     
