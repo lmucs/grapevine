@@ -8,6 +8,8 @@ logger     = require 'morgan'
 bodyParser = require 'body-parser'
 https      = require 'https'
 http       = require 'http'
+path       = require 'path'
+fs         = require 'fs'
 auth       = require './middlewares/auth'
 tokens     = require './routes/tokens'
 users      = require './routes/users'
@@ -20,11 +22,11 @@ app = express()
 app.use bodyParser.json()
 app.use logger process.env.LOGGING_LEVEL or 'dev' unless process.env.NODE_ENV is 'test'
 
-httpPort  = process.env.PORT       or 8000
-httpsPort = process.env.HTTPS_PORT or 443
+httpPort  = 8888
+httpsPort = 443
 
-privateKey  = fs.readFileSync `${__dirname}../../certs/cs.lmu.edu.key`
-certificate = fs.readFileSync `${__dirname}../../certs/server.crt`
+privateKey  = fs.readFileSync path.normalize "#{__dirname}/../../certs/cs.lmu.edu.key"
+certificate = fs.readFileSync path.normalize "#{__dirname}/../../certs/server.crt"
 credentials = {key:privateKey, cert:certificate}
 
 methodNotAllowed = (req, res) ->
