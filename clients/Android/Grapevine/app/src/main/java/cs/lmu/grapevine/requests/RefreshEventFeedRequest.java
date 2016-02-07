@@ -24,6 +24,7 @@ public class RefreshEventFeedRequest extends JsonArrayRequest {
               new RefreshEventFeedSuccessListener(parentActivity),
               new RefreshEventFeedErrorListener(parentActivity)
              );
+        this.parentActivity = parentActivity;
     }
 
     @Override
