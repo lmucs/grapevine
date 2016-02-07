@@ -1,6 +1,7 @@
 package cs.lmu.grapevine.requests.listeners.error;
 
 import android.app.Activity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -18,6 +19,7 @@ public class RefreshEventFeedErrorListener implements Response.ErrorListener {
 
     @Override
     public void onErrorResponse(VolleyError error) {
+        stopRefreshSpinner();
         toastErrorMessage();
     }
 
@@ -25,5 +27,10 @@ public class RefreshEventFeedErrorListener implements Response.ErrorListener {
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(parentActivity, parentActivity.getString(R.string.refresh_error_toast), duration);
         toast.show();
+    }
+
+    private void stopRefreshSpinner() {
+        SwipeRefreshLayout feedContainer = (SwipeRefreshLayout)parentActivity.findViewById(R.id.feed_container);
+        feedContainer.setRefreshing(false);
     }
 }

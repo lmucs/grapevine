@@ -1,6 +1,7 @@
 package cs.lmu.grapevine.requests.listeners.success;
 
 import android.app.Activity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.Toast;
 import com.android.volley.Response;
 import org.json.JSONArray;
@@ -11,6 +12,7 @@ import cs.lmu.grapevine.R;
 import cs.lmu.grapevine.activities.EventFeed;
 import cs.lmu.grapevine.activities.Login;
 import cs.lmu.grapevine.entities.Event;
+import cs.lmu.grapevine.requests.listeners.error.RefreshEventFeedErrorListener;
 
 /**
  * Created by jeff on 12/1/15.
@@ -25,6 +27,7 @@ public class RefreshEventFeedSuccessListener implements Response.Listener {
     @Override
     public void onResponse(Object response) {
         addNewEventsToFeedFrom((JSONArray)response);
+        stopRefreshSpinner();
         toastSuccessMessage();
     }
 
@@ -49,5 +52,10 @@ public class RefreshEventFeedSuccessListener implements Response.Listener {
 
        Login.lastRefresh = new Date().getTime();
 
+    }
+
+    private void stopRefreshSpinner() {
+        SwipeRefreshLayout feedContainer = (SwipeRefreshLayout)parentActivity.findViewById(R.id.feed_container);
+        feedContainer.setRefreshing(false);
     }
 }

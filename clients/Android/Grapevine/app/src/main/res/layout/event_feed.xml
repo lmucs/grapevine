@@ -48,11 +48,17 @@
         android:id="@+id/empty_message"
         android:text="@string/event_list_empty"
         android:visibility="gone"/>
-    <ListView
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/event_feed">
-    </ListView>
+        android:id="@+id/feed_container">
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/event_feed">
+        </ListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

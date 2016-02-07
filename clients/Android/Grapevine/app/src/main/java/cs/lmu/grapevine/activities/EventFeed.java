@@ -2,6 +2,7 @@ package cs.lmu.grapevine.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -19,7 +20,7 @@ import cs.lmu.grapevine.listeners.EventListClickListener;
 import cs.lmu.grapevine.requests.EventFeedRequest;
 import cs.lmu.grapevine.requests.RefreshEventFeedRequest;
 
-public class EventFeed extends AppCompatActivity {
+public class EventFeed extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
     public static ArrayList<Event> usersEvents;
     public static ArrayAdapter usersEventsAdapter;
     private static MenuItem miActionProgressItem;
@@ -28,6 +29,8 @@ public class EventFeed extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.event_feed);
+        SwipeRefreshLayout feedContainer = (SwipeRefreshLayout)findViewById(R.id.feed_container);
+        feedContainer.setOnRefreshListener(this);
     }
 
     protected void onStart() {
@@ -71,6 +74,8 @@ public class EventFeed extends AppCompatActivity {
         } else if (id == R.id.action_add_group) {
             launchAddGroup();
         } else if (id == R.id.action_refresh_feed) {
+            SwipeRefreshLayout feedContainer = (SwipeRefreshLayout)findViewById(R.id.feed_container);
+            feedContainer.setRefreshing(true);
             refreshFeed();
         } else if (id == R.id.action_settings) {
             openSettings();
@@ -114,5 +119,10 @@ public class EventFeed extends AppCompatActivity {
     private void openSettings() {
         Intent settings = new Intent(this,SettingsActivity.class);
         startActivity(settings);
+    }
+
+    @Override
+    public void onRefresh() {
+        refreshFeed();
     }
 }
