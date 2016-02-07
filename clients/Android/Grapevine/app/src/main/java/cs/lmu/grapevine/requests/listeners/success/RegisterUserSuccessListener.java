@@ -25,7 +25,8 @@ public class RegisterUserSuccessListener implements Response.Listener<JSONObject
     public void onResponse(JSONObject response) {
         try{
             UserProfile.saveAuthenticationToken(response.getString("token"),parentActivity);
-            UserProfile.saveUserId(Integer.parseInt(response.getString("userID")),parentActivity);
+            UserProfile.saveUserId(Integer.parseInt(response.getString("userID")), parentActivity);
+            UserProfile.saveLoginStatus(parentActivity);
 
             toastSuccessMessage();
             Intent feedEvents = new Intent(parentActivity.getApplicationContext(), EventFeed.class);

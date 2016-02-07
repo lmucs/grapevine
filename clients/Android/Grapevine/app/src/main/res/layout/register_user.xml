@@ -27,49 +27,62 @@
             android:layout_height="wrap_content"
             android:hint="@string/create_account_first_name"
             android:id="@+id/register_user_first_name"
-            android:textSize="@dimen/create_account_text_size"/>
+            android:textSize="@dimen/create_account_text_size"
+            android:lines="1"
+            android:inputType="textCapSentences|textPersonName" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/create_account_last_name"
             android:id="@+id/register_user_last_name"
-            android:textSize="@dimen/create_account_text_size"/>
+            android:textSize="@dimen/create_account_text_size"
+            android:lines="1"
+            android:inputType="textCapSentences|textPersonName" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/create_account_username"
             android:id="@+id/register_user_username"
-            android:textSize="@dimen/create_account_text_size"/>
+            android:textSize="@dimen/create_account_text_size"
+            android:lines="1" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:hint="@string/password"
             android:id="@+id/register_user_password"
-            android:textSize="@dimen/create_account_text_size"/>
+            android:textSize="@dimen/create_account_text_size"
+            android:lines="1" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:hint="@string/confirm_password"
             android:id="@+id/register_user_confirm_password"
-            android:textSize="@dimen/create_account_text_size"/>
+            android:textSize="@dimen/create_account_text_size"
+            android:lines="1" />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/create_account_email"
             android:id="@+id/register_user_email_address"
-            android:textSize="@dimen/create_account_text_size"/>
+            android:textSize="@dimen/create_account_text_size"
+            android:lines="1"
+            android:inputType="textEmailAddress" />
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/login_create_account"
-            android:onClick="attemptAccountCreation"/>
+            android:onClick="attemptAccountCreation"
+            android:layout_marginTop="@dimen/create_account_button_margin_top" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/create_user_status"
             android:textColor="@color/red"
             android:layout_weight=".5"/>
+
     </LinearLayout>
 </RelativeLayout>
