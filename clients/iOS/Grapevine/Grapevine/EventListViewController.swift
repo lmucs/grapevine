@@ -13,7 +13,7 @@ import SwiftyJSON
 import CVCalendar
 import ObjectMapper
 
-class EventListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
+class EventListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UITabBarControllerDelegate {
     
     var userToken: NSToken!
     var events = [Event]()
@@ -27,6 +27,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     var isShowingMultiDayEvents: Bool = true
     var isShowingAllDayEvents: Bool = true
     var searchActive: Bool = false
+    
     
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchBar: UISearchBar!
@@ -46,6 +47,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         if let parent = self.navigationController as? GrapevineNavigationController {
             if let grandparent = parent.tabBarController as? GrapevineTabViewController {
                 self.tabBarView = grandparent
+                tabBarView.delegate = self
             }
         }
         else {
@@ -69,6 +71,14 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.refreshView = refreshContents[0] as! UIView
         self.refreshView.frame = refreshControl.bounds
         self.refreshControl.addSubview(refreshView)
+    }
+    
+    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+        if let navController = viewController as? GrapevineNavigationController {
+            if let eventsList = navController.topViewController as? EventListViewController {
+                eventsList.tableView.setContentOffset(CGPoint.zero, animated:true)
+            }
+        }
     }
 
     // MARK: - Table view data source
