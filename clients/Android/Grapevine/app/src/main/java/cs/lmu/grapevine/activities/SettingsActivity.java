@@ -6,6 +6,7 @@ import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -25,6 +26,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import cs.lmu.grapevine.BuildConfig;
 import cs.lmu.grapevine.R;
 import cs.lmu.grapevine.UserProfile;
 
@@ -193,12 +196,13 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             addPreferencesFromResource(R.xml.pref_general);
             setHasOptionsMenu(true);
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
             bindPreferenceSummaryToValue(findPreference("example_text"));
             bindPreferenceSummaryToValue(findPreference("example_list"));
+            bindPreferenceSummaryToValue(findPreference("Version"));
+
+            Preference version = findPreference("Version");
+            version.setSummary(BuildConfig.VERSION_NAME);
+            version.setEnabled(false);
         }
 
         @Override
@@ -283,13 +287,14 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_account);
             setHasOptionsMenu(true);
+            findPreference(getString(R.string.app_logout)).setSummary("You are logged in as " + UserProfile.getFirstName(getActivity()) + " " + UserProfile.getLastName(getActivity()));
 
             Preference button = findPreference(getString(R.string.app_logout));
             button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
                     AlertDialog.Builder logoutAlert = new AlertDialog.Builder(getActivity());
-                    logoutAlert.setTitle(R.string.app_logout)
+                    logoutAlert.setTitle(R.string.app_logout_dialog_title)
                                .setPositiveButton(R.string.logout_positive, new DialogInterface.OnClickListener() {
                                    @Override
                                    public void onClick(DialogInterface dialog, int which) {

@@ -30,4 +30,9 @@
         android:positiveButtonText="@null"
         android:title="@string/pref_title_add_friends_to_messages" />
 
+    <EditTextPreference
+        android:key="Version"
+        android:title="@string/version"
+        android:gravity="bottom" />
+
 </PreferenceScreen>

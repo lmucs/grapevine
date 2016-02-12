@@ -41,7 +41,7 @@
     <string name="view_original_post">View original post</string>
     <string name="no_feeds_message">You don\'t currently follow any feeds. Add some above to start getting events!</string>
     <string name="create_account">Create Account</string>
-    <string name="my_upcoming_events">My Upcoming Events</string>
+    <string name="my_upcoming_events">Upcoming Events</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
@@ -103,8 +103,10 @@
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="settings">Settings</string>
     <string name="account_settings">Account settings</string>
-    <string name="app_logout">Logout?</string>
+    <string name="app_logout">Logout</string>
+    <string name="app_logout_dialog_title">Logout?</string>
     <string name="app_logout_confirmation">Are you sure you want to log out?</string>
     <string name="logout_positive">Yes</string>
     <string name="logout_negative">Cancel</string>
+    <string name="version">Version</string>
 </resources>
