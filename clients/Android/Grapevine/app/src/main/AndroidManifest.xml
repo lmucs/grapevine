@@ -31,7 +31,7 @@
         </activity>
         <activity
             android:name=".activities.EventFeed"
-            android:label="@string/event_feed"></activity>
+            android:label="@string/event_feed" />
         <activity
             android:name=".activities.CalendarView"
             android:label="@string/calendar_view"
@@ -62,7 +62,16 @@
         </activity>
         <activity
             android:name=".activities.SettingsActivity"
-            android:label="@string/title_activity_settings"></activity>
+            android:label="@string/title_activity_settings" />
+        <activity
+            android:name=".DisplayLicenses"
+            android:label="@string/title_activity_view_licenses"
+            android:parentActivityName=".activities.SettingsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cs.lmu.grapevine.activities.SettingsActivity" />
+        </activity>
     </application>
 
 </manifest>

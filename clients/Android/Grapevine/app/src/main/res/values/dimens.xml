@@ -46,4 +46,10 @@
     <dimen name="med_grapes_height">50dp</dimen>
     <dimen name="med_grapes_width">25dp</dimen>
     <dimen name="create_account_button_margin_top">20sp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="license_name_size">40sp</dimen>
+    <dimen name="license_description_top_margin">40dp</dimen>
+    <dimen name="licenses_used_margin_top">30dp</dimen>
 </resources>
