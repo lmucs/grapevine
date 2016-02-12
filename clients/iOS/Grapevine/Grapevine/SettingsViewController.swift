@@ -24,11 +24,8 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupGrapevineButton(logoutButton)
-        print(shouldShowMultiDayEvents)
-        print("updating shouldShow")
         showMultiDaySwitch.on = self.shouldShowMultiDayEvents
         showAllDaySwitch.on = self.shouldShowAllDayEvents
-        print(userToken?.firstName)
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,6 +37,11 @@ class SettingsViewController: UIViewController {
         sender.enabled = false
         // would also need to invalid token eventually
         managedObjectContext?.deleteObject(self.userToken!)
+        do {
+            try managedObjectContext!.save()
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
         let loginViewController = self.storyboard!.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
         UIApplication.sharedApplication().keyWindow?.rootViewController = loginViewController
     }
