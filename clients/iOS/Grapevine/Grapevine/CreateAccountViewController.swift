@@ -142,7 +142,7 @@ class CreateAccountViewController: UIViewController {
     }
     
     func isValidPassword(testStr: String) -> Bool {
-        let passwordRegEx = "^[a-z0-9_-]{6,256}$"
+        let passwordRegEx = "^[a-z0-9_-]{8,256}$"
         let passwordTest = NSPredicate(format:"SELF MATCHES %@", passwordRegEx)
         return passwordTest.evaluateWithObject(testStr)
     }
