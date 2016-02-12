@@ -993,6 +993,13 @@
                                     <constraint firstItem="ESl-JV-tBB" firstAttribute="leading" secondItem="MFz-i4-kqG" secondAttribute="leading" id="szh-4O-RQ3"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UBw-mA-1zn">
+                                <rect key="frame" x="270" y="550" width="61" height="30"/>
+                                <state key="normal" title="Licenses"/>
+                                <connections>
+                                    <segue destination="e4j-vI-5Y0" kind="presentation" id="t7A-e7-wCQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -1001,6 +1008,8 @@
                             <constraint firstItem="Qfy-Ts-4gy" firstAttribute="top" secondItem="p6T-Lv-abX" secondAttribute="bottom" constant="8" id="HGF-Uc-bvG"/>
                             <constraint firstItem="MFz-i4-kqG" firstAttribute="centerX" secondItem="pXV-CR-A6N" secondAttribute="centerX" id="IWx-xF-RDd"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ef7-wI-dhh" secondAttribute="trailing" constant="88" id="anr-VU-tXZ"/>
+                            <constraint firstItem="UBw-mA-1zn" firstAttribute="centerX" secondItem="pXV-CR-A6N" secondAttribute="centerX" id="eJk-8k-zIH"/>
+                            <constraint firstItem="QNi-ID-Y6z" firstAttribute="top" secondItem="UBw-mA-1zn" secondAttribute="bottom" constant="20" id="hYQ-Ov-1CY"/>
                             <constraint firstItem="MFz-i4-kqG" firstAttribute="top" secondItem="Qfy-Ts-4gy" secondAttribute="bottom" constant="8" id="ija-Qg-QK3"/>
                             <constraint firstItem="ef7-wI-dhh" firstAttribute="centerX" secondItem="pXV-CR-A6N" secondAttribute="centerX" id="j3G-4M-XNY"/>
                             <constraint firstItem="Qfy-Ts-4gy" firstAttribute="centerX" secondItem="pXV-CR-A6N" secondAttribute="centerX" id="lar-Hf-urv"/>
@@ -1023,6 +1032,50 @@
                 <exit id="VEd-9o-Gpj" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4395" y="-789"/>
+        </scene>
+        <!--Licenses-->
+        <scene sceneID="Vd8-d3-xkU">
+            <objects>
+                <viewController id="Xyg-Fm-SIA" customClass="LicensesViewController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5d0-8V-zXB"/>
+                        <viewControllerLayoutGuide type="bottom" id="iRd-eP-qsw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kdu-eE-qxI">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ru-GN-fIN">
+                                <rect key="frame" x="20" y="72" width="560" height="520"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2ru-GN-fIN" firstAttribute="leading" secondItem="kdu-eE-qxI" secondAttribute="leadingMargin" id="MbM-e2-qYs"/>
+                            <constraint firstItem="2ru-GN-fIN" firstAttribute="top" secondItem="5d0-8V-zXB" secondAttribute="bottom" constant="8" id="PJR-cz-YVs"/>
+                            <constraint firstItem="2ru-GN-fIN" firstAttribute="centerX" secondItem="kdu-eE-qxI" secondAttribute="centerX" id="TSr-YS-13b"/>
+                            <constraint firstItem="iRd-eP-qsw" firstAttribute="top" secondItem="2ru-GN-fIN" secondAttribute="bottom" constant="8" id="jO9-yY-6yA"/>
+                            <constraint firstItem="2ru-GN-fIN" firstAttribute="trailing" secondItem="kdu-eE-qxI" secondAttribute="trailingMargin" id="vlW-gf-uIb"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Licenses" id="WXC-Zi-lyh">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="97S-E0-bCX">
+                            <connections>
+                                <segue destination="mJJ-6W-Jdm" kind="unwind" unwindAction="backToSettingsViewController:" id="fWT-bm-seu"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="licenseField" destination="2ru-GN-fIN" id="4Ka-yN-gm5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DmZ-kK-kfo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="mJJ-6W-Jdm" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="6009" y="-789"/>
         </scene>
         <!--Grapevine Navigation Controller-->
         <scene sceneID="0mP-Ea-cJk">
@@ -1117,6 +1170,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4ba-Ln-RXq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3613" y="-789"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="727-gS-O4t">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="e4j-vI-5Y0" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="i6e-pJ-fmJ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Xyg-Fm-SIA" kind="relationship" relationship="rootViewController" id="8bm-dP-fdf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OUR-5V-G9X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5197" y="-789"/>
         </scene>
     </scenes>
     <resources>

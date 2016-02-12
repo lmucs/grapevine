@@ -56,6 +56,10 @@ class SettingsViewController: UIViewController {
         sender.enabled = true
     }
     
+    @IBAction func backToSettingsViewController(segue:UIStoryboardSegue){
+        
+    }
+    
     
     // MARK: - Navigation
 

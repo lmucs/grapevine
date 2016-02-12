@@ -26,6 +26,7 @@
 		F16C8BC91C04D7A500EE66EC /* FeedManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16C8BC81C04D7A500EE66EC /* FeedManagementViewController.swift */; };
 		F17935681BBAFD3B001F8791 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17935671BBAFD3B001F8791 /* Event.swift */; };
 		F17D009F1C093181002632AD /* EventTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17D009E1C093181002632AD /* EventTime.swift */; };
+		F1A1C1351C6D6D8100D6B1F0 /* LicensesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A1C1341C6D6D8100D6B1F0 /* LicensesViewController.swift */; };
 		F1A37D1D1BBDBEE70094541C /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A37D1C1BBDBEE60094541C /* User.swift */; };
 		F1A3F64A1BD9A6E700988291 /* HelperMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1A3F6491BD9A6E700988291 /* HelperMethods.swift */; };
 		F1C5FBED1BFBA54D002DBBA4 /* EventDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1C5FBEC1BFBA54D002DBBA4 /* EventDetailViewController.swift */; };
@@ -74,6 +75,7 @@
 		F16C8BC81C04D7A500EE66EC /* FeedManagementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedManagementViewController.swift; sourceTree = "<group>"; };
 		F17935671BBAFD3B001F8791 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		F17D009E1C093181002632AD /* EventTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventTime.swift; sourceTree = "<group>"; };
+		F1A1C1341C6D6D8100D6B1F0 /* LicensesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicensesViewController.swift; sourceTree = "<group>"; };
 		F1A37D1C1BBDBEE60094541C /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F1A3F6491BD9A6E700988291 /* HelperMethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperMethods.swift; sourceTree = "<group>"; };
 		F1C5FBEC1BFBA54D002DBBA4 /* EventDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventDetailViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 			children = (
 				F121A14F1B9F56E2008E3F7A /* AppDelegate.swift */,
 				F121A1561B9F56E2008E3F7A /* Main.storyboard */,
+				F1A1C1341C6D6D8100D6B1F0 /* LicensesViewController.swift */,
 				F11D035B1C2DEC3B0027C0A1 /* Localizable.strings */,
 				F12C19221C292604002EF78C /* SettingsViewController.swift */,
 				F12C191C1C2232CB002EF78C /* GrapevineTabViewController.swift */,
@@ -380,6 +383,7 @@
 				F121A1531B9F56E2008E3F7A /* Grapevine.xcdatamodeld in Sources */,
 				F1329D6D1C52F337004D479E /* NSToken.swift in Sources */,
 				F1EBFED21C18BA9A00F4AF0E /* UIUnderlinedLabel.swift in Sources */,
+				F1A1C1351C6D6D8100D6B1F0 /* LicensesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

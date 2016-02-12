@@ -35,11 +35,6 @@ class LoginViewController: UIViewController {
         print(managedObjectContext)
         fetchToken()
         
-        if storedToken != nil {
-            print(self.storedToken!.firstName)
-            self.performSegueWithIdentifier("loginSegue", sender: self)
-        }
-        
         self.activityIndicator.hidden = true
         self.loginFailedLabel.hidden = true
         setupGrapevineButton(self.loginButton)
@@ -50,6 +45,12 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
+        self.view.hidden = true
+        if storedToken != nil {
+            print(self.storedToken!.firstName)
+            self.performSegueWithIdentifier("loginSegue", sender: self)
+        }
+        self.view.hidden = false
     }
 
 
