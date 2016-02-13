@@ -12,8 +12,13 @@ import ObjectMapper
 
 class GrapevineTabViewController: UITabBarController {
     
-    var userToken: Token!
+    var userToken: NSToken!
     var myEvents = [Event]()
+    var filteredEvents = [Event]()
+    
+    var shouldShowMultiDayEvents: Bool = true
+    var shouldShowAllDayEvents: Bool = true
+    
     var eventListView: EventListViewController!
     var calendarView: CalendarViewController!
     var feedsView: FeedManagementViewController!
@@ -29,8 +34,16 @@ class GrapevineTabViewController: UITabBarController {
         self.calendarView = navCalendar.topViewController as! CalendarViewController
         let navFeeds = self.childViewControllers[2] as! GrapevineNavigationController
         self.feedsView = navFeeds.topViewController as! FeedManagementViewController
+        
         self.feedsView.userToken = self.userToken!
-        // Do any additional setup after loading the view.
+        
+        let tabItems = self.tabBar.items! as [UITabBarItem]
+        let tabItemEventList = tabItems[0] as UITabBarItem
+        let tabItemCalendar = tabItems[1] as UITabBarItem
+        let tabItemFeeds = tabItems[2] as UITabBarItem
+        tabItemEventList.title = NSLocalizedString("My Events", comment: "")
+        tabItemCalendar.title = NSLocalizedString("Calendar", comment: "")
+        tabItemFeeds.title = NSLocalizedString("My Feeds", comment: "")
     }
 
     override func didReceiveMemoryWarning() {
@@ -39,8 +52,52 @@ class GrapevineTabViewController: UITabBarController {
     }
     
     func updateChildViewsData(){
-        self.eventListView.events = self.myEvents
-        self.calendarView.events = self.myEvents
+        self.eventListView.events = self.filteredEvents
+        self.eventListView.isShowingMultiDayEvents = self.shouldShowMultiDayEvents
+        self.eventListView.isShowingAllDayEvents = self.shouldShowAllDayEvents
+        if let listTable = self.eventListView.tableView {
+            print("reloading list table")
+            listTable.reloadData()
+        }
+        self.calendarView.events = self.filteredEvents
+        if let calTable = self.calendarView.tableView {
+            print("reloading calendar table")
+            calTable.reloadData()
+        }
+    }
+    
+    func filterEvents(){
+        self.filteredEvents.removeAll()
+        print("filtering")
+        
+        if !shouldShowAllDayEvents && !shouldShowMultiDayEvents {
+            for event in self.myEvents {
+                if !event.isAllDay && !event.isMultiDay {
+                    self.filteredEvents.append(event)
+                }
+            }
+            return
+        }
+        
+        if !shouldShowMultiDayEvents {
+            for event in self.myEvents {
+                if !event.isMultiDay {
+                    self.filteredEvents.append(event)
+                }
+            }
+            return
+        }
+        
+        if !shouldShowAllDayEvents {
+            for event in self.myEvents {
+                if !event.isAllDay {
+                    self.filteredEvents.append(event)
+                }
+            }
+            return
+        }
+        
+        self.filteredEvents = self.myEvents
     }
     
     func getAllUserEvents(){
@@ -61,9 +118,9 @@ class GrapevineTabViewController: UITabBarController {
                             self.myEvents.append(responseEvent!)
                         }
                         self.myEvents.sortInPlace({ $0.startTime.dateNS.compare($1.startTime.dateNS) == NSComparisonResult.OrderedAscending })
+                        self.filterEvents()
                         self.updateChildViewsData()
                         self.eventListView.refreshControl.endRefreshing()
-                        self.eventListView.tableView.reloadData()
                         self.eventListView.lastUpdated = NSDate()
                     }
                     else {
@@ -97,11 +154,10 @@ class GrapevineTabViewController: UITabBarController {
                             responseEvent?.dateMap(item as! [String : AnyObject])
                             self.myEvents.append(responseEvent!)
                         }
-                        
                         self.myEvents.sortInPlace({ $0.startTime.dateNS.compare($1.startTime.dateNS) == NSComparisonResult.OrderedAscending })
+                        self.filterEvents()
                         self.updateChildViewsData()
                         self.eventListView.refreshControl.endRefreshing()
-                        self.eventListView.tableView.reloadData()
                         self.eventListView.lastUpdated = NSDate()
                     }
                     else {
@@ -127,7 +183,7 @@ class GrapevineTabViewController: UITabBarController {
         if segue.identifier == "goToCalendar" {
             let nav = segue.destinationViewController as! GrapevineNavigationController
             let calendarView = nav.topViewController as! CalendarViewController
-            calendarView.events = self.myEvents
+            calendarView.events = self.filteredEvents
         }
         
         if segue.identifier == "goToFeedManagement" {

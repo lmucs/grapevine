@@ -24,6 +24,7 @@ class CreateAccountViewController: UIViewController {
     @IBOutlet weak var feedbackLabel: UILabel!
     
     var userToken: Token!
+    var storedToken: NSToken?
     var appUser: User!
     var goodToCreate = [String : Bool]()
     let firstName = "firstName"
@@ -39,13 +40,31 @@ class CreateAccountViewController: UIViewController {
         self.activityIndicator.hidden = true
         setupGrapevineButton(self.createAccountButton)
         disableGrapevineButton(self.createAccountButton)
+        setVisualStrings()
         loadGoodToCreate()
-        // Do any additional setup after loading the view.
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func dismissKeyboard(){
+        view.endEditing(true)
+    }
+    
+    func setVisualStrings(){
+        self.firstNameTextField.placeholder = NSLocalizedString("First Name", comment: "")
+        self.lastNameTextField.placeholder = NSLocalizedString("Last Name", comment: "")
+        self.usernameTextField.placeholder = NSLocalizedString("Username", comment: "")
+        self.passwordTextField.placeholder = NSLocalizedString("Password", comment: "")
+        self.repeatPasswordTextField.placeholder = NSLocalizedString("Repeat Password", comment: "")
+        self.emailAddressTextField.placeholder = NSLocalizedString("Email Address", comment: "")
+        
+        self.createAccountButton.setTitle(NSLocalizedString("Create Account", comment: ""), forState: .Normal)
     }
     
     func loadGoodToCreate(){
@@ -123,7 +142,7 @@ class CreateAccountViewController: UIViewController {
     }
     
     func isValidPassword(testStr: String) -> Bool {
-        let passwordRegEx = "^[a-z0-9_-]{6,256}$"
+        let passwordRegEx = "^[a-z0-9_-]{8,256}$"
         let passwordTest = NSPredicate(format:"SELF MATCHES %@", passwordRegEx)
         return passwordTest.evaluateWithObject(testStr)
     }
@@ -205,7 +224,7 @@ class CreateAccountViewController: UIViewController {
             self.activityIndicator.stopAnimating()
             self.activityIndicator.hidden = true
             self.feedbackLabel.hidden = false
-            //self.feedbackLabel.text = "Create Account Failed"
+            self.feedbackLabel.text = NSLocalizedString("Error Creating Account", comment: "")
         }
         
         sender.enabled = false
@@ -263,7 +282,7 @@ class CreateAccountViewController: UIViewController {
         if segue.identifier == "createAccountSegue" {
             let nav = segue.destinationViewController as! GrapevineNavigationController
             let eventsView = nav.topViewController as! EventListViewController
-            eventsView.userToken = self.userToken
+            eventsView.userToken = self.storedToken
             //eventsView.getAllUserEvents()
         }
         

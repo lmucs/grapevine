@@ -15,8 +15,14 @@ import ObjectMapper
 class FeedManagementViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var myFeeds: [Feed] = [Feed]()
-    var userToken: Token!
     
+    var indices: [Character] = [Character]()
+    var indexedFeeds = [String : [Feed]]()
+    var userToken: NSToken!
+    let alphabet: [String] = ["+","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    
+    var refreshView: UIView!
+    var refreshControl = UIRefreshControl()
     
     @IBOutlet weak var tableView: UITableView!
 
@@ -24,6 +30,18 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        
+        for letter in alphabet {
+            if letter != "+" {
+                self.indexedFeeds[letter] = [Feed]()
+            }
+        }
+        
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+        self.refreshControl.addTarget(self, action: "refresher:", forControlEvents: UIControlEvents.ValueChanged)
+        self.tableView?.addSubview(refreshControl)
+        loadCustomRefreshContents()
         
         getFeeds()
     }
@@ -33,34 +51,72 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         // Dispose of any resources that can be recreated.
     }
     
+    func loadCustomRefreshContents() {
+        let refreshContents = NSBundle.mainBundle().loadNibNamed("RefreshView", owner: self, options: nil)
+        self.refreshView = refreshContents[0] as! UIView
+        self.refreshView.frame = refreshControl.bounds
+        self.refreshControl.addSubview(refreshView)
+    }
+    
+    @IBAction func refresher(sender: AnyObject){
+        self.refreshControl.endRefreshing()
+    }
+    
+    func dismissKeyboard(){
+        view.endEditing(true)
+    }
+    
+    func indexFeeds(){
+        for feed in self.myFeeds {
+            let firstLetter : Character = feed.feedName[feed.feedName.startIndex]
+            self.indexedFeeds[String(firstLetter)]?.append(feed)
+        }
+    }
     
     // Mark: - Table View Delegate Functions
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // Return the number of sections.
-        return 2
+        return indexedFeeds.count + 1
     }
     
+    func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+        return alphabet as [String]
+    }
+    
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // Return the number of rows in the section.
         if section == 0 {
             return 1
         }
-        return myFeeds.count
+        if self.myFeeds.count == 0 && self.refreshControl.refreshing {
+            return 0
+        }
+        if self.myFeeds.count == 0 {
+            return 1
+        }
+        return self.indexedFeeds[alphabet[section]]!.count
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section == 0 {
             return 120
         }
+        
+        if self.myFeeds.count == 0 {
+            return 250
+        }
         return 80
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == 0 {
-            return "Add Feed"
+            return NSLocalizedString("Add Feed", comment: "")
         }
-        return "My Feeds"
+        if section == 1 {
+            return "My Feeds"
+        }
+        return nil
+        //return String(alphabet[section - 1])
     }
     
     
@@ -69,14 +125,21 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             let cell = tableView.dequeueReusableCellWithIdentifier("addFeedCell", forIndexPath: indexPath) as! EventTableViewCell
             setupGrapevineButton(cell.button)
             disableGrapevineButton(cell.button)
+            cell.textField.placeholder = NSLocalizedString("Enter Feed Name", comment: "")
+            cell.button.setTitle(NSLocalizedString("Add!", comment: ""), forState: .Normal)
             cell.button.addTarget(self, action: "addFeed:", forControlEvents: UIControlEvents.TouchUpInside)
             cell.segControl.addTarget(self, action: "selectNetwork:", forControlEvents: UIControlEvents.ValueChanged)
             cell.selectionStyle = UITableViewCellSelectionStyle.None
             return cell
         }
+        if myFeeds.count == 0 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("howToAddCell", forIndexPath: indexPath) as! FeedTableViewCell
+            return cell
+        }
         let cell = tableView.dequeueReusableCellWithIdentifier("feedCell", forIndexPath: indexPath) as! FeedTableViewCell
-        cell.feedNameLabel.text = self.myFeeds[indexPath.row].feedName
-        if self.myFeeds[indexPath.row].networkName == "facebook" {
+        cell.feedNameLabel.text = self.indexedFeeds[alphabet[indexPath.section]]![indexPath.row].feedName
+        //cell.feedNameLabel.text = self.myFeeds[indexPath.row].feedName
+        if self.indexedFeeds[alphabet[indexPath.section]]![indexPath.row].networkName == "facebook" {
             cell.feedNetwork.image = UIImage(named: "facebook_brand_logo")
         }
         else {
@@ -153,7 +216,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     
     @IBAction func addFeed(sender: UIButton){
         disableGrapevineButton(sender)
-        
+        self.refreshControl.beginRefreshing()
         let indexPath = NSIndexPath(forRow:0, inSection:0)
         let cell = self.tableView.cellForRowAtIndexPath(indexPath) as! EventTableViewCell
         let feedName = cell.textField.text
@@ -182,17 +245,21 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                             cell.textField.text = ""
                             cell.segControl.selectedSegmentIndex = -1
                             self.tableView.reloadData()
+                            setSuccessColor(cell.textField)
+                            self.refreshControl.endRefreshing()
                             
                         }
                         else {
                             setErrorColor(cell.textField)
                             enableGrapevineButton(sender)
+                            self.refreshControl.endRefreshing()
                             // handle errors based on response code
                         }
                     }
                     else {
                         print("no response")
                         enableGrapevineButton(sender)
+                        self.refreshControl.endRefreshing()
                     }
             }
         }
@@ -204,13 +271,13 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     
     
     func unfollowFeed(row: Int){
+        self.refreshControl.beginRefreshing()
         let feedToUnfollow = myFeeds[row]
         let indexPath = NSIndexPath(forItem: row, inSection: 1)
         let removeFeedUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID) + "/feeds/" + feedToUnfollow.networkName + "/" + feedToUnfollow.feedName)
         let requestHeader: [String: String] = [
             "Content-Type": "application/json",
             "x-access-token": String(self.userToken.token!)
-            
         ]
         
         Alamofire.request(.DELETE, removeFeedUrl!, encoding: .JSON, headers: requestHeader)
@@ -220,8 +287,20 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                     if response.1?.statusCode == 200 {
                         print("deleted")
                         self.myFeeds.removeAtIndex(row)
-                        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                        if self.myFeeds.count != 0 {
+                            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                        }
+                        else {
+                            self.tableView.reloadData()
+                        }
+                        self.refreshControl.endRefreshing()
                     }
+                    else {
+                        self.refreshControl.endRefreshing()
+                    }
+                }
+                else {
+                    self.refreshControl.endRefreshing()
                 }
         }
         
@@ -229,6 +308,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     
     
     func getFeeds(){
+        self.refreshControl.beginRefreshing()
         self.myFeeds = [Feed]()
         let getFeedUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID) + "/feeds")
         let requestHeader: [String: String] = [
@@ -248,15 +328,20 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                                 print(responseFeed!.feedName)
                                 self.myFeeds.append(responseFeed!)
                             }
+                            self.refreshControl.endRefreshing()
+                            
                             self.myFeeds.sortInPlace({ $0.feedName.lowercaseString < $1.feedName.lowercaseString })
+                            self.indexFeeds()
                             self.tableView.reloadData()
                         }
                         else {
                             print("didn't get a 200")
+                            self.refreshControl.endRefreshing()
                         }
                     }
                     else {
                         print("no response")
+                        self.refreshControl.endRefreshing()
                     }
             }
     }

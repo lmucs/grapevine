@@ -13,22 +13,31 @@ import SwiftyJSON
 import CVCalendar
 import ObjectMapper
 
-class EventListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class EventListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UITabBarControllerDelegate {
     
-    var userToken: Token!
-    var events: [Event] = []
+    var userToken: NSToken!
+    var events = [Event]()
+    var searchFilteredEvents = [Event]()
     var lastUpdated: NSDate!
     var refreshView: UIView!
     var refreshControl = UIRefreshControl()
     
     var tabBarView: GrapevineTabViewController!
     
+    var isShowingMultiDayEvents: Bool = true
+    var isShowingAllDayEvents: Bool = true
+    var searchActive: Bool = false
+    
+    
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var searchBar: UISearchBar!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
+        searchBar.delegate = self
+        
         
         let imageView = UIImageView(image:textLogoSmall)
         imageView.contentMode = .ScaleAspectFit
@@ -38,17 +47,16 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         if let parent = self.navigationController as? GrapevineNavigationController {
             if let grandparent = parent.tabBarController as? GrapevineTabViewController {
                 self.tabBarView = grandparent
+                tabBarView.delegate = self
             }
         }
         else {
             // we should not get here
         }
         
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         self.refreshControl.addTarget(self, action: "updateEvents:", forControlEvents: UIControlEvents.ValueChanged)
         self.tableView?.addSubview(refreshControl)
         loadCustomRefreshContents()
-        //self.refreshControl.tintColor = grapevineIndicatorColor
         self.refreshControl.beginRefreshing()
         
     }
@@ -64,6 +72,14 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         self.refreshView.frame = refreshControl.bounds
         self.refreshControl.addSubview(refreshView)
     }
+    
+    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+        if let navController = viewController as? GrapevineNavigationController {
+            if let eventsList = navController.topViewController as? EventListViewController {
+                eventsList.tableView.setContentOffset(CGPoint.zero, animated:true)
+            }
+        }
+    }
 
     // MARK: - Table view data source
 
@@ -73,18 +89,27 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "My Upcoming Events"
+        return NSLocalizedString("My Upcoming Events", comment: "")
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
+        if self.refreshControl.refreshing && self.searchActive {
+            return self.searchFilteredEvents.count + 1
+        }
         if self.refreshControl.refreshing {
-            return self.events.count + 1
+            return self.events.count
+        }
+        if self.searchActive {
+            if self.events.count == 0 {
+                return 1
+            }
+            return self.searchFilteredEvents.count
         }
         if self.events.count == 0 {
             return 1
         }
-        return events.count
+        return self.events.count
     }
 
     
@@ -92,7 +117,10 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         
         func setupEventCell() -> UITableViewCell {
             let cell = tableView.dequeueReusableCellWithIdentifier("eventCell", forIndexPath: indexPath) as! EventTableViewCell
-            let event = self.events[indexPath.row]
+            var event = self.events[indexPath.row]
+            if searchActive {
+                event = self.searchFilteredEvents[indexPath.row]
+            }
             if event.title != nil {
                 cell.eventNameLabel.text = event.title
             }
@@ -133,20 +161,22 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             return cell
         }
         
-        
         if self.refreshControl.refreshing && self.events.count == 0  {
             if indexPath.row == 0 {
-                let cellText: String = "Loading your events now, \(self.userToken.firstName) \(self.userToken.lastName)!"
+                let userWelcome: String = self.userToken!.firstName! + " " + self.userToken!.lastName!
+                let cellText: String = String(format: NSLocalizedString("Loading Events Now", comment: ""), userWelcome)
                 return setupOtherCell(cellText, animateIndicator: false)
             }
             return setupEventCell()
         }
 
         
-        if events.count == 0 {
-            let cellText: String = "You have no events, \(self.userToken.firstName) \(self.userToken.lastName)! Add some feeds to get some!"
+        if self.events.count == 0 {
+            let userWelcome: String = self.userToken.firstName + " " + self.userToken.lastName!
+            let cellText: String = String(format: NSLocalizedString("You have no events", comment: ""), userWelcome)
             return setupOtherCell(cellText, animateIndicator: false)
         }
+        
         return setupEventCell()
 
     }
@@ -160,20 +190,27 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
     
     func removeEvent(row: Int) {
         let indexPath = NSIndexPath(forItem: row, inSection: 0)
-        self.events.removeAtIndex(row)
-        self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        if searchActive {
+            let eventToRemove = self.searchFilteredEvents[row]
+            self.searchFilteredEvents.removeAtIndex(row)
+            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+            for (index, event) in self.events.enumerate(){
+                if event.eventId == eventToRemove.eventId {
+                    print(self.events[index].title)
+                    self.events.removeAtIndex(index)
+                    break
+                }
+            }
+        }
+        else {
+            self.events.removeAtIndex(row)
+            self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+        }
+        
         self.tabBarView.myEvents = self.events
         self.tabBarView.calendarView.events = self.events
+        //self.tableView.reloadData()
     }
-    
-    @IBAction func backToEventListViewController(segue:UIStoryboardSegue){
-        
-    }
-    
-    @IBAction func updateEvents(sender: AnyObject){
-        tabBarView.getEventsSince(self.lastUpdated)
-    }
-
 
     /*
     // Override to support conditional editing of the table view.
@@ -194,24 +231,68 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         }    
     }
     */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
     
     func eventAtIndexPath(path: NSIndexPath) -> Event {
+        if searchActive {
+            return self.searchFilteredEvents[path.row]
+        }
         return self.events[path.row]
+    }
+    
+    // MARK: - SearchBar
+    
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        if self.refreshControl.refreshing {
+            self.searchActive = false
+        }
+        else {
+            self.searchActive = true
+        }
+    }
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        self.searchActive = false
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        self.searchActive = false
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        self.searchActive = false
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        // Later will implement keeping certain event in if they still match the search string
+        self.searchFilteredEvents.removeAll()
+        if self.events.count == 0 {
+            return
+        }
+        for event in self.events {
+            if (event.title.lowercaseString.rangeOfString(searchText.lowercaseString) != nil ||
+                event.author.lowercaseString.rangeOfString(searchText.lowercaseString) != nil ||
+                event.description.lowercaseString.rangeOfString(searchText.lowercaseString) != nil)
+            {
+                self.searchFilteredEvents.append(event)
+            }
+        }
+        if self.searchFilteredEvents.count == 0 {
+            self.searchActive = false
+        }
+        else {
+            self.searchActive = true
+        }
+        self.tableView.reloadData()
+    }
+    
+    // MARK: - IBActions
+    
+    @IBAction func backToEventListViewController(segue:UIStoryboardSegue){
+        
+    }
+    
+    @IBAction func updateEvents(sender: AnyObject){
+        tabBarView.getEventsSince(self.lastUpdated)
     }
     
     
@@ -228,6 +309,14 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             let detailView = nav.topViewController as! EventDetailViewController
             //detailView.rightBarButton.enabled = false
             detailView.event = eventAtIndexPath(path)
+        }
+        
+        if segue.identifier == "goToSettings" {
+            let nav = segue.destinationViewController as! GrapevineNavigationController
+            let settingsView = nav.topViewController as! SettingsViewController
+            settingsView.userToken = self.userToken
+            settingsView.shouldShowMultiDayEvents = self.isShowingMultiDayEvents
+            settingsView.shouldShowAllDayEvents = self.isShowingAllDayEvents
         }
         
         

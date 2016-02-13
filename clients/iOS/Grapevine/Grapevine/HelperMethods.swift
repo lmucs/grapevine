@@ -9,6 +9,9 @@
 import Foundation
 import CVCalendar
 
+let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
+
+let apiBaseUrlHttps = "https://nara-56688.herokussl.com"
 let apiBaseUrl = "https://grapevine.herokuapp.com"
 
 let grapevineButtonColor = UIColor(red:0.54, green:0.07, blue:0.53, alpha:1.0)

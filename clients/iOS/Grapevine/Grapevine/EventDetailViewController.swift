@@ -96,7 +96,8 @@ class EventDetailViewController: UIViewController {
             
         }
         if segue.identifier == "backToCalendar" {
-            
+            //let calView = segue.destinationViewController as! CalendarViewController
+            //calView.currentCalDate = self.event.startTime.dateCV
         }
         
     }
