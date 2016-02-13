@@ -287,7 +287,7 @@
         <!--Grapevine-->
         <scene sceneID="Q3W-3w-bqJ">
             <objects>
-                <viewController id="d4C-Ke-usC" customClass="EventListViewController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="d4C-Ke-usC" customClass="EventListViewController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="LtW-yP-1El"/>
                         <viewControllerLayoutGuide type="bottom" id="IsK-tK-bOB"/>
@@ -297,11 +297,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="90" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YzN-nx-1VJ">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <searchBar key="tableHeaderView" contentMode="redraw" id="Xv8-ZU-NcP">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="barTintColor" red="0.80645814299999996" green="0.6618920519" blue="0.80996221400000001" alpha="1" colorSpace="calibratedRGB"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </searchBar>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="eventCell" rowHeight="90" id="awM-dn-rfD" customClass="EventTableViewCell" customModule="Grapevine" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="92" width="600" height="90"/>
+                                        <rect key="frame" x="0.0" y="72" width="600" height="90"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="awM-dn-rfD" id="asY-z3-22h">
                                             <rect key="frame" x="0.0" y="0.0" width="567" height="89"/>
@@ -380,7 +386,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="noEventsCell" rowHeight="90" id="ZN4-lu-aEj" customClass="NoEventsTableViewCell" customModule="Grapevine" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="182" width="600" height="90"/>
+                                        <rect key="frame" x="0.0" y="162" width="600" height="90"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZN4-lu-aEj" id="RxV-bZ-Amy">
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="89"/>
@@ -438,21 +444,22 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="YzN-nx-1VJ" firstAttribute="top" secondItem="eWu-qE-XHM" secondAttribute="topMargin" id="9Wl-C7-U2I"/>
-                            <constraint firstItem="YzN-nx-1VJ" firstAttribute="centerX" secondItem="eWu-qE-XHM" secondAttribute="centerX" id="Nhw-Rg-QjQ"/>
-                            <constraint firstItem="YzN-nx-1VJ" firstAttribute="leading" secondItem="eWu-qE-XHM" secondAttribute="leadingMargin" constant="-20" id="R0w-E4-NCD"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="YzN-nx-1VJ" secondAttribute="trailing" constant="-20" id="eVz-ZL-TWL"/>
-                            <constraint firstItem="IsK-tK-bOB" firstAttribute="top" secondItem="YzN-nx-1VJ" secondAttribute="bottom" id="uRC-vg-zOQ"/>
+                            <constraint firstItem="YzN-nx-1VJ" firstAttribute="centerX" secondItem="eWu-qE-XHM" secondAttribute="centerX" id="TPk-19-LNf"/>
+                            <constraint firstItem="YzN-nx-1VJ" firstAttribute="top" secondItem="LtW-yP-1El" secondAttribute="bottom" id="bCE-wY-Juu"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="YzN-nx-1VJ" secondAttribute="trailing" constant="-20" id="ouV-j6-fMZ"/>
+                            <constraint firstItem="YzN-nx-1VJ" firstAttribute="leading" secondItem="eWu-qE-XHM" secondAttribute="leadingMargin" constant="-20" id="sju-4S-1Lc"/>
+                            <constraint firstItem="IsK-tK-bOB" firstAttribute="top" secondItem="YzN-nx-1VJ" secondAttribute="bottom" id="w0x-S8-AVE"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Grapevine" id="8aY-or-hzN">
                         <barButtonItem key="rightBarButtonItem" image="glyphicons-137-cogwheel" id="4Mf-zs-z0v">
                             <connections>
-                                <segue destination="6dR-yE-XTp" kind="presentation" identifier="goToSettingsSegue" id="P13-di-8f7"/>
+                                <segue destination="6dR-yE-XTp" kind="presentation" identifier="goToSettings" id="P13-di-8f7"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="searchBar" destination="Xv8-ZU-NcP" id="hBz-kR-eGK"/>
                         <outlet property="tableView" destination="YzN-nx-1VJ" id="YGL-g7-kqc"/>
                     </connections>
                 </viewController>
@@ -934,30 +941,141 @@
                                     <action selector="logoutPressed:" destination="ZLW-Jy-7nr" eventType="touchUpInside" id="5WV-Ja-gHO"/>
                                 </connections>
                             </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qfy-Ts-4gy">
+                                <rect key="frame" x="170" y="72" width="260" height="61"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show Multi-Day Events:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C9z-uR-lAJ">
+                                        <rect key="frame" x="0.0" y="20" width="182" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Gcp-7S-Vx1">
+                                        <rect key="frame" x="203" y="15" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="multiDaySwitchToggled:" destination="ZLW-Jy-7nr" eventType="valueChanged" id="tT4-uI-tzo"/>
+                                        </connections>
+                                    </switch>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="Gcp-7S-Vx1" secondAttribute="trailing" constant="8" id="CqJ-On-jaL"/>
+                                    <constraint firstItem="C9z-uR-lAJ" firstAttribute="leading" secondItem="Qfy-Ts-4gy" secondAttribute="leading" id="HGw-Y4-VpX"/>
+                                    <constraint firstItem="Gcp-7S-Vx1" firstAttribute="centerY" secondItem="Qfy-Ts-4gy" secondAttribute="centerY" id="N16-AF-biS"/>
+                                    <constraint firstAttribute="width" constant="260" id="SQc-nZ-88M"/>
+                                    <constraint firstAttribute="height" constant="61" id="cxd-TY-NVO"/>
+                                    <constraint firstItem="C9z-uR-lAJ" firstAttribute="centerY" secondItem="Qfy-Ts-4gy" secondAttribute="centerY" id="mCU-VU-4mb"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MFz-i4-kqG">
+                                <rect key="frame" x="170" y="141" width="260" height="60"/>
+                                <subviews>
+                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ohk-kX-Z46">
+                                        <rect key="frame" x="203" y="15" width="51" height="31"/>
+                                        <connections>
+                                            <action selector="allDaySwitchToggled:" destination="ZLW-Jy-7nr" eventType="valueChanged" id="cYj-Ir-F0R"/>
+                                        </connections>
+                                    </switch>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Show All-Day Events:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ESl-JV-tBB">
+                                        <rect key="frame" x="0.0" y="20" width="163" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="ESl-JV-tBB" firstAttribute="centerY" secondItem="MFz-i4-kqG" secondAttribute="centerY" id="5uf-Ba-Ztw"/>
+                                    <constraint firstAttribute="width" constant="260" id="MsK-mm-tMm"/>
+                                    <constraint firstAttribute="height" constant="60" id="Mxo-JT-ODs"/>
+                                    <constraint firstAttribute="trailing" secondItem="ohk-kX-Z46" secondAttribute="trailing" constant="8" id="hFy-9e-zpD"/>
+                                    <constraint firstItem="ohk-kX-Z46" firstAttribute="centerY" secondItem="MFz-i4-kqG" secondAttribute="centerY" id="s1O-Tv-dg0"/>
+                                    <constraint firstItem="ESl-JV-tBB" firstAttribute="leading" secondItem="MFz-i4-kqG" secondAttribute="leading" id="szh-4O-RQ3"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UBw-mA-1zn">
+                                <rect key="frame" x="270" y="550" width="61" height="30"/>
+                                <state key="normal" title="Licenses"/>
+                                <connections>
+                                    <segue destination="e4j-vI-5Y0" kind="presentation" id="t7A-e7-wCQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="ef7-wI-dhh" firstAttribute="centerY" secondItem="pXV-CR-A6N" secondAttribute="centerY" id="Be5-Yi-MXu"/>
                             <constraint firstItem="ef7-wI-dhh" firstAttribute="leading" secondItem="pXV-CR-A6N" secondAttribute="leadingMargin" constant="88" id="G9X-g6-46d"/>
+                            <constraint firstItem="Qfy-Ts-4gy" firstAttribute="top" secondItem="p6T-Lv-abX" secondAttribute="bottom" constant="8" id="HGF-Uc-bvG"/>
+                            <constraint firstItem="MFz-i4-kqG" firstAttribute="centerX" secondItem="pXV-CR-A6N" secondAttribute="centerX" id="IWx-xF-RDd"/>
                             <constraint firstAttribute="trailingMargin" secondItem="ef7-wI-dhh" secondAttribute="trailing" constant="88" id="anr-VU-tXZ"/>
+                            <constraint firstItem="UBw-mA-1zn" firstAttribute="centerX" secondItem="pXV-CR-A6N" secondAttribute="centerX" id="eJk-8k-zIH"/>
+                            <constraint firstItem="QNi-ID-Y6z" firstAttribute="top" secondItem="UBw-mA-1zn" secondAttribute="bottom" constant="20" id="hYQ-Ov-1CY"/>
+                            <constraint firstItem="MFz-i4-kqG" firstAttribute="top" secondItem="Qfy-Ts-4gy" secondAttribute="bottom" constant="8" id="ija-Qg-QK3"/>
                             <constraint firstItem="ef7-wI-dhh" firstAttribute="centerX" secondItem="pXV-CR-A6N" secondAttribute="centerX" id="j3G-4M-XNY"/>
+                            <constraint firstItem="Qfy-Ts-4gy" firstAttribute="centerX" secondItem="pXV-CR-A6N" secondAttribute="centerX" id="lar-Hf-urv"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Settings" id="ZWj-5b-fSS">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="aWu-WT-FIB">
                             <connections>
-                                <segue destination="VEd-9o-Gpj" kind="unwind" unwindAction="backToEventListViewController:" id="eFL-o8-Awe"/>
+                                <segue destination="VEd-9o-Gpj" kind="unwind" identifier="backFromSettings" unwindAction="backToEventListViewController:" id="eFL-o8-Awe"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="logoutButton" destination="ef7-wI-dhh" id="TS1-4a-U1t"/>
+                        <outlet property="showAllDaySwitch" destination="ohk-kX-Z46" id="Wyv-QR-EV4"/>
+                        <outlet property="showMultiDaySwitch" destination="Gcp-7S-Vx1" id="gTK-pc-2jz"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qqj-bZ-Hva" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="VEd-9o-Gpj" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="4395" y="-789"/>
+        </scene>
+        <!--Licenses-->
+        <scene sceneID="Vd8-d3-xkU">
+            <objects>
+                <viewController id="Xyg-Fm-SIA" customClass="LicensesViewController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="5d0-8V-zXB"/>
+                        <viewControllerLayoutGuide type="bottom" id="iRd-eP-qsw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="kdu-eE-qxI">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2ru-GN-fIN">
+                                <rect key="frame" x="20" y="72" width="560" height="520"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2ru-GN-fIN" firstAttribute="leading" secondItem="kdu-eE-qxI" secondAttribute="leadingMargin" id="MbM-e2-qYs"/>
+                            <constraint firstItem="2ru-GN-fIN" firstAttribute="top" secondItem="5d0-8V-zXB" secondAttribute="bottom" constant="8" id="PJR-cz-YVs"/>
+                            <constraint firstItem="2ru-GN-fIN" firstAttribute="centerX" secondItem="kdu-eE-qxI" secondAttribute="centerX" id="TSr-YS-13b"/>
+                            <constraint firstItem="iRd-eP-qsw" firstAttribute="top" secondItem="2ru-GN-fIN" secondAttribute="bottom" constant="8" id="jO9-yY-6yA"/>
+                            <constraint firstItem="2ru-GN-fIN" firstAttribute="trailing" secondItem="kdu-eE-qxI" secondAttribute="trailingMargin" id="vlW-gf-uIb"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Licenses" id="WXC-Zi-lyh">
+                        <barButtonItem key="leftBarButtonItem" title="Back" id="97S-E0-bCX">
+                            <connections>
+                                <segue destination="mJJ-6W-Jdm" kind="unwind" unwindAction="backToSettingsViewController:" id="fWT-bm-seu"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="licenseField" destination="2ru-GN-fIN" id="4Ka-yN-gm5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DmZ-kK-kfo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="mJJ-6W-Jdm" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="6009" y="-789"/>
         </scene>
         <!--Grapevine Navigation Controller-->
         <scene sceneID="0mP-Ea-cJk">
@@ -1052,6 +1170,24 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4ba-Ln-RXq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3613" y="-789"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="727-gS-O4t">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="e4j-vI-5Y0" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="i6e-pJ-fmJ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Xyg-Fm-SIA" kind="relationship" relationship="rootViewController" id="8bm-dP-fdf"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="OUR-5V-G9X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5197" y="-789"/>
         </scene>
     </scenes>
     <resources>

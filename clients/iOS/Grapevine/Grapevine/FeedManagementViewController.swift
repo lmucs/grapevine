@@ -15,7 +15,12 @@ import ObjectMapper
 class FeedManagementViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var myFeeds: [Feed] = [Feed]()
-    var userToken: Token!
+    
+    var indices: [Character] = [Character]()
+    var indexedFeeds = [String : [Feed]]()
+    var userToken: NSToken!
+    let alphabet: [String] = ["+","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+    
     var refreshView: UIView!
     var refreshControl = UIRefreshControl()
     
@@ -26,6 +31,11 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         tableView.delegate = self
         tableView.dataSource = self
         
+        for letter in alphabet {
+            if letter != "+" {
+                self.indexedFeeds[letter] = [Feed]()
+            }
+        }
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
         view.addGestureRecognizer(tap)
@@ -56,15 +66,25 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         view.endEditing(true)
     }
     
+    func indexFeeds(){
+        for feed in self.myFeeds {
+            let firstLetter : Character = feed.feedName[feed.feedName.startIndex]
+            self.indexedFeeds[String(firstLetter)]?.append(feed)
+        }
+    }
+    
     // Mark: - Table View Delegate Functions
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // Return the number of sections.
-        return 2
+        return indexedFeeds.count + 1
     }
     
+    func sectionIndexTitlesForTableView(tableView: UITableView) -> [String]? {
+        return alphabet as [String]
+    }
+    
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // Return the number of rows in the section.
         if section == 0 {
             return 1
         }
@@ -74,7 +94,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         if self.myFeeds.count == 0 {
             return 1
         }
-        return self.myFeeds.count
+        return self.indexedFeeds[alphabet[section]]!.count
     }
     
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
@@ -92,7 +112,11 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         if section == 0 {
             return NSLocalizedString("Add Feed", comment: "")
         }
-        return NSLocalizedString("My Feeds", comment: "")
+        if section == 1 {
+            return "My Feeds"
+        }
+        return nil
+        //return String(alphabet[section - 1])
     }
     
     
@@ -113,8 +137,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             return cell
         }
         let cell = tableView.dequeueReusableCellWithIdentifier("feedCell", forIndexPath: indexPath) as! FeedTableViewCell
-        cell.feedNameLabel.text = self.myFeeds[indexPath.row].feedName
-        if self.myFeeds[indexPath.row].networkName == "facebook" {
+        cell.feedNameLabel.text = self.indexedFeeds[alphabet[indexPath.section]]![indexPath.row].feedName
+        //cell.feedNameLabel.text = self.myFeeds[indexPath.row].feedName
+        if self.indexedFeeds[alphabet[indexPath.section]]![indexPath.row].networkName == "facebook" {
             cell.feedNetwork.image = UIImage(named: "facebook_brand_logo")
         }
         else {
@@ -306,6 +331,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                             self.refreshControl.endRefreshing()
                             
                             self.myFeeds.sortInPlace({ $0.feedName.lowercaseString < $1.feedName.lowercaseString })
+                            self.indexFeeds()
                             self.tableView.reloadData()
                         }
                         else {

@@ -24,6 +24,7 @@ class CreateAccountViewController: UIViewController {
     @IBOutlet weak var feedbackLabel: UILabel!
     
     var userToken: Token!
+    var storedToken: NSToken?
     var appUser: User!
     var goodToCreate = [String : Bool]()
     let firstName = "firstName"
@@ -141,7 +142,7 @@ class CreateAccountViewController: UIViewController {
     }
     
     func isValidPassword(testStr: String) -> Bool {
-        let passwordRegEx = "^[a-z0-9_-]{6,256}$"
+        let passwordRegEx = "^[a-z0-9_-]{8,256}$"
         let passwordTest = NSPredicate(format:"SELF MATCHES %@", passwordRegEx)
         return passwordTest.evaluateWithObject(testStr)
     }
@@ -281,7 +282,7 @@ class CreateAccountViewController: UIViewController {
         if segue.identifier == "createAccountSegue" {
             let nav = segue.destinationViewController as! GrapevineNavigationController
             let eventsView = nav.topViewController as! EventListViewController
-            eventsView.userToken = self.userToken
+            eventsView.userToken = self.storedToken
             //eventsView.getAllUserEvents()
         }
         
