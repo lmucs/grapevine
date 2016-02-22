@@ -18,7 +18,7 @@
 		F125667C1BC4B49700EDFA36 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = F125667B1BC4B49700EDFA36 /* Token.swift */; };
 		F12C191D1C2232CB002EF78C /* GrapevineTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C191C1C2232CB002EF78C /* GrapevineTabViewController.swift */; };
 		F12C19211C28D478002EF78C /* RefreshView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F12C19201C28D478002EF78C /* RefreshView.xib */; };
-		F12C19231C292604002EF78C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C19221C292604002EF78C /* SettingsViewController.swift */; };
+		F12C19231C292604002EF78C /* SettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12C19221C292604002EF78C /* SettingsTableViewController.swift */; };
 		F12ECDA81C1AC1E4007D8619 /* NoEventsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12ECDA71C1AC1E4007D8619 /* NoEventsTableViewCell.swift */; };
 		F12ECDAC1C1CCAB2007D8619 /* GrapevineNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12ECDAB1C1CCAB2007D8619 /* GrapevineNavigationController.swift */; };
 		F1329D6D1C52F337004D479E /* NSToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1329D6C1C52F337004D479E /* NSToken.swift */; };
@@ -67,7 +67,7 @@
 		F125667B1BC4B49700EDFA36 /* Token.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		F12C191C1C2232CB002EF78C /* GrapevineTabViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrapevineTabViewController.swift; sourceTree = "<group>"; };
 		F12C19201C28D478002EF78C /* RefreshView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RefreshView.xib; sourceTree = "<group>"; };
-		F12C19221C292604002EF78C /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		F12C19221C292604002EF78C /* SettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsTableViewController.swift; sourceTree = "<group>"; };
 		F12ECDA71C1AC1E4007D8619 /* NoEventsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoEventsTableViewCell.swift; sourceTree = "<group>"; };
 		F12ECDAB1C1CCAB2007D8619 /* GrapevineNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrapevineNavigationController.swift; sourceTree = "<group>"; };
 		F1329D6C1C52F337004D479E /* NSToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSToken.swift; sourceTree = "<group>"; };
@@ -150,7 +150,7 @@
 				F121A14F1B9F56E2008E3F7A /* AppDelegate.swift */,
 				F121A1561B9F56E2008E3F7A /* Main.storyboard */,
 				F11D035B1C2DEC3B0027C0A1 /* Localizable.strings */,
-				F12C19221C292604002EF78C /* SettingsViewController.swift */,
+				F12C19221C292604002EF78C /* SettingsTableViewController.swift */,
 				F12C191C1C2232CB002EF78C /* GrapevineTabViewController.swift */,
 				F12ECDA71C1AC1E4007D8619 /* NoEventsTableViewCell.swift */,
 				F16C8BC81C04D7A500EE66EC /* FeedManagementViewController.swift */,
@@ -363,7 +363,7 @@
 			files = (
 				F125667C1BC4B49700EDFA36 /* Token.swift in Sources */,
 				F12ECDA81C1AC1E4007D8619 /* NoEventsTableViewCell.swift in Sources */,
-				F12C19231C292604002EF78C /* SettingsViewController.swift in Sources */,
+				F12C19231C292604002EF78C /* SettingsTableViewController.swift in Sources */,
 				F1EBFECE1C16412100F4AF0E /* Feed.swift in Sources */,
 				F12ECDAC1C1CCAB2007D8619 /* GrapevineNavigationController.swift in Sources */,
 				F12C191D1C2232CB002EF78C /* GrapevineTabViewController.swift in Sources */,

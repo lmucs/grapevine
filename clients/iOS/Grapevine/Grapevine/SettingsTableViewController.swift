@@ -8,11 +8,10 @@
 
 import UIKit
 
-class SettingsViewController: UIViewController {
+class SettingsTableViewController: UITableViewController {
     
     var userToken: NSToken?
     
-    @IBOutlet weak var logoutButton: UIButton!
     @IBOutlet weak var showMultiDaySwitch: UISwitch!
     @IBOutlet weak var showAllDaySwitch: UISwitch!
     
@@ -23,7 +22,7 @@ class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupGrapevineButton(logoutButton)
+        //setupGrapevineButton(logoutButton)
         showMultiDaySwitch.on = self.shouldShowMultiDayEvents
         showAllDaySwitch.on = self.shouldShowAllDayEvents
     }
@@ -33,8 +32,35 @@ class SettingsViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func logoutPressed(sender: UIButton!){
-        sender.enabled = false
+    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 3
+    }
+    
+    override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        if section == 3 {
+            if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
+                return "Version \(version)"
+            }
+        }
+        return nil
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 2
+        }
+        return 1
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.section == 3 {
+            logout()
+        }
+    }
+    
+    
+    
+    func logout(){
         // would also need to invalid token eventually
         managedObjectContext?.deleteObject(self.userToken!)
         do {
