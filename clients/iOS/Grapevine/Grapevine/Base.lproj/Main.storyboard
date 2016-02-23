@@ -944,6 +944,7 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rLg-19-62L">
                                                     <rect key="frame" x="535" y="6" width="51" height="31"/>
+                                                    <color key="onTintColor" red="0.27450980390000002" green="0.71764705880000002" blue="0.4549019608" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
                                                         <action selector="multiDaySwitchToggled:" destination="JuV-zg-mbt" eventType="valueChanged" id="RbK-mI-LFt"/>
                                                     </connections>
@@ -972,6 +973,7 @@
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="odh-N3-ly3">
                                                     <rect key="frame" x="535" y="6" width="51" height="31"/>
+                                                    <color key="onTintColor" red="0.27450980390000002" green="0.71764705880000002" blue="0.4549019608" alpha="1" colorSpace="calibratedRGB"/>
                                                     <connections>
                                                         <action selector="allDaySwitchToggled:" destination="JuV-zg-mbt" eventType="valueChanged" id="nsv-wD-Xqy"/>
                                                     </connections>
