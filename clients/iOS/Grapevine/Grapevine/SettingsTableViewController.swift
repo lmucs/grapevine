@@ -51,7 +51,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.section == 3 {
+        if indexPath.section == 2 {
             logout()
         }
     }
