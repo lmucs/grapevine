@@ -313,7 +313,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         
         if segue.identifier == "goToSettings" {
             let nav = segue.destinationViewController as! GrapevineNavigationController
-            let settingsView = nav.topViewController as! SettingsViewController
+            let settingsView = nav.topViewController as! SettingsTableViewController
             settingsView.userToken = self.userToken
             settingsView.shouldShowMultiDayEvents = self.isShowingMultiDayEvents
             settingsView.shouldShowAllDayEvents = self.isShowingAllDayEvents
