@@ -454,7 +454,7 @@
                     <navigationItem key="navigationItem" title="Grapevine" id="8aY-or-hzN">
                         <barButtonItem key="rightBarButtonItem" image="glyphicons-137-cogwheel" id="4Mf-zs-z0v">
                             <connections>
-                                <segue destination="pl7-t3-ULn" kind="presentation" identifier="goToSettingsSegue" id="5P8-yq-APh"/>
+                                <segue destination="pl7-t3-ULn" kind="presentation" identifier="goToSettings" id="5P8-yq-APh"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -918,7 +918,7 @@
             </objects>
             <point key="canvasLocation" x="2780" y="1155"/>
         </scene>
-        <!--Settings Table View Controller-->
+        <!--Settings-->
         <scene sceneID="CqV-ch-Cxe">
             <objects>
                 <tableViewController id="JuV-zg-mbt" customClass="SettingsTableViewController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
@@ -945,7 +945,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rLg-19-62L">
                                                     <rect key="frame" x="535" y="6" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="allDaySwitchToggled:" destination="JuV-zg-mbt" eventType="valueChanged" id="9Wj-d6-XNd"/>
+                                                        <action selector="multiDaySwitchToggled:" destination="JuV-zg-mbt" eventType="valueChanged" id="RbK-mI-LFt"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -973,7 +973,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="odh-N3-ly3">
                                                     <rect key="frame" x="535" y="6" width="51" height="31"/>
                                                     <connections>
-                                                        <action selector="multiDaySwitchToggled:" destination="JuV-zg-mbt" eventType="valueChanged" id="Sfu-jt-ksh"/>
+                                                        <action selector="allDaySwitchToggled:" destination="JuV-zg-mbt" eventType="valueChanged" id="nsv-wD-Xqy"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -1044,7 +1044,7 @@
                             <outlet property="delegate" destination="JuV-zg-mbt" id="Z9j-km-khg"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="SeC-ab-Buc">
+                    <navigationItem key="navigationItem" title="Settings" id="SeC-ab-Buc">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="a4x-PY-Zaj">
                             <connections>
                                 <segue destination="bpA-pV-Dqh" kind="unwind" identifier="backFromSettings" unwindAction="backToEventListViewController:" id="aFi-MS-hHc"/>
@@ -1199,10 +1199,10 @@
             </objects>
             <point key="canvasLocation" x="5197" y="-789"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Grapevine Navigation Controller-->
         <scene sceneID="tBj-Ut-uJY">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pl7-t3-ULn" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pl7-t3-ULn" customClass="GrapevineNavigationController" customModule="Grapevine" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="oYF-xd-lF1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

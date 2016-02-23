@@ -17,8 +17,6 @@ class SettingsTableViewController: UITableViewController {
     
     var shouldShowMultiDayEvents: Bool = true
     var shouldShowAllDayEvents: Bool = true
-    
-    //let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +35,7 @@ class SettingsTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if section == 3 {
+        if section == 2 {
             if let version = NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String {
                 return "Version \(version)"
             }
