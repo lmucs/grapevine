@@ -22,6 +22,7 @@
 		F12ECDA81C1AC1E4007D8619 /* NoEventsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12ECDA71C1AC1E4007D8619 /* NoEventsTableViewCell.swift */; };
 		F12ECDAC1C1CCAB2007D8619 /* GrapevineNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F12ECDAB1C1CCAB2007D8619 /* GrapevineNavigationController.swift */; };
 		F1329D6D1C52F337004D479E /* NSToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = F1329D6C1C52F337004D479E /* NSToken.swift */; };
+		F14ADB4B1C93A58C005CAF37 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14ADB4A1C93A58C005CAF37 /* ForgotPasswordViewController.swift */; };
 		F14B2A361BD2DD9B00C1E17E /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F14B2A351BD2DD9B00C1E17E /* CalendarViewController.swift */; };
 		F16C8BC91C04D7A500EE66EC /* FeedManagementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F16C8BC81C04D7A500EE66EC /* FeedManagementViewController.swift */; };
 		F17935681BBAFD3B001F8791 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17935671BBAFD3B001F8791 /* Event.swift */; };
@@ -71,6 +72,7 @@
 		F12ECDA71C1AC1E4007D8619 /* NoEventsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoEventsTableViewCell.swift; sourceTree = "<group>"; };
 		F12ECDAB1C1CCAB2007D8619 /* GrapevineNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrapevineNavigationController.swift; sourceTree = "<group>"; };
 		F1329D6C1C52F337004D479E /* NSToken.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSToken.swift; sourceTree = "<group>"; };
+		F14ADB4A1C93A58C005CAF37 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		F14B2A351BD2DD9B00C1E17E /* CalendarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		F16C8BC81C04D7A500EE66EC /* FeedManagementViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedManagementViewController.swift; sourceTree = "<group>"; };
 		F17935671BBAFD3B001F8791 /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			children = (
 				F121A14F1B9F56E2008E3F7A /* AppDelegate.swift */,
 				F121A1561B9F56E2008E3F7A /* Main.storyboard */,
+				F14ADB4A1C93A58C005CAF37 /* ForgotPasswordViewController.swift */,
 				F11D035B1C2DEC3B0027C0A1 /* Localizable.strings */,
 				F12C19221C292604002EF78C /* SettingsTableViewController.swift */,
 				F12C191C1C2232CB002EF78C /* GrapevineTabViewController.swift */,
@@ -369,6 +372,7 @@
 				F12C191D1C2232CB002EF78C /* GrapevineTabViewController.swift in Sources */,
 				F1ECD65D1BA894CB001FFD58 /* CreateAccountViewController.swift in Sources */,
 				F1ECD65F1BA89FE6001FFD58 /* EventListViewController.swift in Sources */,
+				F14ADB4B1C93A58C005CAF37 /* ForgotPasswordViewController.swift in Sources */,
 				F17D009F1C093181002632AD /* EventTime.swift in Sources */,
 				F1ECD65B1BA88895001FFD58 /* LoginViewController.swift in Sources */,
 				F121A1501B9F56E2008E3F7A /* AppDelegate.swift in Sources */,

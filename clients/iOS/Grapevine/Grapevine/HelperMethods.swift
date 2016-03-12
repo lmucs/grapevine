@@ -23,6 +23,16 @@ let grapevineIndicatorColor = UIColor(red:0.27, green:0.72, blue:0.45, alpha:1.0
 let textLogo = UIImage(named: "grapevine-logo-full-words-outline2swag.png")
 let textLogoSmall = UIImage(named: "grapevine-logo-full-words-outline2swag40h")
 
+// Form validation
+
+func isValidEmail(testStr:String) -> Bool {
+    // credit to http://stackoverflow.com/questions/27998409/email-phone-validation-in-swift/27998447#27998447
+    let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}"
+    
+    let emailTest = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+    return emailTest.evaluateWithObject(testStr)
+}
+
 
 // User feedback on text fields
 
@@ -32,11 +42,23 @@ func setErrorColor(textField: UITextField) {
     textField.layer.borderWidth = 1.5
 }
 
+func setErrorColor(label: UILabel){
+    let errorColor: UIColor = UIColor.redColor()
+    label.textColor = errorColor
+}
+
 func setSuccessColor(textField: UITextField) {
     let successColor : UIColor = UIColor( red: 0.3, green: 0.5, blue:0.3, alpha: 1.0 )
     textField.layer.borderColor = successColor.CGColor
     textField.layer.borderWidth = 1.5
 }
+
+func setSuccessColor(label: UILabel){
+    let successColor: UIColor = UIColor(red: 0.3, green: 0.5, blue:0.3, alpha: 1.0 )
+    label.textColor = successColor
+}
+
+
 
 func setupGrapevineButton(button: UIButton){
     button.backgroundColor = grapevineButtonColor
