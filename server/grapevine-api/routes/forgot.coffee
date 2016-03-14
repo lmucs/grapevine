@@ -1,6 +1,13 @@
 dotenv     = require 'dotenv-with-overload'
 crypto     = require 'crypto'
 nodemailer = require 'nodemailer'
+mustache   = require 'mu2'
+
+mustache.root = __dirname + '../../templates'
+apiHost       = 'localhost'
+passwordResetTimeoutMinutes = 5
+grapevine_logoBase64 = 
+
 
 forgot =
 
@@ -28,17 +35,24 @@ forgot =
       return callback err if err
       callback null, result.rows[0]
 
+  renderResetEmailTemplate = (user, callback) ->
+    payload =
+      name: user 
+      expiresInMinutes: passwordResetTimeoutMinutes
+
+    mustache.compileAndRender 'password_reset_email.html', payload
+
   sendForgotPasswordEmail = (req, token, user) ->
     smptTransport = nodemailer.createTransport process.env.EMAIL_CONN,
+    resetUrl = "http://#{apiHost}/reset/#{token}"
     mailOptions = 
       from: 'Grapevine <grapevineFP@gmail.com>'
       to: user.email
       subject: 'Grapevine Password Reset'
-      text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
-         'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
-         'http://' + req.headers.host + '/reset/' + token + '\n\n' +
-         'If you did not request this, please ignore this email and your password will remain unchanged.\n'
-
+      text: "You recently requested to reset your password for your Grapevine account. Copy and paste the link below into your browser window to reset it.\n\n
+         #{resetUrl}\n\n
+         If you did not request a password reset, please ignore this email and your account will remain unchanged. This password reset is only valid for the next #{passwordResetTimeoutMinutes} minutes.\n"
+      html: renderResetEmailTemplate user, resetUrl
   
 reset = 
 
