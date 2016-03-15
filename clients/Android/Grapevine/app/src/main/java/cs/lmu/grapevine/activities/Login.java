@@ -145,4 +145,9 @@ public class Login extends Activity {
         Intent eventFeed = new Intent(this, EventFeed.class);
         startActivity(eventFeed);
     }
+
+    public void launchForgottenPasswordActivity(View view) {
+        Intent forgottenPassword = new Intent(this, ForgottenPassword.class);
+        startActivity(forgottenPassword);
+    }
 }

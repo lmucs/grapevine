@@ -368,4 +368,9 @@ THIS SOFTWARE IS PROVIDED BY HIRONDELLE SYSTEMS \'\'AS IS\'\' AND ANY EXPRESS OR
     <string name="Volley">Volley</string>
     <string name="Gson">Gson</string>
     <string name="date4j">date4j</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="title_activity_forgotten_password">Forgotten Password</string>
+    <string name="forgot_password_2">Forgot your password?</string>
+    <string name="forgotten_password_description">No worries! Just enter your email address and we\'ll send you an email with instructions on how to reset your password.</string>
+    <string name="forgotten_password_hint">Email Address</string>
 </resources>
