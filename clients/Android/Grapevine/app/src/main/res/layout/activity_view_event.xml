@@ -91,19 +91,18 @@
         android:layout_gravity="center"
         android:layout_marginBottom="@dimen/activity_vertical_margin">
     </LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/single_event_original_post"
-        android:text="@string/lorem_ipsum"
-        android:linksClickable="true"
-        android:autoLink="web" />
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".9"></ScrollView>
+        android:layout_weight=".9">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/single_event_original_post"
+            android:text="@string/lorem_ipsum"
+            android:linksClickable="true"
+            android:autoLink="web" />
+    </ScrollView>
     <TextView android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/view_original_post"

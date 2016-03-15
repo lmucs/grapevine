@@ -144,18 +144,17 @@ public class ViewEvent extends AppCompatActivity {
             if (eventLocation.get("name") != null) {
                 location += eventLocation.get("name");
             }
-        } else {
 
             if (eventLocation.get("street") != null){
-                location += "," + eventLocation.get("street");
+                location += " " + eventLocation.get("street");
             }
 
             if (eventLocation.get("state") != null) {
-                location += "," + eventLocation.get("state");
+                location += " , " + eventLocation.get("state");
             }
 
             if (eventLocation.get("country") != null) {
-                location += "," + eventLocation.get("country");
+                location += " " + eventLocation.get("country");
             }
 
         }
