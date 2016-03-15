@@ -147,19 +147,20 @@ public class ViewEvent extends AppCompatActivity {
         } else {
 
             if (eventLocation.get("street") != null){
-                location += eventLocation.get("street");
+                location += "," + eventLocation.get("street");
             }
 
             if (eventLocation.get("state") != null) {
-                location += eventLocation.get("state");
+                location += "," + eventLocation.get("state");
             }
 
             if (eventLocation.get("country") != null) {
-                location += eventLocation.get("country");
+                location += "," + eventLocation.get("country");
             }
 
         }
-        originalPostView.append(location);
+        TextView locationView = (TextView)findViewById(R.id.event_location);
+        locationView.setText(location);
 
         LinearLayout tags = (LinearLayout)findViewById(R.id.tags);
         if (eventToDisplay.getTags().length != 0) {
