@@ -12,6 +12,7 @@ import Alamofire
 import AlamofireObjectMapper
 import ObjectMapper
 import CVCalendar
+import CoreData
 
 class LoginViewController: UIViewController {
 
@@ -26,54 +27,91 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    var userToken: Token!
-    var appUser: User!
-    
+    var userToken: Token?
+    var storedToken: NSToken?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-         // Do any additional setup after loading the view.
         self.activityIndicator.hidden = true
         self.loginFailedLabel.hidden = true
         setupGrapevineButton(self.loginButton)
+        setVisualStrings()
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        fetchToken()
+        self.view.hidden = true
+        if storedToken != nil {
+            print(self.storedToken!.firstName)
+            self.performSegueWithIdentifier("loginSegue", sender: self)
+        }
+        self.view.hidden = false
+        super.viewDidAppear(animated)
+    }
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    
-    //link back from CreateAccountVC
-    @IBAction func backToLoginViewController(segue:UIStoryboardSegue) {
-        
+    func storeToken(token: Token){
+        if let moc = managedObjectContext {
+            NSToken.createInManagedObjectContext(moc, token: token)
+        }
+        // save the context
+        do {
+            try managedObjectContext!.save()
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
     }
     
-
-    @IBAction func loginPressed(sender: UIButton){
-        
-        func loginFailed(){
-            self.activityIndicator.hidden = true
-            self.loginFailedLabel.hidden = false
-            setErrorColor(self.usernameTextField)
-            setErrorColor(self.passwordTextField)
-            sender.enabled =  true
+    func fetchToken(){
+        let fetchRequest = NSFetchRequest(entityName: "NSToken")
+        do {
+            let fetchResults = try managedObjectContext!.executeFetchRequest(fetchRequest) as? [NSToken]
+            if fetchResults != nil {
+                print(fetchResults!.count)
+                if fetchResults!.count == 1 {
+                    print(fetchResults![0].firstName)
+                    self.storedToken = fetchResults![0]
+                }
+            }
         }
-        
-        sender.enabled = false
-        self.activityIndicator.hidden = false
-        self.activityIndicator.startAnimating()
-        
+        catch let error as NSError  {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+    }
     
+    func setVisualStrings(){
+        self.usernameTextField.placeholder = NSLocalizedString("Username", comment: "")
+        self.passwordTextField.placeholder = NSLocalizedString("Password", comment: "")
+        self.loginButton.setTitle(NSLocalizedString("Login", comment: ""), forState: .Normal)
+        self.createAccountButton.setTitle(NSLocalizedString("Create Account", comment: ""), forState: .Normal)
+    }
+    
+    func dismissKeyboard(){
+        view.endEditing(true)
+    }
+    
+    func loginFailed(){
+        self.activityIndicator.hidden = true
+        self.loginFailedLabel.hidden = false
+        setErrorColor(self.usernameTextField)
+        setErrorColor(self.passwordTextField)
+        self.loginButton.enabled =  true
+    }
+    
+    func login(){
         let loginUrl = NSURL(string: apiBaseUrl + "/api/v1/tokens")
         
         let loginCredentials: [String: AnyObject] = [
             "username": String(self.usernameTextField.text!),
             "password": String(self.passwordTextField.text!)
         ]
-        
-        self.appUser = Mapper<User>().map(loginCredentials)
         
         if NSJSONSerialization.isValidJSONObject(loginCredentials){
             Alamofire.request(.POST, loginUrl!, parameters: loginCredentials, encoding: .JSON)
@@ -86,36 +124,43 @@ class LoginViewController: UIViewController {
                             print("here")
                             
                             let responseToken = Mapper<Token>().map(response.2.value)
-                            print("Response token is \(responseToken!.token) \n")
+                            self.storeToken(responseToken!)
                             self.userToken = responseToken
-                            print("UserID is \(self.userToken.userID)")
-                            self.appUser.userID = self.userToken.userID
+                            
+                            print("Response token is \(responseToken!.token) \n")
+                            print("UserID is \(self.userToken!.userID)")
                             
                             self.performSegueWithIdentifier("loginSegue", sender: self)
                         }
                         else {
                             print("didn't get a 201")
                             self.loginFailedLabel.text = "Invalid Credentials"
-                            loginFailed()
-                            self.appUser = nil
+                            self.loginFailed()
                             // handle errors based on response code
-                            
                         }
                     }
                     else {
                         print("no response")
                         self.loginFailedLabel.text = "Connection Failed"
-                        loginFailed()
-                        self.appUser = nil
-                        
+                        self.loginFailed()
                     }
-                    
             }
         }
         else {
             //JSON invalid, throw exception
         }
+    }
+    
 
+    @IBAction func loginPressed(sender: UIButton){
+        sender.enabled = false
+        self.activityIndicator.hidden = false
+        self.activityIndicator.startAnimating()
+        login()
+    }
+    
+    @IBAction func backToLoginViewController(segue:UIStoryboardSegue) {
+        
     }
     
     
@@ -129,10 +174,15 @@ class LoginViewController: UIViewController {
         if segue.identifier == "loginSegue" {
             let tab = segue.destinationViewController as! GrapevineTabViewController
             let navEvent = tab.childViewControllers[0] as! GrapevineNavigationController
-            //let navEvent = segue.destinationViewController as! GrapevineNavigationController
             let eventsView = navEvent.topViewController as! EventListViewController
-            tab.userToken = self.userToken
-            eventsView.userToken = self.userToken
+            
+            self.fetchToken()
+            
+            print(self.storedToken!.userID!)
+            print(self.storedToken!.lastName!)
+            
+            tab.userToken = self.storedToken!
+            eventsView.userToken = self.storedToken!
             tab.getAllUserEvents()
 
         

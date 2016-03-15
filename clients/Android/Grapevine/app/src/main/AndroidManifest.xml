@@ -72,6 +72,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="cs.lmu.grapevine.activities.SettingsActivity" />
         </activity>
+        <activity
+            android:name=".activities.ForgottenPassword"
+            android:label="@string/title_activity_forgotten_password"
+            android:parentActivityName=".activities.Login"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="cs.lmu.grapevine.activities.Login" />
+        </activity>
     </application>
 
 </manifest>
