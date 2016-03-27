@@ -54,7 +54,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             // we should not get here
         }
         
-        self.refreshControl.addTarget(self, action: "updateEvents:", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(updateEvents), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView?.addSubview(refreshControl)
         loadCustomRefreshContents()
         self.refreshControl.beginRefreshing()

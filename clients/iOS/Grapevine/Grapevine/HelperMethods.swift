@@ -141,7 +141,7 @@ func monthIntToShortMonthString(month: Int) -> String {
 
 func monthIntToLowerCaseShortMonthString(month: Int) -> String {
     var lowercase = monthIntToShortMonthString(month).lowercaseString
-    lowercase.replaceRange(Range(start: lowercase.startIndex, end: lowercase.startIndex.successor()), with: String(lowercase[lowercase.startIndex]).capitalizedString)
+    lowercase.replaceRange(Range(lowercase.startIndex ..< lowercase.startIndex.successor()), with: String(lowercase[lowercase.startIndex]).capitalizedString)
     return lowercase
 }
 
