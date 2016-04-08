@@ -29,9 +29,7 @@ public class ViewEvent extends AppCompatActivity {
     private TextView eventDateView;
     private TextView eventUrlView;
     private TextView originalPostView;
-    private TextView singleEventDay;
     private TextView timeView;
-    private TextView multiDayView;
     private TextView eventMonth;
     private TextView eventDay;
     private TextView feedName;
@@ -72,9 +70,9 @@ public class ViewEvent extends AppCompatActivity {
 
     public void displayEvent(Event eventToDisplay) {
 
-        if (!(eventToDisplay.getTitle() == null)) {
+        if ((eventToDisplay.getTitle() != null)) {
             if (eventToDisplay.getTitle().length() > 30) {
-                eventTitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP,20);
+                eventTitleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
             }
             eventTitleView.setText(eventToDisplay.getTitle());
         } else {
@@ -84,14 +82,15 @@ public class ViewEvent extends AppCompatActivity {
         eventDay.setText(dayInMonth.format(eventToDisplay.getStartDate()));
         eventMonth.setText(monthAbbreviated.format(eventToDisplay.getStartDate()));
 
-        if (!(eventToDisplay.getPostContent() == null)
-         && !(eventToDisplay.getPostContent().equals(""))) {
+        if ((eventToDisplay.getPostContent() != null)
+         && (!eventToDisplay.getPostContent().equals(""))) {
             originalPostView.setText(eventToDisplay.getPostContent());
         } else {
             originalPostView.setText(R.string.no_post_content_message);
         }
 
         if (eventToDisplay.startsLaterToday()) {
+            eventDateView.setText(R.string.today);
             if (eventToDisplay.endTimeIsKnown()) {
                 timeView.setText(
                       timeOfEvent.format(eventToDisplay.getStartDate())
@@ -101,10 +100,23 @@ public class ViewEvent extends AppCompatActivity {
             } else {
                 timeView.setText(timeOfEvent.format(eventToDisplay.getStartDate()));
             }
-            eventDateView.setText("today");
-        } else if(!(eventToDisplay.endTimeIsKnown())) {
+
+        } else if(eventToDisplay.startsTomorrow()) {
+            eventDateView.setText(R.string.tomorrow);
+            if (eventToDisplay.endTimeIsKnown()) {
+                timeView.setText(
+                        timeOfEvent.format(eventToDisplay.getStartDate())
+                                + " - "
+                                + timeOfEvent.format(eventToDisplay.getEndDate())
+                );
+            } else {
+                timeView.setText(timeOfEvent.format(eventToDisplay.getStartDate()));
+            }
+        } else if(!eventToDisplay.endTimeIsKnown()) {
+            eventDateView.setText(fullDate.format(eventToDisplay.getStartDate()));
             timeView.setText(timeOfEvent.format(eventToDisplay.getStartDate()));
         } else if (eventToDisplay.endsLaterToday()) {
+            eventDateView.setText("right now");
             timeView.setText("ends today at " + timeOfEvent.format(eventToDisplay.getEndDate()));
         } else {
            eventDateView.setVisibility(View.INVISIBLE);
@@ -120,10 +132,12 @@ public class ViewEvent extends AppCompatActivity {
         }
 
         if (eventToDisplay.isMultiDay()) {
-            multiDayView.setVisibility(View.VISIBLE);
             timeView.setVisibility(View.GONE);
-
-            eventDateView.setText(fullDate.format(eventToDisplay.getStartDate()) + " - " + fullDate.format(eventToDisplay.getEndDate()));
+            eventDateView.setText(
+                fullDate.format(eventToDisplay.getStartDate())
+                + " - "
+                + fullDate.format(eventToDisplay.getEndDate())
+            );
 
             if (eventToDisplay.isToday()) {
                 eventMonth.setText(monthAbbreviated.format(new Date(Calendar.getInstance().getTimeInMillis())));
@@ -131,7 +145,7 @@ public class ViewEvent extends AppCompatActivity {
             }
         }
 
-        if (!(eventToDisplay.getUrl() == null)) {
+        if ((eventToDisplay.getUrl() != null)) {
             String htmlUrlString = "<a href=\"" + eventToDisplay.getUrl() + "\">" + getString(R.string.view_original_post) + "</a > ";
             eventUrlView.setText(Html.fromHtml(htmlUrlString));
             eventUrlView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -188,15 +202,13 @@ public class ViewEvent extends AppCompatActivity {
 
     private void getUiElements() {
         eventTitleView    = (TextView)findViewById(R.id.single_event_title);
-        eventDateView     = (TextView) findViewById(R.id.single_event_date);
+        eventDateView     = (TextView) findViewById(R.id.event_date);
         eventUrlView      = (TextView) findViewById(R.id.single_event_url);
         originalPostView  = (TextView) findViewById(R.id.single_event_original_post);
         timeView          = (TextView) findViewById(R.id.time);
-        multiDayView      = (TextView) findViewById(R.id.multi_day);
         eventMonth        = (TextView) findViewById(R.id.event_month);
         eventDay          = (TextView) findViewById(R.id.event_day);
         feedName          = (TextView) findViewById(R.id.feed_name);
-        singleEventDay    = (TextView) findViewById(R.id.single_event_date);
     }
 
     private void setTitle() {

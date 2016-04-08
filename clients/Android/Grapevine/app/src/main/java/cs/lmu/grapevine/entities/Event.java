@@ -167,12 +167,10 @@ public class Event implements Serializable, Comparable<Event>  {
     }
 
     public boolean isToday() {
-        Date today     = new Date(Calendar.getInstance().getTimeInMillis());
-        return isOn(today);
+        return isOn(today());
     }
 
     public boolean isOn(Date date) {
-
         Date endDate   = new Date(endTimeTimestamp);
         Date startDate = new Date(startTimeTimestamp);
 
@@ -182,17 +180,14 @@ public class Event implements Serializable, Comparable<Event>  {
     }
 
     public boolean startsLaterToday() {
-        Date today = new Date(Calendar.getInstance().getTimeInMillis());
         Date startDate = new Date(startTimeTimestamp);
-
-        return DateUtils.isSameDay(today, startDate) && startDate.after(today);
+        return DateUtils.isSameDay(today(), startDate) && startDate.after(today());
     }
 
     public boolean endsLaterToday() {
-        Date today = new Date(Calendar.getInstance().getTimeInMillis());
         Date endDate = new Date(endTimeTimestamp);
 
-        return DateUtils.isSameDay(today,endDate) && endDate.after(today);
+        return DateUtils.isSameDay(today(),endDate) && endDate.after(today());
     }
 
     public boolean isFinished() {
@@ -249,6 +244,15 @@ public class Event implements Serializable, Comparable<Event>  {
         } else {
             return 0;
         }
+    }
+
+    public boolean startsTomorrow() {
+        Date tomorrow = DateUtils.addDays(today(), 1);
+        return DateUtils.isSameDay(tomorrow, getStartDate());
+    }
+
+    private Date today() {
+        return new Date(Calendar.getInstance().getTimeInMillis());
     }
 
     public String toString() {

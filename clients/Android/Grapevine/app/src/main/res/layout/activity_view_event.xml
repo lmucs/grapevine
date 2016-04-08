@@ -60,7 +60,7 @@
     <TextView  android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2015-21-02"
-        android:id="@+id/single_event_date"
+        android:id="@+id/event_date"
         android:layout_gravity="center"/>
     <TextView
         android:layout_width="wrap_content"
@@ -69,20 +69,13 @@
         android:text="1:00pm - 3:00pm"
         android:layout_gravity="center"/>
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/multi_day"
-        android:text="@string/multi_day"
-        android:textColor="@color/multi_day"
-        android:visibility="invisible"
-        android:layout_gravity="center"/>
-    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/event_location"
         android:autoLink="map"
         android:text="Event Location"
         android:gravity="center" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

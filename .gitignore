@@ -6,3 +6,5 @@ clients/Android/Grapevine/volley/build/
 *.log
 npm-debug.log
 certs/
+*.iml
+.idea
