@@ -37,9 +37,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             }
         }
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(FeedManagementViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
-        self.refreshControl.addTarget(self, action: "refresher:", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(FeedManagementViewController.refresher(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView?.addSubview(refreshControl)
         loadCustomRefreshContents()
         
@@ -127,8 +127,8 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             disableGrapevineButton(cell.button)
             cell.textField.placeholder = NSLocalizedString("Enter Feed Name", comment: "")
             cell.button.setTitle(NSLocalizedString("Add!", comment: ""), forState: .Normal)
-            cell.button.addTarget(self, action: "addFeed:", forControlEvents: UIControlEvents.TouchUpInside)
-            cell.segControl.addTarget(self, action: "selectNetwork:", forControlEvents: UIControlEvents.ValueChanged)
+            cell.button.addTarget(self, action: #selector(FeedManagementViewController.addFeed(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            cell.segControl.addTarget(self, action: #selector(FeedManagementViewController.selectNetwork(_:)), forControlEvents: UIControlEvents.ValueChanged)
             cell.selectionStyle = UITableViewCellSelectionStyle.None
             return cell
         }

@@ -287,7 +287,7 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
         let eventToRemove = self.filteredEvents[row]
         self.filteredEvents.removeAtIndex(row)
         self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
-        for var index = 0; index < self.events.count; ++index {
+        for index in 0 ..< self.events.count {
             if self.events[index].eventId == eventToRemove.eventId {
                 self.events.removeAtIndex(index)
                 break

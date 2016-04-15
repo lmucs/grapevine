@@ -36,7 +36,7 @@ class LoginViewController: UIViewController {
         self.loginFailedLabel.hidden = true
         setupGrapevineButton(self.loginButton)
         setVisualStrings()
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
     }
     

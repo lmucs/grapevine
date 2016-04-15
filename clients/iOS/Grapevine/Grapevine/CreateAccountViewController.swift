@@ -42,7 +42,7 @@ class CreateAccountViewController: UIViewController {
         disableGrapevineButton(self.createAccountButton)
         setVisualStrings()
         loadGoodToCreate()
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CreateAccountViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
     }

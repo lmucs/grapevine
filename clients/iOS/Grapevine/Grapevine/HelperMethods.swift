@@ -12,7 +12,7 @@ import CVCalendar
 let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
 
 let apiBaseUrlHttps = "https://nara-56688.herokussl.com"
-let apiBaseUrl = "https://grapevine.herokuapp.com"
+let apiBaseUrl = "https://grapevine.cs.lmu.edu"
 
 let grapevineButtonColor = UIColor(red:0.54, green:0.07, blue:0.53, alpha:1.0)
 let grapevineButtonCornerRadius: CGFloat = 10
@@ -119,7 +119,7 @@ func monthIntToShortMonthString(month: Int) -> String {
 
 func monthIntToLowerCaseShortMonthString(month: Int) -> String {
     var lowercase = monthIntToShortMonthString(month).lowercaseString
-    lowercase.replaceRange(Range(start: lowercase.startIndex, end: lowercase.startIndex.successor()), with: String(lowercase[lowercase.startIndex]).capitalizedString)
+    lowercase.replaceRange(Range(lowercase.startIndex..<lowercase.startIndex.successor()), with: String(lowercase[lowercase.startIndex]).capitalizedString)
     return lowercase
 }
 
