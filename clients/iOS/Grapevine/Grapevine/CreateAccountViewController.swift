@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import ObjectMapper
+import CoreData
 
 class CreateAccountViewController: UIViewController {
 
@@ -206,6 +207,35 @@ class CreateAccountViewController: UIViewController {
         return emailTest.evaluateWithObject(testStr)
     }
     
+    func storeToken(token: Token){
+        if let moc = managedObjectContext {
+            NSToken.createInManagedObjectContext(moc, token: token)
+        }
+        // save the context
+        do {
+            try managedObjectContext!.save()
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
+    }
+    
+    func fetchToken(){
+        let fetchRequest = NSFetchRequest(entityName: "NSToken")
+        do {
+            let fetchResults = try managedObjectContext!.executeFetchRequest(fetchRequest) as? [NSToken]
+            if fetchResults != nil {
+                print(fetchResults!.count)
+                if fetchResults!.count == 1 {
+                    print(fetchResults![0].firstName)
+                    self.storedToken = fetchResults![0]
+                }
+            }
+        }
+        catch let error as NSError  {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+    }
+    
     
     @IBAction func emailDone(sender: AnyObject) {
         let emailField = self.emailAddressTextField
@@ -248,7 +278,9 @@ class CreateAccountViewController: UIViewController {
                         debugPrint(response)
                         if response.1?.statusCode == 201 {
                             print(response.2.value!)
-                            self.userToken = Mapper<Token>().map(response.2.value)
+                            let responseToken = Mapper<Token>().map(response.2.value)
+                            self.storeToken(responseToken!)
+                            self.userToken = responseToken
                             print(self.userToken.userID)
                             self.performSegueWithIdentifier("createAccountSegue", sender: self)
                         }
@@ -280,10 +312,16 @@ class CreateAccountViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "createAccountSegue" {
-            let nav = segue.destinationViewController as! GrapevineNavigationController
-            let eventsView = nav.topViewController as! EventListViewController
-            eventsView.userToken = self.storedToken
-            //eventsView.getAllUserEvents()
+            let tab = segue.destinationViewController as! GrapevineTabViewController
+            let navEvent = tab.childViewControllers[0] as! GrapevineNavigationController
+            let eventsView = navEvent.topViewController as! EventListViewController
+            self.fetchToken()
+            print(self.storedToken!.userID!)
+            print(self.storedToken!.lastName!)
+            
+            tab.userToken = self.storedToken!
+            eventsView.userToken = self.storedToken!
+            tab.getAllUserEvents()
         }
         
     }
