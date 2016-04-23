@@ -67,6 +67,13 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func indexFeeds(){
+        var lettersWithPlus = self.alphabet
+        lettersWithPlus.removeAtIndex(0)
+        let letters = lettersWithPlus
+        for letter in letters {
+            self.indexedFeeds[letter] = []
+        }
+        
         for feed in self.myFeeds {
             let firstLetter : Character = feed.feedName[feed.feedName.startIndex]
             self.indexedFeeds[String(firstLetter)]?.append(feed)
@@ -116,7 +123,6 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             return "My Feeds"
         }
         return nil
-        //return String(alphabet[section - 1])
     }
     
     
@@ -167,7 +173,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.Delete) {
             // handle delete (by removing the data from your array and updating the tableview)
-            unfollowFeed(indexPath.row)
+            unfollowFeed(indexPath)
         }
     }
     
@@ -244,6 +250,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                             self.myFeeds.insert(newFeed!, atIndex: 0)
                             cell.textField.text = ""
                             cell.segControl.selectedSegmentIndex = -1
+                            self.indexFeeds()
                             self.tableView.reloadData()
                             setSuccessColor(cell.textField)
                             self.refreshControl.endRefreshing()
@@ -270,10 +277,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     
-    func unfollowFeed(row: Int){
+    func unfollowFeed(indexPath : NSIndexPath){
         self.refreshControl.beginRefreshing()
-        let feedToUnfollow = myFeeds[row]
-        let indexPath = NSIndexPath(forItem: row, inSection: 1)
+        let feedToUnfollow = self.indexedFeeds[alphabet[indexPath.section]]![indexPath.row]
         let removeFeedUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID) + "/feeds/" + feedToUnfollow.networkName + "/" + feedToUnfollow.feedName)
         let requestHeader: [String: String] = [
             "Content-Type": "application/json",
@@ -286,7 +292,16 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                 if response.1 != nil {
                     if response.1?.statusCode == 200 {
                         print("deleted")
-                        self.myFeeds.removeAtIndex(row)
+                        //self.myFeeds.removeAtIndex(row)
+                        print(self.myFeeds.count)
+                        let firstLetter : String = String(feedToUnfollow.feedName[feedToUnfollow.feedName.startIndex])
+                        self.indexedFeeds[firstLetter]?.removeAtIndex(indexPath.row)
+                        for (index,feed) in self.myFeeds.enumerate() {
+                            if feed.networkName == feedToUnfollow.networkName && feed.feedName == feedToUnfollow.feedName {
+                                self.myFeeds.removeAtIndex(index)
+                            }
+                        }
+                        print(self.myFeeds.count)
                         if self.myFeeds.count != 0 {
                             self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
                         }

@@ -149,14 +149,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         func setupOtherCell(cellText: String, animateIndicator: Bool) -> UITableViewCell {
             let cell = tableView.dequeueReusableCellWithIdentifier("noEventsCell", forIndexPath: indexPath) as! NoEventsTableViewCell
             cell.label.text = cellText
-            if animateIndicator {
-                cell.activityIndicator.startAnimating()
-            }
-            else {
-                cell.activityIndicator.hidden = true
-                cell.leftImage.hidden = true
-                cell.rightImage.hidden = true
-            }
             cell.label.numberOfLines = 0
             return cell
         }

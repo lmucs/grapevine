@@ -118,18 +118,20 @@ class GrapevineTabViewController: UITabBarController {
                             self.myEvents.append(responseEvent!)
                         }
                         self.myEvents.sortInPlace({ $0.startTime.dateNS.compare($1.startTime.dateNS) == NSComparisonResult.OrderedAscending })
-                        self.filterEvents()
-                        self.updateChildViewsData()
                         self.eventListView.refreshControl.endRefreshing()
                         self.eventListView.lastUpdated = NSDate()
                     }
                     else {
+                        print("error \(response.1?.statusCode)")
                         self.eventListView.refreshControl.endRefreshing()
+
                     }
                 }
                 else {
                     self.eventListView.refreshControl.endRefreshing()
                 }
+                self.filterEvents()
+                self.updateChildViewsData()
         }
     }
     
@@ -155,18 +157,19 @@ class GrapevineTabViewController: UITabBarController {
                             self.myEvents.append(responseEvent!)
                         }
                         self.myEvents.sortInPlace({ $0.startTime.dateNS.compare($1.startTime.dateNS) == NSComparisonResult.OrderedAscending })
-                        self.filterEvents()
-                        self.updateChildViewsData()
                         self.eventListView.refreshControl.endRefreshing()
                         self.eventListView.lastUpdated = NSDate()
                     }
                     else {
+                        print("error \(response.1?.statusCode)")
                         self.eventListView.refreshControl.endRefreshing()
                     }
                 }
                 else {
                     self.eventListView.refreshControl.endRefreshing()
                 }
+                self.filterEvents()
+                self.updateChildViewsData()
         }
     }
     
