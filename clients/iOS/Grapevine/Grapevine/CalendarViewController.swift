@@ -168,15 +168,11 @@ class CalendarViewController: UIViewController, CVCalendarViewDelegate, CVCalend
     }
 
     func didShowNextMonthView(date: NSDate){
-        print("month print")
-        let cvDate = CVDate(date: date)
-        self.title = monthIntToMonthString(cvDate) + " " + String(cvDate.year)
+     
     }
     
     func didShowPreviousMonthView(date: NSDate){
-        print("month print")
-        let cvDate = CVDate(date: date)
-        self.title =  monthIntToMonthString(cvDate) + " " + String(cvDate.year)
+    
     }
     
     func shouldShowWeekdaysOut() -> Bool {

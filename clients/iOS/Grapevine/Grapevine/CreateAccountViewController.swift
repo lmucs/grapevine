@@ -224,9 +224,7 @@ class CreateAccountViewController: UIViewController {
         do {
             let fetchResults = try managedObjectContext!.executeFetchRequest(fetchRequest) as? [NSToken]
             if fetchResults != nil {
-                print(fetchResults!.count)
                 if fetchResults!.count == 1 {
-                    print(fetchResults![0].firstName)
                     self.storedToken = fetchResults![0]
                 }
             }
@@ -275,13 +273,11 @@ class CreateAccountViewController: UIViewController {
             Alamofire.request(.POST, createAccountUrl!, parameters: newAccountInfo, encoding: .JSON)
                 .responseJSON { response in
                     if response.1 != nil {
-                        debugPrint(response)
+//                        debugPrint(response)
                         if response.1?.statusCode == 201 {
-                            print(response.2.value!)
                             let responseToken = Mapper<Token>().map(response.2.value)
                             self.storeToken(responseToken!)
                             self.userToken = responseToken
-                            print(self.userToken.userID)
                             self.performSegueWithIdentifier("createAccountSegue", sender: self)
                         }
                         else {
@@ -316,8 +312,8 @@ class CreateAccountViewController: UIViewController {
             let navEvent = tab.childViewControllers[0] as! GrapevineNavigationController
             let eventsView = navEvent.topViewController as! EventListViewController
             self.fetchToken()
-            print(self.storedToken!.userID!)
-            print(self.storedToken!.lastName!)
+//            print(self.storedToken!.userID!)
+//            print(self.storedToken!.lastName!)
             
             tab.userToken = self.storedToken!
             eventsView.userToken = self.storedToken!

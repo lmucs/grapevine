@@ -44,7 +44,6 @@ class LoginViewController: UIViewController {
         fetchToken()
         self.view.hidden = true
         if storedToken != nil {
-            print(self.storedToken!.firstName)
             self.performSegueWithIdentifier("loginSegue", sender: self)
         }
         self.view.hidden = false

@@ -241,12 +241,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             Alamofire.request(.POST, addFeedUrl!, parameters: feedInfo, encoding: .JSON, headers: requestHeader)
                 .responseJSON { response in
                     if response.1 != nil {
-                        debugPrint(response)
+//                        debugPrint(response)
                         if response.1?.statusCode == 201 {
-                            print("here")
                             let newFeed = Mapper<Feed>().map(feedInfo as! [String: String])
-                            print(newFeed!.feedName)
-                            
                             self.myFeeds.insert(newFeed!, atIndex: 0)
                             cell.textField.text = ""
                             cell.segControl.selectedSegmentIndex = -1
@@ -288,12 +285,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         
         Alamofire.request(.DELETE, removeFeedUrl!, encoding: .JSON, headers: requestHeader)
             .responseJSON { response in
-                debugPrint(response)
+//                debugPrint(response)
                 if response.1 != nil {
                     if response.1?.statusCode == 200 {
-                        print("deleted")
-                        //self.myFeeds.removeAtIndex(row)
-                        print(self.myFeeds.count)
                         let firstLetter : String = String(feedToUnfollow.feedName[feedToUnfollow.feedName.startIndex])
                         self.indexedFeeds[firstLetter]?.removeAtIndex(indexPath.row)
                         for (index,feed) in self.myFeeds.enumerate() {
@@ -301,7 +295,6 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
                                 self.myFeeds.removeAtIndex(index)
                             }
                         }
-                        print(self.myFeeds.count)
                         if self.myFeeds.count != 0 {
                             self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
                         }
@@ -332,15 +325,13 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         
         Alamofire.request(.GET, getFeedUrl!, encoding: .JSON, headers: requestHeader)
                 .responseJSON { response in
-                    debugPrint(response)
+                    //debugPrint(response)
                     if response.1 != nil {
                         if response.1?.statusCode == 200 {
-                            print("here")
                             let results = response.2.value! as! NSArray
                             for item in results {
-                                debugPrint(item)
+//                                debugPrint(item)
                                 let responseFeed = Mapper<Feed>().map(item)
-                                print(responseFeed!.feedName)
                                 self.myFeeds.append(responseFeed!)
                             }
                             self.refreshControl.endRefreshing()

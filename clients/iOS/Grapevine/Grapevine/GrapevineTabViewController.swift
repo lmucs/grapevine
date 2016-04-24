@@ -56,19 +56,16 @@ class GrapevineTabViewController: UITabBarController {
         self.eventListView.isShowingMultiDayEvents = self.shouldShowMultiDayEvents
         self.eventListView.isShowingAllDayEvents = self.shouldShowAllDayEvents
         if let listTable = self.eventListView.tableView {
-            print("reloading list table")
             listTable.reloadData()
         }
         self.calendarView.events = self.filteredEvents
         if let calTable = self.calendarView.tableView {
-            print("reloading calendar table")
             calTable.reloadData()
         }
     }
     
     func filterEvents(){
         self.filteredEvents.removeAll()
-        print("filtering")
         
         if !shouldShowAllDayEvents && !shouldShowMultiDayEvents {
             for event in self.myEvents {
@@ -137,7 +134,6 @@ class GrapevineTabViewController: UITabBarController {
     
     func getEventsSince(date: NSDate){
         let getEventsSinceUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID!) + "/events/" + String(Int(self.eventListView.lastUpdated.timeIntervalSince1970 * 1000)))
-        print(getEventsSinceUrl)
         let requestHeader: [String: String] = [
             "Content-Type": "application/json",
             "x-access-token": String(self.userToken.token!)
@@ -146,12 +142,11 @@ class GrapevineTabViewController: UITabBarController {
         self.eventListView.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: .Automatic)
         Alamofire.request(.GET, getEventsSinceUrl!, encoding: .JSON, headers: requestHeader)
             .responseJSON { response in
-                debugPrint(response)
+                //debugPrint(response)
                 if response.1 != nil {
                     if response.1?.statusCode == 200 {
                         let results = response.2.value! as! NSArray
                         for item in results {
-                            debugPrint(item)
                             let responseEvent = Mapper<Event>().map(item)
                             responseEvent?.dateMap(item as! [String : AnyObject])
                             self.myEvents.append(responseEvent!)

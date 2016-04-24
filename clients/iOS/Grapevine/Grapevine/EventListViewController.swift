@@ -188,7 +188,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
             for (index, event) in self.events.enumerate(){
                 if event.eventId == eventToRemove.eventId {
-                    print(self.events[index].title)
+//                    print(self.events[index].title)
                     self.events.removeAtIndex(index)
                     break
                 }
