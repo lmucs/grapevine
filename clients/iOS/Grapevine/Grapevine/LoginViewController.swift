@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftyJSON
 import Alamofire
 import AlamofireObjectMapper
 import ObjectMapper
@@ -36,7 +35,7 @@ class LoginViewController: UIViewController {
         self.loginFailedLabel.hidden = true
         setupGrapevineButton(self.loginButton)
         setVisualStrings()
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LoginViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
     }
     
@@ -44,7 +43,6 @@ class LoginViewController: UIViewController {
         fetchToken()
         self.view.hidden = true
         if storedToken != nil {
-            print(self.storedToken!.firstName)
             self.performSegueWithIdentifier("loginSegue", sender: self)
         }
         self.view.hidden = false
@@ -116,14 +114,14 @@ class LoginViewController: UIViewController {
         if NSJSONSerialization.isValidJSONObject(loginCredentials){
             Alamofire.request(.POST, loginUrl!, parameters: loginCredentials, encoding: .JSON)
                 .responseJSON { response in
-                    if response.1 != nil {
+                    if response.response != nil {
                         print("debug response printing")
                         debugPrint(response)
-                        if response.1?.statusCode == 201 {
-                            print(response.2.value!)
+                        if response.response?.statusCode == 201 {
+                            print(response.result.value!)
                             print("here")
                             
-                            let responseToken = Mapper<Token>().map(response.2.value)
+                            let responseToken = Mapper<Token>().map(response.result.value)
                             self.storeToken(responseToken!)
                             self.userToken = responseToken
                             

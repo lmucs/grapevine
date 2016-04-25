@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15D21" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -24,7 +23,7 @@
                                     <constraint firstAttribute="width" constant="242" id="SZU-7V-5j8"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="QSt-EZ-b3c">
                                 <rect key="frame" x="179" y="356" width="242" height="30"/>
@@ -32,7 +31,7 @@
                                     <constraint firstAttribute="width" constant="242" id="zCr-Vh-uJQ"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RPP-wG-TD6">
                                 <rect key="frame" x="244" y="439" width="112" height="29"/>
@@ -128,7 +127,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="First Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="pvA-5T-EDj">
                                 <rect key="frame" x="59" y="162" width="482" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                 <connections>
                                     <action selector="firstNameDone:" destination="omL-Zz-hpD" eventType="editingChanged" id="a9g-br-afr"/>
                                 </connections>
@@ -136,7 +135,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="HDf-zf-Tan">
                                 <rect key="frame" x="59" y="238" width="482" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                 <connections>
                                     <action selector="usernameDone:" destination="omL-Zz-hpD" eventType="editingChanged" id="QKV-2f-E78"/>
                                 </connections>
@@ -144,7 +143,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Last Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jg8-xd-Hsb">
                                 <rect key="frame" x="59" y="200" width="482" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                 <connections>
                                     <action selector="lastNameDone:" destination="omL-Zz-hpD" eventType="editingChanged" id="Ur6-p9-euK"/>
                                 </connections>
@@ -152,7 +151,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email Address" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qao-EI-2US">
                                 <rect key="frame" x="59" y="352" width="482" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                 <connections>
                                     <action selector="emailDone:" destination="omL-Zz-hpD" eventType="editingChanged" id="8Fv-uv-0qg"/>
                                 </connections>
@@ -160,7 +159,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="IEO-xD-UKg">
                                 <rect key="frame" x="59" y="276" width="482" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
                                 <connections>
                                     <action selector="passwordDone:" destination="omL-Zz-hpD" eventType="editingChanged" id="w71-k5-5al"/>
                                 </connections>
@@ -168,7 +167,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Repeat Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="24K-6X-3gN">
                                 <rect key="frame" x="59" y="314" width="482" height="30"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" secureTextEntry="YES"/>
                                 <connections>
                                     <action selector="repeatPasswordDone:" destination="omL-Zz-hpD" eventType="editingChanged" id="OGZ-ex-MGz"/>
                                 </connections>
@@ -392,51 +391,22 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="89"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swag-grape" translatesAutoresizingMaskIntoConstraints="NO" id="rsC-2W-JCP">
-                                                    <rect key="frame" x="556" y="14" width="36" height="62"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="36" id="952-ur-9RM"/>
-                                                    </constraints>
-                                                </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You have no events! Add some feeds to get some!" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FAE-Hs-5D5">
-                                                    <rect key="frame" x="52" y="35" width="496" height="20"/>
+                                                    <rect key="frame" x="8" y="35" width="584" height="20"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="9dX-9H-xnk">
-                                                    <rect key="frame" x="290" y="8" width="20" height="20"/>
-                                                    <color key="color" red="0.27450980390000002" green="0.71764705880000002" blue="0.4549019608" alpha="1" colorSpace="calibratedRGB"/>
-                                                </activityIndicatorView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swag-grape" translatesAutoresizingMaskIntoConstraints="NO" id="y14-gY-kEm">
-                                                    <rect key="frame" x="8" y="14" width="36" height="62"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="36" id="iVm-NS-x2w"/>
-                                                    </constraints>
-                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="rsC-2W-JCP" firstAttribute="trailing" secondItem="RxV-bZ-Amy" secondAttribute="trailingMargin" id="0cP-hC-aXB"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="y14-gY-kEm" secondAttribute="bottom" constant="5" id="44O-Rq-oID"/>
-                                                <constraint firstAttribute="bottomMargin" secondItem="rsC-2W-JCP" secondAttribute="bottom" constant="5" id="4xC-PW-jyX"/>
-                                                <constraint firstItem="y14-gY-kEm" firstAttribute="leading" secondItem="RxV-bZ-Amy" secondAttribute="leadingMargin" id="9Bw-oq-Mae"/>
-                                                <constraint firstItem="9dX-9H-xnk" firstAttribute="centerX" secondItem="RxV-bZ-Amy" secondAttribute="centerX" id="Igs-eL-xmW"/>
                                                 <constraint firstItem="FAE-Hs-5D5" firstAttribute="centerY" secondItem="RxV-bZ-Amy" secondAttribute="centerY" id="NcS-CW-ThX"/>
-                                                <constraint firstItem="rsC-2W-JCP" firstAttribute="top" secondItem="RxV-bZ-Amy" secondAttribute="topMargin" constant="6" id="WtL-4W-AtQ"/>
-                                                <constraint firstItem="9dX-9H-xnk" firstAttribute="top" secondItem="RxV-bZ-Amy" secondAttribute="topMargin" id="Yox-VR-LLS"/>
-                                                <constraint firstItem="rsC-2W-JCP" firstAttribute="leading" secondItem="FAE-Hs-5D5" secondAttribute="trailing" constant="8" id="a0G-yW-VsA"/>
-                                                <constraint firstItem="rsC-2W-JCP" firstAttribute="centerY" secondItem="RxV-bZ-Amy" secondAttribute="centerY" id="gWT-sY-yor"/>
-                                                <constraint firstItem="y14-gY-kEm" firstAttribute="top" secondItem="RxV-bZ-Amy" secondAttribute="topMargin" constant="6" id="iqu-2t-prw"/>
-                                                <constraint firstItem="FAE-Hs-5D5" firstAttribute="leading" secondItem="y14-gY-kEm" secondAttribute="trailing" constant="8" id="kW4-aj-YZG"/>
-                                                <constraint firstItem="y14-gY-kEm" firstAttribute="centerY" secondItem="RxV-bZ-Amy" secondAttribute="centerY" id="nMt-1k-t4J"/>
+                                                <constraint firstItem="FAE-Hs-5D5" firstAttribute="trailing" secondItem="RxV-bZ-Amy" secondAttribute="trailingMargin" id="Vda-iD-SnN"/>
                                                 <constraint firstItem="FAE-Hs-5D5" firstAttribute="centerX" secondItem="RxV-bZ-Amy" secondAttribute="centerX" id="pvo-Yw-KKO"/>
+                                                <constraint firstItem="FAE-Hs-5D5" firstAttribute="leading" secondItem="RxV-bZ-Amy" secondAttribute="leadingMargin" id="uw0-QF-ayc"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="activityIndicator" destination="9dX-9H-xnk" id="xtF-qx-oc9"/>
                                             <outlet property="label" destination="FAE-Hs-5D5" id="Ccj-fY-tBE"/>
-                                            <outlet property="leftImage" destination="y14-gY-kEm" id="HS1-N4-y0B"/>
-                                            <outlet property="rightImage" destination="rsC-2W-JCP" id="SRP-p2-fyL"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
@@ -768,7 +738,7 @@
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Feed Name to Add" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3Bg-NC-3cq">
                                                     <rect key="frame" x="8" y="7" width="584" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no"/>
                                                     <connections>
                                                         <action selector="newFeedNameFieldChanged:" destination="qY9-2n-X4v" eventType="editingChanged" id="VeV-hx-Qen"/>
                                                     </connections>
@@ -1233,7 +1203,7 @@
         <image name="twitterlink" width="234" height="29"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="mco-2s-tLG"/>
         <segue reference="m2J-bx-KXE"/>
+        <segue reference="YbQ-fN-3ob"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 import AlamofireObjectMapper
-import SwiftyJSON
 import ObjectMapper
 
 class FeedManagementViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -37,9 +36,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             }
         }
         
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(FeedManagementViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
-        self.refreshControl.addTarget(self, action: "refresher:", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(FeedManagementViewController.refresher(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView?.addSubview(refreshControl)
         loadCustomRefreshContents()
         
@@ -67,6 +66,13 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     func indexFeeds(){
+        var lettersWithPlus = self.alphabet
+        lettersWithPlus.removeAtIndex(0)
+        let letters = lettersWithPlus
+        for letter in letters {
+            self.indexedFeeds[letter] = []
+        }
+        
         for feed in self.myFeeds {
             let firstLetter : Character = feed.feedName[feed.feedName.startIndex]
             self.indexedFeeds[String(firstLetter)]?.append(feed)
@@ -116,7 +122,6 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             return "My Feeds"
         }
         return nil
-        //return String(alphabet[section - 1])
     }
     
     
@@ -127,8 +132,8 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
             disableGrapevineButton(cell.button)
             cell.textField.placeholder = NSLocalizedString("Enter Feed Name", comment: "")
             cell.button.setTitle(NSLocalizedString("Add!", comment: ""), forState: .Normal)
-            cell.button.addTarget(self, action: "addFeed:", forControlEvents: UIControlEvents.TouchUpInside)
-            cell.segControl.addTarget(self, action: "selectNetwork:", forControlEvents: UIControlEvents.ValueChanged)
+            cell.button.addTarget(self, action: #selector(FeedManagementViewController.addFeed(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+            cell.segControl.addTarget(self, action: #selector(FeedManagementViewController.selectNetwork(_:)), forControlEvents: UIControlEvents.ValueChanged)
             cell.selectionStyle = UITableViewCellSelectionStyle.None
             return cell
         }
@@ -167,7 +172,7 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if (editingStyle == UITableViewCellEditingStyle.Delete) {
             // handle delete (by removing the data from your array and updating the tableview)
-            unfollowFeed(indexPath.row)
+            unfollowFeed(indexPath)
         }
     }
     
@@ -234,16 +239,14 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         if NSJSONSerialization.isValidJSONObject(feedInfo){
             Alamofire.request(.POST, addFeedUrl!, parameters: feedInfo, encoding: .JSON, headers: requestHeader)
                 .responseJSON { response in
-                    if response.1 != nil {
-                        debugPrint(response)
-                        if response.1?.statusCode == 201 {
-                            print("here")
+                    if response.response != nil {
+//                        debugPrint(response)
+                        if response.response?.statusCode == 201 {
                             let newFeed = Mapper<Feed>().map(feedInfo as! [String: String])
-                            print(newFeed!.feedName)
-                            
                             self.myFeeds.insert(newFeed!, atIndex: 0)
                             cell.textField.text = ""
                             cell.segControl.selectedSegmentIndex = -1
+                            self.indexFeeds()
                             self.tableView.reloadData()
                             setSuccessColor(cell.textField)
                             self.refreshControl.endRefreshing()
@@ -270,10 +273,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
     }
     
     
-    func unfollowFeed(row: Int){
+    func unfollowFeed(indexPath : NSIndexPath){
         self.refreshControl.beginRefreshing()
-        let feedToUnfollow = myFeeds[row]
-        let indexPath = NSIndexPath(forItem: row, inSection: 1)
+        let feedToUnfollow = self.indexedFeeds[alphabet[indexPath.section]]![indexPath.row]
         let removeFeedUrl = NSURL(string: apiBaseUrl + "/api/v1/users/" + String(self.userToken.userID) + "/feeds/" + feedToUnfollow.networkName + "/" + feedToUnfollow.feedName)
         let requestHeader: [String: String] = [
             "Content-Type": "application/json",
@@ -282,11 +284,16 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         
         Alamofire.request(.DELETE, removeFeedUrl!, encoding: .JSON, headers: requestHeader)
             .responseJSON { response in
-                debugPrint(response)
-                if response.1 != nil {
-                    if response.1?.statusCode == 200 {
-                        print("deleted")
-                        self.myFeeds.removeAtIndex(row)
+//                debugPrint(response)
+                if response.response != nil {
+                    if response.response?.statusCode == 200 {
+                        let firstLetter : String = String(feedToUnfollow.feedName[feedToUnfollow.feedName.startIndex])
+                        self.indexedFeeds[firstLetter]?.removeAtIndex(indexPath.row)
+                        for (index,feed) in self.myFeeds.enumerate() {
+                            if feed.networkName == feedToUnfollow.networkName && feed.feedName == feedToUnfollow.feedName {
+                                self.myFeeds.removeAtIndex(index)
+                            }
+                        }
                         if self.myFeeds.count != 0 {
                             self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
                         }
@@ -317,15 +324,13 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         
         Alamofire.request(.GET, getFeedUrl!, encoding: .JSON, headers: requestHeader)
                 .responseJSON { response in
-                    debugPrint(response)
-                    if response.1 != nil {
-                        if response.1?.statusCode == 200 {
-                            print("here")
-                            let results = response.2.value! as! NSArray
+                    //debugPrint(response)
+                    if response.response != nil {
+                        if response.response?.statusCode == 200 {
+                            let results = response.result.value! as! NSArray
                             for item in results {
-                                debugPrint(item)
+//                                debugPrint(item)
                                 let responseFeed = Mapper<Feed>().map(item)
-                                print(responseFeed!.feedName)
                                 self.myFeeds.append(responseFeed!)
                             }
                             self.refreshControl.endRefreshing()

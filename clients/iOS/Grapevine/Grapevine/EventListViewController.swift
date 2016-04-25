@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 import AlamofireObjectMapper
-import SwiftyJSON
 import CVCalendar
 import ObjectMapper
 
@@ -54,7 +53,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             // we should not get here
         }
         
-        self.refreshControl.addTarget(self, action: "updateEvents:", forControlEvents: UIControlEvents.ValueChanged)
+        self.refreshControl.addTarget(self, action: #selector(EventListViewController.updateEvents(_:)), forControlEvents: UIControlEvents.ValueChanged)
         self.tableView?.addSubview(refreshControl)
         loadCustomRefreshContents()
         self.refreshControl.beginRefreshing()
@@ -149,14 +148,6 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
         func setupOtherCell(cellText: String, animateIndicator: Bool) -> UITableViewCell {
             let cell = tableView.dequeueReusableCellWithIdentifier("noEventsCell", forIndexPath: indexPath) as! NoEventsTableViewCell
             cell.label.text = cellText
-            if animateIndicator {
-                cell.activityIndicator.startAnimating()
-            }
-            else {
-                cell.activityIndicator.hidden = true
-                cell.leftImage.hidden = true
-                cell.rightImage.hidden = true
-            }
             cell.label.numberOfLines = 0
             return cell
         }
@@ -196,7 +187,7 @@ class EventListViewController: UIViewController, UITableViewDelegate, UITableVie
             self.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
             for (index, event) in self.events.enumerate(){
                 if event.eventId == eventToRemove.eventId {
-                    print(self.events[index].title)
+//                    print(self.events[index].title)
                     self.events.removeAtIndex(index)
                     break
                 }

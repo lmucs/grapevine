@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import ObjectMapper
+import CoreData
 
 class CreateAccountViewController: UIViewController {
 
@@ -42,7 +43,7 @@ class CreateAccountViewController: UIViewController {
         disableGrapevineButton(self.createAccountButton)
         setVisualStrings()
         loadGoodToCreate()
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(CreateAccountViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
     }
@@ -206,6 +207,33 @@ class CreateAccountViewController: UIViewController {
         return emailTest.evaluateWithObject(testStr)
     }
     
+    func storeToken(token: Token){
+        if let moc = managedObjectContext {
+            NSToken.createInManagedObjectContext(moc, token: token)
+        }
+        // save the context
+        do {
+            try managedObjectContext!.save()
+        } catch let error as NSError  {
+            print("Could not save \(error), \(error.userInfo)")
+        }
+    }
+    
+    func fetchToken(){
+        let fetchRequest = NSFetchRequest(entityName: "NSToken")
+        do {
+            let fetchResults = try managedObjectContext!.executeFetchRequest(fetchRequest) as? [NSToken]
+            if fetchResults != nil {
+                if fetchResults!.count == 1 {
+                    self.storedToken = fetchResults![0]
+                }
+            }
+        }
+        catch let error as NSError  {
+            print("Could not fetch \(error), \(error.userInfo)")
+        }
+    }
+    
     
     @IBAction func emailDone(sender: AnyObject) {
         let emailField = self.emailAddressTextField
@@ -244,18 +272,18 @@ class CreateAccountViewController: UIViewController {
         if NSJSONSerialization.isValidJSONObject(newAccountInfo){
             Alamofire.request(.POST, createAccountUrl!, parameters: newAccountInfo, encoding: .JSON)
                 .responseJSON { response in
-                    if response.1 != nil {
-                        debugPrint(response)
-                        if response.1?.statusCode == 201 {
-                            print(response.2.value!)
-                            self.userToken = Mapper<Token>().map(response.2.value)
-                            print(self.userToken.userID)
+                    if response.response != nil {
+//                        debugPrint(response)
+                        if response.response?.statusCode == 201 {
+                            let responseToken = Mapper<Token>().map(response.result.value)
+                            self.storeToken(responseToken!)
+                            self.userToken = responseToken
                             self.performSegueWithIdentifier("createAccountSegue", sender: self)
                         }
                         else {
                             createAccountFailed()
                             self.feedbackLabel.numberOfLines = 0
-                            self.feedbackLabel.text = String(response.2.value!)
+                            self.feedbackLabel.text = String(response.result.value!)
                         }
                     }
                     else {
@@ -280,10 +308,16 @@ class CreateAccountViewController: UIViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "createAccountSegue" {
-            let nav = segue.destinationViewController as! GrapevineNavigationController
-            let eventsView = nav.topViewController as! EventListViewController
-            eventsView.userToken = self.storedToken
-            //eventsView.getAllUserEvents()
+            let tab = segue.destinationViewController as! GrapevineTabViewController
+            let navEvent = tab.childViewControllers[0] as! GrapevineNavigationController
+            let eventsView = navEvent.topViewController as! EventListViewController
+            self.fetchToken()
+//            print(self.storedToken!.userID!)
+//            print(self.storedToken!.lastName!)
+            
+            tab.userToken = self.storedToken!
+            eventsView.userToken = self.storedToken!
+            tab.getAllUserEvents()
         }
         
     }

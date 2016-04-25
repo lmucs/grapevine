@@ -59,10 +59,10 @@ class EventDetailViewController: UIViewController {
             }
             
             if self.event.location != nil {
-                print(self.event.location)
+                
             }
             else {
-                print("no location")
+                
             }
         }
 
