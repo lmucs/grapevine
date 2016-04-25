@@ -272,10 +272,10 @@ class CreateAccountViewController: UIViewController {
         if NSJSONSerialization.isValidJSONObject(newAccountInfo){
             Alamofire.request(.POST, createAccountUrl!, parameters: newAccountInfo, encoding: .JSON)
                 .responseJSON { response in
-                    if response.1 != nil {
+                    if response.response != nil {
 //                        debugPrint(response)
-                        if response.1?.statusCode == 201 {
-                            let responseToken = Mapper<Token>().map(response.2.value)
+                        if response.response?.statusCode == 201 {
+                            let responseToken = Mapper<Token>().map(response.result.value)
                             self.storeToken(responseToken!)
                             self.userToken = responseToken
                             self.performSegueWithIdentifier("createAccountSegue", sender: self)
@@ -283,7 +283,7 @@ class CreateAccountViewController: UIViewController {
                         else {
                             createAccountFailed()
                             self.feedbackLabel.numberOfLines = 0
-                            self.feedbackLabel.text = String(response.2.value!)
+                            self.feedbackLabel.text = String(response.result.value!)
                         }
                     }
                     else {

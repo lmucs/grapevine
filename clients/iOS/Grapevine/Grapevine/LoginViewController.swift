@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftyJSON
 import Alamofire
 import AlamofireObjectMapper
 import ObjectMapper
@@ -115,14 +114,14 @@ class LoginViewController: UIViewController {
         if NSJSONSerialization.isValidJSONObject(loginCredentials){
             Alamofire.request(.POST, loginUrl!, parameters: loginCredentials, encoding: .JSON)
                 .responseJSON { response in
-                    if response.1 != nil {
+                    if response.response != nil {
                         print("debug response printing")
                         debugPrint(response)
-                        if response.1?.statusCode == 201 {
-                            print(response.2.value!)
+                        if response.response?.statusCode == 201 {
+                            print(response.result.value!)
                             print("here")
                             
-                            let responseToken = Mapper<Token>().map(response.2.value)
+                            let responseToken = Mapper<Token>().map(response.result.value)
                             self.storeToken(responseToken!)
                             self.userToken = responseToken
                             

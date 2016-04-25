@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		57B63A761E69A6C3AF2546DB /* Pods_Grapevine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B253AC65CE295E06508D3F0 /* Pods_Grapevine.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		57B63A761E69A6C3AF2546DB /* Pods_Grapevine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B253AC65CE295E06508D3F0 /* Pods_Grapevine.framework */; };
 		F11D035C1C2DEC3B0027C0A1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F11D035B1C2DEC3B0027C0A1 /* Localizable.strings */; };
 		F121A1501B9F56E2008E3F7A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F121A14F1B9F56E2008E3F7A /* AppDelegate.swift */; };
 		F121A1531B9F56E2008E3F7A /* Grapevine.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = F121A1511B9F56E2008E3F7A /* Grapevine.xcdatamodeld */; };

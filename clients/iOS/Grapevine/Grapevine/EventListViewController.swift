@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 import AlamofireObjectMapper
-import SwiftyJSON
 import CVCalendar
 import ObjectMapper
 

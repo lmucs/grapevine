@@ -21,7 +21,7 @@ The project is currently being under an active maintenance. We're going to bring
 
 For contributors
 ==========
-Please, note that the Demo project is supposed to test the changes on CVCalendar. If you've commited any, do not forget to update the root folder (<b>CVCalendar/CVCalendar</b>). Feel free to add wiki pages and/or edits on Readme or existing docs. 
+Please, note that the Demo project is supposed to test the changes on CVCalendar. If you've committed any, do not forget to update the root folder (<b>CVCalendar/CVCalendar</b>). Feel free to add wiki pages and/or edits on the README or existing docs.
 
 Screenshots
 ==========
@@ -43,10 +43,10 @@ GIF Demo
 
 Installation
 ==========
-<h3> Cocoa Pods </h3>
+<h3> CocoaPods </h3>
 
 ```ruby
-pod 'CVCalendar', '~> 1.2.6'
+pod 'CVCalendar', '~> 1.2.8'
 ```
 
 Usage
@@ -154,7 +154,7 @@ How it should look like.
         self.menuView = CVCalendarMenuView(frame: CGRectMake(0, 0, 300, 15))
 
         // Appearance delegate [Unnecessary]
-        self.calendarView.appearanceDelegate = self
+        self.calendarView.calendarAppearanceDelegate = self
 
         // Animator delegate [Unnecessary]
         self.calendarView.animatorDelegate = self

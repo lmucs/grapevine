@@ -105,9 +105,9 @@ class GrapevineTabViewController: UITabBarController {
         ]
         Alamofire.request(.GET, getEventsUrl!, encoding: .JSON, headers: requestHeader)
             .responseJSON { response in
-                if response.1 != nil {
-                    if response.1?.statusCode == 200 {
-                        let results = response.2.value! as! NSArray
+                if response.response != nil {
+                    if response.response?.statusCode == 200 {
+                        let results = response.result.value! as! NSArray
                         for item in results {
                             //debugPrint(item)
                             let responseEvent = Mapper<Event>().map(item)
@@ -119,7 +119,7 @@ class GrapevineTabViewController: UITabBarController {
                         self.eventListView.lastUpdated = NSDate()
                     }
                     else {
-                        print("error \(response.1?.statusCode)")
+                        print("error \(response.response?.statusCode)")
                         self.eventListView.refreshControl.endRefreshing()
 
                     }
@@ -143,9 +143,9 @@ class GrapevineTabViewController: UITabBarController {
         Alamofire.request(.GET, getEventsSinceUrl!, encoding: .JSON, headers: requestHeader)
             .responseJSON { response in
                 //debugPrint(response)
-                if response.1 != nil {
-                    if response.1?.statusCode == 200 {
-                        let results = response.2.value! as! NSArray
+                if response.response != nil {
+                    if response.response?.statusCode == 200 {
+                        let results = response.result.value! as! NSArray
                         for item in results {
                             let responseEvent = Mapper<Event>().map(item)
                             responseEvent?.dateMap(item as! [String : AnyObject])
@@ -156,7 +156,7 @@ class GrapevineTabViewController: UITabBarController {
                         self.eventListView.lastUpdated = NSDate()
                     }
                     else {
-                        print("error \(response.1?.statusCode)")
+                        print("error \(response.response?.statusCode)")
                         self.eventListView.refreshControl.endRefreshing()
                     }
                 }

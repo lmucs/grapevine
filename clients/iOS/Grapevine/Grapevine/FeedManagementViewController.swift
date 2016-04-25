@@ -9,7 +9,6 @@
 import UIKit
 import Alamofire
 import AlamofireObjectMapper
-import SwiftyJSON
 import ObjectMapper
 
 class FeedManagementViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
@@ -240,9 +239,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         if NSJSONSerialization.isValidJSONObject(feedInfo){
             Alamofire.request(.POST, addFeedUrl!, parameters: feedInfo, encoding: .JSON, headers: requestHeader)
                 .responseJSON { response in
-                    if response.1 != nil {
+                    if response.response != nil {
 //                        debugPrint(response)
-                        if response.1?.statusCode == 201 {
+                        if response.response?.statusCode == 201 {
                             let newFeed = Mapper<Feed>().map(feedInfo as! [String: String])
                             self.myFeeds.insert(newFeed!, atIndex: 0)
                             cell.textField.text = ""
@@ -286,8 +285,8 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         Alamofire.request(.DELETE, removeFeedUrl!, encoding: .JSON, headers: requestHeader)
             .responseJSON { response in
 //                debugPrint(response)
-                if response.1 != nil {
-                    if response.1?.statusCode == 200 {
+                if response.response != nil {
+                    if response.response?.statusCode == 200 {
                         let firstLetter : String = String(feedToUnfollow.feedName[feedToUnfollow.feedName.startIndex])
                         self.indexedFeeds[firstLetter]?.removeAtIndex(indexPath.row)
                         for (index,feed) in self.myFeeds.enumerate() {
@@ -326,9 +325,9 @@ class FeedManagementViewController: UIViewController, UITableViewDataSource, UIT
         Alamofire.request(.GET, getFeedUrl!, encoding: .JSON, headers: requestHeader)
                 .responseJSON { response in
                     //debugPrint(response)
-                    if response.1 != nil {
-                        if response.1?.statusCode == 200 {
-                            let results = response.2.value! as! NSArray
+                    if response.response != nil {
+                        if response.response?.statusCode == 200 {
+                            let results = response.result.value! as! NSArray
                             for item in results {
 //                                debugPrint(item)
                                 let responseFeed = Mapper<Feed>().map(item)
