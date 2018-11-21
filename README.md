@@ -1,6 +1,6 @@
 <img src="https://github.com/lmucs/grapevine/blob/master/images/grapevine.PNG?raw=true" width=90 height=90>
-# Grapevine
 
+# Grapevine
 
 Grapevine is an application that automatically populates a user's calendar with events from Twitter and Facebook. Events are extracted by an intelligent agent that listens to feeds that the user follows.
 
